@@ -1,0 +1,226 @@
+/* Add mobile styles for the component here.  */
+.back
+{
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    align-items: center;
+}
+
+.grid
+{
+    height: 10%;
+}
+
+.grid-container
+{
+    width: 92%;
+    margin: 10;
+}
+
+.strzalki
+{
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+    border-radius: 10%;
+    margin: 2;
+    font-size: 18;
+    color: white;
+    font-weight: 900;
+    padding: 0;
+}
+
+.header
+{
+    margin-left: 4;
+    margin-right: 4;
+    font-weight: 500;
+    text-align: center;
+    font-size: 15;
+    color: rgb(80, 80, 80);
+}
+
+.data
+{
+    font-weight: 200;
+    margin: 10;
+    color: #e71e25;
+    font-size: 17;
+}
+
+.flex
+{
+    background-color: white;
+    border-width: 1px;
+    border-radius: 10%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: row;
+}
+
+.margin-l-r
+{
+    margin-left: 10;
+    margin-right: 10;
+}
+
+.flex2
+{
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+}
+
+.imie
+{
+    color: white;
+    font-size: 15;
+    font-weight: 700;
+    text-wrap: true;
+}
+
+.box
+{
+    flex-direction: row;
+    align-items: center;
+}
+
+.box2
+{
+    justify-content: center;
+    margin: 6;
+}
+
+.szary
+{
+    background-color: rgb(20, 20, 20);
+}
+
+.width100
+{
+    width: 100%;
+}
+
+
+.scroll
+{
+    height: 100%;
+}
+
+.scroll2
+{
+    height: 77%;
+}
+
+.brak
+{
+    color: #e71e25;
+    font-weight: 300;
+    text-wrap: true;
+    text-align: center;
+    font-size: 15;
+}
+
+.btn
+{
+    /* border-color:white;
+    border-width: 3; */
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+    color: white;
+    font-weight: 900;
+    font-size: 20;
+    border-radius: 10%;
+    padding: 1;
+}
+
+.btn:disabled
+{
+    background: rgb(206, 206, 206);
+    color: rgb(124, 124, 124);
+}
+
+.kalendarz
+{
+    background-color: white;
+    border-width: 2;
+    border-color: black;
+    border-radius: 10;
+    height: 90%;
+    width: 85%;
+}
+
+.krycie
+{
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+}
+
+.warn1
+{
+    margin: 10;
+    color: white;
+    text-wrap: true;
+    font-size: 15;
+    text-align: center;
+}
+
+.warn2
+{
+    margin: 10;
+    color: #e71e25;
+    text-wrap: true;
+    font-size: 17;
+    text-align: center;
+}
+
+.flex
+{
+    align-items: center;
+}
+
+.msze
+{
+    justify-content: center;
+    width: 50%;
+    height: 8%;
+    padding: 1;
+    margin:5;
+    color: white;
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+    border-radius: 10%;
+    border-width: 1;
+}
+
+.size
+{
+    font-size: 17;
+}
+
+.przyciski
+{
+    margin: 2;
+}
+
+.anuluj
+{
+    padding: 1;
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    border-radius: 10%;
+    border-color: white;
+    border-width: 2;
+    margin: 10;
+}
+
+.kalendarz-cont
+{
+    margin: 5;
+}

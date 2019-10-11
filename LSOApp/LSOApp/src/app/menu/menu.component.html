@@ -1,0 +1,41 @@
+<FlexboxLayout class="flex" flexDirection="column">
+    <GridLayout columns="*,*,*" rows="*" class="grid">
+        <Image src="res://logo" col="1" row="0" (tap)="locationStrategy()"></Image>
+        <FlexboxLayout *ngIf="!this.tabIndexService.opiekun" col="2" row="0" flexDirection="column" alignItems="center"
+            justifyContent="center">
+            <Label [text]="this.user.punkty" class="text audiowide"></Label>
+            <Label text="PUNKTY" class="text2 audiowide"></Label>
+        </FlexboxLayout>
+    </GridLayout>
+    <!-- Widok ministranta -->
+    <FlexboxLayout class="flex2" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
+        <TabView [(ngModel)]="tabSelectedIndex" androidTabsPosition="bottom" class="tabs">
+            <StackLayout *tabItem="{title: '&#xe01b;'}">
+                <page-router-outlet name="dyzury"></page-router-outlet>
+            </StackLayout>
+            <StackLayout *tabItem="{title: '&#xe032;'}">
+                <page-router-outlet name="wiadomosciM"></page-router-outlet>
+            </StackLayout>
+            <StackLayout *tabItem="{title: '&#xe05b;'}">
+                <page-router-outlet name="ustawieniaM"></page-router-outlet>
+            </StackLayout>
+        </TabView>
+    </FlexboxLayout>
+    <!-- Widok opiekuna -->
+    <FlexboxLayout class="flex2" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
+        <TabView [(ngModel)]="tabSelectedIndex" androidTabsPosition="bottom">
+            <StackLayout *tabItem="{title: '&#xe0d7;'}">
+                <page-router-outlet name="obecnosc"></page-router-outlet>
+            </StackLayout>
+            <StackLayout *tabItem="{title: ' &#xe092;'}">
+                <page-router-outlet name="ministranci"></page-router-outlet>
+            </StackLayout>
+            <StackLayout *tabItem="{title: '&#xe032;'}">
+                <page-router-outlet name="wiadomosciO"></page-router-outlet>
+            </StackLayout>
+            <StackLayout *tabItem="{title: '&#xe05b;'}">
+                <page-router-outlet name="ustawieniaO"></page-router-outlet>
+            </StackLayout>
+        </TabView>
+    </FlexboxLayout>
+</FlexboxLayout>

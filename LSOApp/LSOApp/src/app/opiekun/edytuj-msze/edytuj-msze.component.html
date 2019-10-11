@@ -1,0 +1,59 @@
+<FlexboxLayout class="back" (swipe)="onSwipe($event)">
+    <GridLayout columns="*" rows="30,10,*,auto" class="grid">
+        <FlexboxLayout class="flex" row="1" rowSpan="2">
+            <GridLayout rows="*,*,*,*,*,*,*" columns="55,*" class="grid" marginTop="15" marginBottom="5">
+                <FlexboxLayout class="flex2" *ngFor="let dzien of DzienTygodnia, let i = index" col="0" [row]="i" [ngClass]="{wybrany: wybranyDzien === dzien}">
+                    <Button class="btn audiowide" [text]="dzienTygodnia(dzien)" (tap)="zmienDzien(dzien)" [ngClass]="{wybrany: wybranyDzien === dzien}"></Button>
+                </FlexboxLayout>
+                <ScrollView col="1" row="0" rowSpan="7" margin="5" (swipe)="onSwipe($event)">
+                    <StackLayout class="stack" *ngIf="wybranyDzien !== undefined">
+                        <GridLayout rows="auto" columns="*,50" *ngFor="let msza of wydarzeniaDnia, let i = index">
+                            <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
+                            </FlexboxLayout>
+                            <FlexboxLayout class="msza-cont" col="0">
+                                <Label [text]="msza.godzina.toString() | godzina" class="text lexend"></Label>
+                            </FlexboxLayout>
+                            <FlexboxLayout class="msza-cont" col="1">
+                                <Button text="&#xe073;" class="iks icon" (tap)="usun(msza)" androidElevation="0"></Button>
+                            </FlexboxLayout>
+                        </GridLayout>
+
+                        <FlexboxLayout *ngIf="wydarzeniaDnia.length < 10" class="flex3">
+                            <Button class="wybrany" borderRadius="10%" (tap)="dodaj($event)" height="40" width="40">
+                                <FormattedString>
+                                    <!-- <Span text="Dodaj " class="audiowide"></Span> -->
+                                    <Span text="&#xe072;" class="icon"></Span>
+                                </FormattedString>
+                            </Button>
+                        </FlexboxLayout>
+
+                        <!-- <GridLayout rows="auto" columns="*,50" >
+                            <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
+                            </FlexboxLayout>
+                            <FlexboxLayout class="msza-cont" col="0">
+                                <Label text="Dodaj" class="text lexend" (tap)="dodaj($event)"></Label>
+                            </FlexboxLayout>
+                            <FlexboxLayout class="msza-cont" col="1" >
+                                <Button text="&#xe072;" class="iks icon" color="red" (tap)="dodaj($event)" androidElevation="0"></Button>
+                            </FlexboxLayout>
+                        </GridLayout> -->
+
+                    </StackLayout>
+                    <FlexboxLayout *ngIf="wybranyDzien === undefined" justifyContent="center" width="100%">
+                        <Label text="Wybierz dzień" class="opis lexend"></Label>
+                    </FlexboxLayout>
+                </ScrollView>
+            </GridLayout>
+
+        </FlexboxLayout>
+
+        <FlexboxLayout class="nowy" row="0" rowSpan="2">
+            <Label text="Edytuj Msze Święte" class="audiowide"></Label>
+        </FlexboxLayout>
+
+        <GridLayout columns="*,*" rows="60" row="3">
+            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj audiowide"></Button>
+            <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj zapisz audiowide" [isEnabled]="zmiana"></Button>
+        </GridLayout>
+    </GridLayout>
+</FlexboxLayout>

@@ -1,0 +1,20 @@
+.flex
+{
+    width: 85%;
+    background-color: white;
+    border-radius: 10%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn
+{
+    text-wrap: true;
+    border-radius: 5%;
+    color: white;
+    font-size: 12;
+    background-color: rgb(20,20,20);
+    padding: 0;
+    margin: 3;
+}

@@ -1,0 +1,91 @@
+<FlexboxLayout class="back">
+    <GridLayout columns="*" rows="30,10,*,auto" class="grid">
+        <FlexboxLayout class="flex" row="1" rowSpan="2">
+            <ScrollView>
+                <StackLayout marginBottom="5" verticalAlign="center">
+                    <GridLayout rows="auto,auto,auto,auto" columns="*" class="margin-top" [formGroup]="form">
+                        <FlexboxLayout row="0" class="cont">
+                            <GridLayout columns="auto,*" rows="10,10,auto">
+                                <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                                    <TextField hint="Wpisz imię ministranta" class="text-field lexend" autocapitalizationType="words"
+                                        formControlName="imie" #imie></TextField>
+                                </FlexboxLayout>
+                                <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                                    <Label text="IMIĘ" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                </FlexboxLayout>
+                            </GridLayout>
+                            <!-- <FlexboxLayout class="input-field">
+                        <TextField hint="IMIĘ" class="text-field lexend" autocapitalizationType="words" formControlName="imie" #imie></TextField>
+                    </FlexboxLayout> -->
+                            <Label text="Imię musi być jednoczłonowe oraz niedłuższe niż 15 znaków" class="red lexend"
+                                *ngIf="!imieValid"></Label>
+                        </FlexboxLayout>
+                        <FlexboxLayout row="1" class="cont">
+                            <GridLayout columns="auto,*" rows="10,10,auto">
+                                <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                                    <TextField hint="Wpisz nazwisko ministranta" class="text-field lexend"
+                                        autocapitalizationType="words" (returnPress)="wybierzStopien()"
+                                        formControlName="nazwisko" #nazwisko>
+                                    </TextField>
+                                </FlexboxLayout>
+                                <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                                    <Label text="NAZWISKO" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                </FlexboxLayout>
+                            </GridLayout>
+                            <!-- <FlexboxLayout class="input-field">
+                        <TextField hint="NAZWISKO" class="text-field lexend" autocapitalizationType="words"
+                            (returnPress)="displayActionDialog()" formControlName="nazwisko" #nazwisko></TextField>
+                    </FlexboxLayout> -->
+                            <Label text="Nazwisko musi być jednoczłonowe oraz niedłuższe niż 20 znaków"
+                                class="red lexend" *ngIf="!nazwiskoValid"></Label>
+                        </FlexboxLayout>
+                        <FlexboxLayout row="2" class="cont" (tap)="wybierzStopien()">
+                            <GridLayout columns="auto,*" rows="10,10,auto">
+                                <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                                    <Label [text]="stopienNazwa" class="text-field lexend" width="85%"></Label>
+                                    <Label text="&#xe013;" class="icon" color="white" fontSize="13"></Label>
+                                </FlexboxLayout>
+                                <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                                    <Label text="STOPIEŃ" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                </FlexboxLayout>
+                            </GridLayout>
+                            <!-- <FlexboxLayout class="input-field" (tap)="displayActionDialog()">
+                        <Label [text]="stopienNazwa" class="text-field lexend"></Label>
+                    </FlexboxLayout> -->
+                            <Label text="Wybierz stopień ministrancki" class="red lexend" *ngIf="!stopienValid"></Label>
+                        </FlexboxLayout>
+
+                        <FlexboxLayout row="3" class="cont">
+                            <GridLayout columns="auto,*" rows="10,10,auto">
+                                <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                                    <TextField hint="Wpisz e-mail ministranta" class="text-field lexend"
+                                        autocapitalizationType="words" keyboardType="email" formControlName="email"
+                                        #email>
+                                    </TextField>
+                                </FlexboxLayout>
+                                <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                                    <Label text="E-MAIL (?)" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                </FlexboxLayout>
+                            </GridLayout>
+                            <!-- <FlexboxLayout class="input-field">
+                        <TextField hint="E-MAIL (?)" class="text-field lexend" autocapitalizationType="words"
+                            keyboardType="email" formControlName="email" #email></TextField>
+                    </FlexboxLayout> -->
+                            <Label text="Wpisz poprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
+                        </FlexboxLayout>
+                    </GridLayout>
+                </StackLayout>
+            </ScrollView>
+        </FlexboxLayout>
+
+        <FlexboxLayout class="nowy" row="0" rowSpan="2">
+            <Label text="Nowy ministrant" class="audiowide"></Label>
+        </FlexboxLayout>
+
+        <GridLayout columns="*,*" rows="60" row="3">
+            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj audiowide"></Button>
+            <Button text="Dodaj" col="1" (tap)="zapisz()" class="anuluj zapisz audiowide"
+                [isEnabled]="this.form.valid && stopienNazwa !=='Wybierz stopień'"></Button>
+        </GridLayout>
+    </GridLayout>
+</FlexboxLayout>

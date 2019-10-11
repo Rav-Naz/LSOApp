@@ -1,0 +1,57 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.LSOAPP",
+    "tns-android": {
+      "version": "6.0.0"
+    },
+    "tns-ios": {
+      "version": "6.0.1"
+    }
+  },
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "repository": "<fill-your-repository-here>",
+  "dependencies": {
+    "@angular/animations": "~8.0.0",
+    "@angular/common": "~8.0.0",
+    "@angular/compiler": "~8.0.0",
+    "@angular/core": "~8.0.0",
+    "@angular/forms": "~8.0.0",
+    "@angular/http": "~8.0.0-beta.10",
+    "@angular/platform-browser": "~8.0.0",
+    "@angular/platform-browser-dynamic": "~8.0.0",
+    "@angular/router": "~8.0.0",
+    "express": "^4.17.1",
+    "mariadb": "^2.1.0",
+    "mysql": "^2.17.1",
+    "mysql2": "^1.6.5",
+    "nativescript-angular": "~8.0.0",
+    "nativescript-datetimepicker": "^1.2.1",
+    "nativescript-email": "^1.5.5",
+    "nativescript-feedback": "^1.3.12",
+    "nativescript-iqkeyboardmanager": "^1.5.1",
+    "nativescript-local-notifications": "^4.0.1",
+    "nativescript-permissions": "^1.3.7",
+    "nativescript-secure-storage": "^2.6.0",
+    "nativescript-svg": "^1.3.7",
+    "nativescript-theme-core": "~1.0.4",
+    "nativescript-toast": "^2.0.0",
+    "nativescript-ui-calendar": "^5.0.0",
+    "nativescript-windowed-modal": "^6.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "~6.5.0",
+    "sequelize": "^5.10.1",
+    "sequelize-typescript": "^1.0.0-alpha.9",
+    "tns-core-modules": "6.0.1",
+    "zone.js": "~0.9.1"
+  },
+  "devDependencies": {
+    "@angular/compiler-cli": "~8.0.0",
+    "@ngtools/webpack": "~8.0.0",
+    "@types/node": "^12.6.8",
+    "nativescript-dev-webpack": "1.0.1",
+    "typescript": "3.4.5"
+  },
+  "gitHead": "8c1a4866a66daab09bf5ef8e5a96472687192373",
+  "readme": "NativeScript Application"
+}

@@ -1,0 +1,29 @@
+<FlexboxLayout (swipe)="onSwipe($event)" class="back">
+    <GridLayout rows="*,40" columns="*,1,*" alignSelf="flex-end">
+        <StackLayout class="stack" verticalAlignment="center" [formGroup]="form" row="0" col="0" colSpan="3">
+            <Image src="res://logo" class="zdjecie"></Image>
+            <FlexboxLayout class="cont">
+                <FlexboxLayout class="input-field">
+                    <TextField hint="E-MAIL" class="text-field lexend"
+                        keyboardType="email" formControlName="email" #email></TextField>
+                </FlexboxLayout>
+                <Label text="Wpisz poprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout class="cont">
+                <FlexboxLayout class="input-field">
+                    <TextField hint="HASŁO" class="text-field lexend" secure="true"
+                        formControlName="haslo" #haslo></TextField>
+                </FlexboxLayout>
+                <Label text="Niepoprawne hasło" class="red lexend" *ngIf="!hasloValid"></Label>
+            </FlexboxLayout>
+            <Button text="Zaloguj" class="button audiowide" (tap)="zaloguj(true)" (longPress)="zaloguj(false)"></Button>
+        </StackLayout>
+        <FlexboxLayout col="0" row="1" class="cont">
+            <Button text="Zapomniałem hasła" class="lexend text" (tap)="zapomnialem()"></Button>
+        </FlexboxLayout>
+        <FlexboxLayout col="1" row="1" class="pasek"></FlexboxLayout>
+        <FlexboxLayout col="2" row="1" class="cont">
+            <Button text="Rejestracja" class="lexend text" (tap)="doRejestracji()"></Button>
+        </FlexboxLayout>
+    </GridLayout>
+</FlexboxLayout>

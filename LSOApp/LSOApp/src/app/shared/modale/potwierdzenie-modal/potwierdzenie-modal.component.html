@@ -1,0 +1,12 @@
+<ModalStack>
+    <GridLayout columns="*,*,*" rows="auto,30,auto" class="grid">
+        <FlexboxLayout row="1" rowSpan="2" col="0" colSpan="3" class="flex">
+            <Label [text]="text" class="text lexend"></Label>
+            <GridLayout columns="*,*" rows="auto">
+                <Button text="NIE" col="0" class="btn tak audiowide" (tap)="wybor(false)"></Button>
+                <Button text="TAK" col="1" class="btn audiowide" (tap)="wybor(true)"></Button>
+            </GridLayout>
+        </FlexboxLayout>
+        <Image row="0"  rowSpan="2" col="1" src="~/app/shared/modale/potwierdzenie-modal/alert.png"></Image>
+    </GridLayout>
+</ModalStack>

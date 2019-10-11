@@ -1,0 +1,13 @@
+<ModalStack height="100%">
+    <FlexboxLayout class="flex" #flex [height]="height">
+        <ScrollView margin="5">
+            <StackLayout>
+                <GridLayout columns="*,*,*,*" [rows]="rows">
+                    <FlexboxLayout flexDirection="column" [col]="lista.length === 1? 1: i%2 === 0? 0:2" [row]="wiersz(i)" colSpan="2" *ngFor="let element of lista; let i = index">
+                        <Button [text]="element" (tap)="wybierz(i)" class="btn audiowide"></Button>
+                    </FlexboxLayout>
+                </GridLayout>
+            </StackLayout>
+        </ScrollView>
+    </FlexboxLayout>
+</ModalStack>

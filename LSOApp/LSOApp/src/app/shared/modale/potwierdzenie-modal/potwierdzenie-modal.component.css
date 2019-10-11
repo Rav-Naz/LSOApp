@@ -1,0 +1,38 @@
+.grid
+{
+    width: 80%;
+}
+
+.flex
+{
+    background-color: white;
+    border-radius: 10%;
+    flex-direction: column;
+}
+
+.text
+{
+    text-wrap: true;
+    margin: 10;
+    margin-top: 25;
+    color: rgb(20, 20, 20);
+}
+
+.btn
+{
+    padding: 1;
+    background-color: white;
+    color: rgb(20, 20, 20);
+    border-radius: 10%;
+    border-color: rgb(20, 20, 20);
+    border-width: 2;
+    margin: 10;
+    font-size: 17;
+}
+
+.tak
+{
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+    color: white;
+}

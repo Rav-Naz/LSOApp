@@ -1,0 +1,41 @@
+/* Add mobile styles for the component here.  */
+TabView{
+    selected-tab-text-color: white;
+    tab-text-color: rgb(80, 80, 80);
+    tab-background-color: black;
+    android-selected-tab-highlight-color: #e71e25;
+    font-family: 'iconmonstr-iconic-font';
+    font-size: 20;
+}
+
+.flex
+{
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+.flex2
+{
+    height: 100%;
+    width: 100%;
+}
+
+.grid
+{
+    height: 20%;
+}
+
+.text2
+{
+    color: white;
+    font-weight: 500;
+    font-size: 11;
+}
+
+.text
+{
+    font-weight: 700;
+    color: #e71e25;
+    font-size: 25;
+}
+

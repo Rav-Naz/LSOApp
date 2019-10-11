@@ -1,0 +1,66 @@
+<GridLayout (swipe)="onSwipe($event)">
+    <FlexboxLayout class="back">
+        <!-- Widok dnia -->
+        <StackLayout class="width100 scroll" *ngIf="!kalendarz">
+            <FlexboxLayout class="grid-container">
+                <GridLayout rows="50" columns="50,*,50" class="grid">
+                    <FlexboxLayout col="0" class="flex flex2">
+                        <Button text="&#xe002;" class="strzalki icon" (tap)="indexZmiana(-1)" androidElevation="0"></Button>
+                    </FlexboxLayout>
+                    <Button col="1" class="flex margin-l-r" (tap)="naKalendarz(true)" androidElevation="0">
+                        <FormattedString>
+                            <Span text="&#xe01f; " class="header icon" alignSelf="center" fontSize="12"></Span>
+                            <Span [text]="naglowek" class="header lexend" alignSelf="center"></Span>
+                            <Span [text]="data" class="data lexend" alignSelf="center"></Span>
+                        </FormattedString>
+                    </Button>
+                    <FlexboxLayout col="2" class="flex flex2" *ngIf="czyMoznaDoPrzodu()">
+                        <Button text="&#xe001;" class="strzalki icon" (tap)="indexZmiana(1)" androidElevation="0"></Button>
+                    </FlexboxLayout>
+                </GridLayout>
+            </FlexboxLayout>
+
+            <Label text="Brak przypisanych ministrantów, aby ich dodać przejdź do panelu ministranta" *ngIf="ministranciDoWydarzenia.length === 0 && dzisiejszeWydarzenia.length !== 0" class="brak lexend" width="90%"></Label>
+            <ScrollView class="scroll2" *ngIf="ministranciDoWydarzenia.length > 0" (swipe)="onSwipe($event)">
+                <StackLayout>
+                    <GridLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r width100"
+                        *ngFor="let item of ministranciDoWydarzenia; let i = index">
+                        <FlexboxLayout col="0" class="box2 margin-l-r" *ngIf="moznaSprawdzac() && czyJestNaLiscie(item)">
+                            <ns-checkbox-status (checkStatus)="zmienStatusObecnosci($event, item.id_user)" [status]="aktualnyStatus(item)">
+                            </ns-checkbox-status>
+                        </FlexboxLayout>
+                        <FlexboxLayout col="1" class="box margin-l-r">
+                            <Label [text]="item.imie + ' ' + item.nazwisko" class="imie lexend"></Label>
+                        </FlexboxLayout>
+                    </GridLayout>
+                </StackLayout>
+            </ScrollView>
+            <Button text="Zapisz" class="btn audiowide" *ngIf="ministranciDoWydarzenia.length > 0" (tap)="zapiszZmiany()" [isEnabled]="zmiana"></Button>
+            <Label text="Brak dzisiejszych wydarzeń, aby je dodać przejdź do panelu ustawień" *ngIf="dzisiejszeWydarzenia.length === 0" class="brak lexend"  width="90%"></Label>
+        </StackLayout>
+        <!-- Widok kalendarza -->
+            <GridLayout columns="*" rows="30,10,*,auto" *ngIf="kalendarz">
+
+                <FlexboxLayout row="1" rowSpan="2" class="kalendarz">
+                    <FlexboxLayout class="kalendarz-cont">
+                        <RadCalendar (dateSelected)="wybranyDzien()" #myCalendar selectionMode="Single" transitionMode="Stack" viewMode="Month" id="calendar" locale="pl-PL"></RadCalendar>
+                    </FlexboxLayout>
+                </FlexboxLayout>
+
+                <FlexboxLayout class="flex msze" row="0" rowSpan="2">
+                        <Label text="Kalendarz" class="audiowide size"></Label>
+                </FlexboxLayout>
+
+                <GridLayout columns="*,*,*,*" rows="60" row="3" class="przyciski">
+                    <Button text="Zamknij" col="1" colSpan="2" (tap)="naKalendarz(false)" class="anuluj audiowide size"></Button>
+                </GridLayout>
+            </GridLayout>
+    </FlexboxLayout>
+
+    <FlexboxLayout class="krycie" *ngIf="PROLista[6] === 'punktacja' || PROLista[6] === 'edytuj-msze' || PROLista[4] === 'ministrant-dyzury'" (tap)="nic()">
+        <Label text="Aby korzystać z tego widoku musisz zamknąć panel" class="lexend warn1"></Label>
+        <Label text="Edytuj Msze Święte" class="audiowide warn2" *ngIf="PROLista[6] === 'edytuj-msze'"></Label>
+        <Label text="Punktacja" class="audiowide warn2" *ngIf="PROLista[6] === 'punktacja'"></Label>
+        <Label text="Edytuj dyżury" class="audiowide warn2" *ngIf="PROLista[4] === 'ministrant-dyzury'"></Label>
+    </FlexboxLayout>
+</GridLayout>

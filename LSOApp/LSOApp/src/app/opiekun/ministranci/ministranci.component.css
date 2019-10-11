@@ -1,0 +1,161 @@
+/* Add mobile styles for the component here.  */
+.back
+{
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.grid
+{
+    height: 70;
+    margin: 5;
+}
+
+.opis
+{
+    color: rgb(80, 80, 80);
+    font-weight: 300;
+    font-size: 13;
+    align-self: center;
+    text-align: center;
+}
+
+.pasek
+{
+    width: 100%;
+    height: 3px;
+    background-color: rgb(40, 40, 40);
+}
+
+.plus
+{
+    padding: 0;
+    color: white;
+    font-size: 7;
+}
+
+.mini
+{
+    padding: 0;
+font-size: 12;
+}
+
+.cont
+{
+    padding: 0;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.marg-l-r
+{
+    margin-left: 7;
+    margin-right: 7;
+}
+
+.index
+{
+    margin-left: 10;
+    font-size: 13;
+    color: white;
+}
+
+.imie
+{
+    color: white;
+    font-size: 15;
+    font-weight: 700;
+}
+
+.punkty
+{
+    color: #e71e25;
+    font-size: 15;
+}
+
+.box
+{
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.box2{
+    flex-direction: row;
+    align-items: center;
+}
+
+.element
+{
+    margin: 10;
+}
+
+.strzalka
+{
+    padding: 0;
+    background-color: black;
+    color: #e71e25;
+    height: 50;
+    font-size: 15;
+    margin-bottom: 2;
+    margin-right: 5;
+    border-radius: 5;
+    text-align: right;
+}
+
+.lista
+{
+    margin-top: 10;
+}
+
+.szary
+{
+    background-color: rgb(20, 20, 20);
+}
+
+.dodaj
+{
+    padding: 0;
+    height: 30;
+    width: 30;
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+    border-radius: 5%;
+}
+
+.czarny
+{
+    margin-right: 2;
+    color: black;
+}
+
+.sort-btn
+{
+    background-color: white;
+    border-radius: 5%;
+    flex-direction: row;
+    padding: 1;
+    font-size: 13;
+    align-items: center;
+    justify-content: center;
+    height: 30;
+}
+
+.sort-cont
+{
+    align-items: center;
+    justify-content: center;
+    margin: 5;
+}
+
+.brak
+{
+    color: #e71e25;
+    font-weight: 300;
+    text-wrap: true;
+    text-align: center;
+    font-size: 15;
+}

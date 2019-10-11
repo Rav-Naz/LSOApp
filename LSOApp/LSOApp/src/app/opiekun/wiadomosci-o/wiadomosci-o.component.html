@@ -1,0 +1,51 @@
+<FlexboxLayout class="flex" (swipe)="onSwipe($event)">
+    <ScrollView (swipe)="onSwipe($event)">
+        <StackLayout class="stack">
+            <FlexboxLayout class="flexR">
+                <FlexboxLayout class="flexEnd" *ngIf="!pisanieWiadomosci">
+                    <Button text="Utwórz nową" (tap)="otworz()" class="btn audiowide"></Button>
+                </FlexboxLayout>
+
+                <GridLayout columns="auto,*" rows="auto,*" class="grid" *ngIf="pisanieWiadomosci">
+                    <FlexboxLayout class="red black" col="0" row="0" colSpan="2"></FlexboxLayout>
+                    <StackLayout class="flexW" col="0" row="0">
+                        <Label text="00:00" class="godzina black lexend"></Label>
+                        <Label text="04/02/2000" class="data black lexend"></Label>
+                    </StackLayout>
+                    <FlexboxLayout class="wiadomosc" col="1" row="0" rowSpan="2">
+                        <!-- <Label text="OPIEKUN" class="autor"></Label> -->
+                        <TextView [(ngModel)]="tresc" hint="Wpisz treść wiadomosci" class="textview lexend" #textview></TextView>
+                        <FlexboxLayout class="flexEnd">
+                            <Button [text]="tresc.length >= 1? 'Wyślij' : 'Zamkni'" (tap)="wyslij()" class="btn audiowide"></Button>
+                        </FlexboxLayout>
+                    </FlexboxLayout>
+                </GridLayout>
+
+                <GridLayout rows="auto" columns="*,30" width="98%" *ngIf="wiadomosci.length === 0">
+                        <FlexboxLayout col="0" class="box">
+                            <Label text="Brak wiadomości, aby wysłać nową kliknij ten przycisk" class="brak lexend"></Label>
+                        </FlexboxLayout>
+                        <FlexboxLayout col="1" class="box">
+                            <Label text="&#xe00c;" class="brak icon"></Label>
+                        </FlexboxLayout>
+                    </GridLayout>
+
+                <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid" (longPress)="usunWiadomosc(wiadomosc)">
+                    <FlexboxLayout class="red" col="0" row="0" colSpan="2"></FlexboxLayout>
+                    <StackLayout class="flexW" col="0" row="0">
+                        <Label [text]="wiadomosc.data.toString() | godzina" class="godzina lexend"></Label>
+                        <Label
+                            [text]="dataFormat(wiadomosc)"
+                            class="data lexend"></Label>
+                    </StackLayout>
+                    <FlexboxLayout class="wiadomosc" col="1" row="0" rowSpan="2">
+                        <Label [text]="wiadomosc.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
+                        <Label [text]="wiadomosc.tresc" class="tresc lexend"></Label>
+                        <Image [src]="wiadomosc.linkobrazu" class="obraz lexend" *ngIf="wiadomosc.linkobrazu"></Image>
+                        <Button text="Pobierz obraz" class="btn audiowide" (tap)="pobierzObraz(wiadomosc.linkobrazu)" *ngIf="wiadomosc.linkobrazu"></Button>
+                    </FlexboxLayout>
+                </GridLayout>
+            </FlexboxLayout>
+        </StackLayout>
+    </ScrollView>
+</FlexboxLayout>

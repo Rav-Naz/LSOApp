@@ -1,0 +1,25 @@
+<FlexboxLayout class="flex" (swipe)="onSwipe($event)">
+    <ScrollView (swipe)="onSwipe($event)">
+        <StackLayout class="stack">
+            <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0"></Label>
+            <FlexboxLayout class="flexR" *ngIf="wiadomosci.length > 0">
+                <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid">
+                    <FlexboxLayout class="red" col="0" row="0" colSpan="2" *ngIf="!wiadomosc.do_opiekuna"></FlexboxLayout>
+                    <StackLayout class="flexW" col="0" row="0" *ngIf="!wiadomosc.do_opiekuna">
+                        <Label [text]="wiadomosc.data.toString() | godzina"
+                            class="godzina lexend"></Label>
+                        <Label
+                            [text]="dataFormat(wiadomosc.data.getDate(),wiadomosc.data.getMonth(),wiadomosc.data.getFullYear())"
+                            class="data lexend"></Label>
+                    </StackLayout>
+                    <FlexboxLayout class="wiadomosc" col="1" row="0" rowSpan="2" *ngIf="!wiadomosc.do_opiekuna">
+                        <Label [text]="wiadomosc.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
+                        <Label [text]="wiadomosc.tresc" class="tresc lexend"></Label>
+                        <Image [src]="wiadomosc.linkobrazu" class="obraz lexend" *ngIf="wiadomosc.linkobrazu"></Image>
+                        <Button text="Pobierz obraz" class="btn audiowide" (tap)="pobierzObraz(wiadomosc.linkobrazu)" *ngIf="wiadomosc.linkobrazu"></Button>
+                    </FlexboxLayout>
+                </GridLayout>
+            </FlexboxLayout>
+        </StackLayout>
+    </ScrollView>
+</FlexboxLayout>
