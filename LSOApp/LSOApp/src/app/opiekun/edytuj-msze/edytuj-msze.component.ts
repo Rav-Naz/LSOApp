@@ -64,7 +64,7 @@ export class EdytujMszeComponent implements OnInit {
             time: new Date(),
             okButtonText: "Dodaj",
             cancelButtonText: "Anuluj",
-            title: "Wybierz czas",
+            title: "Wybierz godzinę",
             locale: "en_GB",
             is24Hours: true
         }).then((godzina) => {

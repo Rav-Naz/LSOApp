@@ -10,6 +10,7 @@ import { LocalNotifications } from "nativescript-local-notifications";
 import { SecureStorage } from "nativescript-secure-storage";
 import { Subscription } from 'rxjs';
 import { Feedback, FeedbackType} from "nativescript-feedback";
+import { ParafiaService } from '~/app/serwisy/parafia.service';
 
 @Component({
     selector: 'ns-dyzury',
@@ -29,7 +30,7 @@ export class DyzuryComponent implements OnInit {
     rowDzis = [12, 0, 2, 4, 6, 8, 10]
     private feedback: Feedback;
 
-    constructor(private page: Page, private userService: UserService, private indexService: TabindexService, private wydarzeniaService: WydarzeniaService)
+    constructor(private page: Page, private userService: UserService, private indexService: TabindexService, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService)
     {
         this.feedback = new Feedback();
     }
@@ -44,14 +45,28 @@ export class DyzuryComponent implements OnInit {
         let secureStorage = new SecureStorage;
         secureStorage.clearAllOnFirstRun();
         this.stareDyzury = [];
+
+        let dyzury = this.parafiaService.dyzuryMinistrant(this.user.id_user);
+
+        if(dyzury !== undefined)
+        {
+            this.userService.setUserDyzury(dyzury);
+        }
+        else
+        {
+            this.userService.setUserDyzury([]);
+        }
+
         this.dyzurySub = this.userService.UserDyzurySub.subscribe(dyzury => {
-            if (dyzury !== null && dyzury !== undefined && dyzury !== []) {
-                let dyzuryLista = [];
+            let dyzuryLista = [];
+
+            if (dyzury !== undefined && dyzury !== null) {
+
                 dyzury.forEach(dyzur => {
                     dyzuryLista.push(dyzur);
                 })
 
-                if (dyzuryLista === undefined || dyzuryLista.length === 0) {
+                if (dyzuryLista.length === 0) {
                     return;
                 }
 
@@ -81,8 +96,9 @@ export class DyzuryComponent implements OnInit {
                                                 let dyzur = this.dyzury.filter(dyzur => dyzur.dzien_tygodnia === i)[0];
                                                 if (dyzur !== undefined) {
                                                     let data = this.nastepnyDzienTygodnia(i);
-                                                    data.setHours(new Date(dyzur.godzina).getHours());
-                                                    data.setMinutes(new Date(dyzur.godzina).getMinutes());
+                                                    let dyzurGodzina = new Date(dyzur.godzina);
+                                                    data.setHours(dyzurGodzina.getHours() - 1); //minus 1 bo w JSON nasza godzina jest +1
+                                                    data.setMinutes(dyzurGodzina.getMinutes());
                                                     data.setSeconds(0);
 
                                                     this.zaplanujPowiadomienieOMszy(data, i);
@@ -174,7 +190,18 @@ export class DyzuryComponent implements OnInit {
 
     private zaplanujPowiadomienieOMszy(data: Date, index: number) {
         let dyzur = data.toString().slice(16, 21);
-        data.setHours(data.getHours() > 1 ? data.getHours() - 1 : 0)
+        if(data.getHours() < 1)
+        {
+            if(index !== 0)
+            {
+                index-=1;
+            }
+            else
+            {
+                index = 6
+            }
+        }
+        data.setHours(data.getHours() - 1)
         LocalNotifications.schedule([{
             id: index, // generated id if not set
             title: 'Przypomnienie o służbie',
@@ -190,26 +217,6 @@ export class DyzuryComponent implements OnInit {
             forceShowWhenInForeground: true,
             notificationLed: true,
             at: data
-        }])
-    }
-
-    tap() {
-        LocalNotifications.schedule([{
-            id: 8, // generated id if not set
-            title: 'Przypomnienie o służbie',
-            body: 'Msza Święta. Dziś, godz. 18:00. KnC!',
-            badge: 1,
-            color: new Color("#e71e25"),
-            icon: 'res://ic_stat_notify',
-            silhouetteIcon: 'ic_stat_notify_silhouette',
-            // image: "https://cdn-images-1.medium.com/max/1200/1*c3cQvYJrVezv_Az0CoDcbA.jpeg",
-            // thumbnail: true,
-            // interval: 'week',
-            channel: 'Przypomnienia o służbie', // default: 'Channel'
-            sound: "customsound-ios.wav", // falls back to the default sound on Android
-            forceShowWhenInForeground: true,
-            notificationLed: true,
-            at: new Date(new Date().getTime() + (2 * 1000))
         }])
     }
 }

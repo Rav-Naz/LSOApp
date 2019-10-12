@@ -33,31 +33,38 @@ export class WiadomosciMComponent implements OnInit {
         this.page.actionBarHidden = true;
         this.wiadosciService.pobierzWiadomosci();
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
-        this.wiadomosci = wiadomosci.sort((wiad1, wiad2) => {
-            if (wiad1.data < wiad2.data) {
-                return 1;
-            }
-            if (wiad1.data > wiad2.data) {
-                return -1;
-            }
-            return 0;
-        })
+        if(wiadomosci !== null)
+        {
+            this.wiadomosci = wiadomosci.sort((wiad1, wiad2) => {
+                if (wiad1.data < wiad2.data) {
+                    return 1;
+                }
+                if (wiad1.data > wiad2.data) {
+                    return -1;
+                }
+                return 0;
+            })
+        }
         });
     }
 
-    dataFormat(dzien: any, miesiac: any, rok: any) {
-        let dzienF = dzien;
-        let miesiacF = miesiac + 1;
+    dataFormat(wiadomosc: Wiadomosc) {
+        let data = new Date(wiadomosc.data)
+        let dzien = data.getDate();
+        let miesiac = data.getMonth() + 1;
 
-        if (dzienF < 10) {
-            dzienF = '0' + dzienF;
+        let dzienStr = dzien.toString();
+        let miesiacStr = miesiac.toString();
+
+        if (dzien < 10) {
+            dzienStr = '0' + dzienStr;
         }
 
-        if (miesiacF < 10) {
-            miesiacF = '0' + miesiacF;
+        if (miesiac < 10) {
+            miesiacStr = '0' + miesiacStr;
         }
 
-        return dzienF + '/' + miesiacF + '/' + rok;
+        return dzienStr + '/' + miesiacStr + '/' + data.getFullYear();
     }
 
     onSwipe(args: SwipeGestureEventData) {

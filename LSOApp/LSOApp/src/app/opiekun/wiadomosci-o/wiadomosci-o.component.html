@@ -16,7 +16,7 @@
                         <!-- <Label text="OPIEKUN" class="autor"></Label> -->
                         <TextView [(ngModel)]="tresc" hint="Wpisz treść wiadomosci" class="textview lexend" #textview></TextView>
                         <FlexboxLayout class="flexEnd">
-                            <Button [text]="tresc.length >= 1? 'Wyślij' : 'Zamkni'" (tap)="wyslij()" class="btn audiowide"></Button>
+                            <Button [text]="tresc.length >= 1? 'Wyślij' : 'Zamknij'" (tap)="wyslij()" class="btn audiowide"></Button>
                         </FlexboxLayout>
                     </FlexboxLayout>
                 </GridLayout>

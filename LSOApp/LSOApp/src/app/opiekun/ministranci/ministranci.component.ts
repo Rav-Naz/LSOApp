@@ -38,13 +38,13 @@ export class MinistranciComponent implements OnInit {
         this.page.actionBarHidden = true;
         this.miniSub = this.parafiaService.Ministranci.subscribe(lista => {
             this.ministranci = [];
-            if(lista !== undefined)
+            if(lista !== null)
             {
                 lista.forEach(ministrant => {
                     this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny})
                 })
+                this.sortujListe();
             }
-            this.sortujListe();
         })
     }
 

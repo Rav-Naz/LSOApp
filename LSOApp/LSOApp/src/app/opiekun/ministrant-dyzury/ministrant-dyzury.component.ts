@@ -35,7 +35,7 @@ export class MinistrantDyzuryComponent implements OnInit {
     wydarzeniaMinistranta: Array<Wydarzenie>;
     stareWydarzeniaMinistranta: Array<Wydarzenie>;
 
-    wszystkieWydarzenia: Array<Wydarzenie>;
+    wszystkieWydarzenia: Array<Wydarzenie> = [];
 
     ministrant: User;
 
@@ -49,7 +49,10 @@ export class MinistrantDyzuryComponent implements OnInit {
         this.ministrant = this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
 
         this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaDyzurySub.subscribe( lista => {
-            this.wszystkieWydarzenia = lista;
+            if(lista !== null)
+            {
+                this.wszystkieWydarzenia = lista;
+            }
         })
 
         this.parafiaService.wyszukajDyzury(this.ministrant.id_user);

@@ -18,7 +18,7 @@
             <Label class="dzienK" col="1" row="10"></Label>
             <Label class="przerwa" col="1" row="11"></Label>
             <Label class="dzienK" col="1" row="12"></Label>
-            <Label class="dzis" col="1" [row]="dzis" (tap)="tap()"></Label>
+            <Label class="dzis" col="1" [row]="dzis"></Label>
 
             <Label text="poniedziałek" col="0" row="0" class="dzien lexend" *ngIf="dyzurNaDanyDzien(1).length > 0"></Label>
             <Label text="wtorek" col="0" row="2" class="dzien lexend" *ngIf="dyzurNaDanyDzien(2).length > 0"></Label>

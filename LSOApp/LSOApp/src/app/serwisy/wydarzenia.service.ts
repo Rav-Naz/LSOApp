@@ -92,6 +92,7 @@ export class WydarzeniaService {
     noweWydarzenie(dzien_tygodnia: number, godzina: Date) //Wykorzystanie: edytuj-msze
     {
         this.indexWydarzenia++;
+        this.secureStorage.setSync({key: "indexWydarzenia", value: JSON.stringify(this.indexWydarzenia)})
         return {id: this.indexWydarzenia, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia: dzien_tygodnia, godzina:  new Date(null, null, null, godzina.getHours(), godzina.getMinutes()).toJSON()}
     }
 
@@ -113,6 +114,7 @@ export class WydarzeniaService {
             })
 
             this.secureStorage.set({key: "wydarzenia", value: JSON.stringify(this._wydarzenia)}).then(async() => {
+                this.wydarzeniaDyzury.next(this._wydarzenia)
                 await this.wydarzeniaWEdycji(dzien_tygodnia);
             })
 

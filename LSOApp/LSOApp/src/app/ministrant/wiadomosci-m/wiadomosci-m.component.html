@@ -9,7 +9,7 @@
                         <Label [text]="wiadomosc.data.toString() | godzina"
                             class="godzina lexend"></Label>
                         <Label
-                            [text]="dataFormat(wiadomosc.data.getDate(),wiadomosc.data.getMonth(),wiadomosc.data.getFullYear())"
+                            [text]="dataFormat(wiadomosc)"
                             class="data lexend"></Label>
                     </StackLayout>
                     <FlexboxLayout class="wiadomosc" col="1" row="0" rowSpan="2" *ngIf="!wiadomosc.do_opiekuna">

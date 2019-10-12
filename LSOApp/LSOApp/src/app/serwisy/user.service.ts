@@ -28,16 +28,9 @@ export class UserService {
         })
     }
 
-    userDyzury: Array<Dyzur> = [
-        { id: 1, id_user: 1, id_wydarzenia: 1 },
-        { id: 2, id_user: 1, id_wydarzenia: 2 },
-        { id: 3, id_user: 1, id_wydarzenia: 4 },
-        { id: 4, id_user: 1, id_wydarzenia: 6 },
-        { id: 5, id_user: 1, id_wydarzenia: 8 },
-        { id: 6, id_user: 1, id_wydarzenia: 13 },
-    ]
+    userDyzury: Array<Dyzur> = [];
 
-    private userDyzurySub = new BehaviorSubject<Array<Dyzur>>(this.userDyzury);
+    private userDyzurySub = new BehaviorSubject<Array<Dyzur>>(null);
     private userSub = new BehaviorSubject<User>(this.user);
     private powiadomieniaODyzurach = new BehaviorSubject<boolean>(null);
 
@@ -53,6 +46,12 @@ export class UserService {
     get UserDyuzryPowiadomienia()
     {
         return this.powiadomieniaODyzurach.asObservable();
+    }
+
+    setUserDyzury(lista)
+    {
+        this.userDyzury = lista;
+        this.userDyzurySub.next(lista)
     }
 
     async zmienPowiadomienia(wartosc: boolean)
