@@ -14,6 +14,7 @@ import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { sortPolskich } from '~/app/shared/sortPolskich';
 
 @Component({
     selector: 'ns-obecnosc',
@@ -118,13 +119,7 @@ export class ObecnoscComponent implements OnInit {
                     this.ministranciDoWydarzenia.push(this.parafiaService.WybranyMinistrant(item.id_user))
                 });
                 this.ministranciDoWydarzenia.sort((min1, min2) => {
-                    if (min1.imie > min2.imie) {
-                        return 1;
-                    }
-                    if (min1.imie < min2.imie) {
-                        return -1;
-                    }
-                    return 0;
+                    return sortPolskich(min1.nazwisko,min2.nazwisko)
                 });
                 this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
             }

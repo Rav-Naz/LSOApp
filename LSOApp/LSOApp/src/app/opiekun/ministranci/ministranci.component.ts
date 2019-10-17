@@ -12,6 +12,7 @@ import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { ActivatedRoute } from '@angular/router';
+import { sortPolskich } from '~/app/shared/sortPolskich';
 
 @Component({
     selector: 'ns-ministranci',
@@ -56,13 +57,7 @@ export class MinistranciComponent implements OnInit {
 
         this.ministranci.sort((min1, min2) => {
             if (this.sortujPoImieniu) {
-                if (min1.nazwisko > min2.nazwisko) {
-                    return 1;
-                }
-                if (min1.nazwisko < min2.nazwisko) {
-                    return -1;
-                }
-                return 0;
+               return sortPolskich(min1.nazwisko,min2.nazwisko)
             }
             else {
                 if (min1.punkty < min2.punkty) {
