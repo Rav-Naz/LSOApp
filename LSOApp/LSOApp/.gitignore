@@ -16,6 +16,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # General
+.update_backup
 .DS_Store
 .AppleDouble
 .LSOverride

@@ -10,7 +10,6 @@ import { Stopien } from '~/app/serwisy/stopien.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { FeedbackType, Feedback } from 'nativescript-feedback';
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -31,7 +30,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     private feedback: Feedback;
 
 
-    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
+    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
         this.feedback = new Feedback();
     }
     form: FormGroup;
@@ -101,7 +100,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
             if (zmiana === true) {
                 this.modal.showModal(PotwierdzenieModalComponent, {
                     context: "Zmienione dane tego ministranta nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                    viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
                     animated: true,
@@ -183,7 +182,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
         this.modal.showModal(WyborModalComponent, {
             context: lista,
-            viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+            viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,
             animated: true,

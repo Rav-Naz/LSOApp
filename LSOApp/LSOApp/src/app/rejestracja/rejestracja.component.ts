@@ -8,7 +8,6 @@ import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { ScrollView } from 'tns-core-modules/ui/scroll-view'
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { Feedback, FeedbackType} from "nativescript-feedback";
-import { UiService } from '../serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '../shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -83,7 +82,7 @@ export class RejestracjaComponent implements OnInit {
     private miasta = ["Rzeszów","Warszawa"];
     private feedback: Feedback;
 
-    constructor(private router: RouterExtensions, private page: Page, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private router: RouterExtensions, private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
         this.feedback = new Feedback();
 
     }
@@ -167,7 +166,7 @@ export class RejestracjaComponent implements OnInit {
 
         this.modal.showModal(WyborModalComponent,{
             context: wybory,
-            viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+            viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,
             animated:  true,

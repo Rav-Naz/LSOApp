@@ -8,7 +8,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { Subscription } from 'rxjs';
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -23,7 +22,7 @@ export class DaneProfiloweComponent implements OnInit {
 
     private feedback: Feedback;
 
-  constructor(private router: RouterExtensions, private page: Page, private userService: UserService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+  constructor(private router: RouterExtensions, private page: Page, private userService: UserService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
     this.feedback = new Feedback();
   }
 
@@ -102,7 +101,7 @@ export class DaneProfiloweComponent implements OnInit {
             {
                 this.modal.showModal(PotwierdzenieModalComponent,{
                     context: "Zmienione dane profilowe nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                    viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
                     animated:  true,

@@ -11,7 +11,6 @@ import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -50,7 +49,7 @@ export class ObecnoscComponent implements OnInit {
 
     @ViewChild("myCalendar", { static: false }) _calendar: RadCalendarComponent;
 
-    constructor(private page: Page, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService, private tabIndexService: TabindexService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
         this.feedback = new Feedback();
     }
 
@@ -238,7 +237,7 @@ export class ObecnoscComponent implements OnInit {
             {
                 this.modal.showModal(PotwierdzenieModalComponent,{
                     context: "Dane o obecności dla tego wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                    viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
                     animated:  true,

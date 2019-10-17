@@ -8,7 +8,6 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType} from "nativescript-feedback";
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -30,7 +29,7 @@ export class MinistranciComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
+    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
         this.feedback = new Feedback();
     }
 
@@ -119,7 +118,7 @@ export class MinistranciComponent implements OnInit {
             {
                 this.modal.showModal(PotwierdzenieModalComponent,{
                     context: context,
-                    viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                    viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
                     animated:  true,

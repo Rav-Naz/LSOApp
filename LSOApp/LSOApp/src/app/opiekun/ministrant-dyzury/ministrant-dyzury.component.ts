@@ -9,7 +9,6 @@ import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType} from "nativescript-feedback";
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -24,7 +23,7 @@ import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-m
 export class MinistrantDyzuryComponent implements OnInit {
     private feedback: Feedback;
 
-    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
         this.feedback = new Feedback();
     }
 
@@ -113,7 +112,7 @@ export class MinistrantDyzuryComponent implements OnInit {
             {
                 this.modal.showModal(PotwierdzenieModalComponent,{
                     context: "Dane o dyżurach dla tego ministranta nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                    viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
                     animated:  true,
@@ -154,7 +153,7 @@ export class MinistrantDyzuryComponent implements OnInit {
 
             this.modal.showModal(WyborModalComponent,{
                 context: wybor,
-                viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                viewContainerRef:  this.vcRef,
                 fullscreen: false,
                 stretched: false,
                 animated:  true,

@@ -10,7 +10,6 @@ import { Button } from "tns-core-modules/ui/button";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType } from "nativescript-feedback";
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -25,7 +24,7 @@ export class EdytujMszeComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
         this.feedback = new Feedback();
     }
 
@@ -133,7 +132,7 @@ export class EdytujMszeComponent implements OnInit {
             if (zmiana === true) {
                 this.modal.showModal(PotwierdzenieModalComponent, {
                     context: context,
-                    viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                    viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
                     animated: true,

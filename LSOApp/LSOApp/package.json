@@ -2,10 +2,10 @@
   "nativescript": {
     "id": "org.nativescript.LSOAPP",
     "tns-android": {
-      "version": "6.0.0"
+      "version": "6.0.2"
     },
     "tns-ios": {
-      "version": "6.0.1"
+      "version": "6.0.2"
     }
   },
   "description": "NativeScript Application",
@@ -42,14 +42,14 @@
     "rxjs": "~6.5.0",
     "sequelize": "^5.10.1",
     "sequelize-typescript": "^1.0.0-alpha.9",
-    "tns-core-modules": "6.0.1",
+    "tns-core-modules": "~6.0.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular/compiler-cli": "~8.0.0",
     "@ngtools/webpack": "~8.0.0",
     "@types/node": "^12.6.8",
-    "nativescript-dev-webpack": "1.0.1",
+    "nativescript-dev-webpack": "~1.1.0",
     "typescript": "3.4.5"
   },
   "gitHead": "8c1a4866a66daab09bf5ef8e5a96472687192373",

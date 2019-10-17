@@ -12,10 +12,8 @@ import { isAndroid, isIOS } from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
-import { SecureStorage } from "nativescript-secure-storage";
 
 declare var android
 
@@ -39,7 +37,7 @@ export class WiadomosciOComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private indexService: TabindexService, private wiadosciService: WiadomosciService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private indexService: TabindexService, private wiadosciService: WiadomosciService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
         this.feedback = new Feedback();
     }
 
@@ -226,7 +224,7 @@ export class WiadomosciOComponent implements OnInit {
             {
                 this.modal.showModal(PotwierdzenieModalComponent,{
                     context: "Wiadomość zostanie usunięta dla Ciebie i ministrantów.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+                    viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
                     animated:  true,

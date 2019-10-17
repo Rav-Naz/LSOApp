@@ -7,7 +7,6 @@ import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { Stopien } from '~/app/serwisy/stopien.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { Feedback, FeedbackType} from "nativescript-feedback";
-import { UiService } from '~/app/serwisy/ui.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -22,7 +21,7 @@ export class MinistrantNowyComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private tabIndexService: TabindexService, private uiService: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
         this.feedback = new Feedback();
     }
 
@@ -101,7 +100,7 @@ export class MinistrantNowyComponent implements OnInit {
 
         this.modal.showModal(WyborModalComponent,{
             context: lista,
-            viewContainerRef: this.uiService.getRootVCRef() ? this.uiService.getRootVCRef() : this.vcRef,
+            viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,
             animated:  true,
