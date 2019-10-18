@@ -8,23 +8,6 @@ TabView{
     font-size: 20;
 }
 
-.flex
-{
-    height: 100%;
-    width: 100%;
-    background-color: black;
-}
-.flex2
-{
-    height: 100%;
-    width: 100%;
-}
-
-.grid
-{
-    height: 20%;
-}
-
 .text2
 {
     color: white;

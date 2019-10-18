@@ -1,18 +1,18 @@
-<FlexboxLayout class="back" (swipe)="onSwipe($event)">
-    <GridLayout columns="*" rows="30,10,*,auto" class="grid">
-        <FlexboxLayout class="flex" row="1" rowSpan="2" [formGroup]="form">
+<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+    <GridLayout columns="*" rows="30,10,*,auto" width="90%">
+        <FlexboxLayout class="flex wh100 center" row="1" rowSpan="2" [formGroup]="form">
             <StackLayout width="90%">
                 <Label
                     text="Czy na pewno chcesz usunąć swoje konto? Twoje imię i nazwisko wciąż będzię widoczne w widoku opiekuna."
-                    class="text lexend"></Label>
+                    class="stand lexend"></Label>
                 <Label text="Aby potwierdzić wykonywaną operację wprowadź swoje hasło:"
-                    class="text lexend margin-top"></Label>
+                    class="stand lexend" marginTop="10"></Label>
                 <GridLayout columns="auto,*" rows="10,10,auto">
-                    <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                    <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                         <TextField hint="Wpisz swoje hasło" class="text-field lexend" formControlName="haslo"
                             autocapitalizationType="none" secure="true" #haslo></TextField>
                     </FlexboxLayout>
-                    <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                    <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                         <Label text="HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                     </FlexboxLayout>
                 </GridLayout>
@@ -23,13 +23,13 @@
             </StackLayout>
         </FlexboxLayout>
 
-        <FlexboxLayout class="nowy" row="0" rowSpan="2">
+        <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
             <Label text="Usuń konto" class="audiowide"></Label>
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj audiowide"></Button>
-            <Button text="Usuń" col="1" (tap)="zapisz()" class="anuluj zapisz audiowide"
+            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
+            <Button text="Usuń" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide"
                 [isEnabled]="this.form.valid"></Button>
         </GridLayout>
     </GridLayout>

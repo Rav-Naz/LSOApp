@@ -1,8 +1,8 @@
-<FlexboxLayout class="flex" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
     <GridLayout columns="*" rows="auto,*,auto">
         <ScrollView row="0">
             <StackLayout class="flex2">
-                <GridLayout columns="auto,*" rows="auto" class="element2">
+                <GridLayout columns="auto,*" rows="auto" width="90%">
                     <FlexboxLayout class="flex3">
                         <Label text="Punkty" class="opis lexend" col="0"></Label>
                     </FlexboxLayout>
@@ -38,10 +38,10 @@
                 </FlexboxLayout>
                 <Button text="Kontakt" class="click audiowide" (tap)="kontakt()" col="1"></Button>
             </GridLayout>
-            <GridLayout class="element2">
+            <GridLayout width="90%">
                 <Button text="Informacje o aplikacji" class="click audiowide" (tap)="nawigujDo('info-o')"></Button>
             </GridLayout>
-            <GridLayout class="element2">
+            <GridLayout width="90%">
                 <Button text="Regulamin i polityka prywatności" class="click audiowide"
                     (tap)="otworzLink('https://lsoapp.pl/polityka-prywatnosci/')"></Button>
             </GridLayout>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef} from '@angular/core';
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ParafiaService } from '~/app/serwisy/parafia.service';

@@ -1,8 +1,8 @@
-<FlexboxLayout class="back" (swipe)="onSwipe($event)">
+<FlexboxLayout class="wh100 back" (swipe)="onSwipe($event)">
     <GridLayout columns="*" rows="30,10,*,auto">
 
-        <ScrollView class="scroll" row="1" rowSpan="2" (swipe)="onSwipe($event)">
-            <FlexboxLayout class="stack">
+        <ScrollView class="scroll center b-p-10" row="1" rowSpan="2" (swipe)="onSwipe($event)">
+            <FlexboxLayout class="center wh100">
                 <Label class="cialo lexend"
                     text="LSO App powstała w celu ułatwienia zarządzania wspólnotą ministrancką, działającą przy parafii. Kluczowymi cechami aplikacji jest możliwość prowadzenia kontroli obecności na obowiązkowych dyżurach, klasyfikacji punktowej oraz komunikacji z podopiecznymi."></Label>
                 <Label class="opis audiowide" text="Kontakt"></Label>
@@ -13,12 +13,12 @@
             </FlexboxLayout>
         </ScrollView>
 
-        <FlexboxLayout class="flex msze" row="0" rowSpan="2">
-            <Label text="Informacje" class="audiowide size"></Label>
+        <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2" alignItems="center">
+            <Label text="Informacje" class="audiowide" fontSize="17"></Label>
         </FlexboxLayout>
 
-        <GridLayout columns="*,*,*,*" rows="60" row="3" class="przyciski">
-            <Button text="Zamknij" col="1" colSpan="2" (tap)="zamknij()" class="anuluj audiowide size"></Button>
+        <GridLayout columns="*,*,*,*" rows="60" row="3" margin="2">
+            <Button text="Zamknij" col="1" colSpan="2" (tap)="zamknij()" class="anuluj b-p-10 audiowide" fontSize="17"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

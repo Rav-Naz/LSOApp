@@ -1,35 +1,35 @@
 <GridLayout (swipe)="onSwipe($event)">
-    <FlexboxLayout class="back">
+    <FlexboxLayout class="back wh100 center">
         <!-- Widok dnia -->
-        <StackLayout class="width100 scroll" *ngIf="!kalendarz">
+        <StackLayout class="wh100" *ngIf="!kalendarz">
             <FlexboxLayout class="grid-container">
-                <GridLayout rows="50" columns="50,*,50" class="grid">
-                    <FlexboxLayout col="0" class="flex flex2">
+                <GridLayout rows="50" columns="50,*,50" height="10%">
+                    <FlexboxLayout col="0" class="center b-p-10 flex2" alignItems="center">
                         <Button text="&#xe002;" class="strzalki icon" (tap)="indexZmiana(-1)" androidElevation="0"></Button>
                     </FlexboxLayout>
-                    <Button col="1" class="flex margin-l-r" (tap)="naKalendarz(true)" androidElevation="0">
+                    <Button col="1" class="center margin-l-r b-p-10 kal" (tap)="naKalendarz(true)" androidElevation="0" alignItems="center">
                         <FormattedString>
                             <Span text="&#xe01f; " class="header icon" alignSelf="center" fontSize="12"></Span>
                             <Span [text]="naglowek" class="header lexend" alignSelf="center"></Span>
                             <Span [text]="data" class="data lexend" alignSelf="center"></Span>
                         </FormattedString>
                     </Button>
-                    <FlexboxLayout col="2" class="flex flex2" *ngIf="czyMoznaDoPrzodu()">
+                    <FlexboxLayout col="2" class="center flex2 b-p-10" *ngIf="czyMoznaDoPrzodu()" alignItems="center">
                         <Button text="&#xe001;" class="strzalki icon" (tap)="indexZmiana(1)" androidElevation="0"></Button>
                     </FlexboxLayout>
                 </GridLayout>
             </FlexboxLayout>
 
             <Label text="Brak przypisanych ministrantów, aby ich dodać przejdź do panelu ministranta" *ngIf="ministranciDoWydarzenia.length === 0 && dzisiejszeWydarzenia.length !== 0" class="brak lexend" width="90%"></Label>
-            <ScrollView class="scroll2" *ngIf="ministranciDoWydarzenia.length > 0" (swipe)="onSwipe($event)">
+            <ScrollView *ngIf="ministranciDoWydarzenia.length > 0" (swipe)="onSwipe($event)" height="77%">
                 <StackLayout>
-                    <GridLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r width100"
-                        *ngFor="let item of ministranciDoWydarzenia; let i = index">
-                        <FlexboxLayout col="0" class="box2 margin-l-r" *ngIf="moznaSprawdzac() && czyJestNaLiscie(item)">
+                    <GridLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
+                        *ngFor="let item of ministranciDoWydarzenia; let i = index" width="100%">
+                        <FlexboxLayout col="0" class="box margin-l-r" *ngIf="moznaSprawdzac() && czyJestNaLiscie(item)">
                             <ns-checkbox-status (checkStatus)="zmienStatusObecnosci($event, item.id_user)" [status]="aktualnyStatus(item)">
                             </ns-checkbox-status>
                         </FlexboxLayout>
-                        <FlexboxLayout col="1" class="box margin-l-r">
+                        <FlexboxLayout col="1" class="center margin-l-r" flexDirection="row" justifyContent="flex-start">
                             <Label [text]="item.imie + ' ' + item.nazwisko" class="imie lexend"></Label>
                         </FlexboxLayout>
                     </GridLayout>
@@ -41,23 +41,23 @@
         <!-- Widok kalendarza -->
             <GridLayout columns="*" rows="30,10,*,auto" *ngIf="kalendarz">
 
-                <FlexboxLayout row="1" rowSpan="2" class="kalendarz">
-                    <FlexboxLayout class="kalendarz-cont">
+                <FlexboxLayout row="1" rowSpan="2" class="kalendarz b-p-10">
+                    <FlexboxLayout margin="5">
                         <RadCalendar (dateSelected)="wybranyDzien()" #myCalendar selectionMode="Single" transitionMode="Stack" viewMode="Month" id="calendar" locale="pl-PL"></RadCalendar>
                     </FlexboxLayout>
                 </FlexboxLayout>
 
-                <FlexboxLayout class="flex msze" row="0" rowSpan="2">
-                        <Label text="Kalendarz" class="audiowide size"></Label>
+                <FlexboxLayout class="center nowy b-p-10" row="0" rowSpan="2" alignItems="center">
+                        <Label text="Kalendarz" class="audiowide" fontSize="17"></Label>
                 </FlexboxLayout>
 
-                <GridLayout columns="*,*,*,*" rows="60" row="3" class="przyciski">
-                    <Button text="Zamknij" col="1" colSpan="2" (tap)="naKalendarz(false)" class="anuluj audiowide size"></Button>
+                <GridLayout columns="*,*,*,*" rows="60" row="3" margin="2">
+                    <Button text="Zamknij" col="1" colSpan="2" (tap)="naKalendarz(false)" class="anuluj b-p-10 audiowide" fontSize="17"></Button>
                 </GridLayout>
             </GridLayout>
     </FlexboxLayout>
 
-    <FlexboxLayout class="krycie" *ngIf="PROLista[6] === 'punktacja' || PROLista[6] === 'edytuj-msze' || PROLista[4] === 'ministrant-dyzury'" (tap)="nic()">
+    <FlexboxLayout class="wh100 center" backgroundColor="rgb(0,0,0,0.8)" *ngIf="PROLista[6] === 'punktacja' || PROLista[6] === 'edytuj-msze' || PROLista[4] === 'ministrant-dyzury'" (tap)="nic()">
         <Label text="Aby korzystać z tego widoku musisz zamknąć panel" class="lexend warn1"></Label>
         <Label text="Edytuj Msze Święte" class="audiowide warn2" *ngIf="PROLista[6] === 'edytuj-msze'"></Label>
         <Label text="Punktacja" class="audiowide warn2" *ngIf="PROLista[6] === 'punktacja'"></Label>

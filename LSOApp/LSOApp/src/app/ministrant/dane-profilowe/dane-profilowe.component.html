@@ -1,16 +1,16 @@
-<FlexboxLayout class="back" (swipe)="onSwipe($event)">
-    <GridLayout columns="*" rows="30,10,*,auto" class="grid">
-        <FlexboxLayout class="flex" row="1" rowSpan="2">
+<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+    <GridLayout columns="*" rows="30,10,*,auto" width="90%">
+        <FlexboxLayout class="flex center b-p-10" row="1" rowSpan="2">
             <ScrollView>
                 <StackLayout [formGroup]="form">
                     <!-- <GridLayout rows="*,*,*,*" columns="*" class="margin-top" [formGroup]="form"> -->
-                    <FlexboxLayout row="0" class="cont">
+                    <FlexboxLayout row="0" class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                                 <TextField hint="Wpisz swój nr telefonu" class="text-field lexend" keyboardType="number"
                                     returnKeyType="done" formControlName="telefon" #telefon></TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="TELEFON" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
@@ -20,14 +20,14 @@
                         </FlexboxLayout> -->
                         <Label text="Numer musi mieć długość 9 znaków" class="red lexend" *ngIf="!telefonValid"></Label>
                     </FlexboxLayout>
-                    <FlexboxLayout row="1" class="cont">
+                    <FlexboxLayout row="1" class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                                 <TextField hint="np. Bajkowa 2/4" class="text-field lexend"
                                     autocapitalizationType="words" returnKeyType="done" formControlName="ulica" #ulica>
                                 </TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="ULICA I NR DOMU" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
@@ -38,13 +38,13 @@
                         <Label text="Nazwa ulicy nie może być krótsza niż 3 i dłuższa niż 30 znaków" class="red lexend"
                             *ngIf="!ulicaValid"></Label>
                     </FlexboxLayout>
-                    <FlexboxLayout row="2" class="cont">
+                    <FlexboxLayout row="2" class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                                 <TextField hint="np. 12-345" class="text-field lexend" returnKeyType="done"
                                     formControlName="kod" #kod></TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="KOD POCZTOWY" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
@@ -54,13 +54,13 @@
                         </FlexboxLayout> -->
                         <Label text="Kod powinien być w formie xx-xxx" class="red lexend" *ngIf="!kodValid"></Label>
                     </FlexboxLayout>
-                    <FlexboxLayout row="3" class="cont">
+                    <FlexboxLayout row="3" class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                                 <TextField hint="Wpisz swoją miejscowość" class="text-field lexend" autocapitalizationType="words"
                                     returnKeyType="done" formControlName="miasto" #miasto></TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="MIEJSCOWOŚĆ" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
@@ -76,13 +76,13 @@
             </ScrollView>
         </FlexboxLayout>
 
-        <FlexboxLayout class="nowy" row="0" rowSpan="2">
+        <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
             <Label text="Dane profilowe" class="audiowide"></Label>
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="zamknij()" class="anuluj audiowide"></Button>
-            <Button text="Zmień" col="1" (tap)="zmien()" class="anuluj zapisz audiowide" [isEnabled]="this.form.valid && zmiana"></Button>
+            <Button text="Anuluj" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide"></Button>
+            <Button text="Zmień" col="1" (tap)="zmien()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="this.form.valid && zmiana"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

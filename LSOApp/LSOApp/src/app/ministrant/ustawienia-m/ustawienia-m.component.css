@@ -1,20 +1,3 @@
-/* Add mobile styles for the component here.  */
-.flex
-{
-    flex-direction: column;
-    align-items: center;
-    background-color: black;
-    width: 100%;
-    height: 100%;
-}
-
-.flex2
-{
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
 .flex3
 {
     align-items: center;
@@ -27,11 +10,6 @@
     width: 90%;
     border-top-width: 1;
     border-color: rgb(40, 40, 40);
-}
-
-.element2
-{
-    width: 90%;
 }
 
 .opis
@@ -62,11 +40,7 @@
 
 .button
 {
-    padding: 1;
-    width: 100%;
-    height: 100%;
     border-width: 1;
-    border-radius: 10%;
     margin: 2;
     border-color: rgb(40, 40, 40);
     background-color: transparent;

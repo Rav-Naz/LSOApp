@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit,OnDestroy {
 
     public tabSelectedIndex: number;
     private tabSelectedIndexSub: Subscription;
-    constructor(public userService: UserService, private router: RouterExtensions, private active: ActivatedRoute, private page: Page, private tabIndexService: TabindexService) {
+    constructor(public userService: UserService, private router: RouterExtensions, private active: ActivatedRoute, private page: Page, public tabIndexService: TabindexService) {
     }
 
     user: User;

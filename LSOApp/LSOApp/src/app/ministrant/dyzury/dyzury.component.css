@@ -1,27 +1,8 @@
-/* Add mobile styles for the component here.  */
-.flex
-{
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    width: 100%;
-    height: 100%;
-}
 
 .grid
 {
     margin: 20;
     width: 100%;
-}
-
-.flex2
-{
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 5;
-
 }
 
 .czesc
@@ -79,10 +60,3 @@
     font-size: 15;
     font-weight: 700;
 }
-
-.stackG
-{
-    width: 100%;
-    height: 100%;
-}
-

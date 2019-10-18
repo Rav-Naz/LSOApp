@@ -9,7 +9,7 @@
                 <TextField class="input" hint="E-mail" keyboardType="email" returnKeyType="next" formControlName="emailM" #emailM [ngClass]="{niepoprawne: !emailMValid}"></TextField>
                 <TextField class="input" [secure]="true" hint="Hasło" returnKeyType="next" formControlName="hasloM" #hasloM [ngClass]="{niepoprawne: !hasloMValid}"></TextField>
                 <TextField class="input" [secure]="true" hint="Powtórz hasło" returnKeyType="done"  formControlName="powtorzM" #powtorzM [ngClass]="{niepoprawne: !powtorzMValid}"></TextField>
-                <FlexboxLayout class="flex" justifyContent="center" alignItems="center" flexWrap="wrap">
+                <FlexboxLayout class="flex center" justifyContent="center" alignItems="center" flexWrap="wrap">
                     <Switch class="switch" #regulaminM></Switch>
                     <Label text="Akceptuję"></Label>
                     <Label text=" regulamin i politykę prywatności" (tap)=regulamin() class="reg"></Label>
@@ -26,7 +26,7 @@
                     [ngClass]="{niepoprawne: !miastoValid}"></Button>
                 <Button [text]="_rodzaj" class="combi" (tap)="displayActionDialog('rodzaj')"
                     [ngClass]="{niepoprawne: !rodzajValid}"></Button>
-                <FlexboxLayout class="flex" justifyContent="center" alignItems="center" verticalAlignment="center">
+                <FlexboxLayout class="flex center" justifyContent="center" alignItems="center" verticalAlignment="center">
                     <Label text="pw. "></Label>
                     <TextField class="input2" hint="Wezwanie parafii" returnKeyType="next" formControlName="wezwanie"
                         #wezwanie [ngClass]="{niepoprawne: !wezwanieValid}"></TextField>
@@ -40,7 +40,7 @@
                     #hasloP [ngClass]="{niepoprawne: !hasloPValid}"></TextField>
                 <TextField class="input" [secure]="true" hint="Powtórz hasło" returnKeyType="done"
                     formControlName="powtorzP" #powtorzP [ngClass]="{niepoprawne: !powtorzPValid}"></TextField>
-                <FlexboxLayout class="flex" justifyContent="center" alignItems="center" flexWrap="wrap">
+                <FlexboxLayout class="flex center" justifyContent="center" alignItems="center" flexWrap="wrap">
                     <Switch class="switch" #regulaminP></Switch>
                     <Label text="Akceptuję"></Label>
                     <Label text=" regulamin i politykę prywatności" (tap)=regulamin() class="reg"></Label>
@@ -74,116 +74,116 @@
     <Button class="zaloguj audiowide" text="Powrót" (tap)="powrot()"></Button>
 </FlexboxLayout> -->
 
-<FlexboxLayout class="back" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
-        <FlexboxLayout class="flex" row="1" rowSpan="2">
+        <FlexboxLayout class="flex center wh100" row="1" rowSpan="2">
             <ScrollView height="90%" #scroll *ngIf="!udanaRejP">
                 <StackLayout [formGroup]="formP">
 
-                    <FlexboxLayout row="2" class="cont" (tap)="displayActionDialog('diecezja')">
+                    <FlexboxLayout row="2" class="kontener center" height="100%" (tap)="displayActionDialog('diecezja')">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
                                 <Label [text]="_diecezja" class="text-field lexend" width="85%"></Label>
                                 <Label text="&#xe013;" class="icon" color="white"></Label>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="DIECEZJA" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field" (tap)="displayActionDialog('diecezja')">
+                        <!-- <FlexboxLayout class="input-field center b-p-10" (tap)="displayActionDialog('diecezja')">
                             <Label [text]="_diecezja" class="text-field lexend"></Label>
                         </FlexboxLayout> -->
                         <Label text="Wybierz diecezję" class="red lexend" *ngIf="!diecezjaValid"></Label>
                     </FlexboxLayout>
 
-                    <FlexboxLayout row="2" class="cont" (tap)="displayActionDialog('miasto')">
+                    <FlexboxLayout row="2" class="kontener center" height="100%" (tap)="displayActionDialog('miasto')">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
                                 <Label [text]="_miasto" class="text-field lexend" width="85%"></Label>
                                 <Label text="&#xe013;" class="icon" color="white"></Label>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="MIASTO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field" (tap)="displayActionDialog('miasto')">
+                        <!-- <FlexboxLayout class="input-field center b-p-10" (tap)="displayActionDialog('miasto')">
                             <Label [text]="_miasto" class="text-field lexend"></Label>
                         </FlexboxLayout> -->
                         <Label text="Wybierz miasto" class="red lexend" *ngIf="!miastoValid"></Label>
                     </FlexboxLayout>
 
-                    <FlexboxLayout row="2" class="cont" (tap)="displayActionDialog('rodzaj')">
+                    <FlexboxLayout row="2" class="kontener center" height="100%" (tap)="displayActionDialog('rodzaj')">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
                                 <Label [text]="_rodzaj" class="text-field lexend" width="85%"></Label>
                                 <Label text="&#xe013;" class="icon" color="white"></Label>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="RODZAJ PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field" (tap)="displayActionDialog('rodzaj')">
+                        <!-- <FlexboxLayout class="input-field center b-p-10" (tap)="displayActionDialog('rodzaj')">
                             <Label [text]="_rodzaj" class="text-field lexend"></Label>
                         </FlexboxLayout> -->
                         <Label text="Wybierz rodzaj parafii" class="red lexend" *ngIf="!rodzajValid"></Label>
                     </FlexboxLayout>
 
-                    <FlexboxLayout class="cont" (tap)="focus()">
+                    <FlexboxLayout class="kontener center" height="100%" (tap)="focus()">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
                                 <Label text="pw. " class="lexend" color="white" marginLeft="5"></Label>
                                 <TextField hint="np. Świętej Rodziny" class="text-field lexend" returnKeyType="next"
                                     autocapitalizationType="words" formControlName="wezwanie" #wezwanie width="81%"></TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="WEZWANIE PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
 
-                        <!-- <FlexboxLayout class="input-field">
+                        <!-- <FlexboxLayout class="input-field center b-p-10">
                             <TextField hint="WEZWANIE PARAFII" class="text-field lexend" returnKeyType="next"
                                 autocapitalizationType="words" formControlName="wezwanie" #wezwanie></TextField>
                         </FlexboxLayout> -->
                         <Label text="Wezwanie nie może być krótsze niż 3 znaki i dłuższe niż 30 znaków"
                             class="red lexend" *ngIf="!wezwanieValid"></Label>
                     </FlexboxLayout>
-                    <!-- <FlexboxLayout class="cont">
-                        <FlexboxLayout class="input-field">
+                    <!-- <FlexboxLayout class="cont center">
+                        <FlexboxLayout class="input-field center b-p-10">
                             <TextField hint="IMIĘ" class="text-field lexend" autocapitalizationType="words"
                                 formControlName="imie" #imie></TextField>
                         </FlexboxLayout>
                         <Label text="Imię musi być jednoczłonowe oraz niedłuższe niż 15 znaków" class="red lexend"
                             *ngIf="!imieValid"></Label>
                     </FlexboxLayout> -->
-                    <FlexboxLayout class="cont">
+                    <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                                 <TextField hint="Wpisz swój e-mail" class="text-field lexend" returnKeyType="next"
                                     autocapitalizationType="none" formControlName="emailP" keyboardType="email" #emailP>
                                 </TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="E-MAIL" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field">
+                        <!-- <FlexboxLayout class="input-field center b-p-10">
                             <TextField hint="E-MAIL" class="text-field lexend" returnKeyType="next"
                                 autocapitalizationType="none" formControlName="emailP" keyboardType="email" #emailP>
                             </TextField>
                         </FlexboxLayout> -->
                         <Label text="Wpisz poprawny adres e-mail" class="red lexend" *ngIf="!emailPValid"></Label>
                     </FlexboxLayout>
-                    <FlexboxLayout class="cont">
+                    <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                                 <TextField hint="Wpisz hasło" class="text-field lexend" autocapitalizationType="none"
                                     [secure]="true" formControlName="hasloP" #hasloP></TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field">
+                        <!-- <FlexboxLayout class="input-field center b-p-10">
                             <TextField hint="HASŁO" class="text-field lexend" autocapitalizationType="none"
                                 [secure]="true" formControlName="hasloP" #hasloP></TextField>
                         </FlexboxLayout> -->
@@ -191,30 +191,30 @@
                             text="Hasło musi mieć od 6 do 15 znaków oraz może składać się ze wszystkich liter alfabetu polskiego, cyfr i symboli: +,*,@,#,$,&,^,~,_,?"
                             class="red lexend" *ngIf="!hasloPValid"></Label>
                     </FlexboxLayout>
-                    <FlexboxLayout class="cont">
+                    <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
                                 <TextField hint="Powtórz hasło" class="text-field lexend" autocapitalizationType="none"
                                     [secure]="true" formControlName="powtorzP" #powtorzP></TextField>
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field">
+                        <!-- <FlexboxLayout class="input-field center b-p-10">
                             <TextField hint="POWTÓRZ HASŁO" class="text-field lexend" autocapitalizationType="none"
                                 [secure]="true" formControlName="powtorzP" #powtorzP></TextField>
                         </FlexboxLayout> -->
                         <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzPValid"></Label>
                     </FlexboxLayout>
                     <GridLayout columns="50,*" rows="40" width="90%">
-                        <FlexboxLayout class="flex2" col="0">
+                        <FlexboxLayout class="flex2 center wh100" col="0">
                             <Switch #regulaminP></Switch>
                         </FlexboxLayout>
-                        <FlexboxLayout class="flex2" col="1">
-                            <Label text="Akceptuję" class="size lexend" color="rgb(20,20,20)"></Label>
-                            <Label text=" regulamin i politykę prywatności" (tap)=regulamin() color="red"
-                                class="size lexend"></Label>
+                        <FlexboxLayout class="flex2 center wh100" col="1">
+                            <Label text="Akceptuję" class="lexend" fontSize="13" color="rgb(20,20,20)"></Label>
+                            <Label text="regulamin i politykę prywatności" (tap)=regulamin() color="red"
+                                class="lexend" fontSize="13"></Label>
                         </FlexboxLayout>
                     </GridLayout>
                 </StackLayout>
@@ -232,17 +232,17 @@
             </StackLayout>
         </FlexboxLayout>
 
-        <FlexboxLayout class="nowy" row="0" rowSpan="2">
+        <FlexboxLayout class="nowy b-p-10 center" row="0" rowSpan="2">
             <Label text="Rejestracja" class="audiowide"></Label>
         </FlexboxLayout>
 
         <GridLayout columns="*,*,*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" colSpan="2" (tap)="powrot()" class="anuluj audiowide"
+            <Button text="Anuluj" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="!udanaRejP"></Button>
-            <Button text="Zapisz" col="2" colSpan="2" (tap)="zarejestrujP()" class="anuluj zapisz audiowide"
+            <Button text="Zapisz" col="2" colSpan="2" (tap)="zarejestrujP()" class="anuluj b-p-10 zapisz audiowide"
                 [isEnabled]="this.formP.valid && _diecezja !== 'Wybierz diecezję' && _miasto !== 'Wybierz miasto' && _rodzaj !== 'Wybierz rodzaj parafii'"
                 *ngIf="!udanaRejP"></Button>
-            <Button text="Powrót" col="1" colSpan="2" (tap)="powrot()" class="anuluj zapisz audiowide"
+            <Button text="Powrót" col="1" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="udanaRejP"></Button>
         </GridLayout>
     </GridLayout>

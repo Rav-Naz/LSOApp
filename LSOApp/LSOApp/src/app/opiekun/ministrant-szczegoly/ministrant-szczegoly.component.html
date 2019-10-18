@@ -1,14 +1,14 @@
-<FlexboxLayout class="back" (swipe)="onSwipe($event)">
-    <GridLayout rows="*,auto" columns="*">
+<FlexboxLayout class="back wh100 center" (swipe)="onSwipe($event)">
+    <GridLayout rows="*,auto" columns="*" width="90%">
 
-        <StackLayout class="stack" row="0" col="0">
+        <StackLayout row="0" col="0" height="90%">
             <FlexboxLayout class="naglowek">
                 <FlexboxLayout class="nagCont">
                     <Label [text]="ministrant.imie | caps" class="nagText audiowide"></Label>
                     <Label [text]="ministrant.nazwisko | caps" class="nagText audiowide"></Label>
                 </FlexboxLayout>
             </FlexboxLayout>
-            <GridLayout class="scroll">
+            <GridLayout class="scroll wh100">
                 <ScrollView scrollBarIndicatorVisible="false" (swipe)="onSwipe($event)">
                     <StackLayout>
                         <GridLayout rows="auto,auto,auto,auto,auto" columns="auto,*">
@@ -30,7 +30,7 @@
                             </FlexboxLayout>
                             <GridLayout columns="*,25" rows="auto" row="1" col="1" class="daneCont"
                                 (tap)="zmienStopien(ministrant)">
-                                <FlexboxLayout col="0" class="center">
+                                <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                     <StackLayout>
                                         <Label [text]="stopien(ministrant.stopien)" class="dane lexend"
                                             horizontalAlignment="right"></Label>
@@ -49,7 +49,7 @@
                             </FlexboxLayout>
                             <GridLayout columns="*,25" rows="auto" row="2" col="1" class="daneCont"
                                 (tap)="otworzDyzury()">
-                                <FlexboxLayout col="0" class="center">
+                                <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                     <Label text="Brak" class="dane lexend" horizontalAlignment="right" row="1" col="1"
                                         *ngIf="dyzury.length === 0"></Label>
                                     <StackLayout *ngIf="dyzury.length > 0">
@@ -73,7 +73,7 @@
                             </FlexboxLayout>
                             <GridLayout columns="*,25" rows="auto" row="3" col="1" class="daneCont"
                                 (tap)="aktywujKonto()">
-                                <FlexboxLayout col="0" class="center">
+                                <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                     <Label [text]="ministrant.email === null ? 'Aktywuj konto' : ministrant.email"
                                         class="dane lexend" horizontalAlignment="right" row="1" col="1"></Label>
                                 </FlexboxLayout>
@@ -87,7 +87,7 @@
                                 <Label text="Dane&#xA;personalne" class="opis lexend"></Label>
                             </FlexboxLayout>
                             <GridLayout columns="*,25" rows="auto" row="4" col="1" class="daneCont">
-                                <FlexboxLayout col="0" class="center">
+                                <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                     <StackLayout
                                         *ngIf="ministrant.ulica || ministrant.kod_pocztowy || ministrant.miasto || ministrant.telefon">
                                         <Label [text]="'ul. ' + ministrant.ulica" horizontalAlignment="right"
@@ -110,8 +110,8 @@
             </GridLayout>
         </StackLayout>
         <GridLayout columns="*,*" rows="60" row="1" class="przyciski">
-            <Button text="Anuluj" col="0" (tap)="zamknij()" class="anuluj audiowide size"></Button>
-            <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj zapisz audiowide size"
+            <Button text="Anuluj" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide" fontSize="17"></Button>
+            <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" fontSize="17"
                 [isEnabled]="zmiana && this.form.valid"></Button>
         </GridLayout>
     </GridLayout>

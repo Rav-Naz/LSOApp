@@ -1,7 +1,7 @@
-<FlexboxLayout class="flex" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back wh100 center" (swipe)="onSwipe($event)">
     <GridLayout columns="*" rows="auto,*,auto">
-        <FlexboxLayout class="flex2" row="0">
-            <GridLayout columns="auto,*" rows="auto" class="element2">
+        <FlexboxLayout class="center" width="100%" row="0">
+            <GridLayout columns="auto,*" rows="auto" width="90%">
                     <FlexboxLayout class="flex3">
                         <Label text="Twoje dane" class="opis lexend" col="0"></Label>
                     </FlexboxLayout>
@@ -23,22 +23,22 @@
                 <FlexboxLayout col="1" width="100%" alignItems="center" justifyContent="flex-end">
                     <Button text="Dyżury " class="click audiowide" (tap)="zmienPowiadomienia()"></Button>
                     <FlexboxLayout height="30" width="30">
-                        <Button class="button icon" [text]="checked? '&#xe023;' : ''" [ngClass]="{checked: checked}" (tap)="zmienPowiadomienia()"></Button>
+                        <Button class="button wh100 b-p-10 icon" [text]="checked? '&#xe023;' : ''" [ngClass]="{checked: checked}" (tap)="zmienPowiadomienia()"></Button>
                     </FlexboxLayout>
 
                 </FlexboxLayout>
             </GridLayout>
 
         </FlexboxLayout>
-        <FlexboxLayout class="flex2" row="2">
+        <FlexboxLayout class="center" width="100%" row="2">
             <GridLayout columns="auto,*" rows="auto" class="element">
                 <Label [text]="'LSO App ' + wersja" class="wersja lexend" col="0"></Label>
                 <Button text="Kontakt" class="click audiowide" (tap)="kontakt()" col="1"></Button>
             </GridLayout>
-            <GridLayout class="element2">
+            <GridLayout width="90%">
                 <Button text="Informacje o aplikacji" class="click audiowide" (tap)="nawigujDo('info-m')"></Button>
             </GridLayout>
-            <GridLayout class="element2">
+            <GridLayout width="90%">
                 <Button text="Regulamin i polityka prywatności" class="click audiowide" (tap)="otworzLink('https://lsoapp.pl/polityka-prywatnosci/')"></Button>
             </GridLayout>
         </FlexboxLayout>

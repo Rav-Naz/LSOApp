@@ -1,5 +1,5 @@
-<FlexboxLayout class="flex" flexDirection="column">
-    <GridLayout columns="*,*,*" rows="*" class="grid">
+<FlexboxLayout class="wh100" backgroundColor="black" flexDirection="column">
+    <GridLayout columns="*,*,*" rows="*" height="20%">
         <Image src="res://logo" col="1" row="0" (tap)="locationStrategy()"></Image>
         <FlexboxLayout *ngIf="!this.tabIndexService.opiekun" col="2" row="0" flexDirection="column" alignItems="center"
             justifyContent="center">
@@ -8,7 +8,7 @@
         </FlexboxLayout>
     </GridLayout>
     <!-- Widok ministranta -->
-    <FlexboxLayout class="flex2" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
+    <FlexboxLayout class="wh100" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
         <TabView [(ngModel)]="tabSelectedIndex" androidTabsPosition="bottom" class="tabs">
             <StackLayout *tabItem="{title: '&#xe01b;'}">
                 <page-router-outlet name="dyzury"></page-router-outlet>
@@ -22,7 +22,7 @@
         </TabView>
     </FlexboxLayout>
     <!-- Widok opiekuna -->
-    <FlexboxLayout class="flex2" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
+    <FlexboxLayout class="wh100" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
         <TabView [(ngModel)]="tabSelectedIndex" androidTabsPosition="bottom">
             <StackLayout *tabItem="{title: '&#xe0d7;'}">
                 <page-router-outlet name="obecnosc"></page-router-outlet>

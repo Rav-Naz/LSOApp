@@ -1,6 +1,6 @@
-<FlexboxLayout class="flex" (swipe)="onSwipe($event)">
-    <StackLayout class="stackG">
-        <FlexboxLayout class="flex2">
+<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+    <StackLayout class="wh100">
+        <FlexboxLayout class="center" marginBottom="5">
             <Label [text]="'Cześć ' + user.imie + '!'" class="czesc lexend"></Label>
             <Label text="Twoje dyżury:" class="text lexend"></Label>
         </FlexboxLayout>
@@ -28,37 +28,37 @@
             <Label text="sobota" col="0" row="10" class="dzien lexend" *ngIf="dyzurNaDanyDzien(6).length > 0"></Label>
             <Label text="niedziela" col="0" row="12" class="dzien lexend" *ngIf="dyzurNaDanyDzien(0).length > 0"></Label>
 
-            <FlexboxLayout row="0" col="2" rowSpan="2" class="stackG" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(1).length > 0">
+            <FlexboxLayout row="0" col="2" rowSpan="2" class="wh100" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(1).length > 0">
                 <Label *ngFor="let dyzur of dyzurNaDanyDzien(1)" [text]="dyzur.godzina.toString() | godzina"
                     class="godzina lexend"></Label>
             </FlexboxLayout>
 
-            <FlexboxLayout row="2" col="2" rowSpan="2" class="stackG" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(2).length > 0">
+            <FlexboxLayout row="2" col="2" rowSpan="2" class="wh100" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(2).length > 0">
                 <Label *ngFor="let dyzur of dyzurNaDanyDzien(2)" [text]="dyzur.godzina.toString() | godzina"
                     class="godzina lexend"></Label>
             </FlexboxLayout>
 
-            <FlexboxLayout row="4" col="2" rowSpan="2" class="stackG" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(3).length > 0">
+            <FlexboxLayout row="4" col="2" rowSpan="2" class="wh100" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(3).length > 0">
                 <Label *ngFor="let dyzur of dyzurNaDanyDzien(3)" [text]="dyzur.godzina.toString() | godzina"
                     class="godzina lexend"></Label>
             </FlexboxLayout>
 
-            <FlexboxLayout row="6" col="2" rowSpan="2" class="stackG" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(4).length > 0">
+            <FlexboxLayout row="6" col="2" rowSpan="2" class="wh100" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(4).length > 0">
                 <Label *ngFor="let dyzur of dyzurNaDanyDzien(4)" [text]="dyzur.godzina.toString() | godzina"
                     class="godzina lexend"></Label>
             </FlexboxLayout>
 
-            <FlexboxLayout row="8" col="2" rowSpan="2" class="stackG" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(5).length > 0">
+            <FlexboxLayout row="8" col="2" rowSpan="2" class="wh100" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(5).length > 0">
                 <Label *ngFor="let dyzur of dyzurNaDanyDzien(5)" [text]="dyzur.godzina.toString() | godzina"
                     class="godzina lexend"></Label>
             </FlexboxLayout>
 
-            <FlexboxLayout row="10" col="2" rowSpan="2" class="stackG" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(6).length > 0">
+            <FlexboxLayout row="10" col="2" rowSpan="2" class="wh100" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(6).length > 0">
                 <Label *ngFor="let dyzur of dyzurNaDanyDzien(6)" [text]="dyzur.godzina.toString() | godzina"
                     class="godzina lexend"></Label>
             </FlexboxLayout>
 
-            <FlexboxLayout row="12" col="2" rowSpan="2" class="stackG" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(0).length > 0">
+            <FlexboxLayout row="12" col="2" rowSpan="2" class="wh100" flexDirection="row" flexWrap="wrap" *ngIf="dyzurNaDanyDzien(0).length > 0">
                 <Label *ngFor="let dyzur of dyzurNaDanyDzien(0)" [text]="dyzur.godzina.toString() | godzina"
                     class="godzina lexend"></Label>
             </FlexboxLayout>

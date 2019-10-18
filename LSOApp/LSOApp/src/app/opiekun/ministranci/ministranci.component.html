@@ -1,20 +1,20 @@
-<FlexboxLayout class="back" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
     <GridLayout rows="auto" columns="auto,*,auto" class="grid">
         <!-- <FlexboxLayout class="sort-btn" col="0"> -->
-        <Button class="sort-btn" (tap)="zmianaSortu()">
+        <Button class="sort-btn center" (tap)="zmianaSortu()">
             <FormattedString>
-                <Span text=" &#xe018;" class="opis icon" fontSize="10"></Span>
-                <Span text="Sortuj: " class="opis audiowide"></Span>
+                <Span text=" &#xe018;" class="opis center icon" fontSize="10"></Span>
+                <Span text="Sortuj: " class="opis center audiowide"></Span>
                 <Span [text]="sortujPoImieniu? 'Alfabetycznie ':'Ranking '" class="czarny audiowide"></Span>
             </FormattedString>
         </Button>
         <!-- </FlexboxLayout> -->
 
-        <FlexboxLayout class="cont marg-l-r" col="1">
+        <FlexboxLayout class="cont center marg-l-r" col="1">
             <FlexboxLayout class="pasek"></FlexboxLayout>
         </FlexboxLayout>
 
-        <Button class="cont dodaj" col="2" (tap)="nowyMinistrant()">
+        <Button class="cont center dodaj" col="2" (tap)="nowyMinistrant()">
             <FormattedString>
                 <Span text="&#xe072;" class="icon plus" fontSize="11"></Span>
                 <Span text="&#xe08f;" class="icon plus mini"></Span>
@@ -24,11 +24,11 @@
 
     <GridLayout class="lista">
         <GridLayout rows="auto" columns="*,30" width="98%" *ngIf="ministranci.length === 0">
-            <FlexboxLayout col="0" class="box">
+            <FlexboxLayout col="0" class="center" flexDirection="row">
                 <Label text="Brak ministrantów na liście, aby ich dodać kliknij ten przycisk"
                     class="brak lexend"></Label>
             </FlexboxLayout>
-            <FlexboxLayout col="1" class="box">
+            <FlexboxLayout col="1" class="center" flexDirection="row">
                 <Label text="&#xe00c;" class="brak icon"></Label>
             </FlexboxLayout>
         </GridLayout>
@@ -36,10 +36,10 @@
             <ng-template let-item="item" let-i="index">
                 <GridLayout rows="40" columns="auto,*,auto" class="element" [ngClass]="{szary: i%2 === 0}"
                     (tap)="szczegolyMinistranta(item.id_user)" (longPress)="usunMinistranta(item)">
-                    <FlexboxLayout col="0" class="box">
+                    <FlexboxLayout col="0" class="center" flexDirection="row">
                         <Label [text]="i+1 + '. '" class="index lexend"></Label>
                     </FlexboxLayout>
-                    <FlexboxLayout col="1" class="box2">
+                    <FlexboxLayout col="1" class="center" alignItems="flex-start">
                         <Label [text]="item.nazwisko + ' ' + item.imie" class="imie lexend"></Label>
                     </FlexboxLayout>
                     <FlexboxLayout justifyContent="flex-end" col="2">

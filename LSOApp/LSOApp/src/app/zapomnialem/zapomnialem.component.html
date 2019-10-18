@@ -1,15 +1,15 @@
-<FlexboxLayout class="back" [formGroup]="form" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back wh100 center" [formGroup]="form" (swipe)="onSwipe($event)">
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
-        <FlexboxLayout class="flex" row="1" rowSpan="2" [formGroup]="form">
+        <FlexboxLayout class="flex center wh100" row="1" rowSpan="2" [formGroup]="form">
             <StackLayout width="90%" *ngIf="!wyslanePrzyp">
                 <Label text="W celu odzyskania hasła do konta, wprowadź poniżej swój adres e-mail:"
-                    class="text lexend"></Label>
-                <GridLayout columns="auto,*" rows="10,10,auto" class=" margin-top">
-                    <FlexboxLayout class="input-field" row="1" rowSpan="2" col="0" colSpan="2">
+                    class="stand lexend"></Label>
+                <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
+                    <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0" colSpan="2">
                         <TextField hint="Wpisz swój e-mail" class="text-field lexend" autocapitalizationType="words"
                             keyboardType="email" formControlName="email" #email></TextField>
                     </FlexboxLayout>
-                    <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta">
+                    <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                         <Label text="E-MAIL" class="audiowide" marginLeft="3" marginRight="3"></Label>
                     </FlexboxLayout>
                 </GridLayout>
@@ -18,20 +18,20 @@
             <StackLayout width="90%" *ngIf="wyslanePrzyp">
                 <Label
                     text="Przypomnienie zostało wysłane na podany adres email. Jeśli przez dłuższy czas nie otrzymałeś wiadomości, sprawdź zakładkę 'SPAM'."
-                    class="text lexend"></Label>
+                    class="stand lexend"></Label>
             </StackLayout>
         </FlexboxLayout>
 
-        <FlexboxLayout class="nowy" row="0" rowSpan="2">
+        <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
             <Label text="Zapomniałem hasła" class="audiowide"></Label>
         </FlexboxLayout>
 
         <GridLayout columns="*,*,*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" colSpan="2" (tap)="powrot()" class="anuluj audiowide"
+            <Button text="Anuluj" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="!wyslanePrzyp"></Button>
-            <Button text="Wyślij" col="2" colSpan="2" (tap)="wyslij()" class="anuluj zapisz audiowide"
+            <Button text="Wyślij" col="2" colSpan="2" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="!wyslanePrzyp" [isEnabled]="this.form.valid"></Button>
-            <Button text="Powrót" col="1" colSpan="2" (tap)="powrot()" class="anuluj zapisz audiowide"
+            <Button text="Powrót" col="1" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="wyslanePrzyp"></Button>
         </GridLayout>
     </GridLayout>

@@ -1,29 +1,10 @@
 /* Add mobile styles for the component here.  */
-.back
-{
-    width: 100%;
-    height: 100%;
-    background-color: black;
-}
-
-.stack
-{
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
 
 .scroll
 {
     width: 90%;
     height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-color: white;
-    border-radius: 10%;
 }
 
 .cialo
@@ -44,44 +25,4 @@
     color: black;
     font-weight: 200;
     font-size: 17;
-}
-
-.flex
-{
-    align-items: center;
-}
-
-.msze
-{
-    justify-content: center;
-    width: 50%;
-    height: 8%;
-    padding: 1;
-    margin:5;
-    color: white;
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
-    border-color: transparent;
-    border-radius: 10%;
-    border-width: 1;
-}
-
-.size
-{
-    font-size: 17;
-}
-
-.przyciski
-{
-    margin: 2;
-}
-
-.anuluj
-{
-    padding: 1;
-    background-color: rgba(0, 0, 0, 0);
-    color: white;
-    border-radius: 10%;
-    border-color: white;
-    border-width: 2;
-    margin: 10;
 }

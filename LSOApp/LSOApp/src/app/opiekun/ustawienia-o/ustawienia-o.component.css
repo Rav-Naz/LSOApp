@@ -1,13 +1,4 @@
 /* Add mobile styles for the component here.  */
-.flex
-{
-    flex-direction: column;
-    align-items: center;
-    background-color: black;
-    width: 100%;
-    height: 100%;
-}
-
 .flex2
 {
     flex-direction: column;
@@ -28,11 +19,6 @@
     width: 90%;
     border-top-width: 1;
     border-color: rgb(40, 40, 40);
-}
-
-.element2
-{
-    width: 90%;
 }
 
 .opis

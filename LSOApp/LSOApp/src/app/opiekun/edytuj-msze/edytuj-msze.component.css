@@ -1,45 +1,10 @@
-/* Add mobile styles for the component here.  */
-.back
-{
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    justify-content: center;
-    align-items: center;
-}
-
-.grid
-{
-    width: 90%;
-}
-
-
-.flex
-{
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 20%;
-    border-width: 1;
-    border-color: black;
-    width: 100%;
-    height: 100%;
-}
-
-
 .flex2
 {
     margin: 3;
     border-width: 2;
     border-radius: 5%;
     border-color: rgb(20, 20, 20);
-    justify-content: center;
-    align-items: center;
-    align-content: center;
     flex-direction: row;
-    background-color: rgb(20, 20, 20);
 }
 
 .flex3
@@ -48,55 +13,6 @@
     justify-content: center;
     align-items: center;
     margin: 5;
-}
-
-.anuluj
-{
-    padding: 1;
-    background-color: rgba(0, 0, 0, 0);
-    color: white;
-    border-radius: 10%;
-    border-color: white;
-    border-width: 2;
-    margin: 10;
-    font-size: 17;
-}
-
-.zapisz
-{
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
-    border-color: transparent;
-}
-
-.zapisz:disabled
-{
-    background: rgb(206, 206, 206);
-    color: rgb(124, 124, 124);
-    border-color:  rgb(206, 206, 206);
-}
-
-.nowy
-{
-    justify-content: center;
-    align-items: center;
-    width: 70%;
-    height: 8%;
-    padding: 1;
-    margin:5;
-    color: white;
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
-    border-color: transparent;
-    border-radius: 10%;
-    font-size: 17;
-}
-
-.red
-{
-    color: #e71e25;
-    font-size: 12;
-    text-wrap: true;
-    width: 100%;
-    text-align: left;
 }
 
 .opis
@@ -122,8 +38,6 @@
     background: rgb(20, 20, 20);
     font-size: 13;
     padding: 0;
-    width: 100%;
-    height: 100%;
     text-align: center;
 }
 
@@ -134,20 +48,6 @@
     font-size: 15;
     color: white;
     padding: 0;
-}
-
-.stack
-{
-    height: 100%;
-    width: 100%;
-}
-
-.msza-cont
-{
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .text

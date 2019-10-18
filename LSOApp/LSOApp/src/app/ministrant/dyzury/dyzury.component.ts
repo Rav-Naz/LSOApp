@@ -190,17 +190,6 @@ export class DyzuryComponent implements OnInit {
 
     private zaplanujPowiadomienieOMszy(data: Date, index: number) {
         let dyzur = data.toString().slice(16, 21);
-        if(data.getHours() < 1)
-        {
-            if(index !== 0)
-            {
-                index-=1;
-            }
-            else
-            {
-                index = 6
-            }
-        }
         data.setHours(data.getHours() - 1)
         LocalNotifications.schedule([{
             id: index, // generated id if not set
