@@ -16,9 +16,7 @@
                         <Label text="HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                     </FlexboxLayout>
                 </GridLayout>
-                <!-- <FlexboxLayout class="input-field margin-top">
-                            <TextField hint="HASŁO" class="text-field lexend" formControlName="haslo" autocapitalizationType="none" secure="true" #haslo></TextField>
-                        </FlexboxLayout> -->
+
                 <Label text="Niepoprawne hasło" class="red lexend" *ngIf="!hasloValid"></Label>
             </StackLayout>
         </FlexboxLayout>

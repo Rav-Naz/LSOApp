@@ -2,26 +2,21 @@
     <GridLayout columns="*" rows="auto,*,auto">
         <ScrollView row="0">
             <StackLayout class="flex2">
+
                 <GridLayout columns="auto,*" rows="auto" width="90%">
-                    <FlexboxLayout class="flex3">
-                        <Label text="Punkty" class="opis lexend" col="0"></Label>
-                    </FlexboxLayout>
+                    <Label text="Punkty" class="opis lexend" col="0"></Label>
                     <Button text="Zmień punktajcę" class="click audiowide" col="1"
                         (tap)="nawigujDo('punktacja')"></Button>
                 </GridLayout>
 
                 <GridLayout columns="auto,*" rows="auto" class="element">
-                    <FlexboxLayout class="flex3">
-                        <Label text="Wydarzenia" class="opis lexend" col="0"></Label>
-                    </FlexboxLayout>
+                    <Label text="Wydarzenia" class="opis lexend" col="0"></Label>
                     <Button text="Edytuj Msze Święte" class="click audiowide" col="1"
                         (tap)="nawigujDo('edytuj-msze')"></Button>
                 </GridLayout>
 
                 <GridLayout columns="auto,*" rows="auto,auto,auto" class="element">
-                    <FlexboxLayout class="flex3">
-                        <Label text="Konto" class="opis lexend" col="0" row="0"></Label>
-                    </FlexboxLayout>
+                    <Label text="Konto" class="opis lexend" col="0" row="0"></Label>
                     <Button text="Usuń konto" class="click audiowide" col="1" row="0"
                         (tap)="nawigujDo('usun-konto-o')"></Button>
                     <Button text="Zmień hasło" class="click audiowide" col="1" row="1"
@@ -33,9 +28,7 @@
         </ScrollView>
         <FlexboxLayout class="flex2" row="2">
             <GridLayout columns="auto,*" rows="auto" class="element">
-                <FlexboxLayout class="flex3">
-                    <Label [text]="'LSO App ' + wersja" class="wersja lexend" col="0"></Label>
-                </FlexboxLayout>
+                <Label [text]="'LSO App ' + wersja" class="wersja lexend" col="0"></Label>
                 <Button text="Kontakt" class="click audiowide" (tap)="kontakt()" col="1"></Button>
             </GridLayout>
             <GridLayout width="90%">

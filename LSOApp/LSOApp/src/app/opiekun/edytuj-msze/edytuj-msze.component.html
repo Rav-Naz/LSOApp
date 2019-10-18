@@ -21,22 +21,10 @@
                         <FlexboxLayout *ngIf="wydarzeniaDnia.length < 10" class="flex3">
                             <Button class="wybrany" borderRadius="10%" (tap)="dodaj($event)" height="40" width="40">
                                 <FormattedString>
-                                    <!-- <Span text="Dodaj " class="audiowide"></Span> -->
                                     <Span text="&#xe072;" class="icon"></Span>
                                 </FormattedString>
                             </Button>
                         </FlexboxLayout>
-
-                        <!-- <GridLayout rows="auto" columns="*,50" >
-                            <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
-                            </FlexboxLayout>
-                            <FlexboxLayout class="msza-cont" col="0">
-                                <Label text="Dodaj" class="text lexend" (tap)="dodaj($event)"></Label>
-                            </FlexboxLayout>
-                            <FlexboxLayout class="msza-cont" col="1" >
-                                <Button text="&#xe072;" class="iks icon" color="red" (tap)="dodaj($event)" androidElevation="0"></Button>
-                            </FlexboxLayout>
-                        </GridLayout> -->
 
                     </StackLayout>
                     <FlexboxLayout *ngIf="wybranyDzien === undefined" justifyContent="center" width="100%">

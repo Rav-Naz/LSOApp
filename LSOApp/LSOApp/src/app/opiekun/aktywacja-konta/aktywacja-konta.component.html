@@ -13,17 +13,10 @@
                         <Label text="E-MAIL" class="audiowide" marginLeft="3" marginRight="3"></Label>
                     </FlexboxLayout>
                 </GridLayout>
-                <!-- <FlexboxLayout class="input-field margin-top">
-                    <TextField hint="E-MAIL" class="text-field lexend" autocapitalizationType="words"
-                        keyboardType="email" formControlName="email" #email></TextField>
-                </FlexboxLayout> -->
                 <Label text="Niepoprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
             </StackLayout>
-            <StackLayout width="90%" *ngIf="wyslanePrzyp">
-                <Label
-                    text="Link aktywacyjny został wysłany na podany adres email. Jeśli przez dłuższy czas ministrant nie otrzymał wiadomości, należy sprawdzić zakładkę 'SPAM'."
-                    class="stand lexend"></Label>
-            </StackLayout>
+                <Label text="Link aktywacyjny został wysłany na podany adres email. Jeśli przez dłuższy czas ministrant nie otrzymał wiadomości, należy sprawdzić zakładkę 'SPAM'."
+                    class="stand lexend" width="90%" *ngIf="wyslanePrzyp"></Label>
         </FlexboxLayout>
 
         <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">

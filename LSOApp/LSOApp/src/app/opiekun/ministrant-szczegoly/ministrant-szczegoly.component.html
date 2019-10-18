@@ -2,21 +2,23 @@
     <GridLayout rows="*,auto" columns="*" width="90%">
 
         <StackLayout row="0" col="0" height="90%">
+
             <FlexboxLayout class="naglowek">
                 <FlexboxLayout class="nagCont">
                     <Label [text]="ministrant.imie | caps" class="nagText audiowide"></Label>
                     <Label [text]="ministrant.nazwisko | caps" class="nagText audiowide"></Label>
                 </FlexboxLayout>
             </FlexboxLayout>
+
             <GridLayout class="scroll wh100">
                 <ScrollView scrollBarIndicatorVisible="false" (swipe)="onSwipe($event)">
                     <StackLayout>
                         <GridLayout rows="auto,auto,auto,auto,auto" columns="auto,*">
                             <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-                            <FlexboxLayout row="0" col="0" class="opisCont">
-                                <Label text="Punkty" class="opis lexend"></Label>
-                            </FlexboxLayout>
+
+                            <Label text="Punkty" class="opisCont opis lexend" row="0" col="0"></Label>
+
                             <FlexboxLayout row="0" col="1" class="daneCont" [formGroup]="form">
                                 <Button text="-" class="przycisk audiowide" (tap)="zmienPunkty(-1)"></Button>
                                 <TextField [text]="ministrant.punkty.toString()" class="punkty lexend" (returnPress)="wpiszPunkty()" (blur)="wpiszPunkty()" maxLength="4" keyboardType="number" formControlName="punkty" #punkty></TextField>
@@ -31,10 +33,7 @@
                             <GridLayout columns="*,25" rows="auto" row="1" col="1" class="daneCont"
                                 (tap)="zmienStopien(ministrant)">
                                 <FlexboxLayout col="0" class="center" alignItems="flex-end">
-                                    <StackLayout>
-                                        <Label [text]="stopien(ministrant.stopien)" class="dane lexend"
-                                            horizontalAlignment="right"></Label>
-                                    </StackLayout>
+                                    <Label [text]="stopien(ministrant.stopien)" class="dane lexend" horizontalAlignment="right"></Label>
                                 </FlexboxLayout>
                                 <FlexboxLayout class="center" col="2">
                                     <Label text="&#xe001;" class="strzalka icon"></Label>
@@ -44,9 +43,9 @@
 
                             <FlexboxLayout row="2" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-                            <FlexboxLayout row="2" col="0" class="opisCont">
-                                <Label text="Dyżury" class="opis lexend"></Label>
-                            </FlexboxLayout>
+
+                            <Label text="Dyżury" row="2" col="0" class="opisCont opis lexend"></Label>
+
                             <GridLayout columns="*,25" rows="auto" row="2" col="1" class="daneCont"
                                 (tap)="otworzDyzury()">
                                 <FlexboxLayout col="0" class="center" alignItems="flex-end">
@@ -68,9 +67,9 @@
 
                             <FlexboxLayout row="3" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-                            <FlexboxLayout row="3" col="0" class="opisCont">
-                                <Label text="E-mail" class="opis lexend"></Label>
-                            </FlexboxLayout>
+                            
+                            <Label text="E-mail" row="3" col="0" class="opisCont opis lexend"></Label>
+
                             <GridLayout columns="*,25" rows="auto" row="3" col="1" class="daneCont"
                                 (tap)="aktywujKonto()">
                                 <FlexboxLayout col="0" class="center" alignItems="flex-end">
@@ -83,9 +82,8 @@
                                 </FlexboxLayout>
                             </GridLayout>
 
-                            <FlexboxLayout row="4" col="0" class="opisCont">
-                                <Label text="Dane&#xA;personalne" class="opis lexend"></Label>
-                            </FlexboxLayout>
+                            <Label text="Dane&#xA;personalne" row="4" col="0" class="opisCont opis lexend"></Label>
+
                             <GridLayout columns="*,25" rows="auto" row="4" col="1" class="daneCont">
                                 <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                     <StackLayout
@@ -100,7 +98,6 @@
                                     <Label text="Brak" class="dane lexend"
                                         *ngIf="!ministrant.ulica && !ministrant.kod_pocztowy && !ministrant.miasto && !ministrant.telefon"></Label>
                                 </FlexboxLayout>
-                                <!-- <Image col="2" src="res://strzalka" class="strzalka"></Image> -->
                             </GridLayout>
 
                         </GridLayout>

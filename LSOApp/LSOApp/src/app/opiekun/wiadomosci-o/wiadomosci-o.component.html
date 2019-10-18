@@ -21,14 +21,8 @@
                     </FlexboxLayout>
                 </GridLayout>
 
-                <GridLayout rows="auto" columns="*,30" width="98%" *ngIf="wiadomosci.length === 0">
-                        <FlexboxLayout col="0" class="box">
-                            <Label text="Brak wiadomości, aby wysłać nową kliknij ten przycisk" class="brak lexend"></Label>
-                        </FlexboxLayout>
-                        <FlexboxLayout col="1" class="box">
-                            <Label text="&#xe00c;" class="brak icon"></Label>
-                        </FlexboxLayout>
-                    </GridLayout>
+                    <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0"></Label>
+                        
 
                 <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid" (longPress)="usunWiadomosc(wiadomosc)">
                     <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>

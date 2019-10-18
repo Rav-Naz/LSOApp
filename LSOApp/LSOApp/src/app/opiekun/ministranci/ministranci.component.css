@@ -14,7 +14,8 @@
 
 .pasek
 {
-    width: 100%;
+    margin-left: 7;
+    margin-right: 7;
     height: 3px;
     background-color: rgb(40, 40, 40);
 }

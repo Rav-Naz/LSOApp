@@ -1,6 +1,5 @@
 <FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
     <GridLayout rows="auto" columns="auto,*,auto" class="grid">
-        <!-- <FlexboxLayout class="sort-btn" col="0"> -->
         <Button class="sort-btn center" (tap)="zmianaSortu()">
             <FormattedString>
                 <Span text=" &#xe018;" class="opis center icon" fontSize="10"></Span>
@@ -8,11 +7,8 @@
                 <Span [text]="sortujPoImieniu? 'Alfabetycznie ':'Ranking '" class="czarny audiowide"></Span>
             </FormattedString>
         </Button>
-        <!-- </FlexboxLayout> -->
 
-        <FlexboxLayout class="cont center marg-l-r" col="1">
-            <FlexboxLayout class="pasek"></FlexboxLayout>
-        </FlexboxLayout>
+        <FlexboxLayout class="pasek center" col="1"></FlexboxLayout>
 
         <Button class="cont center dodaj" col="2" (tap)="nowyMinistrant()">
             <FormattedString>
@@ -23,33 +19,28 @@
     </GridLayout>
 
     <GridLayout class="lista">
-        <GridLayout rows="auto" columns="*,30" width="98%" *ngIf="ministranci.length === 0">
-            <FlexboxLayout col="0" class="center" flexDirection="row">
-                <Label text="Brak ministrantów na liście, aby ich dodać kliknij ten przycisk"
-                    class="brak lexend"></Label>
-            </FlexboxLayout>
-            <FlexboxLayout col="1" class="center" flexDirection="row">
-                <Label text="&#xe00c;" class="brak icon"></Label>
-            </FlexboxLayout>
-        </GridLayout>
+        
+        <Label text="Brak ministrantów na liście" class="brak lexend" *ngIf="ministranci.length === 0"></Label>
+
         <ListView [items]="ministranci" (swipe)="onSwipe($event)">
             <ng-template let-item="item" let-i="index">
                 <GridLayout rows="40" columns="auto,*,auto" class="element" [ngClass]="{szary: i%2 === 0}"
                     (tap)="szczegolyMinistranta(item.id_user)" (longPress)="usunMinistranta(item)">
+
                     <FlexboxLayout col="0" class="center" flexDirection="row">
                         <Label [text]="i+1 + '. '" class="index lexend"></Label>
                     </FlexboxLayout>
+
                     <FlexboxLayout col="1" class="center" alignItems="flex-start">
                         <Label [text]="item.nazwisko + ' ' + item.imie" class="imie lexend"></Label>
                     </FlexboxLayout>
-                    <FlexboxLayout justifyContent="flex-end" col="2">
-                            <Button class="strzalka" (tap)="szczegolyMinistranta(item.id_user)" [ngClass]="{szary: i%2 === 0}" androidElevation="0">
-                                    <FormattedString>
-                                        <Span [text]="item.punkty + ' pkt.'" class="lexend"></Span>
-                                        <Span text=" &#xe001;" fontSize="11" class="icon"></Span>
-                                    </FormattedString>
-                                </Button>
-                    </FlexboxLayout>
+
+                    <Button class="strzalka" (tap)="szczegolyMinistranta(item.id_user)" [ngClass]="{szary: i%2 === 0}" androidElevation="0" justifyContent="flex-end" col="2">
+                        <FormattedString>
+                            <Span [text]="item.punkty + ' pkt.'" class="lexend"></Span>
+                            <Span text=" &#xe001;" fontSize="11" class="icon"></Span>
+                        </FormattedString>
+                    </Button>
                 </GridLayout>
             </ng-template>
         </ListView>

@@ -3,7 +3,7 @@
         <FlexboxLayout class="flex center b-p-10" row="1" rowSpan="2">
             <ScrollView>
                 <StackLayout [formGroup]="form">
-                    <!-- <GridLayout rows="*,*,*,*" columns="*" class="margin-top" [formGroup]="form"> -->
+
                     <FlexboxLayout row="0" class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
@@ -14,10 +14,7 @@
                                 <Label text="TELEFON" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field">
-                            <TextField hint="TELEFON" class="text-field lexend" keyboardType="number"
-                                returnKeyType="done" formControlName="telefon" #telefon></TextField>
-                        </FlexboxLayout> -->
+
                         <Label text="Numer musi mieć długość 9 znaków" class="red lexend" *ngIf="!telefonValid"></Label>
                     </FlexboxLayout>
                     <FlexboxLayout row="1" class="kontener center" height="100%">
@@ -31,10 +28,7 @@
                                 <Label text="ULICA I NR DOMU" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field">
-                            <TextField hint="ULICA I NR DOMU" class="text-field lexend" autocapitalizationType="words"
-                                returnKeyType="done" formControlName="ulica" #ulica></TextField>
-                        </FlexboxLayout> -->
+
                         <Label text="Nazwa ulicy nie może być krótsza niż 3 i dłuższa niż 30 znaków" class="red lexend"
                             *ngIf="!ulicaValid"></Label>
                     </FlexboxLayout>
@@ -48,10 +42,7 @@
                                 <Label text="KOD POCZTOWY" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field">
-                            <TextField hint="KOD POCZTOWY" class="text-field lexend" returnKeyType="done"
-                                formControlName="kod" #kod></TextField>
-                        </FlexboxLayout> -->
+
                         <Label text="Kod powinien być w formie xx-xxx" class="red lexend" *ngIf="!kodValid"></Label>
                     </FlexboxLayout>
                     <FlexboxLayout row="3" class="kontener center" height="100%">
@@ -64,14 +55,10 @@
                                 <Label text="MIEJSCOWOŚĆ" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        <!-- <FlexboxLayout class="input-field">
-                            <TextField hint="MIEJSCOWOŚĆ" class="text-field lexend" autocapitalizationType="words"
-                                returnKeyType="done" formControlName="miasto" #miasto></TextField>
-                        </FlexboxLayout> -->
+
                         <Label text="Nazwa miejscowości nie może być krótsza niż 3 i dłuższa niż 20 znaków"
                             class="red lexend" *ngIf="!miastoValid"></Label>
                     </FlexboxLayout>
-                    <!-- </GridLayout> -->
                 </StackLayout>
             </ScrollView>
         </FlexboxLayout>

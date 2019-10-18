@@ -26,7 +26,7 @@ export class MinistrantDyzuryComponent implements OnInit {
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
         this.feedback = new Feedback();
     }
-
+    nazwyDni = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota']
     dni = [false,false,false,false,false,false,false];
 
     zmiana: boolean = false;

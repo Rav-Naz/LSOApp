@@ -2,8 +2,10 @@
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2" [formGroup]="form">
             <StackLayout width="90%" *ngIf="!wyslanePrzyp">
+
                 <Label text="W celu odzyskania hasła do konta, wprowadź poniżej swój adres e-mail:"
                     class="stand lexend"></Label>
+
                 <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
                     <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0" colSpan="2">
                         <TextField hint="Wpisz swój e-mail" class="text-field lexend" autocapitalizationType="words"
@@ -13,13 +15,17 @@
                         <Label text="E-MAIL" class="audiowide" marginLeft="3" marginRight="3"></Label>
                     </FlexboxLayout>
                 </GridLayout>
+
                 <Label text="Niepoprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
+
             </StackLayout>
+
             <StackLayout width="90%" *ngIf="wyslanePrzyp">
                 <Label
                     text="Przypomnienie zostało wysłane na podany adres email. Jeśli przez dłuższy czas nie otrzymałeś wiadomości, sprawdź zakładkę 'SPAM'."
                     class="stand lexend"></Label>
             </StackLayout>
+
         </FlexboxLayout>
 
         <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">

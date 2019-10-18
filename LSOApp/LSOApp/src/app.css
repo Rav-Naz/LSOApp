@@ -180,4 +180,8 @@ TextField{
     font-size: 15;
 }
 
+.fade
+{
+    background-color: rgb(0,0,0,0.8);
+}
 

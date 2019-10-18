@@ -1,69 +1,17 @@
 <FlexboxLayout class="back wh100 center" (swipe)="onSwipe($event)">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <GridLayout class="flex wh100" row="1" rowSpan="2" rows="*,*,*,*,*,*,*" columns="*">
-            <FlexboxLayout row="0" col="0" class="wh100 center">
+
+            <FlexboxLayout [row]="i" col="0" class="wh100 center" *ngFor="let dzien of nazwyDni, let i = index">
                 <GridLayout columns="40,*,auto" rows="40" class="element">
-                    <ns-checkbox [stan]="dni[1]" col="0" (checkStatus)="zmianaCheckboxa(1,$event)"></ns-checkbox>
+                    <ns-checkbox [stan]="dni[i]" col="0" (checkStatus)="zmianaCheckboxa(i,$event)"></ns-checkbox>
                     <FlexboxLayout alignItems="center" col="1">
-                        <Label text="Poniedziałek" class="text lexend"></Label>
+                        <Label [text]="dzien" class="text lexend"></Label>
                     </FlexboxLayout>
-                    <Button [text]="godzina(1)" col="2" class="godzina audiowide" *ngIf="dni[1]" (tap)="wyborGodziny(1)"></Button>
+                    <Button [text]="godzina(i)" col="2" class="godzina audiowide" *ngIf="dni[i]" (tap)="wyborGodziny(i)"></Button>
                 </GridLayout>
             </FlexboxLayout>
-            <FlexboxLayout row="1" col="0" class="wh100 center">
-                <GridLayout columns="40,*,auto" rows="40" class="element">
-                    <ns-checkbox [stan]="dni[2]" col="0" (checkStatus)="zmianaCheckboxa(2,$event)"></ns-checkbox>
-                    <FlexboxLayout alignItems="center" col="1">
-                        <Label text="Wtorek" class="text lexend"></Label>
-                    </FlexboxLayout>
-                    <Button [text]="godzina(2)" col="2" class="godzina audiowide" *ngIf="dni[2]" (tap)="wyborGodziny(2)"></Button>
-                </GridLayout>
-            </FlexboxLayout>
-            <FlexboxLayout row="2" col="0" class="wh100 center">
-                <GridLayout columns="40,*,auto" rows="40" class="element">
-                    <ns-checkbox [stan]="dni[3]" col="0" (checkStatus)="zmianaCheckboxa(3,$event)"></ns-checkbox>
-                    <FlexboxLayout alignItems="center" col="1">
-                        <Label text="Środa" class="text lexend"></Label>
-                    </FlexboxLayout>
-                    <Button [text]="godzina(3)" col="2" class="godzina audiowide" *ngIf="dni[3]" (tap)="wyborGodziny(3)"></Button>
-                </GridLayout>
-            </FlexboxLayout>
-            <FlexboxLayout row="3" col="0" class="wh100 center">
-                <GridLayout columns="40,*,auto" rows="40" class="element">
-                    <ns-checkbox [stan]="dni[4]" col="0" (checkStatus)="zmianaCheckboxa(4,$event)"></ns-checkbox>
-                    <FlexboxLayout col="1" alignItems="center">
-                        <Label text="Czwartek" class="text lexend"></Label>
-                    </FlexboxLayout>
-                    <Button [text]="godzina(4)" col="2" class="godzina audiowide" *ngIf="dni[4]" (tap)="wyborGodziny(4)"></Button>
-                </GridLayout>
-            </FlexboxLayout>
-            <FlexboxLayout row="4" col="0" class="wh100 center">
-                <GridLayout columns="40,*,auto" rows="40" class="element">
-                    <ns-checkbox [stan]="dni[5]" col="0" (checkStatus)="zmianaCheckboxa(5,$event)"></ns-checkbox>
-                    <FlexboxLayout alignItems="center" col="1">
-                        <Label text="Piątek" class="text lexend"></Label>
-                    </FlexboxLayout>
-                    <Button [text]="godzina(5)" col="2" class="godzina audiowide" *ngIf="dni[5]" (tap)="wyborGodziny(5)"></Button>
-                </GridLayout>
-            </FlexboxLayout>
-            <FlexboxLayout row="5" col="0" class="wh100 center">
-                <GridLayout columns="40,*,auto" rows="40" class="element">
-                    <ns-checkbox [stan]="dni[6]" col="0" (checkStatus)="zmianaCheckboxa(6,$event)"></ns-checkbox>
-                    <FlexboxLayout alignItems="center" col="1">
-                        <Label text="Sobota" class="text lexend"></Label>
-                    </FlexboxLayout>
-                    <Button [text]="godzina(6)" col="2" class="godzina audiowide" *ngIf="dni[6]" (tap)="wyborGodziny(6)"></Button>
-                </GridLayout>
-            </FlexboxLayout>
-            <FlexboxLayout row="6" col="0" class="wh100 center">
-                <GridLayout columns="40,*,auto" rows="40" class="element">
-                    <ns-checkbox [stan]="dni[0]" col="0" (checkStatus)="zmianaCheckboxa(0,$event)"></ns-checkbox>
-                    <FlexboxLayout alignItems="center" col="1">
-                        <Label text="Niedziela" class="text lexend" ></Label>
-                    </FlexboxLayout>
-                    <Button [text]="godzina(0)" col="2" class="godzina audiowide" *ngIf="dni[0]" (tap)="wyborGodziny(0)"></Button>
-                </GridLayout>
-            </FlexboxLayout>
+            
         </GridLayout>
 
         <FlexboxLayout class="nowy b-p-10 center" row="0" rowSpan="2" alignItems="center">

@@ -6,14 +6,6 @@
     width: 100%;
 }
 
-.flex3
-{
-    align-items: center;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-
-
 .element
 {
     width: 90%;

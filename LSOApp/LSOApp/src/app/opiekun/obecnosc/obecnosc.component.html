@@ -57,7 +57,7 @@
             </GridLayout>
     </FlexboxLayout>
 
-    <FlexboxLayout class="wh100 center" backgroundColor="rgb(0,0,0,0.8)" *ngIf="PROLista[6] === 'punktacja' || PROLista[6] === 'edytuj-msze' || PROLista[4] === 'ministrant-dyzury'" (tap)="nic()">
+    <FlexboxLayout class="wh100 center fade" *ngIf="PROLista[6] === 'punktacja' || PROLista[6] === 'edytuj-msze' || PROLista[4] === 'ministrant-dyzury'" (tap)="nic()">
         <Label text="Aby korzystać z tego widoku musisz zamknąć panel" class="lexend warn1"></Label>
         <Label text="Edytuj Msze Święte" class="audiowide warn2" *ngIf="PROLista[6] === 'edytuj-msze'"></Label>
         <Label text="Punktacja" class="audiowide warn2" *ngIf="PROLista[6] === 'punktacja'"></Label>

@@ -7,8 +7,6 @@ import { NativeScriptDateTimePickerModule } from "nativescript-datetimepicker/an
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { ItemsComponent } from "./item/items.component";
-import { ItemDetailComponent } from "./item/item-detail.component";
 import { LogowanieComponent } from './logowanie/logowanie.component';
 import { RejestracjaComponent } from './rejestracja/rejestracja.component';
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
@@ -62,8 +60,6 @@ import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal
     ],
     declarations: [
         AppComponent,
-        ItemsComponent,
-        ItemDetailComponent,
         LogowanieComponent,
         RejestracjaComponent,
         ZapomnialemComponent,

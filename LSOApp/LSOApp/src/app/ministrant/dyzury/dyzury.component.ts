@@ -27,7 +27,9 @@ export class DyzuryComponent implements OnInit {
     dyzury: Array<Wydarzenie> = [];
     dyzurySub: Subscription;
     powiadomieniaSub: Subscription;
-    rowDzis = [12, 0, 2, 4, 6, 8, 10]
+    rowDzis = [0, 2, 4, 6, 8, 10, 12]
+    rowPasy = [1, 3, 5, 7, 9, 11]
+    dni = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota']
     private feedback: Feedback;
 
     constructor(private page: Page, private userService: UserService, private indexService: TabindexService, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService)
