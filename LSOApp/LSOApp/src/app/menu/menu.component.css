@@ -1,12 +1,30 @@
 /* Add mobile styles for the component here.  */
-TabView{
+/* TabView{
     selected-tab-text-color: white;
     tab-text-color: rgb(80, 80, 80);
     tab-background-color: black;
     android-selected-tab-highlight-color: #e71e25;
     font-family: 'iconmonstr-iconic-font';
     font-size: 20;
+} */
+
+.tabs
+{
+    font-size: 20;
+    color: rgb(50, 50, 50);
 }
+
+.strip-item
+{
+    background-color: black;
+}
+
+.strip-item:active
+{
+    background-color: rgb(20, 20, 20);;
+    color: white;
+}
+
 
 .text2
 {
@@ -21,4 +39,3 @@ TabView{
     color: #e71e25;
     font-size: 25;
 }
-

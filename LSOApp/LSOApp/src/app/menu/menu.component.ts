@@ -3,7 +3,7 @@ import { UserService } from '../serwisy/user.service';
 import { User } from '../serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page, EventData } from 'tns-core-modules/ui/page/page';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
 
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class MenuComponent implements OnInit,OnDestroy {
 
-    public tabSelectedIndex: number;
+    public selectedIndex: number;
     private tabSelectedIndexSub: Subscription;
     constructor(public userService: UserService, private router: RouterExtensions, private active: ActivatedRoute, private page: Page, public tabIndexService: TabindexService) {
     }
@@ -26,7 +26,7 @@ export class MenuComponent implements OnInit,OnDestroy {
     ngOnInit() {
         this.page.actionBarHidden = true;
         this.tabSelectedIndexSub = this.tabIndexService.tabSelectedIndex.subscribe( index => {
-            this.tabSelectedIndex = index;
+            this.selectedIndex = index;
         });
         if (this.tabIndexService.opiekun) {
             this.router.navigate([{ outlets: { obecnosc: ['obecnosc'], ministranci: ['ministranci'], wiadomosciO: ['wiadomosciO'], ustawieniaO: ['ustawieniaO'] } }],
@@ -48,7 +48,12 @@ export class MenuComponent implements OnInit,OnDestroy {
 
     locationStrategy()
     {
-        console.log(this.router.locationStrategy)
+        this.tabIndexService.nowyIndex(3)
+    }
+
+    zmianaIndexu(event: EventData)
+    {
+        this.selectedIndex = event.object.get('selectedIndex');
     }
 
 }

@@ -22,7 +22,7 @@ export class TabindexService {
     private _pageRouterOutlet = new BehaviorSubject<Array<string>>(this.outlety)
     private _tabSelectedIndex = new BehaviorSubject<number>(0);
 
-    nowyIndex(index: number) //Wykorzystanie: info, dane-profilowe, dyzury, ustawienia-m, usun-konto, wiadomosci-m, zmien-haslo
+    nowyIndex(index: number) //Wykorzystanie: dane-profilowe, dyzury, ustawienia-m, usun-konto, wiadomosci-m, zmien-haslo
     {
         this._tabSelectedIndex.next(index);
     }

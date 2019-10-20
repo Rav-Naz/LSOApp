@@ -25,6 +25,8 @@ export class InfoComponent implements OnInit {
   }
       zamknij()
       {
+          this.indexService.nowyOutlet(2,"ustawieniaM")
+          this.indexService.nowyOutlet(6,"ustawieniaO")
           this.router.backToPreviousPage();
       }
   }

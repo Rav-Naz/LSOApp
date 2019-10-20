@@ -9,33 +9,65 @@
     </GridLayout>
     <!-- Widok ministranta -->
     <FlexboxLayout class="wh100" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
-        <TabView [(ngModel)]="tabSelectedIndex" androidTabsPosition="bottom" class="tabs">
-            <StackLayout *tabItem="{title: '&#xe01b;'}">
-                <page-router-outlet name="dyzury"></page-router-outlet>
-            </StackLayout>
-            <StackLayout *tabItem="{title: '&#xe032;'}">
-                <page-router-outlet name="wiadomosciM"></page-router-outlet>
-            </StackLayout>
-            <StackLayout *tabItem="{title: '&#xe05b;'}">
-                <page-router-outlet name="ustawieniaM"></page-router-outlet>
-            </StackLayout>
-        </TabView>
+            <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
+
+                    <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
+                    <TabStrip>
+                        <TabStripItem class="icon strip-item">
+                            <Label text="&#xe01b;"></Label>
+                        </TabStripItem>
+                        <TabStripItem class="icon strip-item">
+                            <Label text="&#xe032;"></Label>
+                        </TabStripItem>
+                        <TabStripItem class="icon strip-item">
+                            <Label text="&#xe05b;"></Label>
+                        </TabStripItem>
+                    </TabStrip>
+
+                    <TabContentItem>
+                        <page-router-outlet name="dyzury"></page-router-outlet>
+                    </TabContentItem>
+                    <TabContentItem>
+                        <page-router-outlet name="wiadomosciM"></page-router-outlet>
+                    </TabContentItem>
+                    <TabContentItem>
+                        <page-router-outlet name="ustawieniaM"></page-router-outlet>
+                    </TabContentItem>
+                </Tabs>
     </FlexboxLayout>
     <!-- Widok opiekuna -->
     <FlexboxLayout class="wh100" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
-        <TabView [(ngModel)]="tabSelectedIndex" androidTabsPosition="bottom">
-            <StackLayout *tabItem="{title: '&#xe0d7;'}">
-                <page-router-outlet name="obecnosc"></page-router-outlet>
-            </StackLayout>
-            <StackLayout *tabItem="{title: ' &#xe092;'}">
-                <page-router-outlet name="ministranci"></page-router-outlet>
-            </StackLayout>
-            <StackLayout *tabItem="{title: '&#xe032;'}">
-                <page-router-outlet name="wiadomosciO"></page-router-outlet>
-            </StackLayout>
-            <StackLayout *tabItem="{title: '&#xe05b;'}">
-                <page-router-outlet name="ustawieniaO"></page-router-outlet>
-            </StackLayout>
-        </TabView>
+            <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
+
+                    <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
+                    <TabStrip>
+                        <TabStripItem class="icon strip-item">
+                            <Label text="&#xe0d7;"></Label>
+                        </TabStripItem>
+                        <TabStripItem class="icon strip-item">
+                            <Label text="&#xe092;"></Label>
+                        </TabStripItem>
+                        <TabStripItem class="icon strip-item">
+                            <Label text="&#xe032;"></Label>
+                        </TabStripItem>
+                        <TabStripItem class="icon strip-item">
+                            <Label text="&#xe05b;"></Label>
+                        </TabStripItem>
+                    </TabStrip>
+
+                    <TabContentItem>
+                        <page-router-outlet name="obecnosc"></page-router-outlet>
+                    </TabContentItem>
+                    <TabContentItem>
+                        <page-router-outlet name="ministranci"></page-router-outlet>
+                    </TabContentItem>
+                    <TabContentItem>
+                        <page-router-outlet name="wiadomosciO"></page-router-outlet>
+                    </TabContentItem>
+                    <TabContentItem>
+                        <page-router-outlet name="ustawieniaO"></page-router-outlet>
+                    </TabContentItem>
+
+                </Tabs>
     </FlexboxLayout>
 </FlexboxLayout>

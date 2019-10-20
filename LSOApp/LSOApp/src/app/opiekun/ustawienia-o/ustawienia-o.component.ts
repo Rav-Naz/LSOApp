@@ -63,6 +63,7 @@ export class UstawieniaOComponent implements OnInit {
     wyloguj()
     {
         this.router.navigate([""],{clearHistory: true, transition: { name: 'slideBottom' }}).then(() => {
+            this.tabIndexService.nowyIndex(0)
             setTimeout(() => {
                 this.feedback.show({
                     title: "Sukces!",

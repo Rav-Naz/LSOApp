@@ -122,7 +122,7 @@ export class EdytujMszeComponent implements OnInit {
         await this.czyKontynuowac(this.zmiana,"Zmienione wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((kontynuowac) => {
             if (!kontynuowac) {
                 this.tabIndexService.nowyOutlet(6, "ustawieniaO");
-                this.router.backToPreviousPage();
+                this.router.back();
             }
         });
     }

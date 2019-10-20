@@ -22,7 +22,7 @@ export class UstawieniaMComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private indexService: TabindexService, private router: RouterExtensions, private userService: UserService, private active: ActivatedRoute) {
+    constructor(private page: Page, private indexService: TabindexService, private router: RouterExtensions, private userService: UserService, private active: ActivatedRoute, private tabService: TabindexService) {
         this.feedback = new Feedback();
     }
 
@@ -59,6 +59,7 @@ export class UstawieniaMComponent implements OnInit {
         this.userService.zmienPowiadomienia(false).then(() => {
             this.secureStroage.removeAll().then(() => {
                 this.router.navigate([""],{clearHistory: true, transition: { name: 'slideBottom' }}).then(() => {
+                    this.tabService.nowyIndex(0);
                     setTimeout(() => {
                         this.feedback.show({
                             title: "Sukces!",
