@@ -15,8 +15,6 @@
     font-weight: 300;
     font-size: 17;
     color: #e71e25;
-    margin-left: 4;
-    margin-right: 4;
     text-align: center;
     width: 100%;
 }
@@ -26,6 +24,7 @@
     text-wrap: true;
     color: rgb(80, 80, 80);
     font-size: 13;
+    margin-right: 10;
 
 }
 

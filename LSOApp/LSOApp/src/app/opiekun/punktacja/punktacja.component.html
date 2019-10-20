@@ -5,23 +5,23 @@
 
                 <FlexboxLayout row="0" col="0" colSpan="3" class="podkr">
                 </FlexboxLayout>
-                <FlexboxLayout row="0" col="0" class="element center" flexDirection="row">
+                <FlexboxLayout row="0" col="0" class="center" flexDirection="row">
                     <Label text="Obecność" class="opis lexend"></Label>
                 </FlexboxLayout>
                 <FlexboxLayout class="punkty center" row="0" col="1">
                     <Label [text]="pktZaObecnosc" class="lexend"></Label>
                 </FlexboxLayout>
-                <FlexboxLayout class="element center" flexDirection="row" justifyContent="flex-end" row="0" col="2">
+                <FlexboxLayout class="center" flexDirection="row" justifyContent="flex-end" row="0" col="2">
                     <Slider minValue="0" maxValue="10" [(ngModel)]="pktZaObecnosc" width="100%" (valueChange)="zmien()"></Slider>
                 </FlexboxLayout>
 
-                <FlexboxLayout row="1" col="0" class="element center" flexDirection="row">
+                <FlexboxLayout row="1" col="0" class="center" flexDirection="row">
                     <Label text="Nieobecność" class="opis lexend"></Label>
                 </FlexboxLayout>
                 <FlexboxLayout class="punkty center" row="1" col="1">
                         <Label [text]="pktZaNieobecnosc" class="lexend"></Label>
                     </FlexboxLayout>
-                <FlexboxLayout class="element center" flexDirection="row" justifyContent="flex-end" row="1" col="2">
+                <FlexboxLayout class="center" flexDirection="row" justifyContent="flex-end" row="1" col="2">
                     <Slider minValue="-10" maxValue="0" [(ngModel)]="pktZaNieobecnosc" width="100%" (valueChange)="zmien()"></Slider>
                 </FlexboxLayout>
             </GridLayout>
