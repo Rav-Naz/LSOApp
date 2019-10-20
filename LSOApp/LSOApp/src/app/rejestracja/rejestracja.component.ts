@@ -345,13 +345,6 @@ focus()
 }
 
 powrot() {
-    this.router.backToPreviousPage();
-}
-
-onSwipe(args: SwipeGestureEventData) {
-
-    if (args.direction === 1) {
-        this.powrot();
-    }
+    this.router.back();
 }
 }

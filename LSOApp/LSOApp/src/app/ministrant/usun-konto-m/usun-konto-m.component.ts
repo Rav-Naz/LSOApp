@@ -65,14 +65,7 @@ export class UsunKontoMComponent implements OnInit {
 
 anuluj() {
     this.tabIndexService.nowyOutlet(2,"ustawieniaM");
-    this.router.backToPreviousPage();
-}
-
-onSwipe(args: SwipeGestureEventData) {
-
-    if (args.direction === 1) {
-        this.anuluj();
-    }
+    this.router.back();
 }
 
 }

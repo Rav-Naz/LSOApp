@@ -1,9 +1,9 @@
-<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2">
             <ScrollView>
                 <StackLayout [formGroup]="form">
-                    
+
                     <FlexboxLayout row="0" class="kontener center">
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
@@ -14,7 +14,7 @@
                                 <Label text="AKTUALNE HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        
+
                         <Label text="Niepoprawne aktualne hasło" class="red lexend" *ngIf="!stareValid"></Label>
                     </FlexboxLayout>
 
@@ -28,7 +28,7 @@
                                 <Label text="NOWE HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                       
+
                         <Label
                             text="Hasło musi mieć od 6 do 15 znaków oraz może składać się ze wszystkich liter alfabetu polskiego, cyfr i symboli: +,*,@,#,$,&,^,~,_,?"
                             class="red lexend" *ngIf="!noweValid"></Label>
@@ -44,9 +44,9 @@
                                 <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                        
+
                         <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzValid"></Label>
-                        
+
                     </FlexboxLayout>
                 </StackLayout>
             </ScrollView>
@@ -57,7 +57,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
+            <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide"
                 [isEnabled]="this.form.valid"></Button>
         </GridLayout>

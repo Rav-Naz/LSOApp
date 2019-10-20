@@ -1,4 +1,4 @@
-<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex wh100 center" row="1" rowSpan="2">
             <GridLayout rows="60,60" columns="auto,40,*" width="85%">
@@ -32,7 +32,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
+            <Button [text]="zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc))?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc))"></Button>
         </GridLayout>
     </GridLayout>

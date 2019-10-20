@@ -50,7 +50,7 @@ export class ZapomnialemComponent implements OnInit {
     }
 
     powrot() {
-        this.router.backToPreviousPage();
+        this.router.back();
     }
 
     wyslij() {
@@ -69,12 +69,5 @@ export class ZapomnialemComponent implements OnInit {
         }
 
         this.wyslanePrzyp = true;
-    }
-
-    onSwipe(args: SwipeGestureEventData) {
-
-        if (args.direction === 2) {
-            this.powrot();
-        }
     }
 }

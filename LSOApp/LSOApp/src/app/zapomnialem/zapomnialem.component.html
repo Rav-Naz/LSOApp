@@ -1,4 +1,4 @@
-<FlexboxLayout class="back wh100 center" [formGroup]="form" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back wh100 center" [formGroup]="form">
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2" [formGroup]="form">
             <StackLayout width="90%" *ngIf="!wyslanePrzyp">
@@ -33,7 +33,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*,*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
+            <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="!wyslanePrzyp"></Button>
             <Button text="Wyślij" col="2" colSpan="2" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="!wyslanePrzyp" [isEnabled]="this.form.valid"></Button>

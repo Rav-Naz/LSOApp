@@ -1,4 +1,4 @@
-<FlexboxLayout class="back wh100 center" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back wh100 center">
     <GridLayout rows="*,auto" columns="*" width="90%">
 
         <StackLayout row="0" col="0" height="90%">
@@ -11,7 +11,7 @@
             </FlexboxLayout>
 
             <GridLayout class="scroll wh100">
-                <ScrollView scrollBarIndicatorVisible="false" (swipe)="onSwipe($event)">
+                <ScrollView scrollBarIndicatorVisible="false">
                     <StackLayout>
                         <GridLayout rows="auto,auto,auto,auto,auto" columns="auto,*">
                             <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
@@ -67,7 +67,7 @@
 
                             <FlexboxLayout row="3" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-                            
+
                             <Label text="E-mail" row="3" col="0" class="opisCont opis lexend"></Label>
 
                             <GridLayout columns="*,25" rows="auto" row="3" col="1" class="daneCont"
@@ -107,7 +107,7 @@
             </GridLayout>
         </StackLayout>
         <GridLayout columns="*,*" rows="60" row="1" class="przyciski">
-            <Button text="Anuluj" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide" fontSize="17"></Button>
+            <Button [text]="this.form.valid && zmiana?'Anuluj':'Zamknij'" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide" fontSize="17"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" fontSize="17"
                 [isEnabled]="zmiana && this.form.valid"></Button>
         </GridLayout>

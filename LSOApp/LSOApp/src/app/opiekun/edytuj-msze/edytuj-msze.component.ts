@@ -170,12 +170,4 @@ export class EdytujMszeComponent implements OnInit {
             }
         });
     }
-
-    onSwipe(args: SwipeGestureEventData) {
-
-        if (args.direction === 1) {
-            this.anuluj();
-        }
-    }
-
 }

@@ -37,12 +37,6 @@ export class UstawieniaMComponent implements OnInit {
         })
     }
 
-    onSwipe(args: SwipeGestureEventData) {
-        if (args.direction === 1) {
-            this.indexService.nowyIndex(1);
-        }
-    }
-
     nawigujDo(sciezka: string) {
         this.router.navigate(['../' + sciezka], {relativeTo: this.active, transition: { name: 'slideLeft' }});
         // this.router.navigate(['/menu' ,{ outlets: {ministranci: [sciezka]} }],{ relativeTo: this.active, transition: { name: 'slideLeft' }});

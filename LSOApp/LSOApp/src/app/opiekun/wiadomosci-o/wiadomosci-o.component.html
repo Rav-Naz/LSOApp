@@ -1,5 +1,5 @@
-<FlexboxLayout class="back wh100 center" justifyContent="flex-start" (swipe)="onSwipe($event)">
-    <ScrollView (swipe)="onSwipe($event)">
+<FlexboxLayout class="back wh100 center" justifyContent="flex-start">
+    <ScrollView>
         <StackLayout width="100%">
             <FlexboxLayout class="center">
                 <FlexboxLayout class="flexEnd" *ngIf="!pisanieWiadomosci">
@@ -22,7 +22,7 @@
                 </GridLayout>
 
                     <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0"></Label>
-                        
+
 
                 <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid" (longPress)="usunWiadomosc(wiadomosc)">
                     <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>

@@ -215,10 +215,4 @@ export class MinistrantDyzuryComponent implements OnInit {
             return this.wydarzeniaMinistranta[index].godzina.toString().slice(11,16);
         }
     }
-
-    onSwipe(args: SwipeGestureEventData) {
-        if (args.direction === 1) {
-            this.anuluj();
-        }
-    }
 }

@@ -100,13 +100,6 @@ export class ZmienHasloMComponent implements OnInit {
 
     anuluj() {
         this.tabIndexService.nowyOutlet(6,"ustawieniaO")
-        this.router.backToPreviousPage();
-    }
-
-    onSwipe(args: SwipeGestureEventData) {
-
-        if (args.direction === 1) {
-            this.anuluj();
-        }
+        this.router.back();
     }
 }

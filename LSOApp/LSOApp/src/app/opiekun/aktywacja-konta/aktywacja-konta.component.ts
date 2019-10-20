@@ -51,7 +51,7 @@ export class AktywacjaKontaComponent implements OnInit {
 
     powrot() {
         this.tabIndexService.nowyOutlet(4,'ministrant-szczegoly');
-        this.router.backToPreviousPage();
+        this.router.back();
     }
 
     wyslij() {
@@ -70,12 +70,5 @@ export class AktywacjaKontaComponent implements OnInit {
         }
 
         this.wyslanePrzyp = true;
-    }
-
-    onSwipe(args: SwipeGestureEventData) {
-
-        if (args.direction === 1) {
-            this.powrot();
-        }
     }
 }

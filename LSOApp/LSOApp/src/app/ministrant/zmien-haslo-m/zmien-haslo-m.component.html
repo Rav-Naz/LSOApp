@@ -1,4 +1,4 @@
-<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2">
             <ScrollView>
@@ -13,7 +13,7 @@
                                 <Label text="AKTUALNE HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                         </FlexboxLayout>
                     </GridLayout>
-                
+
                     <Label text="Niepoprawne stare hasło" class="red lexend" *ngIf="!stareValid"></Label>
 
                     <GridLayout columns="auto,*" rows="10,10,auto" row="1" class="kontener center" height="100%">
@@ -36,7 +36,7 @@
                             <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                         </FlexboxLayout>
                     </GridLayout>
-                    <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzValid"></Label>                
+                    <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzValid"></Label>
                 </StackLayout>
             </ScrollView>
         </FlexboxLayout>
@@ -46,7 +46,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
+            <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide"
                 [isEnabled]="this.form.valid"></Button>
         </GridLayout>

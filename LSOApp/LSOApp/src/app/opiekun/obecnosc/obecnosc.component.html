@@ -1,4 +1,4 @@
-<GridLayout (swipe)="onSwipe($event)">
+<GridLayout>
     <FlexboxLayout class="back wh100 center">
         <!-- Widok dnia -->
         <StackLayout class="wh100" *ngIf="!kalendarz">
@@ -21,7 +21,7 @@
             </FlexboxLayout>
 
             <Label text="Brak przypisanych ministrantów, aby ich dodać przejdź do panelu ministranta" *ngIf="ministranciDoWydarzenia.length === 0 && dzisiejszeWydarzenia.length !== 0" class="brak lexend" width="90%"></Label>
-            <ScrollView *ngIf="ministranciDoWydarzenia.length > 0" (swipe)="onSwipe($event)" height="77%">
+            <ScrollView *ngIf="ministranciDoWydarzenia.length > 0" height="77%">
                 <StackLayout>
                     <GridLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
                         *ngFor="let item of ministranciDoWydarzenia; let i = index" width="100%">

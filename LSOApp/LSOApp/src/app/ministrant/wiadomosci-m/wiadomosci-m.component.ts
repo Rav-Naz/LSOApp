@@ -67,15 +67,6 @@ export class WiadomosciMComponent implements OnInit {
         return dzienStr + '/' + miesiacStr + '/' + data.getFullYear();
     }
 
-    onSwipe(args: SwipeGestureEventData) {
-        if (args.direction === 1) {
-            this.indexService.nowyIndex(0);
-        }
-        else if (args.direction === 2) {
-            this.indexService.nowyIndex(2);
-        }
-    }
-
     pobierzObraz(url: string)
     {
         let pociety = url.split("/")

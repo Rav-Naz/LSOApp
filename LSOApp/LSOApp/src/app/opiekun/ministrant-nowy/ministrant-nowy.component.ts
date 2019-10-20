@@ -91,7 +91,7 @@ export class MinistrantNowyComponent implements OnInit {
 
     anuluj() {
         this.tabIndexService.nowyOutlet(4,'ministranci')
-        this.router.backToPreviousPage();
+        this.router.back();
     }
 
     wybierzStopien() {

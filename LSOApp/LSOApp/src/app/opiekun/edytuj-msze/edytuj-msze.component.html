@@ -1,11 +1,11 @@
-<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex wh100 center" row="1" rowSpan="2">
             <GridLayout rows="*,*,*,*,*,*,*" columns="55,*" width="90%" marginTop="15" marginBottom="5">
                 <FlexboxLayout class="flex2 center backg-20" *ngFor="let dzien of DzienTygodnia, let i = index" col="0" [row]="i" [ngClass]="{wybrany: wybranyDzien === dzien}">
                     <Button class="btn wh100 audiowide" [text]="dzienTygodnia(dzien)" (tap)="zmienDzien(dzien)" [ngClass]="{wybrany: wybranyDzien === dzien}"></Button>
                 </FlexboxLayout>
-                <ScrollView col="1" row="0" rowSpan="7" margin="5" (swipe)="onSwipe($event)">
+                <ScrollView col="1" row="0" rowSpan="7" margin="5">
                     <StackLayout class="wh100" *ngIf="wybranyDzien !== undefined">
                         <GridLayout rows="auto" columns="*,50" *ngFor="let msza of wydarzeniaDnia, let i = index">
                             <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
@@ -40,7 +40,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
+            <Button [text]="zmiana?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="zmiana"></Button>
         </GridLayout>
     </GridLayout>

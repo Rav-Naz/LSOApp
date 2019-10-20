@@ -359,12 +359,4 @@ export class ObecnoscComponent implements OnInit {
     nic() {
 
     }
-
-    // kierunki: 1 (z lewej w prawo), 2 (z prawej w lewo), 4 (z dołu do góry), 8 (z góry do dołu)
-
-    onSwipe(args: SwipeGestureEventData) {
-        if (args.direction === 2) {
-            this.tabIndexService.nowyIndex(1);
-        }
-    }
 }

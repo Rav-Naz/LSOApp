@@ -82,15 +82,6 @@ export class WiadomosciOComponent implements OnInit {
         return dzienStr + '/' + miesiacStr + '/' + data.getFullYear();
     }
 
-    onSwipe(args: SwipeGestureEventData) {
-        if (args.direction === 1) {
-            this.indexService.nowyIndex(1);
-        }
-        else if (args.direction === 2) {
-            this.indexService.nowyIndex(3);
-        }
-    }
-
     wyslij()
     {
         if(this.tresc.length >= 1)

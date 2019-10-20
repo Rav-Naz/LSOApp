@@ -14,7 +14,7 @@
                                     <Label text="IMIĘ" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-                           
+
                             <Label text="Imię musi być jednoczłonowe oraz niedłuższe niż 15 znaków" class="red lexend"
                                 *ngIf="!imieValid"></Label>
                         </FlexboxLayout>
@@ -31,7 +31,7 @@
                                     <Label text="NAZWISKO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-                        
+
                             <Label text="Nazwisko musi być jednoczłonowe oraz niedłuższe niż 20 znaków"
                                 class="red lexend" *ngIf="!nazwiskoValid"></Label>
                         </FlexboxLayout>
@@ -46,7 +46,7 @@
                                     <Label text="STOPIEŃ" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-                           
+
                             <Label text="Wybierz stopień ministrancki" class="red lexend" *ngIf="!stopienValid"></Label>
                         </FlexboxLayout>
 
@@ -62,10 +62,10 @@
                                     <Label text="E-MAIL (?)" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-                           
+
                             <Label text="Wpisz poprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
                         </FlexboxLayout>
-                        
+
                     </GridLayout>
                 </StackLayout>
             </ScrollView>
@@ -76,7 +76,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
+            <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Dodaj" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide"
                 [isEnabled]="this.form.valid && stopienNazwa !=='Wybierz stopień'"></Button>
         </GridLayout>

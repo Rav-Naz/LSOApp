@@ -1,4 +1,4 @@
-<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100">
     <GridLayout rows="auto" columns="auto,*,auto" class="grid">
         <Button class="sort-btn center" (tap)="zmianaSortu()">
             <FormattedString>
@@ -19,10 +19,10 @@
     </GridLayout>
 
     <GridLayout class="lista">
-        
+
         <Label text="Brak ministrantów na liście" class="brak lexend" *ngIf="ministranci.length === 0"></Label>
 
-        <ListView [items]="ministranci" (swipe)="onSwipe($event)">
+        <ListView [items]="ministranci">
             <ng-template let-item="item" let-i="index">
                 <GridLayout rows="40" columns="auto,*,auto" class="element" [ngClass]="{szary: i%2 === 0}"
                     (tap)="szczegolyMinistranta(item.id_user)" (longPress)="usunMinistranta(item)">

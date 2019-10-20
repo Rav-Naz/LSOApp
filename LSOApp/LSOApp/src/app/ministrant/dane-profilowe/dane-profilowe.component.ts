@@ -79,17 +79,12 @@ export class DaneProfiloweComponent implements OnInit {
     });
   }
 
-  onSwipe(args: SwipeGestureEventData) {
-    if (args.direction === 1) {
-       this.zamknij();
-    }
-}
     async zamknij()
     {
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
             if(!kontynuowac)
             {
-                this.router.backToPreviousPage();
+                this.router.back();
             }
         });
     }

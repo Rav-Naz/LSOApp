@@ -1,5 +1,5 @@
-<FlexboxLayout class="back wh100 center" justifyContent="flex-start" (swipe)="onSwipe($event)">
-    <ScrollView (swipe)="onSwipe($event)">
+<FlexboxLayout class="back wh100 center" justifyContent="flex-start">
+    <ScrollView>
         <StackLayout width="100%">
             <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0"></Label>
             <FlexboxLayout class="wh100 center" justifyContent="flex-end" *ngIf="wiadomosci.length > 0">

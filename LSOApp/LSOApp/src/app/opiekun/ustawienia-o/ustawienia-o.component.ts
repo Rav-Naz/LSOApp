@@ -91,11 +91,4 @@ export class UstawieniaOComponent implements OnInit {
             }
         });
     }
-
-    onSwipe(args: SwipeGestureEventData) {
-
-        if (args.direction === 1) {
-            this.tabIndexService.nowyIndex(2);
-        }
-    }
 }

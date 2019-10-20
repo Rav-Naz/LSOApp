@@ -197,15 +197,6 @@ export class MinistrantSzczegolyComponent implements OnInit {
         });
     }
 
-    onSwipe(args: SwipeGestureEventData) {
-        if (args.direction === 1) {
-            this.zamknij();
-        }
-        else if (args.direction === 2) {
-            this.otworzDyzury();
-        }
-    }
-
     zapisz() {
         this.wpiszPunkty();
         this.parafiaService.updateMinistranta(this.ministrant).then(() => {

@@ -1,4 +1,4 @@
-<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2">
             <ScrollView height="90%" #scroll *ngIf="!udanaRejP">
@@ -14,7 +14,7 @@
                                 <Label text="DIECEZJA" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                      
+
                         <Label text="Wybierz diecezję" class="red lexend" *ngIf="!diecezjaValid"></Label>
                     </FlexboxLayout>
 
@@ -28,7 +28,7 @@
                                 <Label text="MIASTO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                       
+
                         <Label text="Wybierz miasto" class="red lexend" *ngIf="!miastoValid"></Label>
                     </FlexboxLayout>
 
@@ -42,7 +42,7 @@
                                 <Label text="RODZAJ PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                       
+
                         <Label text="Wybierz rodzaj parafii" class="red lexend" *ngIf="!rodzajValid"></Label>
                     </FlexboxLayout>
 
@@ -58,11 +58,11 @@
                             </FlexboxLayout>
                         </GridLayout>
 
-                      
+
                         <Label text="Wezwanie nie może być krótsze niż 3 znaki i dłuższe niż 30 znaków"
                             class="red lexend" *ngIf="!wezwanieValid"></Label>
                     </FlexboxLayout>
-                   
+
                     <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
@@ -74,7 +74,7 @@
                                 <Label text="E-MAIL" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                      
+
                         <Label text="Wpisz poprawny adres e-mail" class="red lexend" *ngIf="!emailPValid"></Label>
                     </FlexboxLayout>
                     <FlexboxLayout class="kontener center" height="100%">
@@ -87,7 +87,7 @@
                                 <Label text="HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                      
+
                         <Label
                             text="Hasło musi mieć od 6 do 15 znaków oraz może składać się ze wszystkich liter alfabetu polskiego, cyfr i symboli: +,*,@,#,$,&,^,~,_,?"
                             class="red lexend" *ngIf="!hasloPValid"></Label>
@@ -103,7 +103,7 @@
                                 <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
-                       
+
                         <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzPValid"></Label>
                     </FlexboxLayout>
 
@@ -117,7 +117,7 @@
                                 class="lexend" fontSize="13"></Label>
                         </FlexboxLayout>
                     </GridLayout>
-                    
+
                 </StackLayout>
             </ScrollView>
             <StackLayout *ngIf="udanaRejP">
@@ -127,7 +127,7 @@
                 <Label [text]="'Rodzaj parafii: ' + _rodzaj" class="dane lexend"></Label>
                 <Label [text]="'Wezwanie: ' + _wezwanie" class="dane lexend"></Label>
                 <Label [text]="'E-mail: ' + _emailP" class="dane lexend"></Label>
-                
+
             </StackLayout>
         </FlexboxLayout>
 
@@ -136,7 +136,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*,*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
+            <Button [text]="this.formP.valid?'Anuluj':'Zamknij'" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="!udanaRejP"></Button>
             <Button text="Zapisz" col="2" colSpan="2" (tap)="zarejestrujP()" class="anuluj b-p-10 zapisz audiowide"
                 [isEnabled]="this.formP.valid && _diecezja !== 'Wybierz diecezję' && _miasto !== 'Wybierz miasto' && _rodzaj !== 'Wybierz rodzaj parafii'"

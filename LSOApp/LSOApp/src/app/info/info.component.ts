@@ -17,17 +17,11 @@ export class InfoComponent implements OnInit {
     ngOnInit() {
       this.page.actionBarHidden = true;
     }
-
-    onSwipe(args: SwipeGestureEventData) {
-      if (args.direction === 1) {
-          this.zamknij();
-      }
-  }
       zamknij()
       {
           this.indexService.nowyOutlet(2,"ustawieniaM")
           this.indexService.nowyOutlet(6,"ustawieniaO")
-          this.router.backToPreviousPage();
+          this.router.back();
       }
   }
 

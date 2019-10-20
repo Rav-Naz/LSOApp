@@ -1,4 +1,4 @@
-<FlexboxLayout class="back center wh100" (swipe)="onSwipe($event)">
+<FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex center b-p-10" row="1" rowSpan="2">
             <ScrollView>
@@ -68,7 +68,7 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button text="Anuluj" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide"></Button>
+            <Button [text]="this.form.valid && zmiana?'Anuluj':'Zamknij'" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Zmień" col="1" (tap)="zmien()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="this.form.valid && zmiana"></Button>
         </GridLayout>
     </GridLayout>

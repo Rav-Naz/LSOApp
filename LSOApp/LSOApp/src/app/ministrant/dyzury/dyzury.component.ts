@@ -177,12 +177,6 @@ export class DyzuryComponent implements OnInit {
 
     // kierunki: 1 (z lewej w prawo), 2 (z prawej w lewo), 4 (z dołu do góry), 8 (z góry do dołu)
 
-    onSwipe(args: SwipeGestureEventData) {
-        if (args.direction === 2) {
-            this.indexService.nowyIndex(1);
-        }
-    }
-
     private nastepnyDzienTygodnia(index: number) {
         let dzis = new Date();
         dzis.setDate(dzis.getDate() + (index - 1 - dzis.getDay() + 7) % 7 + 1);

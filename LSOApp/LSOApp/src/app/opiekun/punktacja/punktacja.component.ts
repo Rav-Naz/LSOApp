@@ -83,7 +83,7 @@ export class PunktacjaComponent implements OnInit {
             if(!kontynuowac)
             {
                 this.tabIndexService.nowyOutlet(6,"ustawieniaO");
-                this.router.backToPreviousPage();
+                this.router.back();
             }
         });
     }
@@ -125,13 +125,6 @@ export class PunktacjaComponent implements OnInit {
                 resolve(false)
             }
         })
-    }
-
-    onSwipe(args: SwipeGestureEventData) {
-
-        if (args.direction === 1) {
-            this.anuluj();
-        }
     }
 
     zmien()
