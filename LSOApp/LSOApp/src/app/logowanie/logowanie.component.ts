@@ -55,10 +55,6 @@ export class LogowanieComponent implements OnInit {
 
     zaloguj(kto: boolean)
     {
-        // if(!this.form.valid)
-        // {
-        //     return;
-        // }
         this.tabIndexService.opiekun = kto;
 
        this._email = this.form.get('email').value;

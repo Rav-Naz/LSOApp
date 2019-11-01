@@ -6,7 +6,6 @@ import * as email from "nativescript-email";
 import { UserService } from '~/app/serwisy/user.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ActivatedRoute } from '@angular/router';
 

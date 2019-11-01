@@ -4,13 +4,13 @@ import { TextField } from 'tns-core-modules/ui/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { ScrollView } from 'tns-core-modules/ui/scroll-view'
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
-import { Feedback, FeedbackType} from "nativescript-feedback";
+import { Feedback, FeedbackType } from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '../shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { HttpService } from '../serwisy/http.service';
 
 
 @Component({
@@ -68,21 +68,23 @@ export class RejestracjaComponent implements OnInit {
 
     udanaRejP: boolean = false;
 
-     _diecezja: string = "Wybierz diecezję";
-     _miasto: string = "Wybierz miasto";
-     _rodzaj: string = "Wybierz rodzaj parafii";
-     _wezwanie: string;
-     _imieNazwiskoP: string;
-     _emailP: string;
-     _hasloP: string;
+    _diecezja: string = "Wybierz diecezję";
+    _diecezja_id: number = 1;
+    _miasto: string = "Wybierz miasto";
+    _rodzaj: string = "Wybierz rodzaj parafii";
+    _rodzaj_id: number = 1;
+    _wezwanie: string;
+    _imieNazwiskoP: string;
+    _emailP: string;
+    _hasloP: string;
 
     ////////////////////////////
 
     dialog: { title: string; message: string; cancelButtonText: string; actions: string[]; };
-    private miasta = ["Rzeszów","Warszawa"];
+    private miasta = ["Rzeszów", "Warszawa"];
     private feedback: Feedback;
 
-    constructor(private router: RouterExtensions, private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private router: RouterExtensions, private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef, private httpService: HttpService) {
         this.feedback = new Feedback();
 
     }
@@ -99,11 +101,12 @@ export class RejestracjaComponent implements OnInit {
         //     powtorzM: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.minLength(3)] })
         // });
         this.formP = new FormGroup({
-            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.minLength(3), Validators.maxLength(30)] }),
+            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
             // imieNazwiskoP: new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.minLength(3)] }),
+            miasto:  new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
             emailP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.email] }),
             hasloP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')] }),
-            powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required]}),
+            powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
         })
 
         // this.formM.get('imieM').statusChanges.subscribe(status => {
@@ -126,6 +129,9 @@ export class RejestracjaComponent implements OnInit {
 
         this.formP.get('wezwanie').statusChanges.subscribe(status => {
             this.wezwanieValid = status === 'VALID';
+        });
+        this.formP.get('miasto').statusChanges.subscribe(status => {
+            this.miastoValid = status === 'VALID';
         });
         // this.formP.get('imieNazwiskoP').statusChanges.subscribe(status => {
         //     this.imieNazwiskoPValid = status === 'VALID';
@@ -153,27 +159,27 @@ export class RejestracjaComponent implements OnInit {
         //     };
         // }
         if (akcja === 'diecezja') {
-            wybory = ['białostocka','bielsko-żywiecka','bydgoska','częstochowska','drohiczyńska','elbląska','ełcka','gdańska','gliwicka','gnieźnieńska','kaliska','katowicka','kielecka','koszalińsko-kołobrzeska','krakowska','legnicka','lubelska','łomżyńska','łowicka','łódzka','opolska','Ordynariat Polowy WP','pelplińska','płocka','Polska Misja Katolicka','poznańska','Prałatura Opus Dei','przemyska','radomska','rzeszowska','sandomierska','siedlecka','sosnowiecka','szczecińsko-kamieńska','świdnicka','tarnowska','toruńska','warmińska','warszawsko-praska','włocławska','wrocławska','zamojsko-lubaczowska','zielonogórsko-gorzowska']
+            wybory = ['białostocka', 'bielsko-żywiecka', 'bydgoska', 'częstochowska', 'drohiczyńska', 'elbląska', 'ełcka', 'gdańska', 'gliwicka', 'gnieźnieńska', 'kaliska', 'katowicka', 'kielecka', 'koszalińsko-kołobrzeska', 'krakowska', 'legnicka', 'lubelska', 'łomżyńska', 'łowicka', 'łódzka', 'opolska', 'Ordynariat Polowy WP', 'pelplińska', 'płocka', 'Polska Misja Katolicka', 'poznańska', 'Prałatura Opus Dei', 'przemyska', 'radomska', 'rzeszowska', 'sandomierska', 'siedlecka', 'sosnowiecka', 'szczecińsko-kamieńska', 'świdnicka', 'tarnowska', 'toruńska', 'warmińska', 'warszawsko-praska', 'włocławska', 'wrocławska', 'zamojsko-lubaczowska', 'zielonogórsko-gorzowska']
 
         }
         else if (akcja === 'miasto') {
-                wybory = this.miasta
+            wybory = this.miasta
         }
 
         else if (akcja === 'rodzaj') {
-                wybory = ['Diecezjalni','Albertyni','Augustianie','Barnabici','Bazylianie','Benedyktyni','Bernardyni','Bonifratrzy','Bracia Gabrieliści','Bracia Pocieszyciele','Bracia Serca Jezusowego','Bracia Szkolni','Chrystusowcy','Cystersi','Doloryści','Dominikanie','Duchacze','Filipini','Franciszkanie OFM','Franciszkanie Konwentualni OFMConv','Guanellianie','Jezuici','Józefici','Kameduli','Kamilianie','Kanonicy Regularni','Kapucyni OFMCap','Kapucyni Tercjarze','Karmelici','Karmelici Bosi','Klaretyni','Kombonianie','Mali Bracia Jezusa','Marianie','Marianiści','Michalici','Misjonarze','Misjonarze Krwi Chrystusa','Misjonarze Matki Bożej Pocieszenia','Misjonarze Montfortanie','Misjonarze Oblaci Maryi Niepokalanej','Misjonarze Świętej Rodziny','Misjonarze z Mariannhill','Ojcowie Biali','Orioniści','Pallotyni','Pasjoniści','Paulini','Pauliści','Pijarzy','Redemptoryści','Rogacjoniści','Saletyni','Salezjanie','Salwatorianie','Sercanie','Sercanie Biali','Stowarzyszenie Misji Afrykańskich','Synowie Maryi','Trynitarze','Werbiści','Zmartwychwstańcy']
+            wybory = ['Diecezjalni', 'Albertyni', 'Augustianie', 'Barnabici', 'Bazylianie', 'Benedyktyni', 'Bernardyni', 'Bonifratrzy', 'Bracia Gabrieliści', 'Bracia Pocieszyciele', 'Bracia Serca Jezusowego', 'Bracia Szkolni', 'Chrystusowcy', 'Cystersi', 'Doloryści', 'Dominikanie', 'Duchacze', 'Filipini', 'Franciszkanie OFM', 'Franciszkanie Konwentualni OFMConv', 'Guanellianie', 'Jezuici', 'Józefici', 'Kameduli', 'Kamilianie', 'Kanonicy Regularni', 'Kapucyni OFMCap', 'Kapucyni Tercjarze', 'Karmelici', 'Karmelici Bosi', 'Klaretyni', 'Kombonianie', 'Mali Bracia Jezusa', 'Marianie', 'Marianiści', 'Michalici', 'Misjonarze', 'Misjonarze Krwi Chrystusa', 'Misjonarze Matki Bożej Pocieszenia', 'Misjonarze Montfortanie', 'Misjonarze Oblaci Maryi Niepokalanej', 'Misjonarze Świętej Rodziny', 'Misjonarze z Mariannhill', 'Ojcowie Biali', 'Orioniści', 'Pallotyni', 'Pasjoniści', 'Paulini', 'Pauliści', 'Pijarzy', 'Redemptoryści', 'Rogacjoniści', 'Saletyni', 'Salezjanie', 'Salwatorianie', 'Sercanie', 'Sercanie Biali', 'Stowarzyszenie Misji Afrykańskich', 'Synowie Maryi', 'Trynitarze', 'Werbiści', 'Zmartwychwstańcy']
         }
 
-        this.modal.showModal(WyborModalComponent,{
+        this.modal.showModal(WyborModalComponent, {
             context: wybory,
             viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,
-            animated:  true,
+            animated: true,
             closeCallback: null,
             dimAmount: 0.8 // Sets the alpha of the background dim,
 
-          } as ExtendedShowModalOptions).then((result) => {
+        } as ExtendedShowModalOptions).then((result) => {
 
             // if (akcja === 'stopien') {
             //     if (result !== 'Anuluj') {
@@ -189,6 +195,7 @@ export class RejestracjaComponent implements OnInit {
             if (akcja === 'diecezja') {
                 if (result !== undefined) {
                     this._diecezja = wybory[result];
+                    this._diecezja_id = result;
                     this.diecezjaValid = true;
                 }
                 else {
@@ -197,20 +204,21 @@ export class RejestracjaComponent implements OnInit {
                     }
                 }
             }
-            else if (akcja === 'miasto') {
-                if (result !== undefined) {
-                    this._miasto = wybory[result];
-                    this.miastoValid = true;
-                }
-                else {
-                    if (this._miasto === 'Wybierz miasto') {
-                        this.miastoValid = false;
-                    }
-                }
-            }
+            // else if (akcja === 'miasto') {
+            //     if (result !== undefined) {
+            //         this._miasto = wybory[result];
+            //         this.miastoValid = true;
+            //     }
+            //     else {
+            //         if (this._miasto === 'Wybierz miasto') {
+            //             this.miastoValid = false;
+            //         }
+            //     }
+            // }
             else if (akcja === 'rodzaj') {
                 if (result !== undefined) {
                     this._rodzaj = wybory[result];
+                    this._rodzaj_id = result;
                     this.rodzajValid = true;
                 }
                 else {
@@ -220,51 +228,51 @@ export class RejestracjaComponent implements OnInit {
                 }
             }
         });
-}
+    }
 
-displayAlertDialog(messege: string) {
-    this.feedback.show({
-        title: "Uwaga!",
-        message: messege,
-        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-        duration: 3000,
-        backgroundColor: new Color(255,255, 207, 51),
-        type: FeedbackType.Warning,
-      });
-}
+    displayAlertDialog(messege: string) {
+        this.feedback.show({
+            title: "Uwaga!",
+            message: messege,
+            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+            duration: 3000,
+            backgroundColor: new Color(255, 255, 207, 51),
+            type: FeedbackType.Warning,
+        });
+    }
 
-regulamin() {
-    utils.openUrl("https://lsoapp.pl/polityka-prywatnosci/")
-}
+    regulamin() {
+        utils.openUrl("https://lsoapp.pl/polityka-prywatnosci/")
+    }
 
-// zarejestrujM() {
-//     if (this._stopien === "Stopień") {
-//         this.stopienMValid = false;
-//     }
-//     this.imieMRef.nativeElement.focus();
-//     this.nazwiskoMRef.nativeElement.focus();
-//     this.emailMRef.nativeElement.focus();
-//     this.powtorzMRef.nativeElement.focus();
-//     this.hasloMRef.nativeElement.focus();
-//     this.powtorzMRef.nativeElement.focus();
-//     this.powtorzMRef.nativeElement.dismissSoftInput();
+    // zarejestrujM() {
+    //     if (this._stopien === "Stopień") {
+    //         this.stopienMValid = false;
+    //     }
+    //     this.imieMRef.nativeElement.focus();
+    //     this.nazwiskoMRef.nativeElement.focus();
+    //     this.emailMRef.nativeElement.focus();
+    //     this.powtorzMRef.nativeElement.focus();
+    //     this.hasloMRef.nativeElement.focus();
+    //     this.powtorzMRef.nativeElement.focus();
+    //     this.powtorzMRef.nativeElement.dismissSoftInput();
 
-//     if (!this.formM.valid) {
-//         this.displayAlertDialog("Wypełnij poprawnie wszystkie pola");
-//         return;
-//     }
+    //     if (!this.formM.valid) {
+    //         this.displayAlertDialog("Wypełnij poprawnie wszystkie pola");
+    //         return;
+    //     }
 
-//     if (this.formM.get('hasloM').value !== this.formM.get('powtorzM').value) {
-//         this.powtorzMValid = false;
-//         this.displayAlertDialog("Hasła się różnią");
-//         return;
-//     }
+    //     if (this.formM.get('hasloM').value !== this.formM.get('powtorzM').value) {
+    //         this.powtorzMValid = false;
+    //         this.displayAlertDialog("Hasła się różnią");
+    //         return;
+    //     }
 
-//     if (!this.regulaminMRef.nativeElement.checked) {
-//         this.displayAlertDialog("Zaakceptuj regulamin i politykę prywatności");
-//         return;
-//     }
+    //     if (!this.regulaminMRef.nativeElement.checked) {
+    //         this.displayAlertDialog("Zaakceptuj regulamin i politykę prywatności");
+    //         return;
+    //     }
 
     // this.formM.reset();
     // this.imieMValid = true;
@@ -279,72 +287,107 @@ regulamin() {
     // this._emailM = this.formM.get('emailM').value;
     // this._hasloM = this.formM.get('hasloM').value;
     // this.udanaRejM = true;
-// }
+    // }
 
-zarejestrujP()
-{
-    if (this._diecezja === "Diecezja") {
-        this.diecezjaValid = false;
+    zarejestrujP() {
+        if (this._diecezja === "Diecezja") {
+            this.diecezjaValid = false;
+        }
+        // if (this._miasto === "Miasto") {
+        //     this.miastoValid = false;
+        // }
+
+        if (!this.formP.valid) {
+            this.feedback.show({
+                title: "Uwaga!",
+                message: "Wypełnij poprawnie wszystkie pola",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color(255, 255, 207, 51),
+                type: FeedbackType.Warning,
+
+            });
+            return;
+        }
+
+        if (this.formP.get('hasloP').value !== this.formP.get('powtorzP').value) {
+            this.powtorzPValid = false;
+            setTimeout(() => {
+                let scroll = this.scrollView.nativeElement;
+                scroll.scrollToVerticalOffset(scroll.scrollableHeight, true);
+            }, 100)
+            return;
+        }
+        if (!this.regulaminPRef.nativeElement.checked) {
+            this.feedback.show({
+                title: "Uwaga!",
+                message: "Zaakceptuj regulamin i politykę prywatności",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color(255, 255, 207, 51),
+                type: FeedbackType.Warning,
+
+            });
+            setTimeout(() => {
+                let scroll = this.scrollView.nativeElement;
+                scroll.scrollToVerticalOffset(scroll.scrollableHeight, true);
+            }, 100)
+            return;
+        }
+
+
+        this._wezwanie = this.formP.get('wezwanie').value;
+        this._miasto = this.formP.get('miasto').value;
+        // this._imieNazwiskoP = this.formP.get('imieNazwiskoP').value;
+        this._emailP = this.formP.get('emailP').value;
+        this._hasloP = this.formP.get('hasloP').value;
+
+        this.httpService.rejestracja(this._wezwanie, this._diecezja_id + 1, this._miasto, this._rodzaj_id + 1, this._emailP, this._hasloP).then((res) => {
+            switch (res) {
+                case 0:
+                    this.feedback.show({
+                        title: "Błąd!",
+                        message: "Wystąpił nieoczekiwany błąd",
+                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                        duration: 3000,
+                        backgroundColor: new Color("#e71e25"),
+                        type: FeedbackType.Error,
+
+                    });
+                    break;
+
+                case 1:
+                    this.udanaRejP = true;
+                    break;
+
+                case 2:
+                    this.displayAlertDialog('Ten adres e-mail jest już przypisany do innego konta!')
+                    break;
+                default:
+                    this.feedback.show({
+                        title: "Błąd!",
+                        message: "Wystąpił nieoczekiwany błąd",
+                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                        duration: 3000,
+                        backgroundColor: new Color("#e71e25"),
+                        type: FeedbackType.Error,
+
+                    });
+                    break;
+            }
+        });
+
     }
-    if (this._miasto === "Miasto") {
-        this.miastoValid = false;
+
+    focus() {
+        this.wezwanieRef.nativeElement.focus();
     }
 
-    if (!this.formP.valid) {
-        this.feedback.show({
-            title: "Uwaga!",
-            message: "Wypełnij poprawnie wszystkie pola",
-            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-            duration: 3000,
-            backgroundColor: new Color(255,255, 207, 51),
-            type: FeedbackType.Warning,
-
-          });
-        return;
+    powrot() {
+        this.router.back();
     }
-
-    if (this.formP.get('hasloP').value !== this.formP.get('powtorzP').value) {
-        this.powtorzPValid = false;
-        setTimeout(() => {
-            let scroll = this.scrollView.nativeElement;
-            scroll.scrollToVerticalOffset(scroll.scrollableHeight,true);
-        },100)
-        return;
-    }
-    if (!this.regulaminPRef.nativeElement.checked) {
-        this.feedback.show({
-            title: "Uwaga!",
-            message: "Zaakceptuj regulamin i politykę prywatności",
-            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-            duration: 3000,
-            backgroundColor: new Color(255,255, 207, 51),
-            type: FeedbackType.Warning,
-
-          });
-        setTimeout(() => {
-            let scroll = this.scrollView.nativeElement;
-            scroll.scrollToVerticalOffset(scroll.scrollableHeight,true);
-        },100)
-        return;
-    }
-
-
-    this._wezwanie = this.formP.get('wezwanie').value;
-    // this._imieNazwiskoP = this.formP.get('imieNazwiskoP').value;
-    this._emailP = this.formP.get('emailP').value;
-    this._hasloP = this.formP.get('hasloP').value;
-    this.udanaRejP = true;
-
-}
-
-focus()
-{
-    this.wezwanieRef.nativeElement.focus();
-}
-
-powrot() {
-    this.router.back();
-}
 }

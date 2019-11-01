@@ -4,6 +4,7 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptFormsModule } from "nativescript-angular/forms"
 import {NativeScriptUICalendarModule} from "nativescript-ui-calendar/angular";
 import { NativeScriptDateTimePickerModule } from "nativescript-datetimepicker/angular";
+import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -37,6 +38,7 @@ import { AktywacjaKontaComponent } from './opiekun/aktywacja-konta/aktywacja-kon
 import { WyborModalComponent } from './shared/modale/wybor-modal/wybor-modal.component';
 import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 
+
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
@@ -56,7 +58,8 @@ import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal
         NativeScriptDateTimePickerModule,
         ReactiveFormsModule,
         SharedModule,
-        NativeScriptUICalendarModule
+        NativeScriptUICalendarModule,
+        NativeScriptHttpClientModule
     ],
     declarations: [
         AppComponent,

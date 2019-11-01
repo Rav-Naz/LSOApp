@@ -48,7 +48,7 @@ export class MenuComponent implements OnInit,OnDestroy {
 
     locationStrategy()
     {
-        this.tabIndexService.nowyIndex(3)
+        this.tabIndexService.nowyIndex(2)
     }
 
     zmianaIndexu(event: EventData)
