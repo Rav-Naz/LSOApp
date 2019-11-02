@@ -61,7 +61,6 @@ export class WydarzeniaService {
         return new Promise<void>((resolve) => {
             this.aktywnyDzien = dzien;
             this.http.pobierzWydarzeniaNaDanyDzien(dzien, 2).then(res => {
-                console.log(res)
                 this.wydarzeniaObecnosc.next(res);
                 resolve();
             })

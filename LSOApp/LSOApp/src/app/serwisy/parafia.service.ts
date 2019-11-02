@@ -73,7 +73,6 @@ export class ParafiaService {
 
     dyzurDoWydarzenia(id_wyd: number) { //Wykorzystanie: obecnosc
         this.http.pobierzDyzuryDoWydarzenia(38).then(res => {
-            console.log(res)
             this.dyzuryWydarzenia.next(res);
         })
     }
@@ -197,70 +196,86 @@ export class ParafiaService {
 
     obecnosciDoWydarzenia(id_wydarzenia:number, data: Date) //Wykorzystanie: obecnosc
     {
-        let ob = this._obecnosci.filter(obecnosc => obecnosc.id_wydarzenia === id_wydarzenia && new Date(obecnosc.data).getDate() === data.getDate() &&  new Date(obecnosc.data).getMonth() === data.getMonth() && new Date(obecnosc.data).getFullYear() === data.getFullYear());
-        if(ob === undefined)
-        {
-            ob = [];
-        }
-        this.obecnosciWydarzenia.next(ob);
+        // let ob = this._obecnosci.filter(obecnosc => obecnosc.id_wydarzenia === id_wydarzenia && new Date(obecnosc.data).getDate() === data.getDate() &&  new Date(obecnosc.data).getMonth() === data.getMonth() && new Date(obecnosc.data).getFullYear() === data.getFullYear());
+        // if(ob === undefined)
+        // {
+        //     ob = [];
+        // }
+
+        this.http.pobierzObecnosciDoWydarzenia(1, new Date(2019,8,20)).then(res => {
+            this.obecnosciWydarzenia.next(JSON.parse(JSON.stringify(res)));
+        })
+
     }
 
     nowaObecnosc(id_wydarzenia: number, id_user: number, data: Date) //Wykorzystanie: obecnosc
     {
-        this.indexObecnosci++;
-        let ob: Obecnosc = {id: this.indexObecnosci, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate()).toJSON(), status: null }
+        let ob: Obecnosc = {id: 0, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate()).toJSON(), status: null }
         // this.secureStorage.setSync({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])})
         return ob;
     }
 
-    async zapiszObecnosci(nowaLista: Array<Obecnosc>) //Wykorzystanie: obecnosc
+    async zapiszObecnosci(nowaLista: Array<Obecnosc>, czySprawdzanie: boolean) //Wykorzystanie: obecnosc
     {
-        let id_wydarzenia = nowaLista[0].id_wydarzenia;
-        let data = new Date(nowaLista[0].data);
-        nowaLista.forEach(obecnosc => {
-          let ob = this._obecnosci.filter(istniejaca => istniejaca.id_user === obecnosc.id_user && istniejaca.id_wydarzenia === obecnosc.id_wydarzenia &&  new Date(istniejaca.data).getDate() === new Date(obecnosc.data).getDate() &&  new Date(istniejaca.data).getMonth() === new Date(obecnosc.data).getMonth() && new Date(istniejaca.data).getFullYear() === new Date(obecnosc.data).getFullYear())[0];
-          if(ob === undefined)
-          {
-              this.ministranciLista.filter(ministrant => ministrant.id_user === obecnosc.id_user)[0].punkty += (obecnosc.status === 1? this.punktyZaObecnosc : obecnosc.status === 0? this.punktyZaNieobecnosc : 0)
-              this._obecnosci.push(obecnosc)
-          }
-          else
-          {
-              let index = this._obecnosci.indexOf(ob);
-              let aktualnyStatus = this._obecnosci[index].status
-              let punkty: number = 0;
+        console.log(czySprawdzanie)
+        if(czySprawdzanie)
+        {
+            nowaLista.forEach(element => {
+                this.http.updateObecnosci(element)
+            })
+        }
+        else
+        {
+            nowaLista.forEach(element => {
+                this.http.nowaObecnosc(element)
+            })
+        }
+        // let id_wydarzenia = nowaLista[0].id_wydarzenia;
+        // let data = new Date(nowaLista[0].data);
+        // nowaLista.forEach(obecnosc => {
+        //   let ob = this._obecnosci.filter(istniejaca => istniejaca.id_user === obecnosc.id_user && istniejaca.id_wydarzenia === obecnosc.id_wydarzenia &&  new Date(istniejaca.data).getDate() === new Date(obecnosc.data).getDate() &&  new Date(istniejaca.data).getMonth() === new Date(obecnosc.data).getMonth() && new Date(istniejaca.data).getFullYear() === new Date(obecnosc.data).getFullYear())[0];
+        //   if(ob === undefined)
+        //   {
+        //       this.ministranciLista.filter(ministrant => ministrant.id_user === obecnosc.id_user)[0].punkty += (obecnosc.status === 1? this.punktyZaObecnosc : obecnosc.status === 0? this.punktyZaNieobecnosc : 0)
+        //       this._obecnosci.push(obecnosc)
+        //   }
+        //   else
+        //   {
+        //       let index = this._obecnosci.indexOf(ob);
+        //       let aktualnyStatus = this._obecnosci[index].status
+        //       let punkty: number = 0;
 
-              if(aktualnyStatus !== obecnosc.status)
-              {
-                  if(aktualnyStatus === 0 && obecnosc.status === 1)
-                  {
-                    punkty += this.punktyZaObecnosc-this.punktyZaNieobecnosc;
-                  }
-                  else if(aktualnyStatus === 0 && obecnosc.status === null)
-                  {
-                    punkty += -this.punktyZaNieobecnosc;
-                  }
-                  else if(aktualnyStatus === 1 && obecnosc.status === 0)
-                  {
-                    punkty += this.punktyZaNieobecnosc-this.punktyZaObecnosc;
-                  }
-                  else if(aktualnyStatus === 1 && obecnosc.status === null)
-                  {
-                    punkty += -this.punktyZaObecnosc;
-                  }
-                  else if(aktualnyStatus === null && obecnosc.status === 0)
-                  {
-                    punkty += this.punktyZaNieobecnosc;
-                  }
-                  else if(aktualnyStatus === null && obecnosc.status === 1)
-                  {
-                    punkty += this.punktyZaObecnosc;
-                  }
-                  this.ministranciLista.filter(ministrant => ministrant.id_user === obecnosc.id_user)[0].punkty += punkty;
-              }
-             this._obecnosci[index].status = obecnosc.status;
-          }
-        });
+        //       if(aktualnyStatus !== obecnosc.status)
+        //       {
+        //           if(aktualnyStatus === 0 && obecnosc.status === 1)
+        //           {
+        //             punkty += this.punktyZaObecnosc-this.punktyZaNieobecnosc;
+        //           }
+        //           else if(aktualnyStatus === 0 && obecnosc.status === null)
+        //           {
+        //             punkty += -this.punktyZaNieobecnosc;
+        //           }
+        //           else if(aktualnyStatus === 1 && obecnosc.status === 0)
+        //           {
+        //             punkty += this.punktyZaNieobecnosc-this.punktyZaObecnosc;
+        //           }
+        //           else if(aktualnyStatus === 1 && obecnosc.status === null)
+        //           {
+        //             punkty += -this.punktyZaObecnosc;
+        //           }
+        //           else if(aktualnyStatus === null && obecnosc.status === 0)
+        //           {
+        //             punkty += this.punktyZaNieobecnosc;
+        //           }
+        //           else if(aktualnyStatus === null && obecnosc.status === 1)
+        //           {
+        //             punkty += this.punktyZaObecnosc;
+        //           }
+        //           this.ministranciLista.filter(ministrant => ministrant.id_user === obecnosc.id_user)[0].punkty += punkty;
+        //       }
+        //      this._obecnosci[index].status = obecnosc.status;
+        //   }
+        // });
         await this.odswiezListeMinistrantow();
 
         // this.secureStorage.set({key: "obecnosci", value: JSON.stringify(this._obecnosci)}).then(async() => {

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as sha512 from 'js-sha512';
 import { User } from './user.model';
 import { Wydarzenie } from './wydarzenie.model';
+import { Obecnosc } from './obecnosc.model';
 
 @Injectable({
     providedIn: 'root'
@@ -130,6 +131,54 @@ export class HttpService {
 
             this.http.get(this.serverUrl + '/event_duty', { headers: options }).subscribe(res => {
                 resolve(JSON.parse(JSON.stringify(res)))
+            });
+        });
+    }
+
+    //POBIERANIE OBECNOSCI DO DANEGO WYDARZENIA
+    async pobierzObecnosciDoWydarzenia(id_wydarzenia:number, data: Date) {
+        return new Promise<Array<User>>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ id_wydarzenia: id_wydarzenia, data: data }))
+            });
+
+            this.http.get(this.serverUrl + '/presence', { headers: options }).subscribe(res => {
+                resolve(JSON.parse(JSON.stringify(res)))
+            });
+        });
+    }
+
+    //AKTUALIZOWANIE ISTNIEJĄCEJ OBECNOŚCI
+    async updateObecnosci(obecnosc: Obecnosc) {
+        return new Promise<void>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ id_obecnosci: obecnosc.id, status: obecnosc.status}))
+            });
+
+            console.log('aktualizacja')
+
+            this.http.post(this.serverUrl + '/update_presence', null, { headers: options }).subscribe(res => {
+                console.log(res)
+                resolve()
+            });
+        });
+    }
+
+    //DODAWANIE NOWEJ OBECNOŚCI
+    async nowaObecnosc(obecnosc: Obecnosc) {
+        return new Promise<void>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({id_wydarzenia: obecnosc.id_wydarzenia, id_user: obecnosc.id_user, data: obecnosc.data, status: obecnosc.status}))
+            });
+
+            console.log('dodawanie')
+
+            this.http.post(this.serverUrl + '/add_presence', null, { headers: options }).subscribe(res => {
+                console.log(res)
+                resolve()
             });
         });
     }

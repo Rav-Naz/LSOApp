@@ -118,6 +118,7 @@ export class ObecnoscComponent implements OnInit {
             if(lista !== null)
             {
                 this.ministranciDoWydarzenia = lista;
+                this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
             }
             else
             {
@@ -131,7 +132,6 @@ export class ObecnoscComponent implements OnInit {
             //     this.ministranciDoWydarzenia.sort((min1, min2) => {
             //         return sortPolskich(min1.nazwisko,min2.nazwisko)
             //     });
-            //     this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
             // }
         });
 
@@ -153,6 +153,7 @@ export class ObecnoscComponent implements OnInit {
             else {// W przypadku gdy sprawdzamy obecnosc w tym dniu pierwszy raz
                 this.sprawdzane = false;
                 this.ministranciDoWydarzenia.forEach(ministrant => {
+                    console.log(this.aktywneWydarzenie)
                     this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, ministrant.id_user, this.aktywnyDzien));
                 })
                 if(this.ministranciDoWydarzenia.length === 0)
@@ -270,7 +271,6 @@ export class ObecnoscComponent implements OnInit {
     }
 
     zmienStatusObecnosci(event, id_user: number) {
-        this.sprawdzane = true;
         let status = this.noweObecnosci.filter(obecnosc => obecnosc.id_user === id_user)[0];
         if (status !== undefined) {
             status.status = event;
@@ -279,7 +279,7 @@ export class ObecnoscComponent implements OnInit {
     }
 
     zapiszZmiany() {
-        this.parafiaService.zapiszObecnosci(this.noweObecnosci).then(() => {
+        this.parafiaService.zapiszObecnosci(this.noweObecnosci, this.sprawdzane).then(() => {
             this.feedback.show({
                 title: "Sukces!",
                 message: "Zapisano obecności",
