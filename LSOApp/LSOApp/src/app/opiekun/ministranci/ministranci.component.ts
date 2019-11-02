@@ -6,7 +6,6 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { Subscription } from 'rxjs';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
@@ -35,6 +34,7 @@ export class MinistranciComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.parafiaService.pobierzMinistrantow()
         this.page.actionBarHidden = true;
         this.miniSub = this.parafiaService.Ministranci.subscribe(lista => {
             this.ministranci = [];

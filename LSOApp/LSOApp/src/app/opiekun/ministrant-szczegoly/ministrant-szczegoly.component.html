@@ -89,11 +89,11 @@
                                     <StackLayout
                                         *ngIf="ministrant.ulica || ministrant.kod_pocztowy || ministrant.miasto || ministrant.telefon">
                                         <Label [text]="'ul. ' + ministrant.ulica" horizontalAlignment="right"
-                                            class="dane lexend"></Label>
+                                            class="dane lexend" *ngIf="ministrant.ulica !== null"></Label>
                                         <Label [text]="ministrant.kod_pocztowy + ' ' + ministrant.miasto"
-                                            horizontalAlignment="right" class="dane lexend"></Label>
+                                            horizontalAlignment="right" class="dane lexend" *ngIf="ministrant.miasto !== null"></Label>
                                         <Label [text]="'tel. ' + ministrant.telefon" horizontalAlignment="right"
-                                            class="dane lexend"></Label>
+                                            class="dane lexend" *ngIf="ministrant.telefon !== null"></Label>
                                     </StackLayout>
                                     <Label text="Brak" class="dane lexend"
                                         *ngIf="!ministrant.ulica && !ministrant.kod_pocztowy && !ministrant.miasto && !ministrant.telefon"></Label>

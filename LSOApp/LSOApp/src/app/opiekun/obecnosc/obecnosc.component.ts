@@ -70,11 +70,14 @@ export class ObecnoscComponent implements OnInit {
 
         this.WydarzeniaSub = this.wydarzeniaService.WydarzeniaObecnoscSub.subscribe(lista => {
             this.dzisiejszeWydarzenia = [];
-            this.dzisiejszeWydarzenia = lista.sort((wyd1, wyd2) => {
-                if (wyd1.godzina > wyd2.godzina) { return 1; }
-                if (wyd1.godzina < wyd2.godzina) { return -1; }
-                return 0;
-            });
+            if(lista !== null)
+            {
+                this.dzisiejszeWydarzenia = lista.sort((wyd1, wyd2) => {
+                    if (wyd1.godzina > wyd2.godzina) { return 1; }
+                    if (wyd1.godzina < wyd2.godzina) { return -1; }
+                    return 0;
+                });
+            }
 
             if (this.dzisiejszeWydarzenia.length === 0) {
                 this.zmiana = false;
@@ -112,17 +115,24 @@ export class ObecnoscComponent implements OnInit {
         })
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
-            this.ministranciDoWydarzenia = [];
-            this.zmiana = false;
-            if (lista !== null && lista !== undefined) {
-                lista.forEach((item) => {
-                    this.ministranciDoWydarzenia.push(this.parafiaService.WybranyMinistrant(item.id_user))
-                });
-                this.ministranciDoWydarzenia.sort((min1, min2) => {
-                    return sortPolskich(min1.nazwisko,min2.nazwisko)
-                });
-                this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
+            if(lista !== null)
+            {
+                this.ministranciDoWydarzenia = lista;
             }
+            else
+            {
+                this.ministranciDoWydarzenia = [];
+            }
+            this.zmiana = false;
+            // if (lista !== null && lista !== undefined) {
+            //     lista.forEach((item) => {
+            //         this.ministranciDoWydarzenia.push(this.parafiaService.WybranyMinistrant(item.id_user))
+            //     });
+            //     this.ministranciDoWydarzenia.sort((min1, min2) => {
+            //         return sortPolskich(min1.nazwisko,min2.nazwisko)
+            //     });
+            //     this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
+            // }
         });
 
         this.ObecSub = this.parafiaService.Obecnosci.subscribe(lista => {
@@ -166,7 +176,9 @@ export class ObecnoscComponent implements OnInit {
         let miesciacStr: string;
 
         if (wydarzenie) {
-            this.naglowek = wydarzenie.godzina.toString().slice(11, 16) + ', ' + DzienTyg[wydarzenie.dzien_tygodnia] + ' ';
+            let godzina = new Date(wydarzenie.godzina)
+            godzina.setHours(godzina.getHours() + 1)
+            this.naglowek = godzina.toJSON().toString().slice(11, 16) + ', ' + DzienTyg[wydarzenie.dzien_tygodnia] + ' ';
         }
         else {
             this.naglowek = DzienTyg[aktywnyDz.getDay()] + ' ';

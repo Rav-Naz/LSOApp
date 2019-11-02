@@ -21,37 +21,10 @@ import { HttpService } from '../serwisy/http.service';
 })
 export class RejestracjaComponent implements OnInit {
 
-    // formM: FormGroup;
-
-    // @ViewChild('imieM', { static: false }) imieMRef: ElementRef<TextField>;
-    // @ViewChild('nazwiskoM', { static: false }) nazwiskoMRef: ElementRef<TextField>;
-    // @ViewChild('emailM', { static: false }) emailMRef: ElementRef<TextField>;
-    // @ViewChild('hasloM', { static: false }) hasloMRef: ElementRef<TextField>;
-    // @ViewChild('powtorzM', { static: false }) powtorzMRef: ElementRef<TextField>;
-    // @ViewChild('regulaminM', { static: false }) regulaminMRef: ElementRef<Switch>;
-
-    // imieMValid: boolean = true;
-    // nazwiskoMValid: boolean = true;
-    // stopienMValid: boolean = true;
-    // emailMValid: boolean = true;
-    // hasloMValid: boolean = true;
-    // powtorzMValid: boolean = true;
-
-    // udanaRejM: boolean = false;
-
-    //  _stopien: string = "Stopień";
-    //  _imieM: string;
-    //  _nazwiskoM: string;
-    //  _emailM: string;
-    //  _hasloM: string;
-
-    /////////////////////////////
-
     formP: FormGroup;
 
     @ViewChild('scroll', { static: false }) scrollView: ElementRef<ScrollView>;
     @ViewChild('wezwanie', { static: false }) wezwanieRef: ElementRef<TextField>;
-    // @ViewChild('imieNazwiskoP', { static: false }) imieNazwiskoPRef: ElementRef<TextField>;
     @ViewChild('emailP', { static: false }) emailPRef: ElementRef<TextField>;
     @ViewChild('hasloP', { static: false }) hasloPRef: ElementRef<TextField>;
     @ViewChild('powtorzP', { static: false }) powtorzPRef: ElementRef<TextField>;
@@ -93,39 +66,13 @@ export class RejestracjaComponent implements OnInit {
     ngOnInit() {
         this.page.actionBarHidden = true;
 
-        // this.formM = new FormGroup({
-        //     imieM: new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.minLength(3)] }),
-        //     nazwiskoM: new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.minLength(3)] }),
-        //     emailM: new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.email] }),
-        //     hasloM: new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.minLength(3)] }),
-        //     powtorzM: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.minLength(3)] })
-        // });
         this.formP = new FormGroup({
-            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
-            // imieNazwiskoP: new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.minLength(3)] }),
+            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2  ,30})')] }),
             miasto:  new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
             emailP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.email] }),
             hasloP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')] }),
             powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
         })
-
-        // this.formM.get('imieM').statusChanges.subscribe(status => {
-        //     this.imieMValid = status === 'VALID';
-        // });
-        // this.formM.get('nazwiskoM').statusChanges.subscribe(status => {
-        //     this.nazwiskoMValid = status === 'VALID';
-        // });
-        // this.formM.get('emailM').statusChanges.subscribe(status => {
-        //     this.emailMValid = status === 'VALID';
-        // });
-        // this.formM.get('hasloM').statusChanges.subscribe(status => {
-        //     this.hasloMValid = status === 'VALID';
-        // });
-        // this.formM.get('powtorzM').statusChanges.subscribe(status => {
-        //     this.powtorzMValid = status === 'VALID';
-        // });
-
-        ///////////////////////////////////////////////////////////////
 
         this.formP.get('wezwanie').statusChanges.subscribe(status => {
             this.wezwanieValid = status === 'VALID';
@@ -133,9 +80,6 @@ export class RejestracjaComponent implements OnInit {
         this.formP.get('miasto').statusChanges.subscribe(status => {
             this.miastoValid = status === 'VALID';
         });
-        // this.formP.get('imieNazwiskoP').statusChanges.subscribe(status => {
-        //     this.imieNazwiskoPValid = status === 'VALID';
-        // });
         this.formP.get('emailP').statusChanges.subscribe(status => {
             this.emailPValid = status === 'VALID';
         });
@@ -150,14 +94,7 @@ export class RejestracjaComponent implements OnInit {
     displayActionDialog(akcja: 'stopien' | 'diecezja' | 'miasto' | 'rodzaj') {
 
         let wybory: Array<any>;
-        // if (akcja === 'stopien') {
-        //     this.dialog = {
-        //         title: "Stopień ministrancki",
-        //         message: "Wybierz swój stopień",
-        //         cancelButtonText: "Anuluj",
-        //         actions: ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz"]
-        //     };
-        // }
+
         if (akcja === 'diecezja') {
             wybory = ['białostocka', 'bielsko-żywiecka', 'bydgoska', 'częstochowska', 'drohiczyńska', 'elbląska', 'ełcka', 'gdańska', 'gliwicka', 'gnieźnieńska', 'kaliska', 'katowicka', 'kielecka', 'koszalińsko-kołobrzeska', 'krakowska', 'legnicka', 'lubelska', 'łomżyńska', 'łowicka', 'łódzka', 'opolska', 'Ordynariat Polowy WP', 'pelplińska', 'płocka', 'Polska Misja Katolicka', 'poznańska', 'Prałatura Opus Dei', 'przemyska', 'radomska', 'rzeszowska', 'sandomierska', 'siedlecka', 'sosnowiecka', 'szczecińsko-kamieńska', 'świdnicka', 'tarnowska', 'toruńska', 'warmińska', 'warszawsko-praska', 'włocławska', 'wrocławska', 'zamojsko-lubaczowska', 'zielonogórsko-gorzowska']
 
@@ -181,17 +118,6 @@ export class RejestracjaComponent implements OnInit {
 
         } as ExtendedShowModalOptions).then((result) => {
 
-            // if (akcja === 'stopien') {
-            //     if (result !== 'Anuluj') {
-            //         this._stopien = result;
-            //         this.stopienMValid = true;
-            //     }
-            //     else {
-            //         if (this._stopien === 'Stopień') {
-            //             this.stopienMValid = false;
-            //         }
-            //     }
-            // }
             if (akcja === 'diecezja') {
                 if (result !== undefined) {
                     this._diecezja = wybory[result];
@@ -204,17 +130,6 @@ export class RejestracjaComponent implements OnInit {
                     }
                 }
             }
-            // else if (akcja === 'miasto') {
-            //     if (result !== undefined) {
-            //         this._miasto = wybory[result];
-            //         this.miastoValid = true;
-            //     }
-            //     else {
-            //         if (this._miasto === 'Wybierz miasto') {
-            //             this.miastoValid = false;
-            //         }
-            //     }
-            // }
             else if (akcja === 'rodzaj') {
                 if (result !== undefined) {
                     this._rodzaj = wybory[result];
@@ -245,57 +160,11 @@ export class RejestracjaComponent implements OnInit {
     regulamin() {
         utils.openUrl("https://lsoapp.pl/polityka-prywatnosci/")
     }
-
-    // zarejestrujM() {
-    //     if (this._stopien === "Stopień") {
-    //         this.stopienMValid = false;
-    //     }
-    //     this.imieMRef.nativeElement.focus();
-    //     this.nazwiskoMRef.nativeElement.focus();
-    //     this.emailMRef.nativeElement.focus();
-    //     this.powtorzMRef.nativeElement.focus();
-    //     this.hasloMRef.nativeElement.focus();
-    //     this.powtorzMRef.nativeElement.focus();
-    //     this.powtorzMRef.nativeElement.dismissSoftInput();
-
-    //     if (!this.formM.valid) {
-    //         this.displayAlertDialog("Wypełnij poprawnie wszystkie pola");
-    //         return;
-    //     }
-
-    //     if (this.formM.get('hasloM').value !== this.formM.get('powtorzM').value) {
-    //         this.powtorzMValid = false;
-    //         this.displayAlertDialog("Hasła się różnią");
-    //         return;
-    //     }
-
-    //     if (!this.regulaminMRef.nativeElement.checked) {
-    //         this.displayAlertDialog("Zaakceptuj regulamin i politykę prywatności");
-    //         return;
-    //     }
-
-    // this.formM.reset();
-    // this.imieMValid = true;
-    // this.nazwiskoMValid = true;
-    // this._stopien = "Stopień";
-    // this.emailMValid = true;
-    // this.hasloMValid = true;
-    // this.powtorzMValid = true;
-    // this.router.backToPreviousPage();
-    // this._imieM = this.formM.get('imieM').value;
-    // this._nazwiskoM = this.formM.get('nazwiskoM').value;
-    // this._emailM = this.formM.get('emailM').value;
-    // this._hasloM = this.formM.get('hasloM').value;
-    // this.udanaRejM = true;
-    // }
-
     zarejestrujP() {
+
         if (this._diecezja === "Diecezja") {
             this.diecezjaValid = false;
         }
-        // if (this._miasto === "Miasto") {
-        //     this.miastoValid = false;
-        // }
 
         if (!this.formP.valid) {
             this.feedback.show({
@@ -340,7 +209,6 @@ export class RejestracjaComponent implements OnInit {
 
         this._wezwanie = this.formP.get('wezwanie').value;
         this._miasto = this.formP.get('miasto').value;
-        // this._imieNazwiskoP = this.formP.get('imieNazwiskoP').value;
         this._emailP = this.formP.get('emailP').value;
         this._hasloP = this.formP.get('hasloP').value;
 

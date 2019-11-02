@@ -5,7 +5,7 @@ import { Dyzur } from './dyzur.model';
 import { Wydarzenie } from './wydarzenie.model';
 import { Obecnosc } from './obecnosc.model';
 import { Stopien } from './stopien.model';
-import { SecureStorage } from "nativescript-secure-storage";
+import { HttpService } from './http.service';
 
 @Injectable({
     providedIn: 'root'
@@ -23,96 +23,16 @@ export class ParafiaService {
 
     zapisz: boolean = true;
 
-    secureStorage: SecureStorage;
+    constructor(private http: HttpService){}
 
-    constructor(){
-        this.secureStorage = new SecureStorage();
-        this.secureStorage.get({ key: "ministranci" }).then((ministranci) => {
-            if(ministranci !== null)
-            {
-                let jsonObj: Array<User> = JSON.parse(ministranci);
-                this.ministranciLista = jsonObj;
-                this.ministranci.next(this.ministranciLista);
-            }
-        }).then(() => {
-            this.secureStorage.get({ key: "dyzury" }).then((dyzury) => {
-                if(dyzury !== null)
-                {
-                    let jsonObj: Array<Dyzur> = JSON.parse(dyzury);
-                    this._dyzury = jsonObj;
-                }
-        })}).then(() => {
-            this.secureStorage.get({ key: "obecnosci" }).then((obecnosci) => {
-                if(obecnosci !== null)
-                {
-                    let jsonObj: Array<Obecnosc> = JSON.parse(obecnosci);
-                    this._obecnosci = jsonObj;
-                }
-        })}).then(() => {
-            this.secureStorage.get({ key: "punktacja" }).then((punktacja) => {
-                if(punktacja !== null)
-                {
-                    let jsonObj: Array<number> = JSON.parse(punktacja);
-                    this.punktyZaObecnosc = jsonObj[0];
-                    this.punktyZaNieobecnosc = jsonObj[1];
-                }
-        })}).then(() => {
-            this.secureStorage.get({ key: "indexyParafia" }).then((indexyParafia) => {
-                if(indexyParafia !== null)
-                {
-                    let jsonObj: Array<number> = JSON.parse(indexyParafia);
-                    this.indexDyzuru = jsonObj[0];
-                    this.indexObecnosci = jsonObj[1];
-                    this.indexMinistrantow = jsonObj[2];
-                }
-        })});
+    private ministranciLista: Array<User> = [];
 
-    }
-
-    private ministranciLista: Array<User> = [
-        // { id_user: 1, id_diecezji: 1, id_parafii: 1, punkty: 243, stopien: 1, imie: "Rafał", nazwisko: "Nazarko", ulica: null, kod_pocztowy: null, miasto: null, email: null, telefon: null, aktywny: true },
-        // { id_user: 2, id_diecezji: 1, id_parafii: 1, punkty: 45, stopien: 1, imie: "Patryk", nazwisko: "Majewski", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 3, id_diecezji: 1, id_parafii: 1, punkty: 26, stopien: 1, imie: "Krzysztof", nazwisko: "Kowalczyk", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: null, telefon: "506987123", aktywny: true },
-        // { id_user: 4, id_diecezji: 1, id_parafii: 1, punkty: 34, stopien: 1, imie: "Mariusz", nazwisko: "Romanowski", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 5, id_diecezji: 1, id_parafii: 1, punkty: 56, stopien: 1, imie: "Patryk", nazwisko: "Ratajczak", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 6, id_diecezji: 1, id_parafii: 1, punkty: 76, stopien: 1, imie: "Dawid", nazwisko: "Mikołajczyk", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 7, id_diecezji: 1, id_parafii: 1, punkty: 454, stopien: 1, imie: "Hubert", nazwisko: "Krawczyk", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 8, id_diecezji: 1, id_parafii: 1, punkty: 43, stopien: 1, imie: "Bartek", nazwisko: "Mazurkiewicz", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: null, telefon: "506987123", aktywny: true },
-        // { id_user: 9, id_diecezji: 1, id_parafii: 1, punkty: 34, stopien: 1, imie: "Bartek", nazwisko: "Szczepaniak", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 10, id_diecezji: 1, id_parafii: 1, punkty: 2645, stopien: 1, imie: "Robert", nazwisko: "Adamczyk", ulica: "jshdfiajdsbfiajbsdkfbaksdfbkajsdhbkfjahbdskhf bjhdb fkjhasbdf kjahbsd fhabskdj bfajsdhbf kjahsbdf JSLJD Hljabs", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 11, id_diecezji: 1, id_parafii: 1, punkty: 54, stopien: 1, imie: "Karol", nazwisko: "Michalik", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 12, id_diecezji: 1, id_parafii: 1, punkty: 267, stopien: 1, imie: "Jakub", nazwisko: "Głowacki", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 13, id_diecezji: 1, id_parafii: 1, punkty: 7, stopien: 1, imie: "Kacper", nazwisko: "Stasiak", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 14, id_diecezji: 1, id_parafii: 1, punkty: 9, stopien: 1, imie: "Bartek", nazwisko: "Milewski", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true },
-        // { id_user: 15, id_diecezji: 1, id_parafii: 1, punkty: 1, stopien: 1, imie: "Rafał", nazwisko: "Nazarko", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true }
-    ]
-
-    private _dyzury: Array<Dyzur> = [
-        // { id: 1, id_user: 1, id_wydarzenia: 1 },
-        // { id: 2, id_user: 4, id_wydarzenia: 1 },
-        // { id: 3, id_user: 6, id_wydarzenia: 1 },
-        // { id: 4, id_user: 7, id_wydarzenia: 2 },
-        // { id: 5, id_user: 1, id_wydarzenia: 2 },
-        // { id: 6, id_user: 4, id_wydarzenia: 3 },
-        // { id: 7, id_user: 8, id_wydarzenia: 3 },
-        // { id: 8, id_user: 9, id_wydarzenia: 4 },
-        // { id: 9, id_user: 15, id_wydarzenia: 4 },
-        // { id: 10, id_user: 14, id_wydarzenia: 7 },
-        // { id: 11, id_user: 13, id_wydarzenia: 7 },
-        // { id: 12, id_user: 2, id_wydarzenia: 8 },
-        // { id: 13, id_user: 7, id_wydarzenia: 9 },
-        // { id: 14, id_user: 9, id_wydarzenia: 10 },
-        // { id: 15, id_user: 4, id_wydarzenia: 11 },
-        // { id: 16, id_user: 5, id_wydarzenia: 11 },
-        // { id: 17, id_user: 6, id_wydarzenia: 12 },
-        // { id: 18, id_user: 12, id_wydarzenia: 13 },
-        // { id: 19, id_user: 3, id_wydarzenia: 1 },
-    ];
+    private _dyzury: Array<Dyzur> = [];
 
     private _obecnosci: Array<Obecnosc> = [];
 
     private ministranci = new BehaviorSubject<Array<User>>(null);
-    private dyzuryWydarzenia = new BehaviorSubject<Array<Dyzur>>(null);
+    private dyzuryWydarzenia = new BehaviorSubject<Array<User>>(null);
     private dyzuryMinistranta = new BehaviorSubject<Array<Dyzur>>(null);
     private obecnosciWydarzenia =  new BehaviorSubject<Array<Obecnosc>>(null);
 
@@ -133,15 +53,29 @@ export class ParafiaService {
         return this.ministranci.asObservable();
     }
 
+    async pobierzMinistrantow()
+    {
+        return new Promise<Array<User>>(res => {
+            this.http.pobierzMinistrantow(2).then(async res => {
+                this.ministranciLista = res;
+                await this.odswiezListeMinistrantow();
+            })
+        })
+    }
+
     wyszukajDyzury(id_user: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
-        let lista = this._dyzury.filter((dyzur) => dyzur.id_user === id_user);
-        this.dyzuryMinistranta.next(lista);
-        return Promise.resolve();
+        return new Promise<void>(resolve => {
+            let lista = this._dyzury.filter((dyzur) => dyzur.id_user === id_user);
+            this.dyzuryMinistranta.next(lista);
+            resolve();
+        })
     }
 
     dyzurDoWydarzenia(id_wyd: number) { //Wykorzystanie: obecnosc
-        let lista = this._dyzury.filter((item) => item.id_wydarzenia === id_wyd);
-        this.dyzuryWydarzenia.next(lista);
+        this.http.pobierzDyzuryDoWydarzenia(38).then(res => {
+            console.log(res)
+            this.dyzuryWydarzenia.next(res);
+        })
     }
 
     dyzuryMinistrant(id_user: number) //Wykorzystanie: userService(constructor)
@@ -167,12 +101,12 @@ export class ParafiaService {
             }
         }
 
-        this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)}).then(async() => {
-            this.secureStorage.set({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])}).then(async() => {
-                await this.wyszukajDyzury(this.aktualnyMinistrantId);
-                this.dyzurDoWydarzenia(this.aktualneWydarzenieId)
-            })
-        })
+        // this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)}).then(async() => {
+        //     this.secureStorage.set({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])}).then(async() => {
+        //         await this.wyszukajDyzury(this.aktualnyMinistrantId);
+        //         this.dyzurDoWydarzenia(this.aktualneWydarzenieId)
+        //     })
+        // })
     }
 
     private usunDyzur(id_wydarzenia: number) { //Wykorzystanie: parafiaService(zapiszDyzury)
@@ -199,18 +133,18 @@ export class ParafiaService {
            })
        }
 
-       this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)})
+    //    this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)})
     }
 
     async nowyMinistrant(stopien: Stopien, imie: string, nazwisko: string, email: string) //Wykorzystanie: ministrant-nowy
     {
         this.indexMinistrantow++;
         this.ministranciLista.push({id_user: this.indexMinistrantow, id_diecezji: 1, id_parafii: 1, punkty: 0, stopien: stopien, imie: imie, nazwisko: nazwisko, ulica: null, kod_pocztowy: null, miasto: null, email: email, telefon: null, aktywny: false});
-        this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-            this.secureStorage.set({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])}).then(async() => {
-                await this.odswiezListeMinistrantow();
-            })
-        })
+        // this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
+        //     this.secureStorage.set({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])}).then(async() => {
+        //         await this.odswiezListeMinistrantow();
+        //     })
+        // })
     }
 
 
@@ -235,9 +169,9 @@ export class ParafiaService {
     {
         let min = this.ministranciLista.filter(mini => mini.id_user === ministrant.id_user)[0];
         this.ministranciLista[this.ministranciLista.indexOf(min)] = ministrant;
-        this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-            await this.odswiezListeMinistrantow();
-        })
+        // this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
+        //     await this.odswiezListeMinistrantow();
+        // })
     }
 
     async usunMinistranta(id_user: number) //Wykorzystanie: ministranci
@@ -254,11 +188,11 @@ export class ParafiaService {
             this._dyzury.splice(indexDyzuru,1);
         })
        }
-       this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-        this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)}).then(async() => {
-            await this.odswiezListeMinistrantow();
-        })
-    })
+    //    this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
+    //     this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)}).then(async() => {
+    //         await this.odswiezListeMinistrantow();
+    //     })
+    // })
     }
 
     obecnosciDoWydarzenia(id_wydarzenia:number, data: Date) //Wykorzystanie: obecnosc
@@ -275,7 +209,7 @@ export class ParafiaService {
     {
         this.indexObecnosci++;
         let ob: Obecnosc = {id: this.indexObecnosci, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate()).toJSON(), status: null }
-        this.secureStorage.setSync({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])})
+        // this.secureStorage.setSync({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])})
         return ob;
     }
 
@@ -327,13 +261,14 @@ export class ParafiaService {
              this._obecnosci[index].status = obecnosc.status;
           }
         });
+        await this.odswiezListeMinistrantow();
 
-        this.secureStorage.set({key: "obecnosci", value: JSON.stringify(this._obecnosci)}).then(async() => {
-            this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-            this.obecnosciDoWydarzenia(id_wydarzenia,data);
-            await this.odswiezListeMinistrantow();
-            });
-        })
+        // this.secureStorage.set({key: "obecnosci", value: JSON.stringify(this._obecnosci)}).then(async() => {
+        //     this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
+        //     this.obecnosciDoWydarzenia(id_wydarzenia,data);
+        //     await this.odswiezListeMinistrantow();
+        //     });
+        // })
         // this.dyzurDoWydarzenia(id_wydarzenia);
     }
 }
