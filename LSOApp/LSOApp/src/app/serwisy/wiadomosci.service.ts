@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Wiadomosc } from './wiadomosci.model';
 import { BehaviorSubject } from 'rxjs';
-import { SecureStorage } from "nativescript-secure-storage";
+import { HttpService } from './http.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class WiadomosciService {
 
@@ -15,18 +15,18 @@ export class WiadomosciService {
         // { id: 2, autor_id: 0, odbiorca_id:1, data: new Date(2019,8,6,23,30), do_opiekuna: false, tresc: "Lorem." , linkobrazu: "https://i1.jbzdy.eu/contents/2019/09/1ea5fa8d32868a885d07fac639c16163.jpg"},
     ];
 
-    secureStorage: SecureStorage;
+    // secureStorage: SecureStorage;
 
-    constructor(){
-        this.secureStorage = new SecureStorage();
-        this.secureStorage.get({ key: "wiadomosci" }).then((wiadomosci) => {
-            if(wiadomosci !== null)
-            {
-                let jsonObj: Array<Wiadomosc> = JSON.parse(wiadomosci);
-                this._wiadomosci = jsonObj;
-                this.wiadomosci.next(this._wiadomosci);
-            }
-        })
+    constructor(private http: HttpService) {
+        // this.secureStorage = new SecureStorage();
+        // this.secureStorage.get({ key: "wiadomosci" }).then((wiadomosci) => {
+        //     if(wiadomosci !== null)
+        //     {
+        //         let jsonObj: Array<Wiadomosc> = JSON.parse(wiadomosci);
+        //         this._wiadomosci = jsonObj;
+        //         this.wiadomosci.next(this._wiadomosci);
+        //     }
+        // })
     }
 
     private wiadomosci = new BehaviorSubject<Array<Wiadomosc>>(null);
@@ -36,30 +36,44 @@ export class WiadomosciService {
         return this.wiadomosci.asObservable();
     }
 
-    pobierzWiadomosci()//Wykorzystanie: wiadomosci-m, wiadomosci-o
+    async pobierzWiadomosci()//Wykorzystanie: wiadomosci-m, wiadomosci-o
     {
-        return new Promise<void>((resolve) => {
-            this.secureStorage.set({key: "wiadomosci", value: JSON.stringify(this._wiadomosci)}).then(() => {
-                this.wiadomosci.next(this._wiadomosci);
+        return new Promise<Array<Wiadomosc>>(resolve => {
+            this.http.pobierzWidaomosci(2, 1).then(res => {
+                this.wiadomosci.next(res);
                 resolve()
             })
+            // this.secureStorage.set({key: "wiadomosci", value: JSON.stringify(this._wiadomosci)}).then(() => {
+            //     resolve()
+            // })
         })
     }
 
-    async nowaWiadomosc(tresc: string,)//Wykorzystanie: wiadomosci-o
+    async nowaWiadomosc(tresc: string, )//Wykorzystanie: wiadomosci-o
     {
-        let data = new Date()
-        data.setHours(data.getHours() + 2);
-        this.indexWiad ++;
-        this._wiadomosci.push({id: this.indexWiad, autor_id: 1, odbiorca_id: 1, do_opiekuna: false, data: data.toJSON(), tresc: tresc})
-        await this.pobierzWiadomosci();
+        return new Promise<number>(resolve => {
+            this.http.wyslijWidaomosc(2, tresc).then( res => {
+                resolve(res)
+        })
+
+        })
     }
 
-    async usunWiadomosc(wiadomosc: Wiadomosc)
-    {
-        let wiad = this._wiadomosci.filter(wiad => wiad.id === wiadomosc.id)[0];
-        let index = this._wiadomosci.indexOf(wiad);
-        this._wiadomosci.splice(index,1);
-        await this.pobierzWiadomosci();
+    async usunWiadomosc(wiadomosc: Wiadomosc) {
+        return new Promise<number>(resolve => {
+            this.http.usunWiadomosc(wiadomosc.id).then( async res => {
+
+                if(res === 1)
+                {
+                    await this.pobierzWiadomosci().then(() => {
+                        resolve(1)
+                    });
+                }
+                else
+                {
+                    resolve(0)
+                }
+            })
+        })
     }
 }

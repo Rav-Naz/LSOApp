@@ -8,7 +8,6 @@ import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import * as TimePicker from "nativescript-datetimepicker"
 import { Button } from "tns-core-modules/ui/button";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType } from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
@@ -28,7 +27,7 @@ export class EdytujMszeComponent implements OnInit {
         this.feedback = new Feedback();
     }
 
-    DzienTygodnia = [1, 2, 3, 4, 5, 6, 0]
+    DzienTygodnia = [0, 1, 2, 3, 4, 5, 6]
     wybranyDzien: number;
     zmiana: boolean = false;
     wydarzeniaSub: Subscription;
@@ -39,20 +38,24 @@ export class EdytujMszeComponent implements OnInit {
         this.page.actionBarHidden = true;
 
         this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaEdycjaSub.subscribe((lista) => {
-            this.wydarzeniaDnia = [];
-            this.stareWydarzeniaDnia = [];
-            if (lista !== null && lista !== undefined) {
-                lista.forEach(wydarzenie => {
-                    this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
-                    this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
-                })
+            this.wydarzeniaDnia = []
+            console.log(lista)
+            // this.wydarzeniaDnia = [];
+            // if(lista.length === 0)return
+            // this.wydarzeniaDnia = lista
+            // this.stareWydarzeniaDnia = [];
+            // if (lista !== null && lista !== undefined) {
+            //     lista.forEach(wydarzenie => {
+            //         this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
+            //         this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
+            //     })
 
-                this.wydarzeniaDnia.sort((wyd1, wyd2) => {
-                    if (wyd1.godzina > wyd2.godzina) { return 1; }
-                    if (wyd1.godzina < wyd2.godzina) { return -1; }
-                    return 0;
-                });
-            }
+                // this.wydarzeniaDnia.sort((wyd1, wyd2) => {
+                //     if (wyd1.godzina > wyd2.godzina) { return 1; }
+                //     if (wyd1.godzina < wyd2.godzina) { return -1; }
+                //     return 0;
+                // });
+            // }
         })
     }
 

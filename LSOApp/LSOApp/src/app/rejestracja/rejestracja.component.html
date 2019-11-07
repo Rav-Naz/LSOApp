@@ -4,9 +4,46 @@
             <ScrollView height="90%" #scroll *ngIf="!udanaRejP">
                 <StackLayout [formGroup]="formP">
 
-                    <FlexboxLayout row="2" class="kontener center" height="100%" (tap)="displayActionDialog('diecezja')">
+                    <FlexboxLayout class="kontener center" height="100%" (tap)="focus()">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2" flexDirection="row">
+                                <Label text="pw. " class="lexend" color="white" marginLeft="5"></Label>
+                                <TextField hint="np. Świętej Rodziny" class="text-field lexend" returnKeyType="next"
+                                    autocapitalizationType="words" formControlName="wezwanie" #wezwanie width="81%"
+                                    (returnPress)="displayActionDialog('rodzaj')">
+                                </TextField>
+                            </FlexboxLayout>
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
+                                <Label text="WEZWANIE PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                            </FlexboxLayout>
+                        </GridLayout>
+
+
+                        <Label text="Wezwanie musi mieć od 2 do 30 znaków oraz składać się z polskiego alfabetu"
+                            class="red lexend" *ngIf="!wezwanieValid"></Label>
+                    </FlexboxLayout>
+
+                    <FlexboxLayout class="kontener center" height="100%" (tap)="displayActionDialog('rodzaj')">
+                        <GridLayout columns="auto,*" rows="10,10,auto">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2" flexDirection="row">
+                                <Label [text]="_rodzaj" class="text-field lexend" width="85%"></Label>
+                                <Label text="&#xe013;" class="icon" color="white"></Label>
+                            </FlexboxLayout>
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
+                                <Label text="RODZAJ PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                            </FlexboxLayout>
+                        </GridLayout>
+
+                        <Label text="Wybierz rodzaj parafii" class="red lexend" *ngIf="!rodzajValid"></Label>
+                    </FlexboxLayout>
+
+                    <FlexboxLayout row="2" class="kontener center" height="100%"
+                        (tap)="displayActionDialog('diecezja')">
+                        <GridLayout columns="auto,*" rows="10,10,auto">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2" flexDirection="row">
                                 <Label [text]="_diecezja" class="text-field lexend" width="85%"></Label>
                                 <Label text="&#xe013;" class="icon" color="white"></Label>
                             </FlexboxLayout>
@@ -20,9 +57,10 @@
 
                     <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2">
                                 <TextField hint="Wpisz miasto" class="text-field lexend" returnKeyType="next"
-                                     autocapitalizationType="none" formControlName="miasto" #miasto>
+                                    autocapitalizationType="words" formControlName="miasto" #miasto>
                                 </TextField>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
@@ -30,43 +68,63 @@
                             </FlexboxLayout>
                         </GridLayout>
 
-                            <Label text="Miasto musi mieć od 2 do 30 znaków oraz składać się z polskiego alfabetu" class="red lexend" *ngIf="!miastoValid"></Label>
-                        </FlexboxLayout>
-
-                    <FlexboxLayout class="kontener center" height="100%" (tap)="displayActionDialog('rodzaj')">
+                        <Label text="Miasto musi mieć od 2 do 30 znaków oraz składać się z polskiego alfabetu"
+                            class="red lexend" *ngIf="!miastoValid"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout row="0" class="kontener center">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
-                                <Label [text]="_rodzaj" class="text-field lexend" width="85%"></Label>
-                                <Label text="&#xe013;" class="icon" color="white"></Label>
+                            <FlexboxLayout class="input-field b-p-10 center backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2">
+                                <TextField hint="Wpisz swoje imię" class="text-field lexend"
+                                    autocapitalizationType="words" formControlName="imie" #imie></TextField>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                <Label text="RODZAJ PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                <Label text="IMIĘ" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
 
-                        <Label text="Wybierz rodzaj parafii" class="red lexend" *ngIf="!rodzajValid"></Label>
+                        <Label text="Imię musi być jednoczłonowe, od 2 do 15 znaków oraz składać się z polskiego alfabetu" class="red lexend"
+                            *ngIf="!imieValid"></Label>
                     </FlexboxLayout>
 
-                    <FlexboxLayout class="kontener center" height="100%" (tap)="focus()">
+                    <FlexboxLayout row="1" class="kontener center">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
-                                <Label text="pw. " class="lexend" color="white" marginLeft="5"></Label>
-                                <TextField hint="np. Świętej Rodziny" class="text-field lexend" returnKeyType="next"
-                                    autocapitalizationType="words" formControlName="wezwanie" #wezwanie width="81%"></TextField>
+                            <FlexboxLayout class="input-field b-p-10 center backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2">
+                                <TextField hint="Wpisz swoje nazwisko" class="text-field lexend"
+                                    autocapitalizationType="words" (returnPress)="displayActionDialog('stopien')"
+                                    formControlName="nazwisko" #nazwisko>
+                                </TextField>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                <Label text="WEZWANIE PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                <Label text="NAZWISKO" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
 
-
-                        <Label text="Wezwanie musi mieć od 2 do 30 znaków oraz składać się z polskiego alfabetu"
-                            class="red lexend" *ngIf="!wezwanieValid"></Label>
+                        <Label text="Nazwisko musi być jednoczłonowe, od 2 do 20 znaków oraz składać się z polskiego alfabetu" class="red lexend"
+                            *ngIf="!nazwiskoValid"></Label>
                     </FlexboxLayout>
+
+                    <FlexboxLayout row="2" class="kontener center" (tap)="displayActionDialog('stopien')">
+                        <GridLayout columns="auto,*" rows="10,10,auto">
+                            <FlexboxLayout class="input-field b-p-10 center backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2" flexDirection="row">
+                                <Label [text]="_stopien" class="text-field lexend" width="85%"></Label>
+                                <Label text="&#xe013;" class="icon" color="white" fontSize="13"></Label>
+                            </FlexboxLayout>
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
+                                <Label text="STOPIEŃ" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                            </FlexboxLayout>
+                        </GridLayout>
+
+                        <Label text="Wybierz stopień" class="red lexend" *ngIf="!stopienValid"></Label>
+                    </FlexboxLayout>
+
 
                     <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2">
                                 <TextField hint="Wpisz swój e-mail" class="text-field lexend" returnKeyType="next"
                                     autocapitalizationType="none" formControlName="emailP" keyboardType="email" #emailP>
                                 </TextField>
@@ -81,7 +139,8 @@
 
                     <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2">
                                 <TextField hint="Wpisz hasło" class="text-field lexend" autocapitalizationType="none"
                                     [secure]="true" formControlName="hasloP" #hasloP></TextField>
                             </FlexboxLayout>
@@ -97,7 +156,8 @@
 
                     <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2">
                                 <TextField hint="Powtórz hasło" class="text-field lexend" autocapitalizationType="none"
                                     [secure]="true" formControlName="powtorzP" #powtorzP></TextField>
                             </FlexboxLayout>
@@ -115,34 +175,36 @@
                         </FlexboxLayout>
                         <FlexboxLayout class="flex2 center wh100" col="1">
                             <Label text="Akceptuję" class="lexend" fontSize="13" color="rgb(20,20,20)"></Label>
-                            <Label text="regulamin i politykę prywatności" (tap)=regulamin() color="red"
-                                class="lexend" fontSize="13"></Label>
+                            <Label text="regulamin i politykę prywatności" (tap)=regulamin() color="red" class="lexend"
+                                fontSize="13"></Label>
                         </FlexboxLayout>
                     </GridLayout>
 
                 </StackLayout>
             </ScrollView>
             <FlexboxLayout class="center" width="90%">
-                <StackLayout *ngIf="udanaRejP">
+                <StackLayout *ngIf="udanaRejP" horizontalAlignment="center">
                     <Label class="dane audiowide" text="Dziękujemy za rejestrację!"></Label>
-                    <Label [text]="'Diecezja: ' + _diecezja" class="dane lexend"></Label>
-                    <Label [text]="'Miasto: ' + _miasto" class="dane lexend"></Label>
-                    <Label [text]="'Rodzaj parafii: ' + _rodzaj" class="dane lexend"></Label>
-                    <Label [text]="'Wezwanie: ' + _wezwanie" class="dane lexend"></Label>
-                    <Label [text]="'E-mail: ' + _emailP" class="dane lexend"></Label>
+                    <Label text="Na poniższy adres e-mail wysłaliśmy link aktywacyjny" class="dane lexend" textWrap="true"></Label>
+                    <!-- <Label [text]="'Diecezja: ' + _diecezja" class="dane lexend"></Label>
+                        <Label [text]="'Miasto: ' + _miasto" class="dane lexend"></Label>
+                        <Label [text]="'Rodzaj parafii: ' + _rodzaj" class="dane lexend"></Label>
+                        <Label [text]="'Wezwanie: ' + _wezwanie" class="dane lexend"></Label> -->
+                    <Label [text]="_emailP" class="dane lexend" fontSize="17"></Label>
+                    <Label text="Aby móc zalogować się na konto musisz je najpierw potwierdzić!" class="dane lexend" textWrap="true"></Label>
                 </StackLayout>
             </FlexboxLayout>
         </FlexboxLayout>
 
-        <FlexboxLayout class="nowy b-p-10 center" row="0" rowSpan="2">
-            <Label text="Rejestracja" class="audiowide"></Label>
+        <FlexboxLayout class="nowy b-p-10 center" row="0" rowSpan="2" width="70%">
+            <Label text="Rejestracja parafii" class="audiowide"></Label>
         </FlexboxLayout>
 
         <GridLayout columns="*,*,*,*" rows="60" row="3">
-            <Button [text]="this.formP.valid?'Anuluj':'Zamknij'" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
-                *ngIf="!udanaRejP"></Button>
+            <Button [text]="this.formP.valid?'Anuluj':'Zamknij'" col="0" colSpan="2" (tap)="powrot()"
+                class="anuluj b-p-10 audiowide" *ngIf="!udanaRejP"></Button>
             <Button text="Zapisz" col="2" colSpan="2" (tap)="zarejestrujP()" class="anuluj b-p-10 zapisz audiowide"
-                [isEnabled]="this.formP.valid && _diecezja !== 'Wybierz diecezję' && _rodzaj !== 'Wybierz rodzaj parafii'"
+                [isEnabled]="this.formP.valid && _diecezja !== 'Wybierz diecezję' && _rodzaj !== 'Wybierz rodzaj parafii' && _stopien !== 'Wybierz stopień'"
                 *ngIf="!udanaRejP"></Button>
             <Button text="Powrót" col="1" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="udanaRejP"></Button>

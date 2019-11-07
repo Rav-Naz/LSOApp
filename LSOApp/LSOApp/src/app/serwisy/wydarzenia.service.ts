@@ -119,13 +119,13 @@ export class WydarzeniaService {
         this._wydarzenia.splice(index,1);
     }
 
-    private dzienneWydarzenia(dzien: number): Array<Wydarzenie> {//Wykorzystanie:  wydarzeniaService (wydarzeniaWEdycji)
-        return this._wydarzenia.filter((item) => item.dzien_tygodnia === dzien);
-    }
-
     wydarzeniaWEdycji(dzien_tygodnia: number) //Wykorzystanie: edytuj-msze, wydarzeniaService(zapiszWydarzenia)
     {
-        this.wydarzeniaEdycja.next(this.dzienneWydarzenia(dzien_tygodnia));
-        return Promise.resolve()
+        return new Promise<void>((resolve) => {
+            this.http.pobierzWydarzeniaNaDanyDzien(dzien_tygodnia, 2).then(res => {
+                this.wydarzeniaEdycja.next(res);
+                resolve();
+            })
+        })
     }
 }

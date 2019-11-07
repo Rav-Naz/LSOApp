@@ -4,13 +4,12 @@ import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
 import { Subscription } from 'rxjs';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import {getFile} from'tns-core-modules/http';
+import { getFile } from 'tns-core-modules/http';
 import * as fileSystem from "tns-core-modules/file-system";
 import { isAndroid, isIOS } from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
-import { Feedback, FeedbackType} from "nativescript-feedback";
+import { Feedback, FeedbackType } from "nativescript-feedback";
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -43,23 +42,15 @@ export class WiadomosciOComponent implements OnInit {
 
     ngOnInit() {
         this.page.actionBarHidden = true;
-        // this.wiadosciService.pobierzWiadomosci();
+        this.wiadosciService.pobierzWiadomosci();
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
-        this.wiadomosci = [];
-        if(wiadomosci === null)
-        {
-            return;
-        }
-        wiadomosci.forEach(wiad => this.wiadomosci.push({id: wiad.id, autor_id: wiad.autor_id, odbiorca_id: wiad.odbiorca_id, data: wiad.data,do_opiekuna: wiad.do_opiekuna, tresc: wiad.tresc, linkobrazu: wiad.linkobrazu}))
-        this.wiadomosci.sort((wiad1, wiad2) => {
-            if (wiad1.data < wiad2.data) {
-                return 1;
+            this.wiadomosci = [];
+            if (wiadomosci === null) {
+                return;
             }
-            if (wiad1.data > wiad2.data) {
-                return -1;
+            else {
+                this.wiadomosci = wiadomosci
             }
-            return 0;
-        })
         });
     }
 
@@ -82,50 +73,74 @@ export class WiadomosciOComponent implements OnInit {
         return dzienStr + '/' + miesiacStr + '/' + data.getFullYear();
     }
 
-    wyslij()
-    {
-        if(this.tresc.length >= 1)
-        {
-            this.wiadosciService.nowaWiadomosc(this.tresc);
-            this.tresc = '';
+    wyslij() {
+        if (this.tresc.length >= 1) {
             this.textviewRef.nativeElement.dismissSoftInput();
-            this.pisanieWiadomosci = false;
-            setTimeout(() => {
-                this.feedback.show({
-                    title: "Sukces!",
-                    message: "Wysłano wiadomość",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color(255,49, 155, 49),
-                    type: FeedbackType.Success,
-                  });
-            }, 400)
+            this.wiadosciService.nowaWiadomosc(this.tresc).then(res => {
+                switch (res) {
+                    case 0:
+                        this.feedback.show({
+                            title: "Błąd!",
+                            message: "Wystąpił nieoczekiwany błąd",
+                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                            duration: 3000,
+                            backgroundColor: new Color("#e71e25"),
+                            type: FeedbackType.Error,
+
+                        });
+                        break;
+                    case 1:
+                        this.wiadosciService.pobierzWiadomosci().then(() => {
+                            this.tresc = '';
+                            this.pisanieWiadomosci = false;
+                            setTimeout(() => {
+                                this.feedback.show({
+                                    title: "Sukces!",
+                                    message: "Wysłano wiadomość",
+                                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                                    duration: 3000,
+                                    backgroundColor: new Color(255, 49, 155, 49),
+                                    type: FeedbackType.Success,
+                                });
+                            }, 400)
+                        });
+                        break;
+                    default:
+                        this.feedback.show({
+                            title: "Błąd!",
+                            message: "Wystąpił nieoczekiwany błąd",
+                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                            duration: 3000,
+                            backgroundColor: new Color("#e71e25"),
+                            type: FeedbackType.Error,
+                        });
+                        break;
+                }
+            });
         }
-        else
-        {
+        else {
             this.pisanieWiadomosci = false;
         }
     }
 
-    otworz()
-    {
+    otworz() {
         this.pisanieWiadomosci = true;
     }
 
-    pobierzObraz(url: string)
-    {
+    pobierzObraz(url: string) {
         let pociety = url.split("/")
 
         let nazwaPliku = pociety[pociety.length - 1].toString();
 
         let sciezka: string;
 
-        if(isAndroid)
-        {
+        if (isAndroid) {
             permission.requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE).then(() => {
                 sciezka = fileSystem.path.join(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), nazwaPliku)
-                getFile(url,sciezka).then((result) => {
+                getFile(url, sciezka).then((result) => {
                     setTimeout(() => {
                         this.feedback.show({
                             title: "Sukces!",
@@ -133,9 +148,9 @@ export class WiadomosciOComponent implements OnInit {
                             titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
                             messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
                             duration: 3000,
-                            backgroundColor: new Color(255,49, 155, 49),
+                            backgroundColor: new Color(255, 49, 155, 49),
                             type: FeedbackType.Success,
-                          });
+                        });
                     }, 200)
                 })
             }).catch(() => {
@@ -148,14 +163,13 @@ export class WiadomosciOComponent implements OnInit {
                         duration: 3000,
                         backgroundColor: new Color("#e71e25"),
                         type: FeedbackType.Error,
-                      });
+                    });
                 }, 200)
             })
         }
-        else
-        {
+        else {
             sciezka = fileSystem.path.join(fileSystem.knownFolders.ios.downloads().path, nazwaPliku);
-            getFile(url,sciezka).then((result) => {
+            getFile(url, sciezka).then((result) => {
                 setTimeout(() => {
                     this.feedback.show({
                         title: "Sukces!",
@@ -163,39 +177,49 @@ export class WiadomosciOComponent implements OnInit {
                         titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
                         messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
                         duration: 3000,
-                        backgroundColor: new Color(255,49, 155, 49),
+                        backgroundColor: new Color(255, 49, 155, 49),
                         type: FeedbackType.Success,
-                      });
+                    });
                 }, 200)
             });
         }
 
     }
 
-    async usunWiadomosc(wiadomosc: Wiadomosc)
-    {
-        if(wiadomosc.autor_id !== 0)
-        {
+    async usunWiadomosc(wiadomosc: Wiadomosc) {
+        if (wiadomosc.autor_id !== 0) {
             await this.czyKontynuowac(true).then((kontynuowac) => {
-                if(!kontynuowac)
-                {
-                    this.wiadosciService.usunWiadomosc(wiadomosc).then(() => {
+                if (!kontynuowac) {
+                    this.wiadosciService.usunWiadomosc(wiadomosc).then(res => {
+                        if(res === 1)
                         this.feedback.show({
                             title: "Sukces!",
                             message: "Usunięto wiadomość",
                             titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
                             messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
                             duration: 3000,
-                            backgroundColor: new Color(255,49, 155, 49),
+                            backgroundColor: new Color(255, 49, 155, 49),
                             type: FeedbackType.Success,
-                          });
+                        });
+                        else
+                        {
+                            this.feedback.show({
+                                title: "Błąd!",
+                                message: "Wystąpił nieoczekiwany błąd",
+                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                                duration: 3000,
+                                backgroundColor: new Color("#e71e25"),
+                                type: FeedbackType.Error,
+
+                            });
+                        }
                     });
                 }
             });
 
         }
-        else
-        {
+        else {
             this.feedback.show({
                 title: "Błąd!",
                 message: "Nie możesz usunąć wiadomości od ADMINISTRATORA",
@@ -204,37 +228,32 @@ export class WiadomosciOComponent implements OnInit {
                 duration: 3000,
                 backgroundColor: new Color("#e71e25"),
                 type: FeedbackType.Error,
-              });
+            });
         }
     }
 
-    private czyKontynuowac(zmiana: boolean)
-    {
+    private czyKontynuowac(zmiana: boolean) {
         return new Promise<boolean>((resolve) => {
-            if(zmiana === true)
-            {
-                this.modal.showModal(PotwierdzenieModalComponent,{
+            if (zmiana === true) {
+                this.modal.showModal(PotwierdzenieModalComponent, {
                     context: "Wiadomość zostanie usunięta dla Ciebie i ministrantów.\nCzy chcesz kontynuować?",
                     viewContainerRef: this.vcRef,
                     fullscreen: false,
                     stretched: false,
-                    animated:  true,
+                    animated: true,
                     closeCallback: null,
                     dimAmount: 0.8 // Sets the alpha of the background dim,
 
-                  } as ExtendedShowModalOptions).then((wybor) => {
-                      if(wybor === true)
-                      {
+                } as ExtendedShowModalOptions).then((wybor) => {
+                    if (wybor === true) {
                         resolve(false);
-                      }
-                      else
-                      {
+                    }
+                    else {
                         resolve(true);
-                      }
-                  })
+                    }
+                })
             }
-            else
-            {
+            else {
                 resolve(false)
             }
         })

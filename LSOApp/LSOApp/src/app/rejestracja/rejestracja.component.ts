@@ -33,7 +33,9 @@ export class RejestracjaComponent implements OnInit {
     diecezjaValid: boolean = true;
     miastoValid: boolean = true;
     wezwanieValid: boolean = true;
-    imieNazwiskoPValid: boolean = true;
+    imieValid: boolean = true;
+    nazwiskoValid: boolean = true;
+    stopienValid: boolean = true;
     emailPValid: boolean = true;
     hasloPValid: boolean = true;
     powtorzPValid: boolean = true;
@@ -43,11 +45,14 @@ export class RejestracjaComponent implements OnInit {
 
     _diecezja: string = "Wybierz diecezję";
     _diecezja_id: number = 1;
-    _miasto: string = "Wybierz miasto";
+    _miasto: string;
     _rodzaj: string = "Wybierz rodzaj parafii";
     _rodzaj_id: number = 1;
+    _stopien: string = "Wybierz stopień"
+    _stopien_id: number = 1
     _wezwanie: string;
-    _imieNazwiskoP: string;
+    _imie: string;
+    _nazwisko: string;
     _emailP: string;
     _hasloP: string;
 
@@ -67,8 +72,10 @@ export class RejestracjaComponent implements OnInit {
         this.page.actionBarHidden = true;
 
         this.formP = new FormGroup({
-            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2  ,30})')] }),
+            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
             miasto:  new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
+            imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,15})')] }),
+            nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,20})')] }),
             emailP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.email] }),
             hasloP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')] }),
             powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
@@ -79,6 +86,12 @@ export class RejestracjaComponent implements OnInit {
         });
         this.formP.get('miasto').statusChanges.subscribe(status => {
             this.miastoValid = status === 'VALID';
+        });
+        this.formP.get('imie').statusChanges.subscribe(status => {
+            this.imieValid = status === 'VALID';
+        });
+        this.formP.get('nazwisko').statusChanges.subscribe(status => {
+            this.nazwiskoValid = status === 'VALID';
         });
         this.formP.get('emailP').statusChanges.subscribe(status => {
             this.emailPValid = status === 'VALID';
@@ -91,7 +104,7 @@ export class RejestracjaComponent implements OnInit {
         });
     }
 
-    displayActionDialog(akcja: 'stopien' | 'diecezja' | 'miasto' | 'rodzaj') {
+    displayActionDialog(akcja: 'stopien' | 'diecezja' | 'rodzaj') {
 
         let wybory: Array<any>;
 
@@ -99,8 +112,8 @@ export class RejestracjaComponent implements OnInit {
             wybory = ['białostocka', 'bielsko-żywiecka', 'bydgoska', 'częstochowska', 'drohiczyńska', 'elbląska', 'ełcka', 'gdańska', 'gliwicka', 'gnieźnieńska', 'kaliska', 'katowicka', 'kielecka', 'koszalińsko-kołobrzeska', 'krakowska', 'legnicka', 'lubelska', 'łomżyńska', 'łowicka', 'łódzka', 'opolska', 'Ordynariat Polowy WP', 'pelplińska', 'płocka', 'Polska Misja Katolicka', 'poznańska', 'Prałatura Opus Dei', 'przemyska', 'radomska', 'rzeszowska', 'sandomierska', 'siedlecka', 'sosnowiecka', 'szczecińsko-kamieńska', 'świdnicka', 'tarnowska', 'toruńska', 'warmińska', 'warszawsko-praska', 'włocławska', 'wrocławska', 'zamojsko-lubaczowska', 'zielonogórsko-gorzowska']
 
         }
-        else if (akcja === 'miasto') {
-            wybory = this.miasta
+        else if (akcja === 'stopien') {
+            wybory = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Ksiądz", "Opiekun"]
         }
 
         else if (akcja === 'rodzaj') {
@@ -139,6 +152,19 @@ export class RejestracjaComponent implements OnInit {
                 else {
                     if (this._rodzaj === 'Wybierz rodzaj parafii') {
                         this.rodzajValid = false;
+                    }
+                }
+            }
+
+            else if (akcja === 'stopien') {
+                if (result !== undefined) {
+                    this._stopien = wybory[result];
+                    this._stopien_id = result;
+                    this.stopienValid = true;
+                }
+                else {
+                    if (this._stopien === 'Wybierz stopień') {
+                        this.stopienValid = false;
                     }
                 }
             }
@@ -211,8 +237,10 @@ export class RejestracjaComponent implements OnInit {
         this._miasto = this.formP.get('miasto').value;
         this._emailP = this.formP.get('emailP').value;
         this._hasloP = this.formP.get('hasloP').value;
+        this._imie = this.formP.get('imie').value;
+        this._nazwisko = this.formP.get('nazwisko').value;
 
-        this.httpService.rejestracja(this._wezwanie, this._diecezja_id + 1, this._miasto, this._rodzaj_id + 1, this._emailP, this._hasloP).then((res) => {
+        this.httpService.rejestracja(this._wezwanie, this._diecezja_id, this._miasto, this._rodzaj_id, this._stopien_id, this._imie, this._nazwisko, this._emailP, this._hasloP).then((res) => {
             switch (res) {
                 case 0:
                     this.feedback.show({

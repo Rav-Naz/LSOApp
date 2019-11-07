@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class GodzinaPipe implements PipeTransform {
 
   transform(value: any, ...args: any[]): any {
-    return value.slice(11,16);
+    let data = new Date(value)
+    return data.toString().slice(16,21);
   }
 
 }

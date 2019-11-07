@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewContainerRef} from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
-import { SecureStorage } from 'nativescript-secure-storage';
+import { HttpService } from '~/app/serwisy/http.service';
+import { Parafia } from '~/app/serwisy/parafia.model';
+
 
 @Component({
     selector: 'ns-punktacja',
@@ -22,7 +23,8 @@ export class PunktacjaComponent implements OnInit {
 
     zmiana: boolean = false;
 
-    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
+        private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private http: HttpService) {
         this.feedback = new Feedback();
     }
 
@@ -48,6 +50,7 @@ export class PunktacjaComponent implements OnInit {
 
         this.pktZaNieobecnosc = n.valueOf()
 
+
     }
 
     zapisz() {
@@ -56,79 +59,84 @@ export class PunktacjaComponent implements OnInit {
 
         this.zmiana = false;
 
-        let secureStorage = new SecureStorage;
-
-        secureStorage.set({key: "punktacja", value: JSON.stringify([this.pktZaObecnosc,this.pktZaNieobecnosc])}).then(async() => {
-            setTimeout(() => {
+        this.http.aktualizacjaPunktow(2, this.pktZaObecnosc, this.pktZaNieobecnosc).then(res => {
+            let daneParafii: Array<Parafia> = JSON.parse(JSON.stringify(res))
+            if(daneParafii[0].id_parafii)
+            {
+                this.parafiaService.parafia = daneParafii[0]
+                setTimeout(() => {
+                    this.feedback.show({
+                        title: "Sukces!",
+                        message: "Zapisano punktację, zacznie ona obowiązywać od następnego sprawdzenia obecności",
+                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                        duration: 3500,
+                        backgroundColor: new Color(255,49, 155, 49),
+                        type: FeedbackType.Success,
+                      });
+                }, 400)
+                this.anuluj();
+            }
+            else
+            {
                 this.feedback.show({
-                    title: "Sukces!",
-                    message: "Zapisano punktację, zacznie ona obowiązywać od następnego sprawdzenia obecności",
+                    title: "Błąd!",
+                    message: "Wystąpił nieoczekiwany błąd",
                     titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
                     messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3500,
-                    backgroundColor: new Color(255,49, 155, 49),
-                    type: FeedbackType.Success,
-                  });
-            }, 400)
+                    duration: 3000,
+                    backgroundColor: new Color("#e71e25"),
+                    type: FeedbackType.Error,
 
-
-            this.anuluj();
+                });
+            }
         })
-
     }
+
 
     async anuluj() {
 
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
-            if(!kontynuowac)
-            {
-                this.tabIndexService.nowyOutlet(6,"ustawieniaO");
+            if (!kontynuowac) {
+                this.tabIndexService.nowyOutlet(6, "ustawieniaO");
                 this.router.back();
             }
         });
     }
 
-    private czyKontynuowac(zmiana: boolean)
-    {
+    private czyKontynuowac(zmiana: boolean) {
         return new Promise<boolean>((resolve) => {
-            if(zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc)))
-            {
-                if(zmiana === true)
-                {
-                    this.modal.showModal(PotwierdzenieModalComponent,{
+            if (zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc))) {
+                if (zmiana === true) {
+                    this.modal.showModal(PotwierdzenieModalComponent, {
                         context: "Zmienione dane o punktacji nie zostaną zapisane.\nCzy chcesz kontynuować?",
                         viewContainerRef: this.vcRef,
                         fullscreen: false,
                         stretched: false,
-                        animated:  true,
+                        animated: true,
                         closeCallback: null,
                         dimAmount: 0.8 // Sets the alpha of the background dim,
 
-                      } as ExtendedShowModalOptions).then((wybor) => {
-                          if(wybor === true)
-                          {
+                    } as ExtendedShowModalOptions).then((wybor) => {
+                        if (wybor === true) {
                             resolve(false);
-                          }
-                          else
-                          {
+                        }
+                        else {
                             resolve(true);
-                          }
-                      })
+                        }
+                    })
                 }
-                else
-                {
+                else {
                     resolve(false)
                 }
             }
-            else
-            {
+            else {
                 resolve(false)
             }
         })
     }
 
-    zmien()
-    {
+    zmien() {
         this.zmiana = true;
     }
 }

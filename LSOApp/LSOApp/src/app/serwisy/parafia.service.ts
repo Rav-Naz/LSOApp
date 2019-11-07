@@ -6,11 +6,14 @@ import { Wydarzenie } from './wydarzenie.model';
 import { Obecnosc } from './obecnosc.model';
 import { Stopien } from './stopien.model';
 import { HttpService } from './http.service';
+import { Parafia } from './parafia.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ParafiaService {
+
+    parafia: Parafia;
 
     punktyZaObecnosc: number = 1;
     punktyZaNieobecnosc: number = 0;
@@ -55,10 +58,11 @@ export class ParafiaService {
 
     async pobierzMinistrantow()
     {
-        return new Promise<Array<User>>(res => {
+        return new Promise<Array<User>>(resolve => {
             this.http.pobierzMinistrantow(2).then(async res => {
                 this.ministranciLista = res;
                 await this.odswiezListeMinistrantow();
+                resolve(res)
             })
         })
     }
@@ -137,8 +141,14 @@ export class ParafiaService {
 
     async nowyMinistrant(stopien: Stopien, imie: string, nazwisko: string, email: string) //Wykorzystanie: ministrant-nowy
     {
-        this.indexMinistrantow++;
-        this.ministranciLista.push({id_user: this.indexMinistrantow, id_diecezji: 1, id_parafii: 1, punkty: 0, stopien: stopien, imie: imie, nazwisko: nazwisko, ulica: null, kod_pocztowy: null, miasto: null, email: email, telefon: null, aktywny: false});
+        return new Promise<number>(resolve => {
+            this.http.nowyMinistrant(stopien,imie,nazwisko,email).then(res =>
+            {
+                resolve(res)
+            })
+        })
+        // this.indexMinistrantow++;
+        // this.ministranciLista.push({id_user: this.indexMinistrantow, id_diecezji: 1, id_parafii: 1, punkty: 0, stopien: stopien, imie: imie, nazwisko: nazwisko, ulica: null, kod_pocztowy: null, miasto: null, email: email, telefon: null, aktywny: false});
         // this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
         //     this.secureStorage.set({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])}).then(async() => {
         //         await this.odswiezListeMinistrantow();
@@ -175,9 +185,15 @@ export class ParafiaService {
 
     async usunMinistranta(id_user: number) //Wykorzystanie: ministranci
     {
-       let min = this.ministranciLista.filter(ministrant => ministrant.id_user === id_user)[0];
-       let indexListaMinistrantow = this.ministranciLista.indexOf(min);
-       this.ministranciLista.splice(indexListaMinistrantow,1);
+    //    let min = this.ministranciLista.filter(ministrant => ministrant.id_user === id_user)[0];
+    //    let indexListaMinistrantow = this.ministranciLista.indexOf(min);
+    //    this.ministranciLista.splice(indexListaMinistrantow,1);
+
+        return new Promise<number>(resolve => {
+            this.http.usunMinistranta(id_user).then(res => {
+                resolve(res)
+            })
+        })
 
        let listaDyzurow = this._dyzury.filter(dyzur => dyzur.id_user === id_user);
        if(listaDyzurow !== undefined)
