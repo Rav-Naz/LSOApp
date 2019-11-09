@@ -38,23 +38,34 @@ export class EdytujMszeComponent implements OnInit {
         this.page.actionBarHidden = true;
 
         this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaEdycjaSub.subscribe((lista) => {
-            this.wydarzeniaDnia = []
-            console.log(lista)
+            this.wydarzeniaDnia = [];
+            this.stareWydarzeniaDnia = [];
+            // console.log(lista)
             // this.wydarzeniaDnia = [];
-            // if(lista.length === 0)return
+            if (lista === null || lista === undefined) return
+            if (lista.length === 0) return
             // this.wydarzeniaDnia = lista
+            // this.stareWydarzeniaDnia = lista
+
+            // console.log(this.wydarzeniaDnia)
+            // console.log(this.stareWydarzeniaDnia)
             // this.stareWydarzeniaDnia = [];
             // if (lista !== null && lista !== undefined) {
-            //     lista.forEach(wydarzenie => {
-            //         this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
-            //         this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
-            //     })
+                lista.forEach(wydarzenie => {
+                    this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
+                    this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
+                })
 
-                // this.wydarzeniaDnia.sort((wyd1, wyd2) => {
-                //     if (wyd1.godzina > wyd2.godzina) { return 1; }
-                //     if (wyd1.godzina < wyd2.godzina) { return -1; }
-                //     return 0;
-                // });
+            this.wydarzeniaDnia.sort((wyd1, wyd2) => {
+                let godzina1 = new Date(wyd1.godzina)
+                // godzina1.setHours(godzina1.getHours() + 1)
+                let godzina2 = new Date(wyd2.godzina)
+                // godzina2.setHours(godzina2.getHours() + 1)
+                // console.log(godzina1 , godzina2)
+                if ((godzina1.getHours() && godzina1.getMinutes()) > (godzina2.getHours() && godzina2.getMinutes())) { return 1; }
+                if ((godzina1.getHours() && godzina1.getMinutes()) < (godzina2.getHours() && godzina2.getMinutes())) { return -1; }
+                return 0;
+            });
             // }
         })
     }
@@ -71,9 +82,9 @@ export class EdytujMszeComponent implements OnInit {
             is24Hours: true
         }).then((godzina) => {
             if (godzina !== null) {
-                godzina.setHours(godzina.getHours() + 1);
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === godzina.getHours() && new Date(wydarzenie.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
-                    this.wydarzeniaDnia.push(this.wydarzeniaService.noweWydarzenie(this.wybranyDzien, godzina));
+                    // godzina.setHours(godzina.getHours() + 1);
+                    this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(null, null, null, godzina.getHours(), godzina.getMinutes()).toJSON() });
                     this.zmiana = true;
                 }
                 else {
@@ -93,8 +104,7 @@ export class EdytujMszeComponent implements OnInit {
     }
 
     async usun(wydarzenie: Wydarzenie) {
-
-        await this.czyKontynuowac(true,"Usunięcie wydarzenia spowoduje utratę przypisanych do niego dyżurów.\nCzy chcesz trwale usunąć wydarzenie z godziny " + wydarzenie.godzina.toString().slice(11,16) + "?").then((kontynuowac) => {
+        await this.czyKontynuowac(true, "Usunięcie wydarzenia spowoduje utratę przypisanych do niego dyżurów.\nCzy chcesz trwale usunąć wydarzenie z godziny " + new Date(wydarzenie.godzina).toString().slice(16, 21) + "?").then((kontynuowac) => {
             if (!kontynuowac) {
                 let index = this.wydarzeniaDnia.indexOf(wydarzenie);
                 this.wydarzeniaDnia.splice(index, 1);
@@ -104,25 +114,40 @@ export class EdytujMszeComponent implements OnInit {
     }
 
     zapisz() {
-        this.wydarzeniaService.zapiszWydarzenia(this.stareWydarzeniaDnia, this.wydarzeniaDnia, this.wybranyDzien).then(() => {
+        this.wydarzeniaService.zapiszWydarzenia(this.stareWydarzeniaDnia, this.wydarzeniaDnia, this.wybranyDzien).then(res => {
             this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien);
-            this.zmiana = false;
-            this.feedback.show({
-                title: "Sukces!",
-                message: "Zapisano wydarzenia",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 2000,
-                backgroundColor: new Color(255, 49, 155, 49),
-                type: FeedbackType.Success,
+            if (res === 1) {
+                this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien).then(() => {
+                    this.zmiana = false;
+                    this.feedback.show({
+                        title: "Sukces!",
+                        message: "Zapisano wydarzenia",
+                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                        duration: 2000,
+                        backgroundColor: new Color(255, 49, 155, 49),
+                        type: FeedbackType.Success,
 
-            });
+                    });
+                })
+            }
+            else {
+                this.feedback.show({
+                    title: "Błąd!",
+                    message: "Wystąpił nieoczekiwany błąd",
+                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                    duration: 3000,
+                    backgroundColor: new Color("#e71e25"),
+                    type: FeedbackType.Error,
+                });
+            }
         })
     }
 
     async anuluj() {
 
-        await this.czyKontynuowac(this.zmiana,"Zmienione wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((kontynuowac) => {
+        await this.czyKontynuowac(this.zmiana, "Zmienione wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((kontynuowac) => {
             if (!kontynuowac) {
                 this.tabIndexService.nowyOutlet(6, "ustawieniaO");
                 this.router.back();

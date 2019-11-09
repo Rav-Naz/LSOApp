@@ -6,8 +6,6 @@ import { Wydarzenie } from './wydarzenie.model';
 import { Obecnosc } from './obecnosc.model';
 import { Stopien } from './stopien.model';
 import { Wiadomosc } from './wiadomosci.model';
-import { Parafia } from './parafia.model';
-import { ParafiaService } from './parafia.service';
 
 @Injectable({
     providedIn: 'root'
@@ -38,8 +36,36 @@ export class HttpService {
                         resolve(2);
                     }
                 }
-                else if (res === 'istnieje'){
+                else if (res === 'istnieje') {
                     resolve(2);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
+    //USUWANIE PARAFII
+    async usuwanieParafii(id_user: number,id_parafii: number, haslo: string) {
+
+
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({id_user: id_user, id_parafii: id_parafii, haslo: sha512.sha512.hmac('mSf', haslo) }))
+            });
+
+            this.http.post(this.serverUrl + '/delete_parish', null, { headers: options }).subscribe(res => {
+                // console.log(res)
+                if (res === "zakonczono") {
+                    resolve(1);
+                }
+                else if(res === "niepoprawne") {
+                    resolve(2)
+                }
+                else if(res === "nieistnieje") {
+                    resolve(3)
                 }
                 else {
                     resolve(0);
@@ -107,10 +133,11 @@ export class HttpService {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({id_diecezji: 2, id_parafii: 2, stopien: stopien, imie: imie, nazwisko: nazwisko, email: email}))
+                "data": encodeURI(JSON.stringify({id_parafii: 1, stopien: stopien, imie: imie, nazwisko: nazwisko, email: email }))
             });
 
             this.http.post(this.serverUrl + '/new_user', null, { headers: options }).subscribe(res => {
+                console.log(res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -127,12 +154,12 @@ export class HttpService {
         });
     }
 
-      //USUWANIE MINISTRANTA
-      async usunMinistranta(id_user: number) {
+    //USUWANIE MINISTRANTA
+    async usunMinistranta(id_user: number) {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({id_user: id_user}))
+                "data": encodeURI(JSON.stringify({ id_user: id_user }))
             });
 
             this.http.post(this.serverUrl + '/delete_user', null, { headers: options }).subscribe(res => {
@@ -161,16 +188,17 @@ export class HttpService {
     }
 
     //DODAWANIE WYDARZENIA
-    async dodajNoweWydarzenie(id_parafii: number, dzien_tygodnia: number, godzina: Date) {
+    async dodajNoweWydarzenie(id_parafii: number, dzien_tygodnia: number, godzina: string) {
+
+        let czas = new Date(godzina)
 
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({ id_parafii: id_parafii, dzien_tygodnia: dzien_tygodnia, godzina: new Date(2018, 10, 15, godzina.getHours(), godzina.getMinutes()) }))
+                "data": encodeURI(JSON.stringify({ id_parafii: id_parafii, dzien_tygodnia: dzien_tygodnia, godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()) }))
             });
 
             this.http.post(this.serverUrl + '/new_event', null, { headers: options }).subscribe(res => {
-                console.log(res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -187,6 +215,26 @@ export class HttpService {
         });
     }
 
+    //USUWANIE WYDARZENIA
+    async usunWydarzenie(id_wydarzenia: number) {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ id_wydarzenia: id_wydarzenia }))
+            });
+
+            this.http.post(this.serverUrl + '/delete_event', null, { headers: options }).subscribe(res => {
+                if (res.hasOwnProperty('insertId')) {
+                    resolve(1);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
+
     //POBIERANIE DYŻURÓW DO DANEGO WYDARZENIA
     async pobierzDyzuryDoWydarzenia(id_wydarzenia: number) {
         return new Promise<Array<User>>(resolve => {
@@ -202,7 +250,7 @@ export class HttpService {
     }
 
     //POBIERANIE OBECNOSCI DO DANEGO WYDARZENIA
-    async pobierzObecnosciDoWydarzenia(id_wydarzenia:number, data: Date) {
+    async pobierzObecnosciDoWydarzenia(id_wydarzenia: number, data: Date) {
         return new Promise<Array<User>>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
@@ -220,7 +268,7 @@ export class HttpService {
         return new Promise<void>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({ id_obecnosci: obecnosc.id, status: obecnosc.status}))
+                "data": encodeURI(JSON.stringify({ id_obecnosci: obecnosc.id, status: obecnosc.status }))
             });
 
             console.log('aktualizacja')
@@ -237,7 +285,7 @@ export class HttpService {
         return new Promise<void>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({id_wydarzenia: obecnosc.id_wydarzenia, id_user: obecnosc.id_user, data: obecnosc.data, status: obecnosc.status}))
+                "data": encodeURI(JSON.stringify({ id_wydarzenia: obecnosc.id_wydarzenia, id_user: obecnosc.id_user, data: obecnosc.data, status: obecnosc.status }))
             });
 
             console.log('dodawanie')
@@ -268,7 +316,7 @@ export class HttpService {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({ autor_id: id_parafii, odbiorca_id: id_parafii, tresc: tresc, linkobrazu: null}))
+                "data": encodeURI(JSON.stringify({ autor_id: id_parafii, odbiorca_id: id_parafii, tresc: tresc, linkobrazu: null }))
             });
 
             this.http.post(this.serverUrl + '/new_message', null, { headers: options }).subscribe(res => {
@@ -287,7 +335,7 @@ export class HttpService {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({ id_wiadomosci: id_wiadomosci}))
+                "data": encodeURI(JSON.stringify({ id_wiadomosci: id_wiadomosci }))
             });
 
             this.http.post(this.serverUrl + '/delete_message', null, { headers: options }).subscribe(res => {
@@ -306,7 +354,7 @@ export class HttpService {
         return new Promise<any>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({ punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, id_parafii: id_parafii}))
+                "data": encodeURI(JSON.stringify({ punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, id_parafii: id_parafii }))
             });
 
             this.http.post(this.serverUrl + '/update_points', null, { headers: options }).subscribe(res => {

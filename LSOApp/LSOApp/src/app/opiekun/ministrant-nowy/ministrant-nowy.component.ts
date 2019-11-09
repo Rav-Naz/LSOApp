@@ -74,6 +74,7 @@ export class MinistrantNowyComponent implements OnInit {
         this._email = this.form.get('email').value !== '' ? this.form.get('email').value : null;
 
         this.parafiaService.nowyMinistrant(this._stopien, this._imie, this._nazwisko, this._email).then(res => {
+            console.log(res)
             switch (res) {
                 case 0:
                         this.feedback.show({
