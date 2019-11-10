@@ -7,7 +7,6 @@ import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { Subscription } from 'rxjs';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
@@ -45,7 +44,11 @@ export class MinistrantDyzuryComponent implements OnInit {
     ngOnInit() {
         this.page.actionBarHidden = true;
 
-        this.ministrant = this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
+        // this.ministrant = this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
+
+        this.wydarzeniaService.wszystkieWydarzeniaWDyzurach()
+
+        this.parafiaService.wyszukajDyzury(this.parafiaService.aktualnyMinistrantId);
 
         this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaDyzurySub.subscribe( lista => {
             if(lista !== null)
@@ -54,7 +57,6 @@ export class MinistrantDyzuryComponent implements OnInit {
             }
         })
 
-        this.parafiaService.wyszukajDyzury(this.ministrant.id_user);
 
         this.dyzurSub = this.parafiaService.DyzuryMinistranta.subscribe(lista_dyzurow => {
             let dyzury: Array<Wydarzenie> = [];
@@ -63,9 +65,8 @@ export class MinistrantDyzuryComponent implements OnInit {
             if (lista_dyzurow.length === 0) {
                 return;
             }
-            lista_dyzurow.forEach(dyzur => {
-                dyzury.push(this.wydarzeniaService.wybraneWydarzenie(dyzur.id_wydarzenia));
-            });
+            dyzury = lista_dyzurow
+
             for (let index = 0; index < 7; index++) {
                let c = dyzury.filter(dyzur => dyzur.dzien_tygodnia === index)[0];
                if(c !== undefined)
@@ -75,8 +76,7 @@ export class MinistrantDyzuryComponent implements OnInit {
                    this.dni[index] = true;
                }
             }
-        });
-
+        })
     }
 
     zmianaCheckboxa(index:number, event)
@@ -148,7 +148,7 @@ export class MinistrantDyzuryComponent implements OnInit {
                 return 0;
             });
             opcje.forEach(wydarzenie => {
-                wybor.push(wydarzenie.godzina.toString().slice(11,16));
+                wybor.push(new Date(wydarzenie.godzina).toString().slice(16,21));
             })
 
             this.modal.showModal(WyborModalComponent,{
@@ -163,7 +163,7 @@ export class MinistrantDyzuryComponent implements OnInit {
               } as ExtendedShowModalOptions).then((result) => {
                 if(result !== undefined)
                 {
-                    let ktoreWydarzenie = opcje.filter(item => item.godzina.toString().slice(11,16) === wybor[result])[0];
+                    let ktoreWydarzenie = opcje[result];
                     this.wydarzeniaMinistranta[ktoreWydarzenie.dzien_tygodnia] = ktoreWydarzenie;
                     this.zmiana = true;
                 }
@@ -187,20 +187,36 @@ export class MinistrantDyzuryComponent implements OnInit {
 
     zapisz()
     {
-        this.parafiaService.zapiszDyzury(this.wydarzeniaMinistranta, this.stareWydarzeniaMinistranta).then(() => {
-            setTimeout(() => {
+        this.parafiaService.zapiszDyzury(this.wydarzeniaMinistranta, this.stareWydarzeniaMinistranta).then(res => {
+            if(res === 1)
+            {
+                setTimeout(() => {
+                    this.feedback.show({
+                        title: "Sukces!",
+                        message: "Zapisano dyżury",
+                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                        duration: 2000,
+                        backgroundColor: new Color(255,49, 155, 49),
+                        type: FeedbackType.Success,
+                      });
+                }, 400)
+                this.zmiana = false;
+                this.anuluj()
+            }
+            else
+            {
                 this.feedback.show({
-                    title: "Sukces!",
-                    message: "Zapisano dyżury",
+                    title: "Błąd!",
+                    message: "Wystąpił nieoczekiwany błąd",
                     titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
                     messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 2000,
-                    backgroundColor: new Color(255,49, 155, 49),
-                    type: FeedbackType.Success,
-                  });
-            }, 400)
-            this.zmiana = false;
-            this.anuluj()
+                    duration: 3000,
+                    backgroundColor: new Color("#e71e25"),
+                    type: FeedbackType.Error,
+
+                });
+            }
         });
     }
 
@@ -212,7 +228,7 @@ export class MinistrantDyzuryComponent implements OnInit {
         }
         else
         {
-            return this.wydarzeniaMinistranta[index].godzina.toString().slice(11,16);
+            return new Date(this.wydarzeniaMinistranta[index].godzina).toString().slice(16,21);
         }
     }
 }

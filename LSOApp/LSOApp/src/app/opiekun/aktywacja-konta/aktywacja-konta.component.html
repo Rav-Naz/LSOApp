@@ -23,12 +23,14 @@
             <Label text="Aktywacja konta" class="audiowide"></Label>
         </FlexboxLayout>
 
-        <GridLayout columns="*,*,*,*" rows="60" row="3">
-            <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 audiowide"
+        <GridLayout columns="*,*" rows="60" row="3">
+            <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="!wyslanePrzyp"></Button>
-            <Button text="Wyślij" col="2" colSpan="2" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
+            <Button text="Wyślij" col="1" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="!wyslanePrzyp" [isEnabled]="this.form.valid"></Button>
-            <Button text="Powrót" col="1" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 zapisz audiowide"
+            <Button text="Ponów" col="0" (tap)="wyslanePrzyp = false" class="anuluj b-p-10 audiowide"
+                *ngIf="wyslanePrzyp"></Button>
+            <Button text="Powrót" col="1" (tap)="powrot()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="wyslanePrzyp"></Button>
         </GridLayout>
     </GridLayout>

@@ -38,9 +38,9 @@ export class PunktacjaComponent implements OnInit {
     ngOnInit() {
         this.page.actionBarHidden = true;
 
-        let o = this.parafiaService.punktyZaObecnosc.valueOf();
+        let o = this.parafiaService.parafia.punkty_dod_sluzba
 
-        let n = this.parafiaService.punktyZaNieobecnosc.valueOf();
+        let n = this.parafiaService.parafia.punkty_uj_sluzba
 
         this.poczObecnosc = o.valueOf()
 
@@ -54,16 +54,16 @@ export class PunktacjaComponent implements OnInit {
     }
 
     zapisz() {
-        this.parafiaService.punktyZaObecnosc = this.pktZaObecnosc;
-        this.parafiaService.punktyZaNieobecnosc = this.pktZaNieobecnosc;
+        this.parafiaService.parafia.punkty_dod_sluzba = this.pktZaObecnosc;
+        this.parafiaService.parafia.punkty_uj_sluzba = this.pktZaNieobecnosc;
 
         this.zmiana = false;
 
-        this.http.aktualizacjaPunktow(2, this.pktZaObecnosc, this.pktZaNieobecnosc).then(res => {
-            let daneParafii: Array<Parafia> = JSON.parse(JSON.stringify(res))
-            if(daneParafii[0].id_parafii)
+        this.http.aktualizacjaPunktow(this.pktZaObecnosc, this.pktZaNieobecnosc).then(res => {
+            let daneParafii: Parafia = JSON.parse(JSON.stringify(res))
+            if(daneParafii.id_parafii)
             {
-                this.parafiaService.parafia = daneParafii[0]
+                this.parafiaService.parafia = daneParafii
                 setTimeout(() => {
                     this.feedback.show({
                         title: "Sukces!",

@@ -1,0 +1,25 @@
+<ModalStack height="100%">
+    <FlexboxLayout class="f center">
+            <StackLayout>
+                <Label text="Zaloguj jako" horizontalAlignment="center" class="lexend label"></Label>
+                <GridLayout columns="*,*" rows="auto">
+                    <!-- <FlexboxLayout flexDirection="column" col="0" row="0" class="btn"> -->
+                        <Button (tap)="wybierz(0)" col="0" row="0" class="btn audiowide">
+                            <FormattedString>
+                                <Span text="&#xe08f;&#xA;" class="icon" fontSize="50"></Span>
+                                <Span text="Ministrant" class="audiowide"></Span>
+                            </FormattedString>
+                        </Button>
+                    <!-- </FlexboxLayout> -->
+                    <!-- <FlexboxLayout flexDirection="column" col="1" row="0" class="btn"> -->
+                        <Button (tap)="wybierz(1)" col="1" row="0" class="btn audiowide">
+                            <FormattedString>
+                                <Span text="&#xe036;&#xA;" class="icon" fontSize="50"></Span>
+                                <Span text="Opiekun" class="audiowide"></Span>
+                            </FormattedString>
+                        </Button>
+                    <!-- </FlexboxLayout> -->
+                </GridLayout>
+            </StackLayout>
+    </FlexboxLayout>
+</ModalStack>

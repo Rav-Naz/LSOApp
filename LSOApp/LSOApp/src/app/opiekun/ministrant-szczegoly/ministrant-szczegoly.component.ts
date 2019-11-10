@@ -35,11 +35,12 @@ export class MinistrantSzczegolyComponent implements OnInit {
     }
     form: FormGroup;
     zmiana: boolean;
-    ministrant: User;
-    dyzury: Array<Wydarzenie>;
+    ministrant: User = { id_user:0, id_diecezji:0, id_parafii: 0, punkty: 0, stopien: 0, imie: "", nazwisko: "", ulica: null, kod_pocztowy: null, miasto: null, email: null, telefon: null, aktywny: 0, admin: 0 };
+    dyzury: Array<Wydarzenie> = [];
     dyzurSub: Subscription;
+    podgladMinistranta: Subscription;
     PROSub: Subscription;
-    PROLista: Array<string>;
+    PROLista: Array<string> = [];
     DzienTyg = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
 
     @ViewChild('punkty', { static: false }) punkty: ElementRef<TextField>;
@@ -49,25 +50,35 @@ export class MinistrantSzczegolyComponent implements OnInit {
             this.PROLista = listaOutletow;
         })
 
+        this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
+
+        this.podgladMinistranta = this.parafiaService.PodgladMinistranta.subscribe(min => {
+            if(min !== undefined && min !== null)
+            {
+                this.ministrant = min
+            }
+        })
+
         this.page.actionBarHidden = true;
 
         this.zmiana = false;
 
-        let min = this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
-
-        this.ministrant = { id_user: min.id_user, id_diecezji: min.id_diecezji, id_parafii: min.id_parafii, punkty: min.punkty, stopien: min.stopien, imie: min.imie, nazwisko: min.nazwisko, ulica: min.ulica, kod_pocztowy: min.kod_pocztowy, miasto: min.miasto, email: min.email, telefon: min.telefon, aktywny: min.aktywny };
-
-        this.parafiaService.wyszukajDyzury(this.ministrant.id_user);
+        this.parafiaService.wyszukajDyzury(this.parafiaService.aktualnyMinistrantId);
 
         this.dyzurSub = this.parafiaService.DyzuryMinistranta.subscribe(lista_dyzurow => {
 
-            this.dyzury = [];
-            if (lista_dyzurow.length === 0) {
-                return;
+            if(lista_dyzurow === null || lista_dyzurow === undefined)
+            {
+                return
             }
-            lista_dyzurow.forEach(dyzur => {
-                this.dyzury.push(this.wydarzeniaService.wybraneWydarzenie(dyzur.id_wydarzenia));
-            });
+
+            this.dyzury = lista_dyzurow
+            // if (lista_dyzurow.length === 0) {
+            //     return;
+            // }
+            // lista_dyzurow.forEach(dyzur => {
+            //     this.dyzury.push(this.wydarzeniaService.wybraneWydarzenie(dyzur.id_wydarzenia));
+            // });
             this.dyzury.sort((wyd1, wyd2) => {
                 if (wyd1.dzien_tygodnia > wyd2.dzien_tygodnia) {
                     return 1;
@@ -141,7 +152,15 @@ export class MinistrantSzczegolyComponent implements OnInit {
     }
 
     aktywujKonto() {
-        if (this.ministrant.email === null) {
+        if (this.ministrant.aktywny === 0) {
+            if(this.ministrant.email !== null)
+            {
+                this.parafiaService.wyslanyEmail = true;
+            }
+            else
+            {
+                this.parafiaService.wyslanyEmail = false;
+            }
             this.tabIndexService.nowyOutlet(4, 'aktywacja-konta')
             this.router.navigate(['../aktywacja-konta'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
         }
@@ -178,7 +197,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
     displayActionDialog(ministrant: User) {
 
-        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz"]
+        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Ksiądz", "Opiekun"]
 
         this.modal.showModal(WyborModalComponent, {
             context: lista,
@@ -199,20 +218,36 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
     zapisz() {
         this.wpiszPunkty();
-        this.parafiaService.updateMinistranta(this.ministrant).then(() => {
-            setTimeout(() => {
+        this.parafiaService.updateMinistranta(this.ministrant).then(res => {
+            if(res === 1)
+            {
+                setTimeout(() => {
+                    this.feedback.show({
+                        title: "Sukces!",
+                        message: "Zapisano zmiany",
+                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                        duration: 2000,
+                        backgroundColor: new Color(255, 49, 155, 49),
+                        type: FeedbackType.Success,
+                    });
+                }, 400)
+                this.zmiana = false;
+                this.zamknij()
+            }
+            else
+            {
                 this.feedback.show({
-                    title: "Sukces!",
-                    message: "Zapisano zmiany",
+                    title: "Błąd!",
+                    message: "Wystąpił nieoczekiwany błąd",
                     titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
                     messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 2000,
-                    backgroundColor: new Color(255, 49, 155, 49),
-                    type: FeedbackType.Success,
+                    duration: 3000,
+                    backgroundColor: new Color("#e71e25"),
+                    type: FeedbackType.Error,
+
                 });
-            }, 400)
-            this.zmiana = false;
-            this.zamknij()
+            }
         })
     }
 

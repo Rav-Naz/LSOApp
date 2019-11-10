@@ -55,17 +55,7 @@ export class EdytujMszeComponent implements OnInit {
                     this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
                     this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
                 })
-
-            this.wydarzeniaDnia.sort((wyd1, wyd2) => {
-                let godzina1 = new Date(wyd1.godzina)
-                // godzina1.setHours(godzina1.getHours() + 1)
-                let godzina2 = new Date(wyd2.godzina)
-                // godzina2.setHours(godzina2.getHours() + 1)
-                // console.log(godzina1 , godzina2)
-                if ((godzina1.getHours() && godzina1.getMinutes()) > (godzina2.getHours() && godzina2.getMinutes())) { return 1; }
-                if ((godzina1.getHours() && godzina1.getMinutes()) < (godzina2.getHours() && godzina2.getMinutes())) { return -1; }
-                return 0;
-            });
+                this.sortuj()
             // }
         })
     }
@@ -84,7 +74,8 @@ export class EdytujMszeComponent implements OnInit {
             if (godzina !== null) {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === godzina.getHours() && new Date(wydarzenie.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
                     // godzina.setHours(godzina.getHours() + 1);
-                    this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(null, null, null, godzina.getHours(), godzina.getMinutes()).toJSON() });
+                    this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(2018, 10, 15, godzina.getHours(), godzina.getMinutes()).toJSON() });
+                    this.sortuj()
                     this.zmiana = true;
                 }
                 else {
@@ -143,6 +134,17 @@ export class EdytujMszeComponent implements OnInit {
                 });
             }
         })
+    }
+
+    private sortuj()
+    {
+        this.wydarzeniaDnia.sort((wyd1, wyd2) => {
+            let godzina1 = new Date(wyd1.godzina)
+            let godzina2 = new Date(wyd2.godzina)
+            if ((godzina1 > godzina2)) { return 1; }
+            if ((godzina1 < godzina2)) { return -1; }
+            return 0;
+        });
     }
 
     async anuluj() {

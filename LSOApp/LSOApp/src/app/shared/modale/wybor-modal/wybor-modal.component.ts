@@ -1,6 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
-import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout/flexbox-layout';
 
 @Component({
   selector: 'ns-wybor-modal',
@@ -16,8 +15,6 @@ export class WyborModalComponent implements OnInit {
     lista = new Array<string>();
     rows: string = '';
     height='';
-
-    @ViewChild('flex', { static: false }) flex: ElementRef<FlexboxLayout>;
 
   ngOnInit() {
       this.context = this.modal.context;

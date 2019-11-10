@@ -3,8 +3,6 @@ import { Wydarzenie } from './wydarzenie.model';
 import { BehaviorSubject } from 'rxjs';
 import { ParafiaService } from './parafia.service';
 import { HttpService } from './http.service';
-import { resolve } from 'dns';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Injectable({
     providedIn: 'root'
@@ -34,8 +32,6 @@ export class WydarzeniaService {
 
     }
 
-    private indexWydarzenia: number = 0;
-
     aktywnyDzien: number;
 
     _wydarzenia: Array<Wydarzenie> = [];
@@ -43,6 +39,15 @@ export class WydarzeniaService {
     wydarzeniaDyzury = new BehaviorSubject<Array<Wydarzenie>>(null);
     wydarzeniaObecnosc = new BehaviorSubject<Array<Wydarzenie>>(null);
     wydarzeniaEdycja = new BehaviorSubject<Array<Wydarzenie>>(null);
+
+    wyczysc()
+    {
+        this.aktywnyDzien = 0;
+        this._wydarzenia = [];
+        this.wydarzeniaDyzury.next(null)
+        this.wydarzeniaObecnosc.next(null)
+        this.wydarzeniaEdycja.next(null)
+    }
 
     get WydarzeniaObecnoscSub() {
         return this.wydarzeniaObecnosc.asObservable();
@@ -61,9 +66,19 @@ export class WydarzeniaService {
     dzisiejszeWydarzenia(dzien: number) {//Wykorzystanie: wydarzeniaService (wydarzeniaWEdycji)
         return new Promise<void>((resolve) => {
             this.aktywnyDzien = dzien;
-            this.http.pobierzWydarzeniaNaDanyDzien(dzien, 2).then(res => {
+            this.http.pobierzWydarzeniaNaDanyDzien(dzien).then(res => {
                 this.wydarzeniaObecnosc.next(res);
                 resolve();
+            })
+        })
+    }
+
+    wszystkieWydarzeniaWDyzurach()
+    {
+        return new Promise<number>((resolve) => {
+            this.http.pobierzWszystkieWydarzenia().then(res => {
+                this.wydarzeniaDyzury.next(res)
+                resolve(1)
             })
         })
     }
@@ -175,7 +190,7 @@ export class WydarzeniaService {
     {
         console.log("dodawanie ", wydarzenie)
         return new Promise<number>((resolve) => {
-            this.http.dodajNoweWydarzenie(wydarzenie.id_parafii, wydarzenie.dzien_tygodnia, wydarzenie.godzina).then(res => {
+            this.http.dodajNoweWydarzenie(wydarzenie.dzien_tygodnia, wydarzenie.godzina).then(res => {
                 resolve(res)
             })
 
@@ -198,7 +213,7 @@ export class WydarzeniaService {
     wydarzeniaWEdycji(dzien_tygodnia: number) //Wykorzystanie: edytuj-msze, wydarzeniaService(zapiszWydarzenia)
     {
         return new Promise<void>((resolve) => {
-            this.http.pobierzWydarzeniaNaDanyDzien(dzien_tygodnia, 2).then(res => {
+            this.http.pobierzWydarzeniaNaDanyDzien(dzien_tygodnia).then(res => {
                 this.wydarzeniaEdycja.next(res);
                 resolve();
             })

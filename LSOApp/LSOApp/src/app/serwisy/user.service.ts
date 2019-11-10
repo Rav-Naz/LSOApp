@@ -10,8 +10,8 @@ import { SecureStorage } from "nativescript-secure-storage";
 export class UserService {
 
     private secureStorage;
-    public wersja: string = "1.4 beta"; //Wykorzystanie: ustawienia-m, ustawienia-o
-    private user: User = { id_user: 1, id_diecezji: 1, id_parafii: 1, punkty: 243, stopien: 1, imie: "Rafał", nazwisko: "Nazarko", ulica: "Bajkowa 54/2", kod_pocztowy: "37-620", miasto: "Rzeszów", email: "rafal.nazarko@gmail.com", telefon: "506987123", aktywny: true };
+    public wersja: string = "1.0"; //Wykorzystanie: ustawienia-m, ustawienia-o
+    private user: User
 
     constructor(){
         this.secureStorage = new SecureStorage;
@@ -31,8 +31,17 @@ export class UserService {
     userDyzury: Array<Dyzur> = [];
 
     private userDyzurySub = new BehaviorSubject<Array<Dyzur>>(null);
-    private userSub = new BehaviorSubject<User>(this.user);
+    private userSub = new BehaviorSubject<User>(null);
     private powiadomieniaODyzurach = new BehaviorSubject<boolean>(null);
+
+    wyczysc()
+    {
+        this.user = null;
+        this.userDyzury = [];
+        this.userDyzurySub.next(null);
+        this.userSub.next(null)
+        this.powiadomieniaODyzurach.next(null)
+    }
 
     get UserSub() { //Wykorzystanie: dyzury, dane-profilowe
         return this.userSub.asObservable();
@@ -46,6 +55,16 @@ export class UserService {
     get UserDyuzryPowiadomienia()
     {
         return this.powiadomieniaODyzurach.asObservable();
+    }
+
+    get UserID()
+    {
+        return this.user.id_user;
+    }
+
+    zmienUsera(user: User)
+    {
+        this.user = user
     }
 
     setUserDyzury(lista)

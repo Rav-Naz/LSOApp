@@ -5,6 +5,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { Feedback, FeedbackType } from "nativescript-feedback";
 import { HttpService } from '~/app/serwisy/http.service';
+import { UserService } from '~/app/serwisy/user.service';
+import { ParafiaService } from '~/app/serwisy/parafia.service';
+import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
+import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 
 @Component({
     selector: 'ns-usun-konto-o',
@@ -15,7 +19,9 @@ import { HttpService } from '~/app/serwisy/http.service';
 export class UsunKontoOComponent implements OnInit {
     private feedback: Feedback;
 
-    constructor(private page: Page, private router: RouterExtensions, private tabIndexService: TabindexService, private http: HttpService) {
+    constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
+        private tabIndexService: TabindexService, private http: HttpService,
+        private parafiaService: ParafiaService, private wiadomosciService: WiadomosciService, private wydarzeniaService: WydarzeniaService) {
         this.feedback = new Feedback();
     }
 
@@ -38,7 +44,7 @@ export class UsunKontoOComponent implements OnInit {
     zapisz() {
 
         this._haslo = this.form.get('haslo').value;
-        this.http.usuwanieParafii(2, 2, this._haslo).then(res => {
+        this.http.usuwanieParafii(this._haslo).then(res => {
             switch (res) {
                 case 0:
                     this.feedback.show({
@@ -54,6 +60,12 @@ export class UsunKontoOComponent implements OnInit {
                     break;
                 case 1:
                     this.router.navigate([""], { clearHistory: true, transition: { name: 'slideBottom' } }).then(() => {
+                        this.http.wyczysc()
+                        this.parafiaService.wyczysc()
+                        this.tabIndexService.wyczysc()
+                        this.userService.wyczysc()
+                        this.wiadomosciService.wyczysc()
+                        this.wydarzeniaService.wyczysc()
                         setTimeout(() => {
                             this.feedback.show({
                                 title: "Sukces!",

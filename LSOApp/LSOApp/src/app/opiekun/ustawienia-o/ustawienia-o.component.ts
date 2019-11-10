@@ -8,6 +8,10 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ActivatedRoute } from '@angular/router';
+import { HttpService } from '~/app/serwisy/http.service';
+import { ParafiaService } from '~/app/serwisy/parafia.service';
+import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
+import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 
 @Component({
   selector: 'ns-ustawienia-o',
@@ -19,7 +23,9 @@ export class UstawieniaOComponent implements OnInit {
 
     private feedback: Feedback;
 
-  constructor(private page: Page, private router: RouterExtensions, private userService: UserService, private tabIndexService: TabindexService, private active: ActivatedRoute) {
+  constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
+     private tabIndexService: TabindexService, private active: ActivatedRoute, private http: HttpService,
+     private parafiaService: ParafiaService, private wiadomosciService: WiadomosciService, private wydarzeniaService: WydarzeniaService) {
     this.feedback = new Feedback();
   }
 
@@ -62,7 +68,12 @@ export class UstawieniaOComponent implements OnInit {
     wyloguj()
     {
         this.router.navigate([""],{clearHistory: true, transition: { name: 'slideBottom' }}).then(() => {
-            this.tabIndexService.nowyIndex(0)
+            this.http.wyczysc()
+            this.parafiaService.wyczysc()
+            this.tabIndexService.wyczysc()
+            this.userService.wyczysc()
+            this.wiadomosciService.wyczysc()
+            this.wydarzeniaService.wyczysc()
             setTimeout(() => {
                 this.feedback.show({
                     title: "Sukces!",

@@ -1,11 +1,19 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, ViewContainerRef } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Feedback, FeedbackType } from "nativescript-feedback";
 import { SecureStorage } from 'nativescript-secure-storage';
+import { LogowanieJakoComponent } from '../shared/modale/logowanie-jako/logowanie-jako.component';
+import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { HttpService } from '../serwisy/http.service';
+import { UserService } from '../serwisy/user.service';
+import { User } from '../serwisy/user.model';
+import { ParafiaService } from '../serwisy/parafia.service';
 
 @Component({
     selector: 'ns-logowanie',
@@ -26,7 +34,13 @@ export class LogowanieComponent implements OnInit {
     emailValid = true;
     hasloValid = true;
 
-    constructor(private router: RouterExtensions, private tabIndexService: TabindexService, private page: Page) { }
+    private feedback: Feedback;
+
+    constructor(private router: RouterExtensions, private tabIndexService: TabindexService,
+         private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef,
+          private http: HttpService, private userService: UserService, private parafiaService: ParafiaService) {
+            this.feedback = new Feedback();
+         }
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -53,15 +67,112 @@ export class LogowanieComponent implements OnInit {
         this.router.navigate(['/zapomnialem'], { transition: { name: 'slideRight' } });
     }
 
-    zaloguj(kto: boolean)
+    zaloguj()
     {
-        this.tabIndexService.opiekun = kto;
-
        this._email = this.form.get('email').value;
        this._haslo= this.form.get('haslo').value;
 
-       this.tabIndexService.nowyIndex(0);
-       this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+       this.http.logowanie(this._email,this._haslo).then(res => {
+           if(res === 'brak' || res === 'niepoprawne')
+           {
+            this.feedback.show({
+                title: "Uwaga!",
+                message: "Niepoprawny adres e-mail i/lub hasło",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color(255, 255, 207, 51),
+                type: FeedbackType.Warning,
+
+            });
+           }
+           else if(res === 'nieaktywne')
+           {
+            this.feedback.show({
+                title: "Uwaga!",
+                message: "Musisz najpierw aktywować konto aby móc się zalogować",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color(255, 255, 207, 51),
+                type: FeedbackType.Warning,
+            });
+           }
+           else if( res === 'blad')
+           {
+            this.feedback.show({
+                title: "Błąd!",
+                message: "Wystąpił nieoczekiwany błąd",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color("#e71e25"),
+                type: FeedbackType.Error,
+            });
+           }
+           else
+           {
+               let user: User = JSON.parse(JSON.stringify(res))
+               this.userService.zmienUsera(user);
+               this.http.nadajId_Parafii(user.id_parafii);
+               this.http.nadajId_User(user.id_user);
+
+               if(user.admin === 1)
+               {
+                this.modal.showModal(LogowanieJakoComponent, {
+                    context: null,
+                    viewContainerRef: this.vcRef,
+                    fullscreen: false,
+                    stretched: false,
+                    animated: true,
+                    closeCallback: null,
+                    dimAmount: 0.8 // Sets the alpha of the background dim,
+
+                } as ExtendedShowModalOptions).then((result) => {
+
+                    if(result !== undefined)
+                    {
+                        if(result === 1)
+                        {
+                            this.tabIndexService.opiekun = true;
+                            this.parafiaService.pobierzParafie().then(res => {
+                                if(res === 1)
+                                {
+                                    this.tabIndexService.nowyIndex(0);
+                                    this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                                }
+                                else
+                                {
+                                    this.feedback.show({
+                                        title: "Błąd!",
+                                        message: "Wystąpił nieoczekiwany błąd",
+                                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                                        duration: 3000,
+                                        backgroundColor: new Color("#e71e25"),
+                                        type: FeedbackType.Error,
+                                    });
+                                }
+                            })
+                        }
+                        else
+                        {
+                            this.tabIndexService.opiekun = false;
+                            this.tabIndexService.nowyIndex(0);
+                            this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                        }
+                    }
+                });
+               }
+               else
+               {
+                 this.tabIndexService.opiekun = false;
+                    this.tabIndexService.nowyIndex(0);
+                    this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+               }
+           }
+       })
+
     }
 
     doRejestracji()

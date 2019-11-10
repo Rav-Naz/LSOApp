@@ -6,7 +6,7 @@ import {BehaviorSubject } from 'rxjs';
 })
 export class TabindexService {
 
-    public opiekun: boolean = true;
+    public opiekun: boolean = false;
 
     outlety: Array<string> =
     [
@@ -21,6 +21,22 @@ export class TabindexService {
 
     private _pageRouterOutlet = new BehaviorSubject<Array<string>>(this.outlety)
     private _tabSelectedIndex = new BehaviorSubject<number>(0);
+
+    wyczysc()
+    {
+        this.outlety = [
+            "dyzury",
+            "wiadomosciM",
+            "ustawieniaM",
+            "obecnosc",
+            "ministranci",
+            "wiadomosciO",
+            "ustawieniaO"
+        ];
+        this.opiekun = false;
+        this._tabSelectedIndex.next(0)
+
+    }
 
     nowyIndex(index: number) //Wykorzystanie: dane-profilowe, dyzury, ustawienia-m, usun-konto, wiadomosci-m, zmien-haslo
     {

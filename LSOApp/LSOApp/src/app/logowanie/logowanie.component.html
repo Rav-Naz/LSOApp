@@ -20,7 +20,7 @@
                 <Label text="Niepoprawne hasło" class="red lexend" *ngIf="!hasloValid"></Label>
             </FlexboxLayout>
 
-            <Button text="Zaloguj" class="button audiowide b-p-10" (tap)="zaloguj(true)" (longPress)="zaloguj(false)"></Button>
+            <Button text="Zaloguj" class="button audiowide b-p-10" (tap)="zaloguj()" (longPress)="zaloguj(false)" *ngIf="this.form.valid"></Button>
 
         </StackLayout>
         <FlexboxLayout col="0" row="1" class="center" width="100%">

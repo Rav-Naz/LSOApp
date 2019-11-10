@@ -12,6 +12,7 @@ import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-m
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { ActivatedRoute } from '@angular/router';
 import { sortPolskich } from '~/app/shared/sortPolskich';
+import { UserService } from '~/app/serwisy/user.service';
 
 @Component({
     selector: 'ns-ministranci',
@@ -29,7 +30,7 @@ export class MinistranciComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
+    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute, private userService: UserService) {
         this.feedback = new Feedback();
     }
 
@@ -41,7 +42,7 @@ export class MinistranciComponent implements OnInit {
             if(lista !== null)
             {
                 lista.forEach(ministrant => {
-                    this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny})
+                    this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny, admin: ministrant.admin})
                 })
                 this.sortujListe();
             }
@@ -83,6 +84,21 @@ export class MinistranciComponent implements OnInit {
     }
 
     async usunMinistranta(ministrant: User) {
+
+        if(ministrant.id_user === this.userService.UserID)
+        {
+            this.feedback.show({
+                title: "Błąd!",
+                message: "Nie możesz usunąć swojego konta z poziomu widoku opiekuna!",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color("#e71e25"),
+                type: FeedbackType.Error,
+
+            });
+            return
+        }
 
         await this.czyKontynuowac(true,"Czy na pewno chcesz usunąć\n" + ministrant.nazwisko + " " + ministrant.imie + "\nz listy ministrantów?").then((kontynuowac) => {
             if(!kontynuowac)

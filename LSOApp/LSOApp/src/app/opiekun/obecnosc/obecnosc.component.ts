@@ -10,7 +10,6 @@ import { Feedback, FeedbackType} from "nativescript-feedback";
 import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -115,7 +114,7 @@ export class ObecnoscComponent implements OnInit {
         })
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
-            if(lista !== null)
+            if(lista !== [] && lista !== null)
             {
                 this.ministranciDoWydarzenia = lista;
                 this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
@@ -143,17 +142,18 @@ export class ObecnoscComponent implements OnInit {
                 return;
             }
 
+
             if (lista.length > 0) { //W przypadku gdy w pamieci sa juz obecnosci dla tego dnia i wydarzenia
                 this.sprawdzane = true;
-                lista.forEach(element => {
-                    this.noweObecnosci.push({ id: element.id, id_wydarzenia: element.id_wydarzenia, id_user: element.id_user, data: element.data, status: element.status });
-                })
+                this.noweObecnosci = lista
+                // lista.forEach(element => {
+                //     this.noweObecnosci.push({ id: element.id, id_wydarzenia: element.id_wydarzenia, id_user: element.id_user, data: element.data, status: element.status });
+                // })
                 this.zmiana = false;
             }
             else {// W przypadku gdy sprawdzamy obecnosc w tym dniu pierwszy raz
                 this.sprawdzane = false;
                 this.ministranciDoWydarzenia.forEach(ministrant => {
-                    console.log(this.aktywneWydarzenie)
                     this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, ministrant.id_user, this.aktywnyDzien));
                 })
                 if(this.ministranciDoWydarzenia.length === 0)
@@ -280,16 +280,36 @@ export class ObecnoscComponent implements OnInit {
 
     zapiszZmiany() {
         this.parafiaService.zapiszObecnosci(this.noweObecnosci, this.sprawdzane).then(() => {
-            this.feedback.show({
-                title: "Sukces!",
-                message: "Zapisano obecności",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 2000,
-                backgroundColor: new Color(255,49, 155, 49),
-                type: FeedbackType.Success,
+            setTimeout(() => {
+                this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien).then(res => {
+                    if(res === 1)
+                    {
+                        this.feedback.show({
+                            title: "Sukces!",
+                            message: "Zapisano obecności",
+                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                            duration: 2000,
+                            backgroundColor: new Color(255,49, 155, 49),
+                            type: FeedbackType.Success,
 
-              });
+                          });
+                    }
+                    else
+                    {
+                        this.feedback.show({
+                            title: "Błąd!",
+                            message: "Wystąpił nieoczekiwany błąd",
+                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                            duration: 3000,
+                            backgroundColor: new Color("#e71e25"),
+                            type: FeedbackType.Error,
+
+                        });
+                    }
+                })
+            }, 500)
         })
     }
 
@@ -330,12 +350,17 @@ export class ObecnoscComponent implements OnInit {
     moznaSprawdzac() {
         let teraz = new Date();
 
-        let zakres = new Date(null,null,null,teraz.getHours(), teraz.getMinutes() + 15);
+        let zakres = new Date(2018,10,15,teraz.getHours(), teraz.getMinutes() + 15);
+        let wydarzenieGodz = new Date(this.aktywneWydarzenie.godzina)
+        // console.log(wydarzenieGodz,zakres)
 
         if (this.aktywnyDzien.getDate() < teraz.getDate()) {
             return true;
         }
-        else if (this.aktywnyDzien.getDate() === teraz.getDate() && this.aktywnyDzien.getMonth() === teraz.getMonth() && this.aktywnyDzien.getFullYear() === teraz.getFullYear() && new Date(this.aktywneWydarzenie.godzina) > zakres) {
+        else if (this.aktywnyDzien.getDate() === teraz.getDate() && this.aktywnyDzien.getMonth() === teraz.getMonth() && this.aktywnyDzien.getFullYear() === teraz.getFullYear() &&
+        //  (wydarzenieGodz.getHours() > zakres.getHours() || (wydarzenieGodz.getHours() === zakres.getHours() && wydarzenieGodz.getMinutes() >= zakres.getMinutes())
+        wydarzenieGodz > zakres)
+         {
             this.zmiana = false;
             return false;
         }

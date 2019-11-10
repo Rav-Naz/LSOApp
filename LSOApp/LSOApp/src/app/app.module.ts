@@ -37,6 +37,7 @@ import { ZmienHasloOComponent } from './opiekun/zmien-haslo-o/zmien-haslo-o.comp
 import { AktywacjaKontaComponent } from './opiekun/aktywacja-konta/aktywacja-konta.component';
 import { WyborModalComponent } from './shared/modale/wybor-modal/wybor-modal.component';
 import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
+import { LogowanieJakoComponent } from './shared/modale/logowanie-jako/logowanie-jako.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -90,12 +91,13 @@ import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal
         AktywacjaKontaComponent,
         WyborModalComponent,
         PotwierdzenieModalComponent,
+        LogowanieJakoComponent,
     ],
     providers: [],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
-    entryComponents: [WyborModalComponent, PotwierdzenieModalComponent]
+    entryComponents: [WyborModalComponent, PotwierdzenieModalComponent, LogowanieJakoComponent]
 })
 /*
 Pass your application module to the bootstrapModule function located in main.ts to start your app

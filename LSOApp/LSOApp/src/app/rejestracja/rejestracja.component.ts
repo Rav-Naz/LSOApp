@@ -59,7 +59,6 @@ export class RejestracjaComponent implements OnInit {
     ////////////////////////////
 
     dialog: { title: string; message: string; cancelButtonText: string; actions: string[]; };
-    private miasta = ["Rzeszów", "Warszawa"];
     private feedback: Feedback;
 
     constructor(private router: RouterExtensions, private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef, private httpService: HttpService) {
