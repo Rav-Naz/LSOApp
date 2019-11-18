@@ -18,13 +18,14 @@
                         formControlName="haslo" #haslo></TextField>
                 </FlexboxLayout>
                 <Label text="Niepoprawne hasło" class="red lexend" *ngIf="!hasloValid"></Label>
+                <Button text="Zapomniałem hasła" class="lexend text" (tap)="zapomnialem()" fontSize="11"></Button>
             </FlexboxLayout>
 
-            <Button text="Zaloguj" class="button audiowide b-p-10" (tap)="zaloguj()" (longPress)="zaloguj(false)" *ngIf="this.form.valid"></Button>
+            <Button text="Zaloguj" class="button audiowide b-p-10" (tap)="zaloguj()" (longPress)="zaloguj(false)" [isEnabled]="form.valid"></Button>
 
         </StackLayout>
         <FlexboxLayout col="0" row="1" class="center" width="100%">
-            <Button text="Zapomniałem hasła" class="lexend text" (tap)="zapomnialem()"></Button>
+            <Button text="Nadaj hasło" class="lexend text" (tap)="nadajHaslo()"></Button>
         </FlexboxLayout>
         <FlexboxLayout col="1" row="1" class="wh100 pasek"></FlexboxLayout>
         <FlexboxLayout col="2" row="1" class="center" width="100%">

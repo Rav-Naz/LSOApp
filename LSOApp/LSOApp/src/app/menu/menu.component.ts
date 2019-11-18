@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./menu.component.css'],
     moduleId: module.id,
 })
-export class MenuComponent implements OnInit,OnDestroy {
+export class MenuComponent implements OnInit {
 
     public selectedIndex: number;
     private tabSelectedIndexSub: Subscription;
@@ -22,33 +22,35 @@ export class MenuComponent implements OnInit,OnDestroy {
 
     user: User;
     userSub: Subscription;
+    adminSub: Subscription;
+    miejsce: number = 0;
 
     ngOnInit() {
         this.page.actionBarHidden = true;
         this.tabSelectedIndexSub = this.tabIndexService.tabSelectedIndex.subscribe( index => {
             this.selectedIndex = index;
         });
-        if (this.tabIndexService.opiekun) {
-            this.router.navigate([{ outlets: { obecnosc: ['obecnosc'], ministranci: ['ministranci'], wiadomosciO: ['wiadomosciO'], ustawieniaO: ['ustawieniaO'] } }],
-            { relativeTo: this.active });
-        }
-        else {
-            this.userSub = this.userService.UserSub.subscribe(user => {
-                this.user = user;
-            });
-            this.router.navigate([{ outlets: { dyzury: ['dyzury'], wiadomosciM: ['wiadomosciM'], ustawieniaM: ['ustawieniaM'] } }],
+        this.adminSub = this.tabIndexService.czyOpiekun.subscribe( bool => {
+            if (bool) {
+                this.router.navigate([{ outlets: { obecnosc: ['obecnosc'], ministranci: ['ministranci'], wiadomosciO: ['wiadomosciO'], ustawieniaO: ['ustawieniaO'] } }],
                 { relativeTo: this.active });
-        }
+            }
+            else {
+                this.userSub = this.userService.UserSub.subscribe(user => {
+                    this.user = user;
+                    this.userService.miejsceWRankignu().then(res => {
+                        this.miejsce = res;
+                    })
+                });
+                this.router.navigate([{ outlets: { dyzury: ['dyzury'], wiadomosciM: ['wiadomosciM'], ustawieniaM: ['ustawieniaM'] } }],
+                    { relativeTo: this.active });
+            }
+        })
 
     }
     ngOnDestroy()
     {
         this.tabSelectedIndexSub.unsubscribe();
-    }
-
-    locationStrategy()
-    {
-        this.tabIndexService.nowyIndex(2)
     }
 
     zmianaIndexu(event: EventData)

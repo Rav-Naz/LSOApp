@@ -76,8 +76,8 @@ export class RejestracjaComponent implements OnInit {
             imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,15})')] }),
             nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,20})')] }),
             emailP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.email] }),
-            hasloP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')] }),
-            powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
+            // hasloP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')] }),
+            // powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
         })
 
         this.formP.get('wezwanie').statusChanges.subscribe(status => {
@@ -95,12 +95,12 @@ export class RejestracjaComponent implements OnInit {
         this.formP.get('emailP').statusChanges.subscribe(status => {
             this.emailPValid = status === 'VALID';
         });
-        this.formP.get('hasloP').statusChanges.subscribe(status => {
-            this.hasloPValid = status === 'VALID';
-        });
-        this.formP.get('powtorzP').statusChanges.subscribe(status => {
-            this.powtorzPValid = status === 'VALID';
-        });
+        // this.formP.get('hasloP').statusChanges.subscribe(status => {
+        //     this.hasloPValid = status === 'VALID';
+        // });
+        // this.formP.get('powtorzP').statusChanges.subscribe(status => {
+        //     this.powtorzPValid = status === 'VALID';
+        // });
     }
 
     displayActionDialog(akcja: 'stopien' | 'diecezja' | 'rodzaj') {
@@ -205,14 +205,14 @@ export class RejestracjaComponent implements OnInit {
             return;
         }
 
-        if (this.formP.get('hasloP').value !== this.formP.get('powtorzP').value) {
-            this.powtorzPValid = false;
-            setTimeout(() => {
-                let scroll = this.scrollView.nativeElement;
-                scroll.scrollToVerticalOffset(scroll.scrollableHeight, true);
-            }, 100)
-            return;
-        }
+        // if (this.formP.get('hasloP').value !== this.formP.get('powtorzP').value) {
+        //     this.powtorzPValid = false;
+        //     setTimeout(() => {
+        //         let scroll = this.scrollView.nativeElement;
+        //         scroll.scrollToVerticalOffset(scroll.scrollableHeight, true);
+        //     }, 100)
+        //     return;
+        // }
         if (!this.regulaminPRef.nativeElement.checked) {
             this.feedback.show({
                 title: "Uwaga!",
@@ -235,11 +235,11 @@ export class RejestracjaComponent implements OnInit {
         this._wezwanie = this.formP.get('wezwanie').value;
         this._miasto = this.formP.get('miasto').value;
         this._emailP = this.formP.get('emailP').value;
-        this._hasloP = this.formP.get('hasloP').value;
+        // this._hasloP = this.formP.get('hasloP').value;
         this._imie = this.formP.get('imie').value;
         this._nazwisko = this.formP.get('nazwisko').value;
 
-        this.httpService.rejestracja(this._wezwanie, this._diecezja_id, this._miasto, this._rodzaj_id, this._stopien_id, this._imie, this._nazwisko, this._emailP, this._hasloP).then((res) => {
+        this.httpService.rejestracja(this._wezwanie, this._diecezja_id, this._miasto, this._rodzaj_id, this._stopien_id, this._imie, this._nazwisko, this._emailP/*, this._hasloP*/).then((res) => {
             switch (res) {
                 case 0:
                     this.feedback.show({

@@ -25,10 +25,12 @@ import { EdytujMszeComponent } from "./opiekun/edytuj-msze/edytuj-msze.component
 import { UsunKontoOComponent } from "./opiekun/usun-konto-o/usun-konto-o.component";
 import { ZmienHasloOComponent } from "./opiekun/zmien-haslo-o/zmien-haslo-o.component";
 import { AktywacjaKontaComponent } from "./opiekun/aktywacja-konta/aktywacja-konta.component";
+import { NadajHasloComponent } from "./nadaj-haslo/nadaj-haslo.component";
 
 const routes: Routes = [
     { path: '', redirectTo: "/logowanie", pathMatch: "full" },
     { path: 'logowanie', component: LogowanieComponent},
+    { path: 'nadaj-haslo', component: NadajHasloComponent},
     { path: 'rejestracja', component: RejestracjaComponent },
     { path: 'zapomnialem', component: ZapomnialemComponent },
     { path: 'menu', component: MenuComponent, children:

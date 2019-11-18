@@ -22,7 +22,7 @@
 
 .button
 {
-    margin: 20;
+    margin: 10;
     width: 50%;
     text-align:center;
     font-weight: 500;
@@ -31,6 +31,13 @@
     /* background:#e71e25; */
     background: linear-gradient(to bottom, #e71e25,#a5151a);
     color: white;
+}
+
+.button:disabled
+{
+    background: rgb(206, 206, 206);
+    color: rgb(124, 124, 124);
+    border-color:  rgb(206, 206, 206);
 }
 .pasek
 {

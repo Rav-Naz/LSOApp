@@ -124,11 +124,11 @@ export class ParafiaService {
         })
     }
 
-    dyzuryMinistrant(id_user: number) //Wykorzystanie: userService(constructor)
-    {
-        let lista =this._dyzury.filter(item => item.id_user === id_user);
-        return lista;
-    }
+    // dyzuryMinistrant(id_user: number) //Wykorzystanie: userService(constructor)
+    // {
+    //     let lista =this._dyzury.filter(item => item.id_user === id_user);
+    //     return lista;
+    // }
 
     async zapiszDyzury(nowe: Array<Wydarzenie>, stare: Array<Wydarzenie>) //Wykorzystanie: ministranci-dyzury
     {

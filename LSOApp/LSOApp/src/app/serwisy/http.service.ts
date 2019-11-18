@@ -69,13 +69,50 @@ export class HttpService {
         });
     }
 
+    //AKTYWACJA USERA
+    async aktywacjaUsera(email: string, kod_aktywacyjny: string, haslo: string) {
+        return new Promise<string>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ email: email, kod_aktywacyjny: kod_aktywacyjny, haslo: sha512.sha512.hmac('mSf', haslo) }))
+            });
+
+            this.http.post(this.serverUrl + '/activate', null , { headers: options }).subscribe(res => {
+                if(res === 'nieistnieje')
+                {
+                    resolve('nieistnieje')
+                }
+                else if(res === 'niepoprawny')
+                {
+                    resolve('niepoprawny')
+                }
+                else if(res === 'niemakodu')
+                {
+                    resolve('niemakodu')
+                }
+                else if(res === 'wygaslo')
+                {
+                    resolve('wygaslo')
+                }
+                else if(res.hasOwnProperty('changedRows'))
+                {
+                    resolve(JSON.parse(JSON.stringify(res)))
+                }
+                else
+                {
+                    resolve('blad')
+                }
+            });
+        });
+    }
+
     //UTWORZENIE NOWEJ PARAFII
-    async rejestracja(nazwa_parafii: string, id_diecezji: number, miasto: string, id_typu: number, stopien: number, imie: string, nazwisko: string, email: string, haslo: string) {
+    async rejestracja(nazwa_parafii: string, id_diecezji: number, miasto: string, id_typu: number, stopien: number, imie: string, nazwisko: string, email: string) {
 
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({ nazwa_parafii: nazwa_parafii, id_diecezji: id_diecezji, miasto: miasto, id_typu: id_typu, stopien: stopien, imie: imie, nazwisko: nazwisko, email: email, haslo: sha512.sha512.hmac('mSf', haslo) }))
+                "data": encodeURI(JSON.stringify({ nazwa_parafii: nazwa_parafii, id_diecezji: id_diecezji, miasto: miasto, id_typu: id_typu, stopien: stopien, imie: imie, nazwisko: nazwisko, email: email /*,haslo: sha512.sha512.hmac('mSf', haslo) */}))
             });
 
             this.http.post(this.serverUrl + '/register', null, { headers: options }).subscribe(res => {
@@ -86,6 +123,10 @@ export class HttpService {
                     let code = JSON.parse(JSON.stringify(res));
                     if (code.code === 'ER_DUP_ENTRY') {
                         resolve(2);
+                    }
+                    else
+                    {
+                        resolve(0)
                     }
                 }
                 else if (res === 'istnieje') {
@@ -157,18 +198,8 @@ export class HttpService {
             });
 
             this.http.post(this.serverUrl + '/remind', null, { headers: options }).subscribe(res => {
-                if (res.hasOwnProperty('insertId')) {
-                    resolve(1);
-                }
-                else if (res.hasOwnProperty('code')) {
-                    let code = JSON.parse(JSON.stringify(res));
-                    if (code.code === 'ER_DUP_ENTRY') {
-                        resolve(2);
-                    }
-                }
-                else {
-                    resolve(0);
-                }
+                let response = JSON.parse(JSON.stringify(res))
+                resolve(response.changedRows)
             });
         });
     }
@@ -266,6 +297,30 @@ export class HttpService {
 
             this.http.get(this.serverUrl + '/ministrant', { headers: options }).subscribe(res => {
                 resolve(JSON.parse(JSON.stringify(res)))
+            });
+        });
+    }
+
+    //MIEJSCE W RANKINGU
+
+    async miejsceWRankingu()
+    {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ id_user: this.id_user, id_parafii: this.id_parafii}))
+            });
+
+            this.http.get(this.serverUrl + '/user_ranking', { headers: options }).subscribe(res => {
+                let mijesce = JSON.parse(JSON.stringify(res))
+                if(mijesce === null)
+                {
+                    resolve(0)
+                }
+                else
+                {
+                    resolve(mijesce)
+                }
             });
         });
     }

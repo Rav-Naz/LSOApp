@@ -22,6 +22,8 @@ export class UstawieniaMComponent implements OnInit {
 
     private feedback: Feedback;
 
+    czyAdmin: boolean = false;
+
     constructor(private page: Page, private indexService: TabindexService, private router: RouterExtensions, private userService: UserService, private active: ActivatedRoute, private tabService: TabindexService) {
         this.feedback = new Feedback();
     }
@@ -35,6 +37,10 @@ export class UstawieniaMComponent implements OnInit {
         this.powiadomieniaSub = this.userService.UserDyuzryPowiadomienia.subscribe(wartosc => {
             this.checked = wartosc;
         })
+        if(this.userService.UserPerm === 1)
+        {
+            this.czyAdmin = true
+        }
     }
 
     nawigujDo(sciezka: string) {
@@ -88,5 +94,13 @@ export class UstawieniaMComponent implements OnInit {
     {
         this.userService.zmienPowiadomienia(!this.checked);
     }
+
+    // zmienNaAdmina()
+    // {
+    //     this.tabService.zmianaOpiekuna(true).then(res => {
+    //         this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+    //     })
+
+    // }
 
 }

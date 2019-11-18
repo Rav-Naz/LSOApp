@@ -12,5 +12,6 @@ export interface User {
     email?: string,
     telefon?: string,
     aktywny: number,
-    admin: number
+    admin: number,
+    ranking: number
 }

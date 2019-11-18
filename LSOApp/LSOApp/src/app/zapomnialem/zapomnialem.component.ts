@@ -5,6 +5,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { FeedbackType, Feedback } from 'nativescript-feedback';
+import { HttpService } from '../serwisy/http.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ZapomnialemComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private router: RouterExtensions, private page: Page) {
+    constructor(private router: RouterExtensions, private page: Page, private httpService: HttpService) {
         this.feedback = new Feedback();
     }
 
@@ -68,7 +69,40 @@ export class ZapomnialemComponent implements OnInit {
             return;
         }
 
-        this.wyslanePrzyp = true;
+        let email = this.form.get('email').value
+
+        this.httpService.przypomnij(email).then(res => {
+            if(res === 1)
+            {
+                this.powrot()
+                    setTimeout(() => {
+                        this.feedback.show({
+                            title: "Sukces!",
+                            message: "Kod do zmiany hasła został wysłany na adres e-mail: " + email,
+                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                            duration: 3000,
+                            backgroundColor: new Color(255,49, 155, 49),
+                            type: FeedbackType.Success,
+                          });
+                    }, 200)
+            }
+            else
+            {
+                this.feedback.show({
+                    title: "Uwaga!",
+                    message: "Brak konta z przypisanym danym adresem e-mail",
+                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                    duration: 3000,
+                    backgroundColor: new Color(255,255, 207, 51),
+                    type: FeedbackType.Warning,
+
+                  });
+                  return
+            }
+        })
+
     }
 
     onSwipe(args: SwipeGestureEventData) {

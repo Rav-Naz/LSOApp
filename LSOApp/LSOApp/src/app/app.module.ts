@@ -38,6 +38,7 @@ import { AktywacjaKontaComponent } from './opiekun/aktywacja-konta/aktywacja-kon
 import { WyborModalComponent } from './shared/modale/wybor-modal/wybor-modal.component';
 import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { LogowanieJakoComponent } from './shared/modale/logowanie-jako/logowanie-jako.component';
+import { NadajHasloComponent } from './nadaj-haslo/nadaj-haslo.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -92,6 +93,7 @@ import { LogowanieJakoComponent } from './shared/modale/logowanie-jako/logowanie
         WyborModalComponent,
         PotwierdzenieModalComponent,
         LogowanieJakoComponent,
+        NadajHasloComponent,
     ],
     providers: [],
     schemas: [

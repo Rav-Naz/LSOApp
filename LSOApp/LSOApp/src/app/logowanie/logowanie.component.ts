@@ -64,7 +64,7 @@ export class LogowanieComponent implements OnInit {
 
 
     zapomnialem() {
-        this.router.navigate(['/zapomnialem'], { transition: { name: 'slideRight' } });
+        this.router.navigate(['/zapomnialem'], { transition: { name: 'slideBottom' } });
     }
 
     zaloguj()
@@ -134,41 +134,88 @@ export class LogowanieComponent implements OnInit {
                     {
                         if(result === 1)
                         {
-                            this.tabIndexService.opiekun = true;
-                            this.parafiaService.pobierzParafie().then(res => {
-                                if(res === 1)
-                                {
-                                    this.tabIndexService.nowyIndex(0);
-                                    this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
-                                }
-                                else
-                                {
-                                    this.feedback.show({
-                                        title: "Błąd!",
-                                        message: "Wystąpił nieoczekiwany błąd",
-                                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                        duration: 3000,
-                                        backgroundColor: new Color("#e71e25"),
-                                        type: FeedbackType.Error,
-                                    });
-                                }
+                            this.tabIndexService.zmianaOpiekuna(true).then(resss => {
+                                if(resss === 1)
+                            {
+                                this.parafiaService.pobierzParafie().then(res => {
+                                    if(res === 1)
+                                    {
+                                        this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                                    }
+                                    else
+                                    {
+                                        this.feedback.show({
+                                            title: "Błąd!",
+                                            message: "Wystąpił nieoczekiwany błąd",
+                                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                                            duration: 3000,
+                                            backgroundColor: new Color("#e71e25"),
+                                            type: FeedbackType.Error,
+                                        });
+                                    }
+                                })
+                            }
+                            else
+                            {
+                                this.feedback.show({
+                                    title: "Błąd!",
+                                    message: "Wystąpił nieoczekiwany błąd",
+                                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                                    duration: 3000,
+                                    backgroundColor: new Color("#e71e25"),
+                                    type: FeedbackType.Error,
+                                });
+                            }
                             })
                         }
-                        else
+                        else if(result === 0)
                         {
-                            this.tabIndexService.opiekun = false;
-                            this.tabIndexService.nowyIndex(0);
-                            this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+
+                        this.tabIndexService.zmianaOpiekuna(false).then(res => {
+                            if(res === 1)
+                            {
+                                this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                            }
+                            else
+                            {
+                                this.feedback.show({
+                                    title: "Błąd!",
+                                    message: "Wystąpił nieoczekiwany błąd",
+                                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                                    duration: 3000,
+                                    backgroundColor: new Color("#e71e25"),
+                                    type: FeedbackType.Error,
+                                });
+                            }
+                        })
+
                         }
                     }
                 });
                }
                else
                {
-                 this.tabIndexService.opiekun = false;
-                    this.tabIndexService.nowyIndex(0);
-                    this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                this.tabIndexService.zmianaOpiekuna(false).then(res => {
+                    if(res === 1)
+                    {
+                        this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                    }
+                    else
+                    {
+                        this.feedback.show({
+                            title: "Błąd!",
+                            message: "Wystąpił nieoczekiwany błąd",
+                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                            duration: 3000,
+                            backgroundColor: new Color("#e71e25"),
+                            type: FeedbackType.Error,
+                        });
+                    }
+                })
                }
            }
        })
@@ -180,14 +227,25 @@ export class LogowanieComponent implements OnInit {
       this.router.navigate(['/rejestracja'], {transition: {name: 'slideLeft'}});
   }
 
+  nadajHaslo()
+  {
+    this.router.navigate(['/nadaj-haslo'], {transition: {name: 'slideRight'}});
+  }
+
+
+
     onSwipe(args: SwipeGestureEventData) {
 
         if (args.direction === 1) {
-            this.zapomnialem();
+            this.nadajHaslo();
         }
         else if(args.direction === 2)
         {
             this.doRejestracji();
+        }
+        else if(args.direction === 8)
+        {
+            this.zapomnialem();
         }
     }
 }

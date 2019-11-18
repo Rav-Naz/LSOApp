@@ -125,7 +125,7 @@
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2">
-                                <TextField hint="Wpisz swój e-mail" class="text-field lexend" returnKeyType="next"
+                                <TextField hint="Wpisz swój e-mail" class="text-field lexend" returnKeyType="done"
                                     autocapitalizationType="none" formControlName="emailP" keyboardType="email" #emailP>
                                 </TextField>
                             </FlexboxLayout>
@@ -137,7 +137,7 @@
                         <Label text="Wpisz poprawny adres e-mail" class="red lexend" *ngIf="!emailPValid"></Label>
                     </FlexboxLayout>
 
-                    <FlexboxLayout class="kontener center" height="100%">
+                    <!-- <FlexboxLayout class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2">
@@ -167,7 +167,7 @@
                         </GridLayout>
 
                         <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzPValid"></Label>
-                    </FlexboxLayout>
+                    </FlexboxLayout> -->
 
                     <GridLayout columns="50,*" rows="40" width="90%">
                         <FlexboxLayout class="flex2 center wh100" col="0">
@@ -192,6 +192,7 @@
                         <Label [text]="'Wezwanie: ' + _wezwanie" class="dane lexend"></Label> -->
                     <Label [text]="_emailP" class="dane lexend" fontSize="17"></Label>
                     <Label text="Aby móc zalogować się na konto musisz je najpierw potwierdzić!" class="dane lexend" textWrap="true"></Label>
+                    <Label text="KOD AKTYWACYJNY JEST WAŻNY PRZEZ 30 MINUT!" class="dane lexend" textWrap="true"></Label>
                 </StackLayout>
             </FlexboxLayout>
         </FlexboxLayout>

@@ -21,6 +21,7 @@ export class TabindexService {
 
     private _pageRouterOutlet = new BehaviorSubject<Array<string>>(this.outlety)
     private _tabSelectedIndex = new BehaviorSubject<number>(0);
+    private _czyOpiekun = new BehaviorSubject<boolean>(false);
 
     wyczysc()
     {
@@ -48,10 +49,27 @@ export class TabindexService {
         return this._tabSelectedIndex.asObservable();
     }
 
+    get czyOpiekun() //Wykorzystanie: menu
+    {
+        return this._czyOpiekun.asObservable();
+    }
+
     nowyOutlet(index: number, wartosc: string)
     {
         this.outlety[index] = wartosc;
         this._pageRouterOutlet.next(this.outlety);
+    }
+
+    async zmianaOpiekuna(bool: boolean)
+    {
+        return new Promise<number>((resolve) => {
+            this.opiekun = bool;
+            this._czyOpiekun.next(bool)
+            this.nowyIndex(0)
+            setTimeout(() => {
+                resolve(1)
+            },300)
+        })
     }
 
     get PRO()

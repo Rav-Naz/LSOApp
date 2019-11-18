@@ -3,6 +3,8 @@ import { User } from './user.model';
 import { Dyzur } from './dyzur.model';
 import { BehaviorSubject } from 'rxjs';
 import { SecureStorage } from "nativescript-secure-storage";
+import { HttpService } from './http.service';
+import { Wydarzenie } from './wydarzenie.model';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +15,7 @@ export class UserService {
     public wersja: string = "1.0"; //Wykorzystanie: ustawienia-m, ustawienia-o
     private user: User
 
-    constructor(){
+    constructor(private http: HttpService){
         this.secureStorage = new SecureStorage;
         this.secureStorage.get({key:"powiadomieniaDyzury"}).then((wartosc) => {
             if(wartosc === null)
@@ -30,7 +32,7 @@ export class UserService {
 
     userDyzury: Array<Dyzur> = [];
 
-    private userDyzurySub = new BehaviorSubject<Array<Dyzur>>(null);
+    private userDyzurySub = new BehaviorSubject<Array<Wydarzenie>>(null);
     private userSub = new BehaviorSubject<User>(null);
     private powiadomieniaODyzurach = new BehaviorSubject<boolean>(null);
 
@@ -62,16 +64,22 @@ export class UserService {
         return this.user.id_user;
     }
 
+    get UserPerm()
+    {
+        return this.user.admin;
+    }
+
     zmienUsera(user: User)
     {
         this.user = user
+        this.userSub.next(user)
     }
 
-    setUserDyzury(lista)
-    {
-        this.userDyzury = lista;
-        this.userDyzurySub.next(lista)
-    }
+    // setUserDyzury(lista)
+    // {
+    //     this.userDyzury = lista;
+    //     this.userDyzurySub.next(lista)
+    // }
 
     async zmienPowiadomienia(wartosc: boolean)
     {   return new Promise<void>((resolve) => {
@@ -82,6 +90,23 @@ export class UserService {
                 resolve();
             }
         })
+    })
+    }
+
+    async mojeDyzury(id_user: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
+        return new Promise<number>(resolve => {
+            this.http.pobierzDyzuryDlaMinistranta(id_user).then(res => {
+                this.userDyzurySub.next(res);
+                resolve(1);
+            })
+        })
+    }
+
+    async miejsceWRankignu()
+    {   return new Promise<number>((resolve) => {
+            this.http.miejsceWRankingu().then(res => {
+                resolve(res)
+            })
     })
     }
 

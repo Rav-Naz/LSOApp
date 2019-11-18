@@ -6,19 +6,20 @@
                 <Button text="Dane profilowe" class="click audiowide" col="1" (tap)="nawigujDo('dane-profilowe')"></Button>
             </GridLayout>
 
-            <GridLayout columns="auto,*" rows="auto,auto,auto" class="element">
+            <GridLayout columns="auto,*" rows="auto,auto,auto,auto" class="element">
                 <Label text="Konto" class="opis lexend" col="0" row="0"></Label>
                 <Button text="Usuń konto" class="click audiowide" col="1" row="0" (tap)="nawigujDo('usun-konto-m')"></Button>
                 <Button text="Zmień hasło" class="click audiowide" col="1" row="1" (tap)="nawigujDo('zmien-haslo-m')"></Button>
                 <Button text="Wyloguj się" class="click audiowide" col="1" row="2" (tap)="wyloguj()"></Button>
+                <!-- <Button text="Zmień na admina" class="click audiowide" col="1" row="3" (tap)="zmienNaAdmina()" *ngIf="czyAdmin"></Button> -->
             </GridLayout>
-            <GridLayout columns="auto,*" rows="auto" class="element">
+            <!-- <GridLayout columns="auto,*" rows="auto" class="element">
                 <Label text="Powiadomienia" class="opis lexend" col="0" row="0"></Label>
                 <FlexboxLayout col="1" width="100%" alignItems="center" justifyContent="flex-end">
                     <Button text="Dyżury " class="click audiowide" (tap)="zmienPowiadomienia()"></Button>
                     <Button class="button wh100 b-p-10 icon" [text]="checked? '&#xe023;' : ''" [ngClass]="{checked: checked}" (tap)="zmienPowiadomienia()" height="30" width="30"></Button>
                 </FlexboxLayout>
-            </GridLayout>
+            </GridLayout> -->
 
         </FlexboxLayout>
         <FlexboxLayout class="center" width="100%" row="2">

@@ -26,7 +26,7 @@ export class MinistranciComponent implements OnInit {
 
     miniSub: Subscription;
 
-    sortujPoImieniu: boolean = true;
+    sortujPoImieniu: boolean = false;
 
     private feedback: Feedback;
 
@@ -42,7 +42,7 @@ export class MinistranciComponent implements OnInit {
             if(lista !== null)
             {
                 lista.forEach(ministrant => {
-                    this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny, admin: ministrant.admin})
+                    this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny, admin: ministrant.admin, ranking: ministrant.ranking})
                 })
                 this.sortujListe();
             }

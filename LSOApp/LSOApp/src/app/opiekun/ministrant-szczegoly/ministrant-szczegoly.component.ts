@@ -35,7 +35,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     }
     form: FormGroup;
     zmiana: boolean;
-    ministrant: User = { id_user:0, id_diecezji:0, id_parafii: 0, punkty: 0, stopien: 0, imie: "", nazwisko: "", ulica: null, kod_pocztowy: null, miasto: null, email: null, telefon: null, aktywny: 0, admin: 0 };
+    ministrant: User = { id_user:0, id_diecezji:0, id_parafii: 0, punkty: 0, stopien: 0, imie: "", nazwisko: "", ulica: null, kod_pocztowy: null, miasto: null, email: null, telefon: null, aktywny: 0, admin: 0, ranking: 0};
     dyzury: Array<Wydarzenie> = [];
     dyzurSub: Subscription;
     podgladMinistranta: Subscription;
@@ -90,7 +90,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
             })
         });
         this.form = new FormGroup({
-            punkty: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[0-9]{1,4}$')] }),
+            punkty: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[-0-9]{1,4}$')] }),
         });
     }
 

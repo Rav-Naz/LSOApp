@@ -28,7 +28,7 @@
                     (tap)="szczegolyMinistranta(item.id_user)" (longPress)="usunMinistranta(item)">
 
                     <FlexboxLayout col="0" class="center" flexDirection="row">
-                        <Label [text]="i+1 + '. '" class="index lexend"></Label>
+                        <Label [text]="sortujPoImieniu?i+1 + '. ' : (item.ranking === null ? '--. ' : item.ranking + '. ')" class="index lexend"></Label>
                     </FlexboxLayout>
 
                     <FlexboxLayout col="1" class="center" alignItems="flex-start">
