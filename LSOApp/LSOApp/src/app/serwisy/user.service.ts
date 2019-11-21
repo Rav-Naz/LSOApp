@@ -41,7 +41,7 @@ export class UserService {
         this.user = null;
         this.userDyzury = [];
         this.userDyzurySub.next(null);
-        this.userSub.next(null)
+        // this.userSub.next(null)
         this.powiadomieniaODyzurach.next(null)
     }
 
@@ -110,11 +110,38 @@ export class UserService {
     })
     }
 
-    zmienDane(telefon:string,ulica: string, kod:string,miasto: string) { //Wykorzystanie: dane-profilowe
-        this.user.telefon = telefon;
-        this.user.ulica = ulica;
-        this.user.kod_pocztowy = kod;
-        this.user.miasto = miasto;
-        this.userSub.next(this.user);
+    async zmienDane(telefon:string,ulica: string, kod:string,miasto: string) { //Wykorzystanie: dane-profilowe
+        return new Promise<number>((resolve) => {
+            this.http.aktualizacjaDanychMinistranta(ulica,kod,miasto,telefon).then(res => {
+                if(res === 0)
+                {
+                    resolve(0)
+                }
+                else
+                {
+                    this.http.pobierzMinistranta(res).then(user => {
+                        this.userSub.next(user)
+                        resolve(1)
+                    })
+                }
+            })
+        })
+    }
+
+    async zmienHaslo(aktualne_haslo:string,nowe_haslo: string) { //Wykorzystanie: dane-profilowe
+        return new Promise<number>((resolve) => {
+            this.http.zmienHaslo(aktualne_haslo,nowe_haslo).then(res => {
+                resolve(res)
+            })
+        })
+    }
+
+    async usunKonto(haslo: string)
+    {
+        return new Promise<number>((resolve) => {
+            this.http.usunKontoUsera(this.user.admin, haslo).then(res => {
+                resolve(res)
+            })
+        })
     }
 }

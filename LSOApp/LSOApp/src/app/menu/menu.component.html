@@ -1,80 +1,87 @@
+<GridLayout>
 <FlexboxLayout class="wh100 back" flexDirection="column">
     <GridLayout columns="*,*,*" rows="*" height="20%">
-        <FlexboxLayout *ngIf="!this.tabIndexService.opiekun" col="0" row="0" flexDirection="column" alignItems="center"
-        justifyContent="center">
-        <Label [text]="this.miejsce === 0? '--' : this.miejsce" class="text audiowide"></Label>
-        <Label text="RANKING" class="text2 audiowide"></Label>
-        </FlexboxLayout>
-
-        <Image src="res://logo" col="1" row="0"></Image>
-
-        <FlexboxLayout *ngIf="!this.tabIndexService.opiekun" col="2" row="0" flexDirection="column" alignItems="center"
+            <FlexboxLayout *ngIf="!this.tabIndexService.opiekun" col="0" row="0" flexDirection="column" alignItems="center"
             justifyContent="center">
-            <Label [text]="this.user.punkty" class="text audiowide"></Label>
-            <Label text="PUNKTY" class="text2 audiowide"></Label>
+            <Label [text]="this.miejsce === 0? '--' : this.miejsce" class="text audiowide"></Label>
+            <Label text="RANKING" class="text2 audiowide"></Label>
+            </FlexboxLayout>
+
+            <Image src="res://logo" col="1" row="0"></Image>
+
+            <FlexboxLayout *ngIf="!this.tabIndexService.opiekun" col="2" row="0" flexDirection="column" alignItems="center"
+                justifyContent="center">
+                <Label [text]="this.user.punkty" class="text audiowide"></Label>
+                <Label text="PUNKTY" class="text2 audiowide"></Label>
+            </FlexboxLayout>
+        </GridLayout>
+        <!-- Widok ministranta -->
+        <FlexboxLayout class="wh100" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
+                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
+
+                        <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
+                        <TabStrip>
+                            <TabStripItem class="icon strip-item">
+                                <Label text="&#xe01b;"></Label>
+                            </TabStripItem>
+                            <TabStripItem class="icon strip-item">
+                                <Label text="&#xe032;"></Label>
+                            </TabStripItem>
+                            <TabStripItem class="icon strip-item">
+                                <Label text="&#xe05b;"></Label>
+                            </TabStripItem>
+                        </TabStrip>
+
+                        <TabContentItem>
+                            <page-router-outlet name="dyzury"></page-router-outlet>
+                        </TabContentItem>
+                        <TabContentItem>
+                            <page-router-outlet name="wiadomosciM"></page-router-outlet>
+                        </TabContentItem>
+                        <TabContentItem>
+                            <page-router-outlet name="ustawieniaM"></page-router-outlet>
+                        </TabContentItem>
+                    </Tabs>
         </FlexboxLayout>
-    </GridLayout>
-    <!-- Widok ministranta -->
-    <FlexboxLayout class="wh100" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
-            <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
+        <!-- Widok opiekuna -->
+        <FlexboxLayout class="wh100" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
+                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
 
-                    <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                    <TabStrip>
-                        <TabStripItem class="icon strip-item">
-                            <Label text="&#xe01b;"></Label>
-                        </TabStripItem>
-                        <TabStripItem class="icon strip-item">
-                            <Label text="&#xe032;"></Label>
-                        </TabStripItem>
-                        <TabStripItem class="icon strip-item">
-                            <Label text="&#xe05b;"></Label>
-                        </TabStripItem>
-                    </TabStrip>
+                        <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
+                        <TabStrip>
+                            <TabStripItem class="icon strip-item">
+                                <Label text="&#xe0d7;"></Label>
+                            </TabStripItem>
+                            <TabStripItem class="icon strip-item">
+                                <Label text="&#xe092;"></Label>
+                            </TabStripItem>
+                            <TabStripItem class="icon strip-item">
+                                <Label text="&#xe032;"></Label>
+                            </TabStripItem>
+                            <TabStripItem class="icon strip-item">
+                                <Label text="&#xe05b;"></Label>
+                            </TabStripItem>
+                        </TabStrip>
 
-                    <TabContentItem>
-                        <page-router-outlet name="dyzury"></page-router-outlet>
-                    </TabContentItem>
-                    <TabContentItem>
-                        <page-router-outlet name="wiadomosciM"></page-router-outlet>
-                    </TabContentItem>
-                    <TabContentItem>
-                        <page-router-outlet name="ustawieniaM"></page-router-outlet>
-                    </TabContentItem>
-                </Tabs>
+                        <TabContentItem>
+                            <page-router-outlet name="obecnosc"></page-router-outlet>
+                        </TabContentItem>
+                        <TabContentItem>
+                            <page-router-outlet name="ministranci"></page-router-outlet>
+                        </TabContentItem>
+                        <TabContentItem>
+                            <page-router-outlet name="wiadomosciO"></page-router-outlet>
+                        </TabContentItem>
+                        <TabContentItem>
+                            <page-router-outlet name="ustawieniaO"></page-router-outlet>
+                        </TabContentItem>
+
+                    </Tabs>
+        </FlexboxLayout>
+
+
     </FlexboxLayout>
-    <!-- Widok opiekuna -->
-    <FlexboxLayout class="wh100" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
-            <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
-
-                    <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                    <TabStrip>
-                        <TabStripItem class="icon strip-item">
-                            <Label text="&#xe0d7;"></Label>
-                        </TabStripItem>
-                        <TabStripItem class="icon strip-item">
-                            <Label text="&#xe092;"></Label>
-                        </TabStripItem>
-                        <TabStripItem class="icon strip-item">
-                            <Label text="&#xe032;"></Label>
-                        </TabStripItem>
-                        <TabStripItem class="icon strip-item">
-                            <Label text="&#xe05b;"></Label>
-                        </TabStripItem>
-                    </TabStrip>
-
-                    <TabContentItem>
-                        <page-router-outlet name="obecnosc"></page-router-outlet>
-                    </TabContentItem>
-                    <TabContentItem>
-                        <page-router-outlet name="ministranci"></page-router-outlet>
-                    </TabContentItem>
-                    <TabContentItem>
-                        <page-router-outlet name="wiadomosciO"></page-router-outlet>
-                    </TabContentItem>
-                    <TabContentItem>
-                        <page-router-outlet name="ustawieniaO"></page-router-outlet>
-                    </TabContentItem>
-
-                </Tabs>
-    </FlexboxLayout>
-</FlexboxLayout>
+            <FlexboxLayout class="wh100 fade center" (tap)="nic()" *ngIf="ui.ladowane[4]">
+                    <ActivityIndicator [busy]="true"></ActivityIndicator>
+            </FlexboxLayout>
+</GridLayout>

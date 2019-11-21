@@ -11,6 +11,11 @@ refer to http://docs.nativescript.org/ui/theme.
 */
 @import '~nativescript-theme-core/css/core.light.css';
 
+ActivityIndicator
+{
+    color: #e71e25;
+}
+
 ActionBar
 {
     color: white;
@@ -182,6 +187,6 @@ TextField{
 
 .fade
 {
-    background-color: rgb(0,0,0,0.8);
+    background-color: rgb(0,0,0,0.7);
 }
 

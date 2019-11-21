@@ -13,6 +13,7 @@ import { Feedback, FeedbackType } from "nativescript-feedback";
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { UiService } from '~/app/serwisy/ui.service';
 
 declare var android
 
@@ -36,11 +37,12 @@ export class WiadomosciOComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private indexService: TabindexService, private wiadosciService: WiadomosciService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private wiadosciService: WiadomosciService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {
         this.feedback = new Feedback();
     }
 
     ngOnInit() {
+        this.ui.zmienStan(2, true)
         this.page.actionBarHidden = true;
         this.wiadosciService.pobierzWiadomosci();
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
@@ -51,6 +53,7 @@ export class WiadomosciOComponent implements OnInit {
             else {
                 this.wiadomosci = wiadomosci
             }
+            this.ui.zmienStan(2, false)
         });
     }
 
@@ -75,6 +78,7 @@ export class WiadomosciOComponent implements OnInit {
 
     wyslij() {
         if (this.tresc.length >= 1) {
+            this.ui.zmienStan(2, true)
             this.textviewRef.nativeElement.dismissSoftInput();
             this.wiadosciService.nowaWiadomosc(this.tresc).then(res => {
                 switch (res) {
@@ -190,6 +194,7 @@ export class WiadomosciOComponent implements OnInit {
         if (wiadomosc.autor_id !== 0) {
             await this.czyKontynuowac(true).then((kontynuowac) => {
                 if (!kontynuowac) {
+                    this.ui.zmienStan(2, true)
                     this.wiadosciService.usunWiadomosc(wiadomosc).then(res => {
                         if(res === 1)
                         this.feedback.show({

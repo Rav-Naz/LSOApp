@@ -1,0 +1,18 @@
+
+.button
+{
+    border-width: 1;
+    margin: 2;
+    border-color: rgb(160, 160, 160);
+    background-color: white;
+    color: white;
+    font-size: 12;
+    font-weight: 900;
+}
+
+
+.obecny
+{
+    background-color: #e71e25;
+    border-color:  #e71e25;
+}

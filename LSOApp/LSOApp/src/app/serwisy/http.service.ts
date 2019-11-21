@@ -273,12 +273,32 @@ export class HttpService {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({stopien: ministrant.stopien, punkty: ministrant.punkty, id_user: ministrant.id_user}))
+                "data": encodeURI(JSON.stringify({stopien: ministrant.stopien, punkty: ministrant.punkty, id_user: ministrant.id_user, admin: ministrant.admin}))
             });
 
             this.http.post(this.serverUrl + '/user_update', null, { headers: options }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
+
+    //AKTUALIZACJA MINISTRANTA
+    async aktualizacjaDanychMinistranta(ulica: string, kod_pocztowy: string, miasto: string, telefon: string) {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ulica: ulica, kod_pocztowy: kod_pocztowy, miasto: miasto, telefon: telefon, id_user: this.id_user}))
+            });
+
+            this.http.post(this.serverUrl + '/update_user_data', null, { headers: options }).subscribe(res => {
+                if (res.hasOwnProperty('insertId')) {
+                    resolve(this.id_user);
                 }
                 else {
                     resolve(0);
@@ -337,6 +357,56 @@ export class HttpService {
             this.http.post(this.serverUrl + '/delete_user', null, { headers: options }).subscribe(res => {
                 if (res === 'zakonczono') {
                     resolve(1);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
+    //ZMIANA HASŁA
+    async zmienHaslo(aktualne_haslo: string, nowe_haslo: string) {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ aktualne_haslo: sha512.sha512.hmac('mSf', aktualne_haslo), nowe_haslo: sha512.sha512.hmac('mSf', nowe_haslo), id_user: this.id_user}))
+            });
+
+            this.http.post(this.serverUrl + '/change_password', null, { headers: options }).subscribe(res => {
+                if (res === 'zakonczono') {
+                    resolve(1);
+                }
+                else if(res === 'niepoprawne')
+                {
+                    resolve(2);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
+    //USUWANIE KONTA USERA
+    async usunKontoUsera(admin: number, haslo: string) {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ id_user: this.id_user, id_parafii: this.id_parafii, admin: admin, haslo: sha512.sha512.hmac('mSf', haslo)}))
+            });
+
+            this.http.post(this.serverUrl + '/delete_user_account', null, { headers: options }).subscribe(res => {
+                if (res === 'zakonczono') {
+                    resolve(1);
+                }
+                else if(res === 'jeden')
+                {
+                    resolve(2)
+                }
+                else if(res === 'niepoprawne')
+                {
+                    resolve(3)
                 }
                 else {
                     resolve(0);

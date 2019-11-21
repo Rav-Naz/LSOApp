@@ -1,3 +1,5 @@
+<GridLayout class="wh100">
+
 <FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2">
@@ -212,3 +214,8 @@
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>
+
+<FlexboxLayout class="wh100 fade center" (tap)="nic()" *ngIf="ladowanie">
+        <ActivityIndicator [busy]="true"></ActivityIndicator>
+</FlexboxLayout>
+</GridLayout>

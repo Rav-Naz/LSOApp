@@ -109,3 +109,30 @@
     width: 100%;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3),rgba(0,0,0,0))
 }
+
+.checked
+{
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+}
+
+.button
+{
+    border-width: 1;
+    margin: 2;
+    border-color: rgb(40, 40, 40);
+    background-color: white;
+    color: white;
+    font-size: 12;
+    font-weight: 900;
+}
+
+.button:highlighted
+{
+    background-color: white;
+}
+
+/* .button:pressed
+{
+    background-color: white;
+} */

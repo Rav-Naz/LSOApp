@@ -9,6 +9,7 @@ import { UserService } from '~/app/serwisy/user.service';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-usun-konto-o',
@@ -21,7 +22,7 @@ export class UsunKontoOComponent implements OnInit {
 
     constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
         private tabIndexService: TabindexService, private http: HttpService,
-        private parafiaService: ParafiaService, private wiadomosciService: WiadomosciService, private wydarzeniaService: WydarzeniaService) {
+        private parafiaService: ParafiaService, private wiadomosciService: WiadomosciService, private wydarzeniaService: WydarzeniaService, public ui: UiService) {
         this.feedback = new Feedback();
     }
 
@@ -44,9 +45,11 @@ export class UsunKontoOComponent implements OnInit {
     zapisz() {
 
         this._haslo = this.form.get('haslo').value;
+        this.ui.zmienStan(4,true)
         this.http.usuwanieParafii(this._haslo).then(res => {
             switch (res) {
                 case 0:
+                    this.ui.zmienStan(4,false)
                     this.feedback.show({
                         title: "Błąd!",
                         message: "Wystąpił nieoczekiwany błąd",
@@ -81,6 +84,7 @@ export class UsunKontoOComponent implements OnInit {
 
                     break;
                 case 2:
+                    this.ui.zmienStan(4,false)
                     this.feedback.show({
                         title: "Uwaga!",
                         message: "Wpisane hasło jest niepoprawne",
@@ -92,6 +96,7 @@ export class UsunKontoOComponent implements OnInit {
                     });
                     break;
                 case 3:
+                    this.ui.zmienStan(4,false)
                     this.router.navigate([""], { clearHistory: true, transition: { name: 'slideBottom' } }).then(() => {
                         this.feedback.show({
                             title: "!!!!",

@@ -21,6 +21,8 @@ import { HttpService } from '../serwisy/http.service';
 })
 export class RejestracjaComponent implements OnInit {
 
+    ladowanie: boolean = false;
+
     formP: FormGroup;
 
     @ViewChild('scroll', { static: false }) scrollView: ElementRef<ScrollView>;
@@ -239,6 +241,8 @@ export class RejestracjaComponent implements OnInit {
         this._imie = this.formP.get('imie').value;
         this._nazwisko = this.formP.get('nazwisko').value;
 
+        this.ladowanie = true;
+
         this.httpService.rejestracja(this._wezwanie, this._diecezja_id, this._miasto, this._rodzaj_id, this._stopien_id, this._imie, this._nazwisko, this._emailP/*, this._hasloP*/).then((res) => {
             switch (res) {
                 case 0:
@@ -252,14 +256,17 @@ export class RejestracjaComponent implements OnInit {
                         type: FeedbackType.Error,
 
                     });
+                    this.ladowanie = false;
                     break;
 
                 case 1:
                     this.udanaRejP = true;
+                    this.ladowanie = false;
                     break;
 
                 case 2:
                     this.displayAlertDialog('Ten adres e-mail jest już przypisany do innego konta!')
+                    this.ladowanie = false;
                     break;
                 default:
                     this.feedback.show({
@@ -272,6 +279,7 @@ export class RejestracjaComponent implements OnInit {
                         type: FeedbackType.Error,
 
                     });
+                    this.ladowanie = false;
                     break;
             }
         });
@@ -284,5 +292,10 @@ export class RejestracjaComponent implements OnInit {
 
     powrot() {
         this.router.back();
+    }
+
+    nic()
+    {
+
     }
 }

@@ -103,6 +103,11 @@ font-size: 12;
     border-radius: 5%;
 }
 
+.dodaj:disabled
+{
+    background: rgb(206, 206, 206);
+}
+
 .czarny
 {
     margin-right: 2;
@@ -119,6 +124,16 @@ font-size: 12;
     height: 30;
 }
 
+.sort-btn:disabled
+{
+    background-color: rgb(206, 206, 206);
+    border-radius: 5%;
+    flex-direction: row;
+    padding: 1;
+    font-size: 13;
+    height: 30;
+}
+
 .brak
 {
     color: #e71e25;
@@ -126,4 +141,9 @@ font-size: 12;
     text-wrap: true;
     text-align: center;
     font-size: 15;
+}
+
+.format
+{
+    background-color: transparent;
 }

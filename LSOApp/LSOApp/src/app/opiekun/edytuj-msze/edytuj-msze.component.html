@@ -7,24 +7,30 @@
                 </FlexboxLayout>
                 <ScrollView col="1" row="0" rowSpan="7" margin="5">
                     <StackLayout class="wh100" *ngIf="wybranyDzien !== undefined">
-                        <GridLayout rows="auto" columns="*,50" *ngFor="let msza of wydarzeniaDnia, let i = index">
-                            <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
+                        <FlexboxLayout flexDirection="column" *ngIf="!ui.ladowane[3]">
+                            <GridLayout rows="auto" columns="*,50" *ngFor="let msza of wydarzeniaDnia, let i = index">
+                                <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
+                                </FlexboxLayout>
+                                <FlexboxLayout class="center" width="100%" col="0">
+                                    <Label [text]="msza.godzina.toString() | godzina" class="text lexend"></Label>
+                                </FlexboxLayout>
+                                <FlexboxLayout class="center" width="100%" col="1">
+                                    <Button text="&#xe073;" class="iks icon" (tap)="usun(msza)" androidElevation="0"></Button>
+                                </FlexboxLayout>
+                            </GridLayout>
+                            <FlexboxLayout *ngIf="wydarzeniaDnia.length < 10" class="flex3">
+                                <Button class="wybrany" borderRadius="10%" (tap)="dodaj($event)" height="40" width="40">
+                                    <FormattedString>
+                                        <Span text="&#xe072;" class="icon"></Span>
+                                    </FormattedString>
+                                </Button>
                             </FlexboxLayout>
-                            <FlexboxLayout class="center" width="100%" col="0">
-                                <Label [text]="msza.godzina.toString() | godzina" class="text lexend"></Label>
-                            </FlexboxLayout>
-                            <FlexboxLayout class="center" width="100%" col="1">
-                                <Button text="&#xe073;" class="iks icon" (tap)="usun(msza)" androidElevation="0"></Button>
-                            </FlexboxLayout>
-                        </GridLayout>
-
-                        <FlexboxLayout *ngIf="wydarzeniaDnia.length < 10" class="flex3">
-                            <Button class="wybrany" borderRadius="10%" (tap)="dodaj($event)" height="40" width="40">
-                                <FormattedString>
-                                    <Span text="&#xe072;" class="icon"></Span>
-                                </FormattedString>
-                            </Button>
                         </FlexboxLayout>
+
+                        <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[3]">
+                                <ActivityIndicator [busy]="true"></ActivityIndicator>
+                        </FlexboxLayout>
+
 
                     </StackLayout>
                     <FlexboxLayout *ngIf="wybranyDzien === undefined" justifyContent="center" width="100%">

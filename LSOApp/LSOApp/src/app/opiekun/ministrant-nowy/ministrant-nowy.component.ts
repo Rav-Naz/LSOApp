@@ -10,6 +10,7 @@ import { Feedback, FeedbackType } from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-ministrant-nowy',
@@ -21,7 +22,8 @@ export class MinistrantNowyComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
+         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {
         this.feedback = new Feedback();
     }
 
@@ -73,8 +75,9 @@ export class MinistrantNowyComponent implements OnInit {
         this._nazwisko = this.form.get('nazwisko').value;
         this._email = this.form.get('email').value !== '' ? this.form.get('email').value : null;
 
+        this.ui.zmienStan(1,true)
+
         this.parafiaService.nowyMinistrant(this._stopien, this._imie, this._nazwisko, this._email).then(res => {
-            console.log(res)
             switch (res) {
                 case 0:
                         this.feedback.show({

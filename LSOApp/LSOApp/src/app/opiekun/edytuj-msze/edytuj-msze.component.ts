@@ -12,6 +12,7 @@ import { Feedback, FeedbackType } from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-edytuj-msze',
@@ -23,7 +24,8 @@ export class EdytujMszeComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService,
+         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {
         this.feedback = new Feedback();
     }
 
@@ -35,6 +37,7 @@ export class EdytujMszeComponent implements OnInit {
     stareWydarzeniaDnia: Array<Wydarzenie>;
 
     ngOnInit() {
+        this.ui.zmienStan(3,true)
         this.page.actionBarHidden = true;
 
         this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaEdycjaSub.subscribe((lista) => {
@@ -42,6 +45,7 @@ export class EdytujMszeComponent implements OnInit {
             this.stareWydarzeniaDnia = [];
             // console.log(lista)
             // this.wydarzeniaDnia = [];
+            this.ui.zmienStan(3,false)
             if (lista === null || lista === undefined) return
             if (lista.length === 0) return
             // this.wydarzeniaDnia = lista
@@ -105,6 +109,7 @@ export class EdytujMszeComponent implements OnInit {
     }
 
     zapisz() {
+        this.ui.zmienStan(3,true)
         this.wydarzeniaService.zapiszWydarzenia(this.stareWydarzeniaDnia, this.wydarzeniaDnia, this.wybranyDzien).then(res => {
             this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien);
             if (res === 1) {
@@ -194,6 +199,7 @@ export class EdytujMszeComponent implements OnInit {
         }
         await this.czyKontynuowac(this.zmiana, "Zmienione wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((kontynuowac) => {
             if (!kontynuowac) {
+                this.ui.zmienStan(3,true)
                 this.zmiana = false;
                 this.wybranyDzien = dzien;
                 this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien);

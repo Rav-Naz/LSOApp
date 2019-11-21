@@ -13,7 +13,7 @@
             <GridLayout class="scroll wh100">
                 <ScrollView scrollBarIndicatorVisible="false">
                     <StackLayout>
-                        <GridLayout rows="auto,auto,auto,auto,auto" columns="auto,*">
+                        <GridLayout rows="auto,auto,auto,auto,auto,auto" columns="auto,*">
                             <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
 
@@ -98,6 +98,19 @@
                                     <Label text="Brak" class="dane lexend"
                                         *ngIf="!ministrant.ulica && !ministrant.kod_pocztowy && !ministrant.miasto && !ministrant.telefon"></Label>
                                 </FlexboxLayout>
+                            </GridLayout>
+
+                            <FlexboxLayout *ngIf="this.ministrant.id_user !== userService.UserID" row="4" col="0" colSpan="2" class="podkr">
+                            </FlexboxLayout>
+
+                            <Label text="Prawa administratora" row="5" col="0" class="opisCont opis lexend" *ngIf="this.ministrant.id_user !== userService.UserID"></Label>
+
+                            <GridLayout columns="*,25" rows="auto" row="5" col="1" class="daneCont" *ngIf="this.ministrant.id_user !== userService.UserID">
+                            <FlexboxLayout col="0" class="center" alignItems="flex-end">
+                                <FlexboxLayout width="30" height="30" alignItems="center" justifyContent="center">
+                                    <ns-checkbox-zwykly (checkStatus)="nadajPrawa($event)" [stan]="checked"></ns-checkbox-zwykly>
+                                </FlexboxLayout>
+                            </FlexboxLayout>
                             </GridLayout>
 
                         </GridLayout>

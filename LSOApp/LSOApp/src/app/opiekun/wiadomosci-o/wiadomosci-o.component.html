@@ -3,7 +3,7 @@
         <StackLayout width="100%">
             <FlexboxLayout class="center">
                 <FlexboxLayout class="flexEnd" *ngIf="!pisanieWiadomosci">
-                    <Button text="Utwórz nową" (tap)="otworz()" class="btn b-p-10 audiowide"></Button>
+                    <Button text="Utwórz nową" (tap)="otworz()" class="btn b-p-10 audiowide" [isEnabled]="!ui.ladowane[2]"></Button>
                 </FlexboxLayout>
 
                 <GridLayout columns="auto,*" rows="auto,*" class="grid" *ngIf="pisanieWiadomosci">
@@ -21,24 +21,31 @@
                     </FlexboxLayout>
                 </GridLayout>
 
-                    <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0"></Label>
+                <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0 && !ui.ladowane[2]"></Label>
 
 
-                <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid" (longPress)="usunWiadomosc(wiadomosc)">
-                    <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>
-                    <StackLayout class="center" margin="7" marginLeft="15" col="0" row="0">
-                        <Label [text]="wiadomosc.data.toString() | godzina" class="godzina lexend"></Label>
-                        <Label
-                            [text]="dataFormat(wiadomosc)"
-                            class="data lexend"></Label>
-                    </StackLayout>
-                    <FlexboxLayout class="wiadomosc b-p-10 center" col="1" row="0" rowSpan="2">
-                        <Label [text]="wiadomosc.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
-                        <Label [text]="wiadomosc.tresc" class="tresc lexend"></Label>
-                        <Image [src]="wiadomosc.linkobrazu" class="obraz lexend" *ngIf="wiadomosc.linkobrazu"></Image>
-                        <Button text="Pobierz obraz" class="btn audiowide b-p-10" (tap)="pobierzObraz(wiadomosc.linkobrazu)" *ngIf="wiadomosc.linkobrazu"></Button>
-                    </FlexboxLayout>
-                </GridLayout>
+                <FlexboxLayout *ngIf="!ui.ladowane[2]" flexDirection="column">
+                    <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid" (longPress)="usunWiadomosc(wiadomosc)">
+                        <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>
+                        <StackLayout class="center" margin="7" marginLeft="15" col="0" row="0">
+                            <Label [text]="wiadomosc.data.toString() | godzina" class="godzina lexend"></Label>
+                            <Label
+                                [text]="dataFormat(wiadomosc)"
+                                class="data lexend"></Label>
+                        </StackLayout>
+                        <FlexboxLayout class="wiadomosc b-p-10 center" col="1" row="0" rowSpan="2">
+                            <Label [text]="wiadomosc.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
+                            <Label [text]="wiadomosc.tresc" class="tresc lexend"></Label>
+                            <Image [src]="wiadomosc.linkobrazu" class="obraz lexend" *ngIf="wiadomosc.linkobrazu"></Image>
+                            <Button text="Pobierz obraz" class="btn audiowide b-p-10" (tap)="pobierzObraz(wiadomosc.linkobrazu)" *ngIf="wiadomosc.linkobrazu"></Button>
+                        </FlexboxLayout>
+                    </GridLayout>
+                </FlexboxLayout>
+
+                <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[2]">
+                        <ActivityIndicator [busy]="true"></ActivityIndicator>
+                </FlexboxLayout>
+
             </FlexboxLayout>
         </StackLayout>
     </ScrollView>

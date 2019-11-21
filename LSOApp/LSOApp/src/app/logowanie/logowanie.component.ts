@@ -4,7 +4,7 @@ import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page, isIOS, Color, traceCategories } from 'tns-core-modules/ui/page/page';
 import { Feedback, FeedbackType } from "nativescript-feedback";
 import { SecureStorage } from 'nativescript-secure-storage';
 import { LogowanieJakoComponent } from '../shared/modale/logowanie-jako/logowanie-jako.component';
@@ -33,6 +33,8 @@ export class LogowanieComponent implements OnInit {
 
     emailValid = true;
     hasloValid = true;
+
+    ladowanie = false;
 
     private feedback: Feedback;
 
@@ -69,12 +71,14 @@ export class LogowanieComponent implements OnInit {
 
     zaloguj()
     {
+        this.ladowanie = true;
        this._email = this.form.get('email').value;
        this._haslo= this.form.get('haslo').value;
 
        this.http.logowanie(this._email,this._haslo).then(res => {
            if(res === 'brak' || res === 'niepoprawne')
            {
+            this.ladowanie = false;
             this.feedback.show({
                 title: "Uwaga!",
                 message: "Niepoprawny adres e-mail i/lub hasło",
@@ -88,6 +92,7 @@ export class LogowanieComponent implements OnInit {
            }
            else if(res === 'nieaktywne')
            {
+            this.ladowanie = false;
             this.feedback.show({
                 title: "Uwaga!",
                 message: "Musisz najpierw aktywować konto aby móc się zalogować",
@@ -98,8 +103,9 @@ export class LogowanieComponent implements OnInit {
                 type: FeedbackType.Warning,
             });
            }
-           else if( res === 'blad')
+           else if(res === 'blad')
            {
+            this.ladowanie = false;
             this.feedback.show({
                 title: "Błąd!",
                 message: "Wystąpił nieoczekiwany błąd",
@@ -119,6 +125,7 @@ export class LogowanieComponent implements OnInit {
 
                if(user.admin === 1)
                {
+                //    this.ladowanie = false;
                 this.modal.showModal(LogowanieJakoComponent, {
                     context: null,
                     viewContainerRef: this.vcRef,
@@ -126,16 +133,17 @@ export class LogowanieComponent implements OnInit {
                     stretched: false,
                     animated: true,
                     closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
+                    dimAmount: 0 // Sets the alpha of the background dim,
 
                 } as ExtendedShowModalOptions).then((result) => {
 
                     if(result !== undefined)
                     {
+                        this.ladowanie = true;
                         if(result === 1)
                         {
                             this.tabIndexService.zmianaOpiekuna(true).then(resss => {
-                                if(resss === 1)
+                            if(resss === 1)
                             {
                                 this.parafiaService.pobierzParafie().then(res => {
                                     if(res === 1)
@@ -158,6 +166,7 @@ export class LogowanieComponent implements OnInit {
                             }
                             else
                             {
+                                this.ladowanie = false;
                                 this.feedback.show({
                                     title: "Błąd!",
                                     message: "Wystąpił nieoczekiwany błąd",
@@ -180,6 +189,7 @@ export class LogowanieComponent implements OnInit {
                             }
                             else
                             {
+                                this.ladowanie = false;
                                 this.feedback.show({
                                     title: "Błąd!",
                                     message: "Wystąpił nieoczekiwany błąd",
@@ -194,6 +204,10 @@ export class LogowanieComponent implements OnInit {
 
                         }
                     }
+                    else
+                    {
+                        this.ladowanie = false;
+                    }
                 });
                }
                else
@@ -205,6 +219,7 @@ export class LogowanieComponent implements OnInit {
                     }
                     else
                     {
+                        this.ladowanie = false;
                         this.feedback.show({
                             title: "Błąd!",
                             message: "Wystąpił nieoczekiwany błąd",
@@ -247,6 +262,11 @@ export class LogowanieComponent implements OnInit {
         {
             this.zapomnialem();
         }
+    }
+
+    nic()
+    {
+
     }
 }
 

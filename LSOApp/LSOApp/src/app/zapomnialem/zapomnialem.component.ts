@@ -16,6 +16,8 @@ import { HttpService } from '../serwisy/http.service';
 })
 export class ZapomnialemComponent implements OnInit {
 
+    ladowanie: boolean = false;
+
     form: FormGroup;
 
     @ViewChild('email', { static: false }) emailRef: ElementRef<TextField>;
@@ -71,7 +73,10 @@ export class ZapomnialemComponent implements OnInit {
 
         let email = this.form.get('email').value
 
+        this.ladowanie = true;
+
         this.httpService.przypomnij(email).then(res => {
+            this.ladowanie = false;
             if(res === 1)
             {
                 this.powrot()
@@ -110,5 +115,10 @@ export class ZapomnialemComponent implements OnInit {
         if (args.direction === 2) {
             this.powrot();
         }
+    }
+
+    nic()
+    {
+
     }
 }

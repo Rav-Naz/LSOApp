@@ -142,23 +142,40 @@ export class DaneProfiloweComponent implements OnInit {
             return;
         }
 
-        this.userService.zmienDane(this._telefon,this._ulica,this._kod,this._miasto)
-        setTimeout(() => {
-            this.feedback.show({
-                title: "Sukces!",
-                message: "Dane zostały zmienione",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255,49, 155, 49),
-                type: FeedbackType.Success,
+        this.userService.zmienDane(this._telefon,this._ulica,this._kod,this._miasto).then(res => {
+            if(res === 1)
+            {
+                setTimeout(() => {
+                    this.feedback.show({
+                        title: "Sukces!",
+                        message: "Dane zostały zmienione",
+                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                        duration: 3000,
+                        backgroundColor: new Color(255,49, 155, 49),
+                        type: FeedbackType.Success,
 
-            });
-        }, 400)
+                    });
+                }, 400)
 
-        this.zmiana = false;
+                this.zmiana = false;
 
-        this.zamknij();
+                this.zamknij();
+            }
+            else
+            {
+                this.feedback.show({
+                    title: "Błąd!",
+                    message: "Wystąpił nieoczekiwany błąd",
+                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                    duration: 3000,
+                    backgroundColor: new Color("#e71e25"),
+                    type: FeedbackType.Error,
+                });
+            }
+        })
+
     }
 }
 

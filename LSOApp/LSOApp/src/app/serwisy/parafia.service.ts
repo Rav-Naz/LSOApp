@@ -7,6 +7,7 @@ import { Obecnosc } from './obecnosc.model';
 import { Stopien } from './stopien.model';
 import { HttpService } from './http.service';
 import { Parafia } from './parafia.model';
+import { UiService } from './ui.service';
 
 @Injectable({
     providedIn: 'root'

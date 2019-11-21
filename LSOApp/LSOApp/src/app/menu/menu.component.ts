@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Page, EventData } from 'tns-core-modules/ui/page/page';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
+import { UiService } from '../serwisy/ui.service';
 
 @Component({
     selector: 'ns-menu',
@@ -17,7 +18,8 @@ export class MenuComponent implements OnInit {
 
     public selectedIndex: number;
     private tabSelectedIndexSub: Subscription;
-    constructor(public userService: UserService, private router: RouterExtensions, private active: ActivatedRoute, private page: Page, public tabIndexService: TabindexService) {
+    constructor(public userService: UserService, private router: RouterExtensions, private active: ActivatedRoute,
+        private page: Page, public tabIndexService: TabindexService, public ui: UiService) {
     }
 
     user: User;
@@ -35,7 +37,7 @@ export class MenuComponent implements OnInit {
                 this.router.navigate([{ outlets: { obecnosc: ['obecnosc'], ministranci: ['ministranci'], wiadomosciO: ['wiadomosciO'], ustawieniaO: ['ustawieniaO'] } }],
                 { relativeTo: this.active });
             }
-            else {
+            else if(!bool){
                 this.userSub = this.userService.UserSub.subscribe(user => {
                     this.user = user;
                     this.userService.miejsceWRankignu().then(res => {
@@ -58,4 +60,8 @@ export class MenuComponent implements OnInit {
         this.selectedIndex = event.object.get('selectedIndex');
     }
 
+    nic()
+    {
+
+    }
 }

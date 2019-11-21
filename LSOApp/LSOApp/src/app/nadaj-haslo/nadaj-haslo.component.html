@@ -1,17 +1,18 @@
-<FlexboxLayout class="back wh100 center" (swipe)="onSwipe($event)">
-    <GridLayout columns="*" rows="30,10,*,auto" class="grid">
-        <FlexboxLayout class="flex center wh100" row="1" rowSpan="2" [formGroup]="form" width="90%">
-            <ScrollView (swipe)="onSwipe($event)" width="90%">
+<GridLayout class="wh100">
+    <FlexboxLayout class="back wh100 center" (swipe)="onSwipe($event)">
+        <GridLayout columns="*" rows="30,10,*,auto" class="grid">
+            <FlexboxLayout class="flex center wh100" row="1" rowSpan="2" [formGroup]="form" width="90%">
+                <ScrollView (swipe)="onSwipe($event)" width="90%">
 
-                <StackLayout>
+                    <StackLayout>
 
-                    <Label class="stand lexend" text="Aby nadać hasło do swojego konta, musisz potwiedzić proces kodem otrzymanym na Twoją skrzynkę e-mail" textWrap="true"></Label>
+                        <Label class="stand lexend" text="Aby nadać hasło do swojego konta, musisz potwiedzić proces kodem otrzymanym na Twoją skrzynkę e-mail" textWrap="true"></Label>
 
-                    <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
-                        <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0"
+                        <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
+                            <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0"
                             colSpan="2">
                             <TextField hint="Wpisz swój e-mail" class="text-field lexend" autocapitalizationType="words"
-                                keyboardType="email" formControlName="email" #email></TextField>
+                            keyboardType="email" formControlName="email" #email></TextField>
                         </FlexboxLayout>
                         <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                             <Label text="E-MAIL" class="audiowide" marginLeft="3" marginRight="3"></Label>
@@ -21,55 +22,59 @@
 
                     <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
                         <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0"
-                            colSpan="2">
-                            <TextField hint="Wpisz kod aktywacyjny" class="text-field lexend"
-                                keyboardType="number" formControlName="kod" #kod maxLength="6"></TextField>
-                        </FlexboxLayout>
-                        <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                            <Label text="KOD AKTYWACYJNY" class="audiowide" marginLeft="3" marginRight="3"></Label>
-                        </FlexboxLayout>
-                    </GridLayout>
-                    <Label text="Wpisz poprawny kod aktywacyjny" class="red lexend" *ngIf="!kodValid"></Label>
+                        colSpan="2">
+                        <TextField hint="Wpisz kod aktywacyjny" class="text-field lexend"
+                        keyboardType="number" formControlName="kod" #kod maxLength="6"></TextField>
+                    </FlexboxLayout>
+                    <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
+                        <Label text="KOD AKTYWACYJNY" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                    </FlexboxLayout>
+                </GridLayout>
+                <Label text="Wpisz poprawny kod aktywacyjny" class="red lexend" *ngIf="!kodValid"></Label>
 
-                    <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
-                        <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0"
-                            colSpan="2">
-                            <TextField hint="Wpisz hasło" class="text-field lexend"  autocapitalizationType="none"
-                            [secure]="true" formControlName="haslo" #haslo></TextField>
-                        </FlexboxLayout>
-                        <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                            <Label text="HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
-                        </FlexboxLayout>
-                    </GridLayout>
-                    <Label
-                    text="Hasło musi mieć od 6 do 15 znaków oraz składać się z polskiego alfabetu, cyfr i symboli: +,*,@,#,$,&,^,~,_,?"
-                    class="red lexend" *ngIf="!hasloValid"></Label>
+                <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
+                    <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0"
+                    colSpan="2">
+                    <TextField hint="Wpisz hasło" class="text-field lexend"  autocapitalizationType="none"
+                    [secure]="true" formControlName="haslo" #haslo></TextField>
+                </FlexboxLayout>
+                <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
+                    <Label text="HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                </FlexboxLayout>
+            </GridLayout>
+            <Label
+            text="Hasło musi mieć od 6 do 15 znaków oraz składać się z polskiego alfabetu, cyfr i symboli: +,*,@,#,$,&,^,~,_,?"
+            class="red lexend" *ngIf="!hasloValid"></Label>
 
-                    <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
-                        <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0"
-                            colSpan="2">
-                            <TextField hint="Powtórz hasło" class="text-field lexend"  autocapitalizationType="none"
-                            [secure]="true" formControlName="powtorz" #powtorz></TextField>
-                        </FlexboxLayout>
-                        <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                            <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
-                        </FlexboxLayout>
-                    </GridLayout>
-                    <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzValid"></Label>
-
-                </StackLayout>
-
-            </ScrollView>
-
-        </FlexboxLayout>
-
-        <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
-            <Label text="Nadaj hasło" class="audiowide"></Label>
-        </FlexboxLayout>
-
-        <GridLayout columns="*,*" rows="60" row="3">
-            <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="powrot()" class="anuluj b-p-10 audiowide"></Button>
-            <Button text="Zapisz" col="1" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="this.form.valid"></Button>
+            <GridLayout columns="auto,*" rows="10,10,auto" marginTop="10">
+                <FlexboxLayout class="input-field backg-20 center b-p-10" row="1" rowSpan="2" col="0"
+                colSpan="2">
+                <TextField hint="Powtórz hasło" class="text-field lexend"  autocapitalizationType="none"
+                [secure]="true" formControlName="powtorz" #powtorz></TextField>
+            </FlexboxLayout>
+            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
+                <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
+            </FlexboxLayout>
         </GridLayout>
-    </GridLayout>
+        <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzValid"></Label>
+
+    </StackLayout>
+
+</ScrollView>
+
 </FlexboxLayout>
+
+<FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
+    <Label text="Nadaj hasło" class="audiowide"></Label>
+</FlexboxLayout>
+
+<GridLayout columns="*,*" rows="60" row="3">
+    <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="powrot()" class="anuluj b-p-10 audiowide"></Button>
+    <Button text="Zapisz" col="1" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="this.form.valid"></Button>
+</GridLayout>
+</GridLayout>
+</FlexboxLayout>
+<FlexboxLayout class="wh100 fade center" (tap)="nic()" *ngIf="ladowanie">
+        <ActivityIndicator [busy]="true"></ActivityIndicator>
+</FlexboxLayout>
+</GridLayout>

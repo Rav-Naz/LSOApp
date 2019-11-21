@@ -15,6 +15,7 @@ import { HttpService } from '../serwisy/http.service';
 export class NadajHasloComponent implements OnInit {
 
   form: FormGroup;
+  ladowanie: boolean = false;
 
     @ViewChild('email', { static: false }) emailRef: ElementRef<TextField>;
     @ViewChild('kod', { static: false }) kodRef: ElementRef<TextField>;
@@ -86,6 +87,8 @@ export class NadajHasloComponent implements OnInit {
         let kod = this.form.get('kod').value;
         let haslo = this.form.get('haslo').value;
 
+        this.ladowanie = true;
+
         this.httpService.aktywacjaUsera(email,kod,haslo).then((res) => {
             if(res === 'nieistnieje')
                 {
@@ -153,6 +156,7 @@ export class NadajHasloComponent implements OnInit {
                         type: FeedbackType.Error,
                     });
                 }
+                this.ladowanie = false;
         })
 
     }
@@ -162,6 +166,11 @@ export class NadajHasloComponent implements OnInit {
         if (args.direction === 2) {
             this.powrot();
         }
+    }
+
+    nic()
+    {
+
     }
 
 }

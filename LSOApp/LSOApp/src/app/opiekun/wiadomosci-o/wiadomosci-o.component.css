@@ -91,6 +91,14 @@
     height: 30;
 }
 
+.btn:disabled
+{
+
+    background: rgb(206, 206, 206);
+    color: rgb(124, 124, 124);
+
+}
+
 .brak
 {
     color: #e71e25;

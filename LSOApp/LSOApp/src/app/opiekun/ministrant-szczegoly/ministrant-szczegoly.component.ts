@@ -17,6 +17,7 @@ import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-m
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '~/app/serwisy/user.service';
 
 
 @Component({
@@ -30,13 +31,14 @@ export class MinistrantSzczegolyComponent implements OnInit {
     private feedback: Feedback;
 
 
-    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
+    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions,public userService: UserService ,private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
         this.feedback = new Feedback();
     }
     form: FormGroup;
     zmiana: boolean;
     ministrant: User = { id_user:0, id_diecezji:0, id_parafii: 0, punkty: 0, stopien: 0, imie: "", nazwisko: "", ulica: null, kod_pocztowy: null, miasto: null, email: null, telefon: null, aktywny: 0, admin: 0, ranking: 0};
     dyzury: Array<Wydarzenie> = [];
+    checked: number = 0;
     dyzurSub: Subscription;
     podgladMinistranta: Subscription;
     PROSub: Subscription;
@@ -56,6 +58,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
             if(min !== undefined && min !== null)
             {
                 this.ministrant = min
+                this.checked = this.ministrant.admin;
             }
         })
 
@@ -256,6 +259,35 @@ export class MinistrantSzczegolyComponent implements OnInit {
         this.punkty.nativeElement.dismissSoftInput();
         this.ministrant.punkty = parseInt(this.form.get('punkty').value)
         this.zmiana = true;
+    }
+
+    nadajPrawa(event: number)
+    {
+        if(this.ministrant.id_user === this.userService.UserID)
+        {
+            this.feedback.show({
+                title: "Uwaga!",
+                message: "Nie możesz sam sobie oderbrać praw administratora",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color(255, 255, 207, 51),
+                type: FeedbackType.Warning,
+            });
+            return;
+        }
+        else
+        {
+            if(event === 1)
+            {
+                this.checked = this.ministrant.admin = 0;
+            }
+            else
+            {
+                this.checked = this.ministrant.admin = 1;
+            }
+            this.zmiana = true;
+        }
     }
 
 }

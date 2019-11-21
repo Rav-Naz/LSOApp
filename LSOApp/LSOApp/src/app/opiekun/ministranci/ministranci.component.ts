@@ -3,7 +3,7 @@ import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, using } from 'rxjs';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Feedback, FeedbackType} from "nativescript-feedback";
@@ -13,6 +13,7 @@ import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { ActivatedRoute } from '@angular/router';
 import { sortPolskich } from '~/app/shared/sortPolskich';
 import { UserService } from '~/app/serwisy/user.service';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-ministranci',
@@ -30,12 +31,18 @@ export class MinistranciComponent implements OnInit {
 
     private feedback: Feedback;
 
-    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute, private userService: UserService) {
+    ladowanie: boolean = true;
+
+    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService,
+         private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute, private userService: UserService, public ui: UiService) {
         this.feedback = new Feedback();
     }
 
     ngOnInit() {
-        this.parafiaService.pobierzMinistrantow()
+        this.ui.zmienStan(1,true)
+        this.parafiaService.pobierzMinistrantow().then(res => {
+            this.ui.zmienStan(1,false)
+        })
         this.page.actionBarHidden = true;
         this.miniSub = this.parafiaService.Ministranci.subscribe(lista => {
             this.ministranci = [];
@@ -45,6 +52,7 @@ export class MinistranciComponent implements OnInit {
                     this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny, admin: ministrant.admin, ranking: ministrant.ranking})
                 })
                 this.sortujListe();
+                this.ui.zmienStan(1,false)
             }
         })
     }
@@ -103,6 +111,7 @@ export class MinistranciComponent implements OnInit {
         await this.czyKontynuowac(true,"Czy na pewno chcesz usunąć\n" + ministrant.nazwisko + " " + ministrant.imie + "\nz listy ministrantów?").then((kontynuowac) => {
             if(!kontynuowac)
             {
+                this.ui.zmienStan(1,true)
                 this.parafiaService.usunMinistranta(ministrant.id_user).then(() => {
                     this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien)
                     setTimeout(() => {
