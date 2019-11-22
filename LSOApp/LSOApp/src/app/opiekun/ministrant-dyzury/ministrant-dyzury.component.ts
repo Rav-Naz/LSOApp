@@ -12,6 +12,7 @@ import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-ministrant-dyzury',
@@ -22,7 +23,9 @@ import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-m
 export class MinistrantDyzuryComponent implements OnInit {
     private feedback: Feedback;
 
-    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService, private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
+        private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService,
+        private vcRef: ViewContainerRef, public ui: UiService) {
         this.feedback = new Feedback();
     }
     nazwyDni = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota']
@@ -42,6 +45,9 @@ export class MinistrantDyzuryComponent implements OnInit {
 
 
     ngOnInit() {
+
+        this.ui.zmienStan(6,true)
+
         this.page.actionBarHidden = true;
 
         // this.ministrant = this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
@@ -63,6 +69,7 @@ export class MinistrantDyzuryComponent implements OnInit {
             this.wydarzeniaMinistranta = [null,null,null,null,null,null,null];
             this.stareWydarzeniaMinistranta = [null,null,null,null,null,null,null];
             if (lista_dyzurow.length === 0) {
+                this.ui.zmienStan(6,false)
                 return;
             }
             dyzury = lista_dyzurow
@@ -76,6 +83,7 @@ export class MinistrantDyzuryComponent implements OnInit {
                    this.dni[index] = true;
                }
             }
+            this.ui.zmienStan(6,false)
         })
     }
 
@@ -187,6 +195,8 @@ export class MinistrantDyzuryComponent implements OnInit {
 
     zapisz()
     {
+        this.ui.zmienStan(5,true)
+        this.ui.zmienStan(4,true)
         this.parafiaService.zapiszDyzury(this.wydarzeniaMinistranta, this.stareWydarzeniaMinistranta).then(res => {
             if(res === 1)
             {
@@ -201,11 +211,15 @@ export class MinistrantDyzuryComponent implements OnInit {
                         type: FeedbackType.Success,
                       });
                 }, 400)
+                this.ui.zmienStan(5,false)
+                this.ui.zmienStan(4,false)
                 this.zmiana = false;
                 this.anuluj()
             }
             else
             {
+                this.ui.zmienStan(4,false)
+                this.ui.zmienStan(5,false)
                 this.feedback.show({
                     title: "Błąd!",
                     message: "Wystąpił nieoczekiwany błąd",

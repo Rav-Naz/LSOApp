@@ -5,10 +5,8 @@ import { User } from '~/app/serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Subscription } from 'rxjs';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Stopien } from '~/app/serwisy/stopien.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { FeedbackType, Feedback } from 'nativescript-feedback';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
@@ -18,6 +16,7 @@ import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '~/app/serwisy/user.service';
+import { UiService } from '~/app/serwisy/ui.service';
 
 
 @Component({
@@ -31,7 +30,9 @@ export class MinistrantSzczegolyComponent implements OnInit {
     private feedback: Feedback;
 
 
-    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions,public userService: UserService ,private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute) {
+    constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions,public userService: UserService
+        ,private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef,
+         private active: ActivatedRoute, public ui: UiService) {
         this.feedback = new Feedback();
     }
     form: FormGroup;
@@ -48,6 +49,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     @ViewChild('punkty', { static: false }) punkty: ElementRef<TextField>;
 
     ngOnInit() {
+        this.ui.zmienStan(5,true)
         this.PROSub = this.tabIndexService.PRO.subscribe(listaOutletow => {
             this.PROLista = listaOutletow;
         })
@@ -72,6 +74,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
             if(lista_dyzurow === null || lista_dyzurow === undefined)
             {
+                this.ui.zmienStan(5,false)
                 return
             }
 
@@ -91,6 +94,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
                 }
                 return 0;
             })
+            this.ui.zmienStan(5,false)
         });
         this.form = new FormGroup({
             punkty: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[-0-9]{1,4}$')] }),
@@ -137,6 +141,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     }
 
     otworzDyzury() {
+        this.ui.zmienStan(4,true)
         if (this.PROLista[6] === 'edytuj-msze' || this.PROLista[6] === 'punktacja') {
             this.feedback.show({
                 title: "Uwaga!",
@@ -151,34 +156,17 @@ export class MinistrantSzczegolyComponent implements OnInit {
         }
         this.tabIndexService.nowyOutlet(4, 'ministrant-dyzury')
         this.router.navigate(['../ministrant-dyzury'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
+        this.ui.zmienStan(4,false)
 
     }
 
     aktywujKonto() {
-        if (this.ministrant.aktywny === 0) {
-            if(this.ministrant.email !== null)
-            {
-                this.parafiaService.wyslanyEmail = true;
-            }
-            else
-            {
-                this.parafiaService.wyslanyEmail = false;
-            }
+        this.ui.zmienStan(4,true)
+            this.parafiaService.wyslanyEmail = {email: this.ministrant.email, aktywny: this.ministrant.aktywny, id_user: this.ministrant.id_user};
+
             this.tabIndexService.nowyOutlet(4, 'aktywacja-konta')
             this.router.navigate(['../aktywacja-konta'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
-        }
-        else {
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Konto ministranta już zostało aktywowane",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-            });
-            return;
-        }
+            this.ui.zmienStan(4,false)
     }
 
     zmienPunkty(punkty: number) {

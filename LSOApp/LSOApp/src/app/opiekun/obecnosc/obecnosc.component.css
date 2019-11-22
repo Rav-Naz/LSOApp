@@ -13,6 +13,11 @@
     flex-direction: row;
 }
 
+.kal:pressed
+{
+    background-color: rgb(200, 200, 200);
+}
+
 .strzalki
 {
     background: linear-gradient(to bottom, #e71e25,#a5151a);
@@ -21,6 +26,12 @@
     font-size: 18;
     color: white;
     font-weight: 900;
+}
+
+.strzalki:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
+    border-color: transparent;
 }
 
 .header
@@ -50,6 +61,12 @@
 .flex2
 {
     background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+}
+
+.flex2:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
     border-color: transparent;
 }
 

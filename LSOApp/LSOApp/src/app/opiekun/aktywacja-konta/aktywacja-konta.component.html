@@ -1,7 +1,7 @@
 <FlexboxLayout class="back center wh100" [formGroup]="form">
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2" [formGroup]="form">
-            <StackLayout width="90%" *ngIf="!wyslanePrzyp">
+            <StackLayout width="90%" *ngIf="wyslanePrzyp === 0">
                 <Label text="W celu utworzenia konta dla ministranta, wprowadź poniżej jego adres e-mail:"
                     class="stand lexend"></Label>
                 <GridLayout columns="auto,*" rows="10,10,auto">
@@ -16,22 +16,29 @@
                 <Label text="Niepoprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
             </StackLayout>
                 <Label text="Link aktywacyjny został wysłany na podany adres email. Jeśli przez dłuższy czas ministrant nie otrzymał wiadomości, należy sprawdzić zakładkę 'SPAM'."
-                    class="stand lexend" width="90%" *ngIf="wyslanePrzyp"></Label>
+                    class="stand lexend" width="90%" *ngIf="wyslanePrzyp === 1"></Label>
+                <Label text="KOD AKTYWACYJNY JEST WAŻNY PRZEZ 30 MINUT!" class="stand lexend" textWrap="true" *ngIf="wyslanePrzyp === 1"  width="90%"></Label>
+                <FlexboxLayout width="90%" *ngIf="wyslanePrzyp === 2" class="wh100 center">
+                        <Label text="Adres e-mail:" class="stand audiowide"></Label>
+                        <Label [text]="this.dane.email" class="stand lexend"></Label>
+                        <Button text="Usuń dostep do&#xA;konta ministranta" class="anuluj zapisz b-p-10 audiowide" margin="20" fontSize="12" width="70%" (tap)="usun()"></Button>
+                        <!-- <Label text="Niepoprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label> -->
+                </FlexboxLayout>
         </FlexboxLayout>
 
         <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
-            <Label text="Aktywacja konta" class="audiowide"></Label>
+            <Label text="Podpięte konto" class="audiowide"></Label>
         </FlexboxLayout>
 
-        <GridLayout columns="*,*" rows="60" row="3">
+        <GridLayout columns="*,*,*,*" rows="60" row="3">
             <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="powrot()" class="anuluj b-p-10 audiowide"
-                *ngIf="!wyslanePrzyp"></Button>
-            <Button text="Wyślij" col="1" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
-                *ngIf="!wyslanePrzyp" [isEnabled]="this.form.valid"></Button>
-            <Button text="Ponów" col="0" (tap)="wyslanePrzyp = false" class="anuluj b-p-10 audiowide"
-                *ngIf="wyslanePrzyp"></Button>
-            <Button text="Powrót" col="1" (tap)="powrot()" class="anuluj b-p-10 zapisz audiowide"
-                *ngIf="wyslanePrzyp"></Button>
+                *ngIf="wyslanePrzyp === 0" colSpan="2"></Button>
+            <Button text="Wyślij" col="2" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
+                *ngIf="wyslanePrzyp === 0" [isEnabled]="this.form.valid" colSpan="2"></Button>
+                <Button text="Powrót" [col]="wyslanePrzyp === 1?0:1" (tap)="powrot()" class="anuluj b-p-10 audiowide"
+                *ngIf="wyslanePrzyp === 1 || wyslanePrzyp === 2" colSpan="2"></Button>
+                <Button text="Ponów" col="2" (tap)="wyslanePrzyp = 0" class="anuluj zapisz b-p-10 audiowide"
+                *ngIf="wyslanePrzyp === 1" colSpan="2"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

@@ -111,8 +111,8 @@ export class EdytujMszeComponent implements OnInit {
     zapisz() {
         this.ui.zmienStan(3,true)
         this.wydarzeniaService.zapiszWydarzenia(this.stareWydarzeniaDnia, this.wydarzeniaDnia, this.wybranyDzien).then(res => {
-            this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien);
             if (res === 1) {
+                this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien);
                 this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien).then(() => {
                     this.zmiana = false;
                     this.feedback.show({

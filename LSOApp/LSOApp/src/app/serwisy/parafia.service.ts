@@ -19,7 +19,7 @@ export class ParafiaService {
     // punktyZaObecnosc: number = 1;
     // punktyZaNieobecnosc: number = 0;
 
-    wyslanyEmail: boolean;
+    wyslanyEmail;
     aktualnyMinistrantId: number; //Wykorzystanie: ministranci
     aktualneWydarzenieId: number; //Wykorzystanie: obecnosci
     // indexDyzuru: number = 0;
@@ -50,11 +50,6 @@ export class ParafiaService {
         this.ministranciLista = [];
         this._dyzury = [];
         this._obecnosci = [];
-        this.ministranci.next(null)
-        this.dyzuryWydarzenia.next(null)
-        this.dyzuryMinistranta.next(null)
-        this.obecnosciWydarzenia.next(null)
-        this.podgladanyMinistrant.next(null)
     }
 
     get Obecnosci() //Wykorzystanie: obecnosc
@@ -294,6 +289,22 @@ export class ParafiaService {
     //         await this.odswiezListeMinistrantow();
     //     })
     // })
+    }
+
+    async usunKontoMinistanta(id_user:number)
+    {
+        return new Promise<number>((resolve) => {
+            this.http.usunKontoMinistranta(id_user).then(res => {
+                this.WybranyMinistrant(id_user).then(() => {
+                    resolve(res)
+                })
+            })
+        })
+        // let min = this.ministranciLista.filter(mini => mini.id_user === ministrant.id_user)[0];
+        // this.ministranciLista[this.ministranciLista.indexOf(min)] = ministrant;
+        // this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
+        //     await this.odswiezListeMinistrantow();
+        // })
     }
 
     obecnosciDoWydarzenia(id_wydarzenia:number, data: Date) //Wykorzystanie: obecnosc

@@ -13,7 +13,7 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
-import { sortPolskich } from '~/app/shared/sortPolskich';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-obecnosc',
@@ -42,6 +42,8 @@ export class ObecnoscComponent implements OnInit {
     cofam: boolean;
     sprawdzane: boolean;
 
+    private odliczenie;
+
     private feedback: Feedback;
 
 
@@ -49,11 +51,15 @@ export class ObecnoscComponent implements OnInit {
 
     @ViewChild("myCalendar", { static: false }) _calendar: RadCalendarComponent;
 
-    constructor(private page: Page, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService, private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
+    constructor(private page: Page, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService,
+        private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {
         this.feedback = new Feedback();
     }
 
     ngOnInit() {
+
+        this.ui.zmienStan(0,true)
+
         this.PROSub = this.tabIndexService.PRO.subscribe(listaOutletow => {
             this.PROLista = listaOutletow;
         })
@@ -79,6 +85,7 @@ export class ObecnoscComponent implements OnInit {
             }
 
             if (this.dzisiejszeWydarzenia.length === 0) {
+                this.ui.zmienStan(0,false)
                 this.zmiana = false;
                 this.header(this.aktywnyDzien);
                 this.ministranciDoWydarzenia = [];
@@ -107,10 +114,12 @@ export class ObecnoscComponent implements OnInit {
 
             this.parafiaService.aktualneWydarzenieId = this.aktywneWydarzenie.id;
 
-            if (this.dzisiejszeWydarzenia.length !== 0) {
+            // if (this.dzisiejszeWydarzenia.length !== 0) {
                 this.header(this.aktywnyDzien, this.aktywneWydarzenie); //Tworzenie nagłówka
-                this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id); //Pobieranie danych o dyżurach
-            }
+                this.odliczenie = setTimeout(async () => {
+                    this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id); //Pobieranie danych o dyżurach
+                }, this.sprawdzane && this.zmiana?0:500)
+            // }
         })
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
@@ -122,6 +131,7 @@ export class ObecnoscComponent implements OnInit {
             else
             {
                 this.ministranciDoWydarzenia = [];
+                this.ui.zmienStan(0,false)
             }
             this.zmiana = false;
             // if (lista !== null && lista !== undefined) {
@@ -139,6 +149,7 @@ export class ObecnoscComponent implements OnInit {
 
             if (lista === null) {
                 this.zmiana = false;
+                this.ui.zmienStan(0,false)
                 return;
             }
 
@@ -165,6 +176,7 @@ export class ObecnoscComponent implements OnInit {
                     this.zmiana = true;
                 }
             }
+            this.ui.zmienStan(0,false)
         });
     }
 
@@ -206,9 +218,12 @@ export class ObecnoscComponent implements OnInit {
 
     async indexZmiana(liczba: number) {
 
+        clearTimeout(this.odliczenie)
+
             this.czyKontynuowac().then((kontynuowac) => {
                 if(!kontynuowac)
                 {
+                    this.ui.zmienStan(0,true)
                     if((this.index + liczba)<0 || (this.index + liczba)>(this.dzisiejszeWydarzenia.length-1))
                     {
                         if((this.index + liczba)<0)
@@ -221,6 +236,7 @@ export class ObecnoscComponent implements OnInit {
                         }
                         let dzien = new Date(this.aktywnyDzien.getFullYear(),this.aktywnyDzien.getMonth(), this.aktywnyDzien.getDate());
                         dzien.setDate(dzien.getDate() + liczba);
+
                         this.ladujDzien(dzien);
                     }
                     else
@@ -228,7 +244,11 @@ export class ObecnoscComponent implements OnInit {
                         this.index += liczba;
                         this.aktywneWydarzenie = this.dzisiejszeWydarzenia[this.index];
                         this.parafiaService.aktualneWydarzenieId = this.aktywneWydarzenie.id;
-                        this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id);
+
+                        this.odliczenie = setTimeout(async () => {
+                            this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id);
+                        }, this.sprawdzane && this.zmiana?0:500)
+
                         if (this.aktywneWydarzenie) {
                             this.header(this.aktywnyDzien, this.aktywneWydarzenie);
                         }
@@ -279,6 +299,8 @@ export class ObecnoscComponent implements OnInit {
     }
 
     zapiszZmiany() {
+        this.ui.zmienStan(0,true)
+        this.ui.zmienStan(1,true)
         this.parafiaService.zapiszObecnosci(this.noweObecnosci, this.sprawdzane).then(() => {
             setTimeout(() => {
                 this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien).then(res => {
@@ -344,7 +366,10 @@ export class ObecnoscComponent implements OnInit {
 
         this.aktywnyDzien = dzien;
 
+        this.ui.zmienStan(0,true)
+
         await this.wydarzeniaService.dzisiejszeWydarzenia(this.aktywnyDzien.getDay())
+
     }
 
     moznaSprawdzac() {

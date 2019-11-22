@@ -116,6 +116,7 @@ export class HttpService {
             });
 
             this.http.post(this.serverUrl + '/register', null, { headers: options }).subscribe(res => {
+                console.log(res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -288,7 +289,7 @@ export class HttpService {
     }
 
 
-    //AKTUALIZACJA MINISTRANTA
+    //AKTUALIZACJA DANYCH MINISTRANTA
     async aktualizacjaDanychMinistranta(ulica: string, kod_pocztowy: string, miasto: string, telefon: string) {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
@@ -355,6 +356,25 @@ export class HttpService {
             });
 
             this.http.post(this.serverUrl + '/delete_user', null, { headers: options }).subscribe(res => {
+                if (res === 'zakonczono') {
+                    resolve(1);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
+    //USUWANIE KONTA MINISTRANTA
+    async usunKontoMinistranta(id_user: number) {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ id_user: id_user }))
+            });
+
+            this.http.post(this.serverUrl + '/delete_user_account_admin', null, { headers: options }).subscribe(res => {
                 if (res === 'zakonczono') {
                     resolve(1);
                 }
@@ -582,7 +602,6 @@ export class HttpService {
             });
 
             this.http.post(this.serverUrl + '/update_presence', null, { headers: options }).subscribe(res => {
-                // console.log(res)
                 if(res === 'brak')
                 {
                     resolve(0)

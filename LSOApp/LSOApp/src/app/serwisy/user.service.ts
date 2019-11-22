@@ -40,9 +40,7 @@ export class UserService {
     {
         this.user = null;
         this.userDyzury = [];
-        this.userDyzurySub.next(null);
-        // this.userSub.next(null)
-        this.powiadomieniaODyzurach.next(null)
+
     }
 
     get UserSub() { //Wykorzystanie: dyzury, dane-profilowe

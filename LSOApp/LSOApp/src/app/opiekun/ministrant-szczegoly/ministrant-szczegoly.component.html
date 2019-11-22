@@ -13,7 +13,7 @@
             <GridLayout class="scroll wh100">
                 <ScrollView scrollBarIndicatorVisible="false">
                     <StackLayout>
-                        <GridLayout rows="auto,auto,auto,auto,auto,auto" columns="auto,*">
+                        <GridLayout rows="auto,auto,auto,auto,auto,auto" columns="auto,*"  *ngIf="!this.ui.ladowane[5]">
                             <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
 
@@ -65,20 +65,19 @@
                                 </FlexboxLayout>
                             </GridLayout>
 
-                            <FlexboxLayout row="3" col="0" colSpan="2" class="podkr">
+                            <FlexboxLayout row="3" col="0" colSpan="2" class="podkr" *ngIf="this.ministrant.id_user !== userService.UserID">
                             </FlexboxLayout>
 
-                            <Label text="E-mail" row="3" col="0" class="opisCont opis lexend"></Label>
+                            <Label text="Podpięte&#xA;konto" row="3" col="0" class="opisCont opis lexend" *ngIf="this.ministrant.id_user !== userService.UserID"></Label>
 
                             <GridLayout columns="*,25" rows="auto" row="3" col="1" class="daneCont"
-                                (tap)="aktywujKonto()">
+                                (tap)="aktywujKonto()" *ngIf="this.ministrant.id_user !== userService.UserID">
                                 <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                     <Label [text]="ministrant.email === null ? 'Aktywuj konto' : ministrant.email"
                                         class="dane lexend" horizontalAlignment="right" row="1" col="1"></Label>
                                 </FlexboxLayout>
                                 <FlexboxLayout class="center" col="2">
-                                    <Label text="&#xe001;" class="strzalka icon"
-                                        *ngIf="ministrant.aktywny === 0"></Label>
+                                    <Label text="&#xe001;" class="strzalka icon"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
 
@@ -100,12 +99,12 @@
                                 </FlexboxLayout>
                             </GridLayout>
 
-                            <FlexboxLayout *ngIf="this.ministrant.id_user !== userService.UserID" row="4" col="0" colSpan="2" class="podkr">
+                            <FlexboxLayout *ngIf="this.ministrant.id_user !== userService.UserID && this.ministrant.aktywny === 1" row="4" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
 
-                            <Label text="Prawa administratora" row="5" col="0" class="opisCont opis lexend" *ngIf="this.ministrant.id_user !== userService.UserID"></Label>
+                            <Label text="Prawa&#xA;administratora" row="5" col="0" class="opisCont opis lexend" *ngIf="this.ministrant.id_user !== userService.UserID && this.ministrant.aktywny === 1"></Label>
 
-                            <GridLayout columns="*,25" rows="auto" row="5" col="1" class="daneCont" *ngIf="this.ministrant.id_user !== userService.UserID">
+                            <GridLayout columns="*,25" rows="auto" row="5" col="1" class="daneCont" *ngIf="this.ministrant.id_user !== userService.UserID && this.ministrant.aktywny === 1">
                             <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                 <FlexboxLayout width="30" height="30" alignItems="center" justifyContent="center">
                                     <ns-checkbox-zwykly (checkStatus)="nadajPrawa($event)" [stan]="checked"></ns-checkbox-zwykly>
@@ -114,10 +113,15 @@
                             </GridLayout>
 
                         </GridLayout>
+                        <FlexboxLayout class="wh100 center" *ngIf="this.ui.ladowane[5]">
+                            <ActivityIndicator [busy]="true"></ActivityIndicator>
+                        </FlexboxLayout>
                     </StackLayout>
                 </ScrollView>
                 <Label class="shadow" verticalAlignment="top"></Label>
             </GridLayout>
+
+
         </StackLayout>
         <GridLayout columns="*,*" rows="60" row="1" class="przyciski">
             <Button [text]="this.form.valid && zmiana?'Anuluj':'Zamknij'" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide" fontSize="17"></Button>

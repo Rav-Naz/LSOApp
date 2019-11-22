@@ -119,9 +119,9 @@ export class LogowanieComponent implements OnInit {
            else
            {
                let user: User = JSON.parse(JSON.stringify(res))
-               this.userService.zmienUsera(user);
                this.http.nadajId_Parafii(user.id_parafii);
                this.http.nadajId_User(user.id_user);
+               this.userService.zmienUsera(user);
 
                if(user.admin === 1)
                {

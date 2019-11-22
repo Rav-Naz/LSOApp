@@ -20,6 +20,11 @@
     padding: 1;
 }
 
+.text:pressed
+{
+    color: rgb(200, 200, 200);
+}
+
 .button
 {
     margin: 10;
@@ -31,6 +36,12 @@
     /* background:#e71e25; */
     background: linear-gradient(to bottom, #e71e25,#a5151a);
     color: white;
+}
+
+.button:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
+    color: rgb(200, 200, 200);
 }
 
 .button:disabled

@@ -9,6 +9,7 @@ import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-m
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { HttpService } from '~/app/serwisy/http.service';
 import { Parafia } from '~/app/serwisy/parafia.model';
+import { UiService } from '~/app/serwisy/ui.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class PunktacjaComponent implements OnInit {
     zmiana: boolean = false;
 
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
-        private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private http: HttpService) {
+        private tabIndexService: TabindexService, private modal: ModalDialogService,
+         private vcRef: ViewContainerRef, private http: HttpService, private ui: UiService) {
         this.feedback = new Feedback();
     }
 
@@ -54,6 +56,9 @@ export class PunktacjaComponent implements OnInit {
     }
 
     zapisz() {
+
+        this.ui.zmienStan(4,true)
+
         this.parafiaService.parafia.punkty_dod_sluzba = this.pktZaObecnosc;
         this.parafiaService.parafia.punkty_uj_sluzba = this.pktZaNieobecnosc;
 
@@ -64,6 +69,7 @@ export class PunktacjaComponent implements OnInit {
             if(daneParafii.id_parafii)
             {
                 this.parafiaService.parafia = daneParafii
+                this.ui.zmienStan(4,false)
                 setTimeout(() => {
                     this.feedback.show({
                         title: "Sukces!",
@@ -79,6 +85,7 @@ export class PunktacjaComponent implements OnInit {
             }
             else
             {
+                this.ui.zmienStan(4,false)
                 this.feedback.show({
                     title: "Błąd!",
                     message: "Wystąpił nieoczekiwany błąd",

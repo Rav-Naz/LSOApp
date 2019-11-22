@@ -78,6 +78,7 @@ export class WiadomosciOComponent implements OnInit {
 
     wyslij() {
         if (this.tresc.length >= 1) {
+            this.pisanieWiadomosci = false;
             this.ui.zmienStan(2, true)
             this.textviewRef.nativeElement.dismissSoftInput();
             this.wiadosciService.nowaWiadomosc(this.tresc).then(res => {
@@ -97,7 +98,7 @@ export class WiadomosciOComponent implements OnInit {
                     case 1:
                         this.wiadosciService.pobierzWiadomosci().then(() => {
                             this.tresc = '';
-                            this.pisanieWiadomosci = false;
+                            // this.pisanieWiadomosci = false;
                             setTimeout(() => {
                                 this.feedback.show({
                                     title: "Sukces!",
@@ -112,6 +113,7 @@ export class WiadomosciOComponent implements OnInit {
                         });
                         break;
                     default:
+                        this.ui.zmienStan(2, false)
                         this.feedback.show({
                             title: "Błąd!",
                             message: "Wystąpił nieoczekiwany błąd",
@@ -159,6 +161,7 @@ export class WiadomosciOComponent implements OnInit {
                 })
             }).catch(() => {
                 setTimeout(() => {
+                    this.ui.zmienStan(2, false)
                     this.feedback.show({
                         title: "Błąd!",
                         message: "Bez Twojej zgody nie możemy nic zrobić :(",
@@ -208,6 +211,7 @@ export class WiadomosciOComponent implements OnInit {
                         });
                         else
                         {
+                            this.ui.zmienStan(2, false)
                             this.feedback.show({
                                 title: "Błąd!",
                                 message: "Wystąpił nieoczekiwany błąd",
@@ -225,6 +229,7 @@ export class WiadomosciOComponent implements OnInit {
 
         }
         else {
+            this.ui.zmienStan(2, false)
             this.feedback.show({
                 title: "Błąd!",
                 message: "Nie możesz usunąć wiadomości od ADMINISTRATORA",

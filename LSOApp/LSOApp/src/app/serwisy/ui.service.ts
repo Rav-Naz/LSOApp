@@ -13,6 +13,8 @@ export class UiService {
         true, // wiadomosci
         true, // edytuj-wydarzenia
         false, // menu
+        true, //ministrant-szczegoly
+        true, //edytuj-dyzury
     ]
 
     zmienStan(index:number, stan: boolean)
