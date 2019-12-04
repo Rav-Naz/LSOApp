@@ -17,7 +17,7 @@
         </GridLayout>
         <!-- Widok ministranta -->
         <FlexboxLayout class="wh100" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
-                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
+                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysOriginal">`
 
                         <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
                         <TabStrip>
@@ -45,7 +45,7 @@
         </FlexboxLayout>
         <!-- Widok opiekuna -->
         <FlexboxLayout class="wh100" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
-                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)">
+                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysTemplate">
 
                         <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
                         <TabStrip>
