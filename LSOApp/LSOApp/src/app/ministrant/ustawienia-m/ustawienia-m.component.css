@@ -22,6 +22,12 @@
     font-size: 12;
 }
 
+.click:pressed
+{
+    color:#a5151a;
+    font-size: 12;
+}
+
 .wersja
 {
     margin: 10;

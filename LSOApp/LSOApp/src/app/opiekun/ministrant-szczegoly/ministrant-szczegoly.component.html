@@ -1,4 +1,4 @@
-<FlexboxLayout class="back wh100 center">
+<FlexboxLayout class="back wh100 center" (tap)="dismiss()">
     <GridLayout rows="*,auto" columns="*" width="90%">
 
         <StackLayout row="0" col="0" height="90%">
@@ -11,7 +11,7 @@
             </FlexboxLayout>
 
             <GridLayout class="scroll wh100">
-                <ScrollView scrollBarIndicatorVisible="false">
+                <ScrollView scrollBarIndicatorVisible="false" (tap)="dismiss()">
                     <StackLayout>
                         <GridLayout rows="auto,auto,auto,auto,auto,auto" columns="auto,*"  *ngIf="!this.ui.ladowane[5]">
                             <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">

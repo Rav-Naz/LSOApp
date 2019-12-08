@@ -221,4 +221,9 @@ export class AktywacjaKontaComponent implements OnInit {
             }
         })
     }
+
+    dismiss()
+    {
+        this.emailRef.nativeElement.dismissSoftInput()
+    }
 }

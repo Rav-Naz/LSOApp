@@ -1,8 +1,8 @@
-<GridLayout class="wh100">
-    <FlexboxLayout class="back wh100 center" (swipe)="onSwipe($event)">
+<GridLayout class="wh100" (swipe)="onSwipe($event)">
+    <FlexboxLayout class="back wh100 center" (tap)="dismiss()">
         <GridLayout columns="*" rows="30,10,*,auto" class="grid">
             <FlexboxLayout class="flex center wh100" row="1" rowSpan="2" [formGroup]="form" width="90%">
-                <ScrollView (swipe)="onSwipe($event)" width="90%">
+                <ScrollView (swipe)="onSwipe($event)" width="90%" (tap)="dismiss()">
 
                     <StackLayout>
 

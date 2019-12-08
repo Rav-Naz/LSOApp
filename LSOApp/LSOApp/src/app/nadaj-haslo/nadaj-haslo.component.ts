@@ -173,4 +173,9 @@ export class NadajHasloComponent implements OnInit {
 
     }
 
+    dismiss()
+    {
+        this.emailRef.nativeElement.dismissSoftInput()
+    }
+
 }

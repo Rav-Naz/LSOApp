@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { Feedback, FeedbackType } from "nativescript-feedback";
 import { SecureStorage } from "nativescript-secure-storage";
 import { UserService } from '~/app/serwisy/user.service';
+import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 
 @Component({
     selector: 'ns-usun-konto-m',
@@ -24,6 +25,8 @@ export class UsunKontoMComponent implements OnInit {
     hasloValid: boolean = true;
     form: FormGroup;
     _haslo: string;
+
+    @ViewChild('haslo', { static: false }) hasloRef: ElementRef<TextField>;
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -113,4 +116,8 @@ export class UsunKontoMComponent implements OnInit {
         this.router.back();
     }
 
+    dismiss()
+    {
+        this.hasloRef.nativeElement.dismissSoftInput()
+    }
 }

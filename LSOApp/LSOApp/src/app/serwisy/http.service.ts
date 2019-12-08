@@ -116,7 +116,6 @@ export class HttpService {
             });
 
             this.http.post(this.serverUrl + '/register', null, { headers: options }).subscribe(res => {
-                console.log(res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -220,7 +219,7 @@ export class HttpService {
     }
 
     //DODAWANIE NOWEGO MINISTRANTA
-    async nowyMinistrant(stopien: Stopien, imie: string, nazwisko: string, email: string) {
+    async nowyMinistrant(stopien: number, imie: string, nazwisko: string, email: string) {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
@@ -576,6 +575,25 @@ export class HttpService {
         });
     }
 
+    //USUWANIE WSZYSTKICH DYŻURÓW
+    async usunWszystkieDyzury() {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({ id_parafii: this.id_parafii }))
+            });
+
+            this.http.post(this.serverUrl + '/reset_duty', null, { headers: options }).subscribe(res => {
+                if (res.hasOwnProperty('insertId')) {
+                    resolve(1);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
     //POBIERANIE OBECNOSCI DO DANEGO WYDARZENIA
     async pobierzObecnosciDoWydarzenia(id_wydarzenia: number, data: Date) {
         return new Promise<Array<User>>(resolve => {
@@ -674,6 +692,25 @@ export class HttpService {
             this.http.post(this.serverUrl + '/delete_message', null, { headers: options }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
+                }
+                else {
+                    resolve(0);
+                }
+            });
+        });
+    }
+
+    //WYZEREUJ PUNKTY
+    async wyzerujPunkty() {
+        return new Promise<number>(resolve => {
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({id_parafii: this.id_parafii }))
+            });
+
+            this.http.post(this.serverUrl + '/reset_points', null, { headers: options }).subscribe(res => {
+                if (res.hasOwnProperty('insertId')) {
+                    resolve(1)
                 }
                 else {
                     resolve(0);

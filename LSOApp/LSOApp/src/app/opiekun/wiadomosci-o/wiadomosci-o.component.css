@@ -92,6 +92,11 @@
     height: 30;
 }
 
+.btn:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
+}
+
 .btn:disabled
 {
 

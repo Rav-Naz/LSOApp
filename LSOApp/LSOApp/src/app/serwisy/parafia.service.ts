@@ -7,7 +7,6 @@ import { Obecnosc } from './obecnosc.model';
 import { Stopien } from './stopien.model';
 import { HttpService } from './http.service';
 import { Parafia } from './parafia.model';
-import { UiService } from './ui.service';
 
 @Injectable({
     providedIn: 'root'
@@ -50,6 +49,10 @@ export class ParafiaService {
         this.ministranciLista = [];
         this._dyzury = [];
         this._obecnosci = [];
+    }
+
+    get nazwaParafii() {
+        return this.parafia.nazwa_parafii
     }
 
     get Obecnosci() //Wykorzystanie: obecnosc
@@ -120,6 +123,24 @@ export class ParafiaService {
         })
     }
 
+    async wyzerujPunkty()
+    {
+        return new Promise<number>(resolve => {
+            this.http.wyzerujPunkty().then(async res => {
+                if(res === 1)
+                {
+                    this.pobierzMinistrantow().then(res => {
+                        resolve(1)
+                    })
+                }
+                else
+                {
+                    resolve(0)
+                }
+            })
+        })
+    }
+
     // dyzuryMinistrant(id_user: number) //Wykorzystanie: userService(constructor)
     // {
     //     let lista =this._dyzury.filter(item => item.id_user === id_user);
@@ -185,7 +206,7 @@ export class ParafiaService {
         // this._dyzury.push({ id: this.indexDyzuru, id_user: this.aktualnyMinistrantId, id_wydarzenia: id_wydarzenia })//Wykorzystanie: ministranci-dyzury
     }
 
-    usunWszystkieDyzuryDlaWydarzenia(id_wydarzenia: number) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
+    async usunWszystkieDyzuryDlaWydarzenia(id_wydarzenia: number) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
     {
        let lista = this._dyzury.filter(dyzur => dyzur.id_wydarzenia === id_wydarzenia);
        if(lista !== undefined)
@@ -197,6 +218,17 @@ export class ParafiaService {
        }
 
     //    this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)})
+    }
+
+    async usunWszystkieDyzury()
+    {
+        return new Promise<number>(resolve => {
+            this.http.usunWszystkieDyzury().then(res => {
+                this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(ress => {
+                    resolve(1)
+                })
+            })
+        })
     }
 
     async nowyMinistrant(stopien: Stopien, imie: string, nazwisko: string, email: string) //Wykorzystanie: ministrant-nowy

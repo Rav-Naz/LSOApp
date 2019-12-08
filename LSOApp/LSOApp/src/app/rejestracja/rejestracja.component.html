@@ -1,16 +1,16 @@
-<GridLayout class="wh100">
+<GridLayout class="wh100"  (tap)="dismiss()">
 
 <FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" class="grid">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2">
-            <ScrollView height="90%" #scroll *ngIf="!udanaRejP">
+            <ScrollView height="90%" #scroll *ngIf="!udanaRejP" (tap)="dismiss()">
                 <StackLayout [formGroup]="formP">
 
                     <FlexboxLayout class="kontener center" height="100%" (tap)="focus()">
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2" flexDirection="row">
-                                <Label text="pw. " class="lexend" color="white" marginLeft="5"></Label>
+                                <Label text="pw. " class="lexend" [ngClass]="{'szary': _wezwanie === '', 'bialy': _wezwanie !== ''}" marginLeft="5"></Label>
                                 <TextField hint="np. Świętej Rodziny" class="text-field lexend" returnKeyType="next"
                                     autocapitalizationType="words" formControlName="wezwanie" #wezwanie width="81%"
                                     (returnPress)="displayActionDialog('rodzaj')">
@@ -30,8 +30,8 @@
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2" flexDirection="row">
-                                <Label [text]="_rodzaj" class="text-field lexend" width="85%"></Label>
-                                <Label text="&#xe013;" class="icon" color="white"></Label>
+                                <Label [text]="_rodzaj" class="text-field lexend" width="85%" [ngClass]="{'szary': _rodzaj === 'Wybierz rodzaj parafii'}"></Label>
+                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _rodzaj === 'Wybierz rodzaj parafii', 'bialy': _rodzaj !== 'Wybierz rodzaj parafii'}"></Label>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="RODZAJ PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
@@ -46,8 +46,8 @@
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2" flexDirection="row">
-                                <Label [text]="_diecezja" class="text-field lexend" width="85%"></Label>
-                                <Label text="&#xe013;" class="icon" color="white"></Label>
+                                <Label [text]="_diecezja" class="text-field lexend" width="85%" [ngClass]="{'szary': _diecezja === 'Wybierz diecezję'}"></Label>
+                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _diecezja === 'Wybierz diecezję', 'bialy': _diecezja !== 'Wybierz diecezję'}"></Label>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="DIECEZJA" class="audiowide" marginLeft="3" marginRight="3"></Label>
@@ -85,7 +85,7 @@
                             </FlexboxLayout>
                         </GridLayout>
 
-                        <Label text="Imię musi być jednoczłonowe, od 2 do 15 znaków oraz składać się z polskiego alfabetu" class="red lexend"
+                        <Label text="Imię musi być krótsze od 20 znaków oraz składać się z polskiego alfabetu" class="red lexend"
                             *ngIf="!imieValid"></Label>
                     </FlexboxLayout>
 
@@ -103,7 +103,7 @@
                             </FlexboxLayout>
                         </GridLayout>
 
-                        <Label text="Nazwisko musi być jednoczłonowe, od 2 do 20 znaków oraz składać się z polskiego alfabetu" class="red lexend"
+                        <Label text="Nazwisko musi być którsze od 20 znaków oraz składać się z polskiego alfabetu" class="red lexend"
                             *ngIf="!nazwiskoValid"></Label>
                     </FlexboxLayout>
 
@@ -111,8 +111,8 @@
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field b-p-10 center backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2" flexDirection="row">
-                                <Label [text]="_stopien" class="text-field lexend" width="85%"></Label>
-                                <Label text="&#xe013;" class="icon" color="white" fontSize="13"></Label>
+                                <Label [text]="_stopien" class="text-field lexend" width="85%" [ngClass]="{'szary': _stopien === 'Wybierz stopień'}"></Label>
+                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _stopien === 'Wybierz stopień', 'bialy': _stopien !== 'Wybierz stopień'}" fontSize="13"></Label>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="STOPIEŃ" class="audiowide" marginLeft="3" marginRight="3"></Label>

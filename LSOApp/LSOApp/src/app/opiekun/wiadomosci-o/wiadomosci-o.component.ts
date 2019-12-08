@@ -268,4 +268,12 @@ export class WiadomosciOComponent implements OnInit {
             }
         })
     }
+
+    dismiss()
+    {
+        if(this.pisanieWiadomosci)
+        {
+            this.textviewRef.nativeElement.dismissSoftInput()
+        }
+    }
 }

@@ -11,7 +11,7 @@
 .tabs
 {
     font-size: 20;
-    color: rgb(50, 50, 50);
+    color: rgb(200, 200, 200);
 }
 
 .strip-item
@@ -21,8 +21,7 @@
 
 .strip-item:active
 {
-    background-color: rgb(20, 20, 20);;
-    color: white;
+    background-color: rgb(20, 20, 20);
 }
 
 

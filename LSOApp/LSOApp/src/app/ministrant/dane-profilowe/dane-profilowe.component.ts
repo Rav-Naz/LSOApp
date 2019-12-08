@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { UserService } from '~/app/serwisy/user.service';
 import { User } from '~/app/serwisy/user.model';
@@ -56,9 +55,9 @@ export class DaneProfiloweComponent implements OnInit {
 
     this.form = new FormGroup({
         telefon: new FormControl(this.user.telefon, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[0-9]{9}$')]}),
-        ulica: new FormControl(this.user.ulica, { updateOn: 'change', validators: [Validators.required, Validators.minLength(3), Validators.maxLength(30)] }),
-        kod: new FormControl(this.user.kod_pocztowy, { updateOn: 'change', validators: [Validators.required, Validators.minLength(3), Validators.pattern('^[0-9]{2}-[0-9]{3}$')] }),
-        miasto: new FormControl(this.user.miasto, { updateOn: 'change', validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)] })
+        ulica: new FormControl(this.user.ulica, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -]{3,30})')] }),
+        kod: new FormControl(this.user.kod_pocztowy, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[0-9]{2}-[0-9]{3}$')] }),
+        miasto: new FormControl(this.user.miasto, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -]{3,20})')] })
     });
 
     this.form.get('telefon').statusChanges.subscribe(status => {
@@ -176,6 +175,11 @@ export class DaneProfiloweComponent implements OnInit {
             }
         })
 
+    }
+
+    dismiss()
+    {
+        this.ulicaRef.nativeElement.dismissSoftInput()
     }
 }
 

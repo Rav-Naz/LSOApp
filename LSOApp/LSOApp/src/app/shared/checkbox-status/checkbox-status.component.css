@@ -11,12 +11,12 @@
 
 .obecny
 {
-    background-color: rgb(49, 155, 49);
-    border-color:rgb(49, 155, 49);
+    background: linear-gradient(to bottom,  rgb(49, 155, 49), rgb(28, 90, 28));
+    border-color:transparent;
 }
 
 .nieobecny
 {
-    background-color: #e71e25;
-    border-color:#e71e25;
+    background: linear-gradient(to bottom, #e71e25,#720e11);
+    border-color:transparent;
 }

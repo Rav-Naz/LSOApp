@@ -14,7 +14,7 @@
 
 .text
 {
-    color: rgb(50, 50, 50);
+    color: rgb(100, 100, 100);
     font-weight: 300;
     font-size: 15;
 }
@@ -22,14 +22,14 @@
 .dzienK
 {
     border-radius: 100%;
-    border-color: rgb(40, 40, 40);
+    border-color: rgb(100, 100, 100);
     border-width: 3;
 }
 
 .przerwa
 {
     width: 1%;
-    border-color: rgb(40, 40, 40);
+    border-color: rgb(100, 100, 100);
     border-left-width: 3;
 }
 

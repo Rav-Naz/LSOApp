@@ -54,3 +54,20 @@
 {
    background: rgb(40, 40, 40);
 }
+
+.check
+{
+    border-width: 1;
+    margin: 2;
+    border-color: rgb(160, 160, 160);
+    color: white;
+    font-size: 13;
+    background: transparent;
+}
+
+.checked
+{
+    border-color: transparent;
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    color: white;
+}

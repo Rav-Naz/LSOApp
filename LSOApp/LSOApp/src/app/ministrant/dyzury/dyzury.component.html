@@ -12,7 +12,7 @@
 
             <Label class="dzis" col="1" [row]="dzis"></Label>
 
-            <Label *ngFor="let row of dyzury" [text]="dni[row.dzien_tygodnia]" col="0" [row]="row.dzien_tygodnia*2" class="dzien lexend"></Label>
+            <Label *ngFor="let row of dni, let i = index" [text]="row" col="0" [row]="i*2" class="dzien lexend"></Label>
 
             <Label *ngFor="let row of dyzury" [text]="GodzinaDyzuruNaDanyDzien(row)" [row]="row.dzien_tygodnia*2"
                     class="godzina lexend wh100" col="2"></Label>

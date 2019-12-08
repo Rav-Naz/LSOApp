@@ -1,7 +1,7 @@
-<FlexboxLayout class="back wh100 center">
+<FlexboxLayout class="back wh100 center" (tap)="dismiss()">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex center wh100" row="1" rowSpan="2">
-            <ScrollView>
+            <ScrollView (tap)="dismiss()">
                 <StackLayout marginBottom="5" verticalAlign="center">
                     <GridLayout rows="auto,auto,auto,auto" columns="*" marginTop="5" [formGroup]="form">
                         <FlexboxLayout row="0" class="kontener center">
@@ -15,7 +15,7 @@
                                 </FlexboxLayout>
                             </GridLayout>
 
-                            <Label text="Imię musi być jednoczłonowe oraz niedłuższe niż 15 znaków" class="red lexend"
+                            <Label text="Imię musi być nie dłuższe niż 20 znaków" class="red lexend"
                                 *ngIf="!imieValid"></Label>
                         </FlexboxLayout>
 
@@ -32,15 +32,15 @@
                                 </FlexboxLayout>
                             </GridLayout>
 
-                            <Label text="Nazwisko musi być jednoczłonowe oraz niedłuższe niż 20 znaków"
+                            <Label text="Nazwisko musi być nie dłuższe niż 20 znaków"
                                 class="red lexend" *ngIf="!nazwiskoValid"></Label>
                         </FlexboxLayout>
 
                         <FlexboxLayout row="2" class="kontener center" (tap)="wybierzStopien()">
                             <GridLayout columns="auto,*" rows="10,10,auto">
                                 <FlexboxLayout class="input-field b-p-10 center backg-20" row="1" rowSpan="2" col="0" colSpan="2" flexDirection="row">
-                                    <Label [text]="stopienNazwa" class="text-field lexend" width="85%"></Label>
-                                    <Label text="&#xe013;" class="icon" color="white" fontSize="13"></Label>
+                                    <Label [text]="stopienNazwa" [ngClass]="{'szary': stopienNazwa === 'Wybierz stopień'}" class="text-field lexend" width="85%"></Label>
+                                    <Label text="&#xe013;" class="icon" [ngClass]="{'szary': stopienNazwa === 'Wybierz stopień', 'bialy': stopienNazwa !== 'Wybierz stopień'}" fontSize="13"></Label>
                                 </FlexboxLayout>
                                 <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                     <Label text="STOPIEŃ" class="audiowide" marginLeft="3" marginRight="3"></Label>
@@ -59,7 +59,7 @@
                                     </TextField>
                                 </FlexboxLayout>
                                 <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                    <Label text="E-MAIL (?)" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                    <Label text="E-MAIL" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
 

@@ -121,4 +121,9 @@ export class ZapomnialemComponent implements OnInit {
     {
 
     }
+
+    dismiss()
+    {
+        this.emailRef.nativeElement.dismissSoftInput()
+    }
 }

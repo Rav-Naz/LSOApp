@@ -1,18 +1,23 @@
 <FlexboxLayout class="back center wh100">
-    <GridLayout columns="*" rows="auto,*,auto">
+    <GridLayout columns="*" rows="*,auto">
         <ScrollView row="0">
             <StackLayout class="flex2">
 
-                <GridLayout columns="auto,*" rows="auto" width="90%">
+                <Label [text]="'p. pw. ' + parafiaService.nazwaParafii" class="opis audiowide" horizontalAlignment="center"></Label>
+                <GridLayout columns="auto,*" rows="auto,auto" width="90%">
                     <Label text="Punkty" class="opis lexend" col="0"></Label>
                     <Button text="Zmień punktajcę" class="click audiowide" col="1"
                         (tap)="nawigujDo('punktacja')"></Button>
+                    <Button text="Wyzeruj Punkty" class="click audiowide" col="1" row="1"
+                        (tap)="wyzerujPunkty()"></Button>
                 </GridLayout>
 
-                <GridLayout columns="auto,*" rows="auto" class="element">
+                <GridLayout columns="auto,*" rows="auto,auto" class="element">
                     <Label text="Wydarzenia" class="opis lexend" col="0"></Label>
                     <Button text="Edytuj Msze Święte" class="click audiowide" col="1"
                         (tap)="nawigujDo('edytuj-msze')"></Button>
+                    <Button text="Usuń wszystkie dyżury" class="click audiowide" col="0" row="1" colSpan="2"
+                        (tap)="usunDyzury()"></Button>
                 </GridLayout>
 
                 <GridLayout columns="auto,*" rows="auto,auto,auto" class="element">

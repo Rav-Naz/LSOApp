@@ -49,8 +49,8 @@ export class MinistrantNowyComponent implements OnInit {
         this.page.actionBarHidden = true;
 
         this.form = new FormGroup({
-            imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.minLength(2), Validators.maxLength(15), Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,15})')] }),
-            nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,20})')] }),
+            imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{1,20})')] }),
+            nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń-]{1,20})')] }),
             email: new FormControl(null, { updateOn: 'change', validators: [Validators.email] })
         })
 
@@ -142,7 +142,7 @@ export class MinistrantNowyComponent implements OnInit {
 
     wybierzStopien() {
 
-        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Ksiądz", "Opiekun"]
+        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Opiekun"]
 
         this.modal.showModal(WyborModalComponent, {
             context: lista,
@@ -157,7 +157,7 @@ export class MinistrantNowyComponent implements OnInit {
 
             if (wybor !== undefined) {
                 this.stopienNazwa = lista[wybor];
-                this._stopien = wybor;
+                this._stopien = (wybor === 11? 12 : wybor);
                 this.stopienValid = true;
             }
             else {
@@ -167,5 +167,10 @@ export class MinistrantNowyComponent implements OnInit {
             }
         })
 
+    }
+
+    dismiss()
+    {
+        this.emailRef.nativeElement.dismissSoftInput()
     }
 }

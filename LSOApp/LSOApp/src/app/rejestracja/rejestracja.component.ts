@@ -52,7 +52,7 @@ export class RejestracjaComponent implements OnInit {
     _rodzaj_id: number = 1;
     _stopien: string = "Wybierz stopień"
     _stopien_id: number = 1
-    _wezwanie: string;
+    _wezwanie: string = '';
     _imie: string;
     _nazwisko: string;
     _emailP: string;
@@ -73,10 +73,10 @@ export class RejestracjaComponent implements OnInit {
         this.page.actionBarHidden = true;
 
         this.formP = new FormGroup({
-            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
-            miasto:  new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{2,30})')] }),
-            imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,15})')] }),
-            nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][a-zęóąśłżźćń]{1,20})')] }),
+            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń .]{2,30})')] }),
+            miasto:  new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -]{2,30})')] }),
+            imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{1,20})')] }),
+            nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń-]{1,20})')] }),
             emailP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.email] }),
             // hasloP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')] }),
             // powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
@@ -84,6 +84,7 @@ export class RejestracjaComponent implements OnInit {
 
         this.formP.get('wezwanie').statusChanges.subscribe(status => {
             this.wezwanieValid = status === 'VALID';
+            this._wezwanie = this.formP.get('wezwanie').value
         });
         this.formP.get('miasto').statusChanges.subscribe(status => {
             this.miastoValid = status === 'VALID';
@@ -114,7 +115,7 @@ export class RejestracjaComponent implements OnInit {
 
         }
         else if (akcja === 'stopien') {
-            wybory = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Ksiądz", "Opiekun"]
+            wybory = ["Ceremoniarz", "Szafarz", "Ksiądz", "Opiekun"]
         }
 
         else if (akcja === 'rodzaj') {
@@ -160,7 +161,7 @@ export class RejestracjaComponent implements OnInit {
             else if (akcja === 'stopien') {
                 if (result !== undefined) {
                     this._stopien = wybory[result];
-                    this._stopien_id = result;
+                    this._stopien_id = result + 9;
                     this.stopienValid = true;
                 }
                 else {
@@ -297,5 +298,10 @@ export class RejestracjaComponent implements OnInit {
     nic()
     {
 
+    }
+
+    dismiss()
+    {
+        this.emailPRef.nativeElement.dismissSoftInput()
     }
 }

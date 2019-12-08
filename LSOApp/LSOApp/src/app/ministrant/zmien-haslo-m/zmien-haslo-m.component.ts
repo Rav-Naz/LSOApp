@@ -142,4 +142,9 @@ export class ZmienHasloMComponent implements OnInit {
         this.tabIndexService.nowyOutlet(6,"ustawieniaO")
         this.router.back();
     }
+
+    dismiss()
+    {
+        this.noweRef.nativeElement.dismissSoftInput()
+    }
 }

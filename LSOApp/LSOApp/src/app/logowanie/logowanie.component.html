@@ -1,7 +1,7 @@
-<GridLayout class="wh100">
+<GridLayout class="wh100" (tap)="dismiss()">
 
     <FlexboxLayout (swipe)="onSwipe($event)" class="wh100 center back">
-        <GridLayout rows="*,40" columns="*,1,*" alignSelf="flex-end">
+        <GridLayout rows="*,60" columns="*,1,*" alignSelf="flex-end">
             <StackLayout class="stack" verticalAlignment="center" [formGroup]="form" row="0" col="0" colSpan="3">
 
                 <Image src="res://logo" class="zdjecie"></Image>
@@ -25,13 +25,18 @@
 
                 <Button text="Zaloguj" class="button audiowide b-p-10" (tap)="zaloguj()" [isEnabled]="form.valid"></Button>
 
+                <GridLayout rows="30" columns="30,*" width="50%" margin="15">
+                    <Button col="0" class="check wh100 b-p-10 icon" [text]="zapamietaj? '&#xe023;' : ''" [ngClass]="{checked: zapamietaj}" (tap)="zmienZapamietaj()"></Button>
+                    <Button col="1" text="Zapamiętaj mnie" class="lexend text" (tap)="zmienZapamietaj()" fontSize="11"></Button>
+                </GridLayout>
+
             </StackLayout>
             <FlexboxLayout col="0" row="1" class="center" width="100%">
-                <Button text="Nadaj hasło" class="lexend text" (tap)="nadajHaslo()"></Button>
+                <Button text="Nadaj&#xA;hasło" class="lexend text" (tap)="nadajHaslo()"></Button>
             </FlexboxLayout>
             <FlexboxLayout col="1" row="1" class="wh100 pasek"></FlexboxLayout>
             <FlexboxLayout col="2" row="1" class="center" width="100%">
-                <Button text='Rejestracja parafii' class="lexend text" (tap)="doRejestracji()"></Button>
+                <Button text='Rejestracja&#xA;parafii' class="lexend text" (tap)="doRejestracji()"></Button>
             </FlexboxLayout>
         </GridLayout>
     </FlexboxLayout>

@@ -188,7 +188,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
     displayActionDialog(ministrant: User) {
 
-        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Ksiądz", "Opiekun"]
+        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Opiekun"]
 
         this.modal.showModal(WyborModalComponent, {
             context: lista,
@@ -201,7 +201,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
         } as ExtendedShowModalOptions).then((result) => {
             if (result !== undefined) {
-                ministrant.stopien = result;
+                ministrant.stopien = (result === 11? 12 : result);
                 this.zmiana = true;
             }
         });
@@ -245,8 +245,11 @@ export class MinistrantSzczegolyComponent implements OnInit {
     wpiszPunkty()
     {
         this.punkty.nativeElement.dismissSoftInput();
-        this.ministrant.punkty = parseInt(this.form.get('punkty').value)
-        this.zmiana = true;
+        if(this.ministrant.punkty !== parseInt(this.form.get('punkty').value))
+        {
+            this.ministrant.punkty = parseInt(this.form.get('punkty').value)
+            this.zmiana = true;
+        }
     }
 
     nadajPrawa(event: number)
@@ -266,16 +269,23 @@ export class MinistrantSzczegolyComponent implements OnInit {
         }
         else
         {
-            if(event === 1)
+            if(event)
             {
-                this.checked = this.ministrant.admin = 0;
+                this.ministrant.admin = 1
             }
             else
             {
-                this.checked = this.ministrant.admin = 1;
+                this.ministrant.admin = 0
             }
+
             this.zmiana = true;
         }
+    }
+
+    dismiss()
+    {
+        this.punkty.nativeElement.dismissSoftInput()
+        this.wpiszPunkty()
     }
 
 }

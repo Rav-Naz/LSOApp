@@ -50,13 +50,29 @@ font-size: 12;
     margin-left: 10;
     font-size: 13;
     color: white;
+    font-weight: 200;
+}
+
+.index-admin
+{
+    margin-left: 10;
+    font-size: 13;
+    color: white;
+    font-weight: 900;
 }
 
 .imie
 {
     color: white;
     font-size: 15;
-    font-weight: 700;
+    font-weight: 200;
+}
+
+.imie-admin
+{
+    color: white;
+    font-size: 16;
+    font-weight: 900;
 }
 
 .punkty
@@ -101,6 +117,11 @@ font-size: 12;
     background: linear-gradient(to bottom, #e71e25,#a5151a);
     border-color: transparent;
     border-radius: 5%;
+}
+
+.dodaj:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
 }
 
 .dodaj:disabled

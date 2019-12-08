@@ -19,6 +19,7 @@
     color: white;
     font-weight: bold;
     font-size: 15;
+    text-wrap:true;
 }
 
 .click
@@ -27,6 +28,12 @@
     background-color: transparent;
     text-align: right;
     color: #e71e25;
+    font-size: 12;
+}
+
+.click:pressed
+{
+    color:#a5151a;
     font-size: 12;
 }
 
