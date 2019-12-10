@@ -4,7 +4,6 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ActivatedRoute } from '@angular/router';
 
@@ -24,35 +23,37 @@ export class ZmienHasloOComponent implements OnInit {
 
     form: FormGroup;
 
-    stareValid: boolean = true;
-    noweValid: boolean = true;
-    powtorzValid: boolean = true;
+    diecezjaValid: boolean = true;
+    miastoValid: boolean = true;
+    wezwanieValid: boolean = true;
+    rodzajValid: boolean = true;
 
-    _stare: string;
-    _nowe: string;
-    _powtorz: string;
+    _diecezja: string = "Wybierz diecezję";
+    _diecezja_id: number = 1;
+    _miasto: string;
+    _rodzaj: string = "Wybierz rodzaj parafii";
+    _rodzaj_id: number = 1;
+    _stopien: string = "Wybierz stopień"
+    _stopien_id: number = 1
+    _wezwanie: string = '';
 
-    @ViewChild('stare', { static: false }) stareRef: ElementRef<TextField>;
-    @ViewChild('nowe', { static: false }) noweRef: ElementRef<TextField>;
-    @ViewChild('powtorz', { static: false }) powtorzRef: ElementRef<TextField>;
+    @ViewChild('wezwanie', { static: false }) wezwanieRef: ElementRef<TextField>;
+    @ViewChild('miasto', { static: false }) miastoRef: ElementRef<TextField>;
+
 
     ngOnInit() {
         this.page.actionBarHidden = true;
 
         this.form = new FormGroup({
-            stare: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
-            nowe: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')]}),
-            powtorz: new FormControl(null, { updateOn: 'change', validators: [Validators.required]})
+            wezwanie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń .]{2,30})')] }),
+            miasto:  new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -]{2,30})')] })
         })
 
-        this.form.get('stare').statusChanges.subscribe(status => {
-            this.stareValid = status === 'VALID';
+        this.form.get('wezwanie').statusChanges.subscribe(status => {
+            this.wezwanieValid = status === 'VALID';
         });
-        this.form.get('nowe').statusChanges.subscribe(status => {
-            this.noweValid = status === 'VALID';
-        });
-        this.form.get('powtorz').statusChanges.subscribe(status => {
-            this.powtorzValid = status === 'VALID';
+        this.form.get('miasto').statusChanges.subscribe(status => {
+            this.miastoValid = status === 'VALID';
         });
     }
 
@@ -72,17 +73,9 @@ export class ZmienHasloOComponent implements OnInit {
             return;
         }
 
-        this._stare = this.form.get('stare').value;
-        this._nowe = this.form.get('nowe').value;
-        this._powtorz = this.form.get('powtorz').value;
+        this._wezwanie = this.form.get('wezwanie').value;
+        this._miasto = this.form.get('miasto').value;
 
-        //Sprawdzanie czy wpisane stare hasło jest poprawne
-
-        if(this._nowe !== this._powtorz)
-        {
-            this.powtorzValid = false;
-            return;
-        }
         setTimeout(() => {
             this.feedback.show({
                 title: "Sukces!",
@@ -103,8 +96,12 @@ export class ZmienHasloOComponent implements OnInit {
         this.router.back()
     }
 
+    focus() {
+        this.wezwanieRef.nativeElement.focus();
+    }
+
     dismiss()
     {
-        this.noweRef.nativeElement.dismissSoftInput()
+        this.wezwanieRef.nativeElement.dismissSoftInput()
     }
 }

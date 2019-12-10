@@ -47,6 +47,8 @@ export class MinistrantSzczegolyComponent implements OnInit {
     DzienTyg = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
 
     @ViewChild('punkty', { static: false }) punkty: ElementRef<TextField>;
+    @ViewChild('imie', { static: false }) imieRef: ElementRef<TextField>;
+    @ViewChild('nazwisko', { static: false }) nazwiskoRef: ElementRef<TextField>;
 
     ngOnInit() {
         this.ui.zmienStan(5,true)
@@ -61,6 +63,10 @@ export class MinistrantSzczegolyComponent implements OnInit {
             {
                 this.ministrant = min
                 this.checked = this.ministrant.admin;
+                setTimeout(() => {
+                    this.imieRef.nativeElement.text = this.ministrant.imie
+                    this.nazwiskoRef.nativeElement.text = this.ministrant.nazwisko
+                },100)
             }
         })
 
@@ -98,6 +104,8 @@ export class MinistrantSzczegolyComponent implements OnInit {
         });
         this.form = new FormGroup({
             punkty: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[-0-9]{1,4}$')] }),
+            imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{1,20})')] }),
+            nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃ][A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń-]{1,20})')] }),
         });
     }
 
@@ -171,6 +179,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
     zmienPunkty(punkty: number) {
         this.wpiszPunkty();
+        this.zmiana = true;
         this.ministrant.punkty += punkty;
     }
 
@@ -208,6 +217,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     }
 
     zapisz() {
+        this.ui.zmienStan(5,true)
         this.wpiszPunkty();
         this.parafiaService.updateMinistranta(this.ministrant).then(res => {
             if(res === 1)
@@ -239,6 +249,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
 
                 });
             }
+            this.ui.zmienStan(5,false)
         })
     }
 
@@ -249,6 +260,36 @@ export class MinistrantSzczegolyComponent implements OnInit {
         {
             this.ministrant.punkty = parseInt(this.form.get('punkty').value)
             this.zmiana = true;
+        }
+    }
+
+    wpiszImieINazwisko()
+    {
+        this.imieRef.nativeElement.dismissSoftInput()
+        if(this.form.get('imie').value === this.ministrant.imie && this.form.get('nazwisko').value === this.ministrant.nazwisko)
+        {
+            return
+        }
+        if(this.form.get('imie').valid && this.form.get('nazwisko').valid)
+        {
+            this.ministrant.imie = this.form.get('imie').value
+            this.ministrant.nazwisko = this.form.get('nazwisko').value
+            this.zmiana = true
+        }
+        else
+        {
+            this.imieRef.nativeElement.text =  this.ministrant.imie
+            this.nazwiskoRef.nativeElement.text =  this.ministrant.nazwisko
+            this.feedback.show({
+                title: "Uwaga!",
+                message: "Wprowadzone dane nie są w poprawnej formie",
+                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
+                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
+                duration: 3000,
+                backgroundColor: new Color(255, 255, 207, 51),
+                type: FeedbackType.Warning,
+            });
+            return;
         }
     }
 
@@ -286,6 +327,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     {
         this.punkty.nativeElement.dismissSoftInput()
         this.wpiszPunkty()
+        this.wpiszImieINazwisko()
     }
 
 }

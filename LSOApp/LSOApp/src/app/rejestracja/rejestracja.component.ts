@@ -35,13 +35,13 @@ export class RejestracjaComponent implements OnInit {
     diecezjaValid: boolean = true;
     miastoValid: boolean = true;
     wezwanieValid: boolean = true;
+    rodzajValid: boolean = true;
     imieValid: boolean = true;
     nazwiskoValid: boolean = true;
     stopienValid: boolean = true;
     emailPValid: boolean = true;
     hasloPValid: boolean = true;
     powtorzPValid: boolean = true;
-    rodzajValid: boolean = true;
 
     udanaRejP: boolean = false;
 
@@ -302,6 +302,9 @@ export class RejestracjaComponent implements OnInit {
 
     dismiss()
     {
-        this.emailPRef.nativeElement.dismissSoftInput()
+        if(!this.udanaRejP)
+        {
+            this.emailPRef.nativeElement.dismissSoftInput()
+        }
     }
 }

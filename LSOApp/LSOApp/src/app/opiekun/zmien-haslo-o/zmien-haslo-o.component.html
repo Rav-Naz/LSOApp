@@ -4,56 +4,63 @@
             <ScrollView (tap)="dismiss()">
                 <StackLayout [formGroup]="form">
 
-                    <FlexboxLayout row="0" class="kontener center">
+                    <FlexboxLayout class="kontener center" height="100%" (tap)="focus()">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
-                                <TextField hint="Wpisz aktualne hasło" class="text-field lexend" formControlName="stare"
-                                    autocapitalizationType="none" secure="true" #stare></TextField>
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2" flexDirection="row">
+                                <Label text="pw. " class="lexend" [ngClass]="{'szary': _wezwanie === '', 'bialy': _wezwanie !== ''}" marginLeft="5"></Label>
+                                <TextField hint="np. Świętej Rodziny" class="text-field lexend" returnKeyType="next"
+                                    autocapitalizationType="words" formControlName="wezwanie" #wezwanie width="81%"
+                                    >
+                                    <!-- (returnPress)="displayActionDialog('rodzaj')" -->
+                                </TextField>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                <Label text="AKTUALNE HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                <Label text="WEZWANIE PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
 
-                        <Label text="Niepoprawne aktualne hasło" class="red lexend" *ngIf="!stareValid"></Label>
+
+                        <Label text="Wezwanie musi mieć od 2 do 30 znaków oraz składać się z polskiego alfabetu"
+                            class="red lexend" *ngIf="!wezwanieValid"></Label>
                     </FlexboxLayout>
 
-                    <FlexboxLayout row="1" class="kontener center">
+                    <!-- (tap)="displayActionDialog('rodzaj')" -->
+                    <FlexboxLayout class="kontener center" height="100%" >
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
-                                <TextField hint="Wpisz nowe hasło" class="text-field lexend" formControlName="nowe"
-                                    autocapitalizationType="none" secure="true" #nowe></TextField>
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2" flexDirection="row">
+                                <Label [text]="_rodzaj" class="text-field lexend" width="85%" [ngClass]="{'szary': _rodzaj === 'Wybierz rodzaj parafii'}"></Label>
+                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _rodzaj === 'Wybierz rodzaj parafii', 'bialy': _rodzaj !== 'Wybierz rodzaj parafii'}"></Label>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                <Label text="NOWE HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                <Label text="RODZAJ PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
 
-                        <Label
-                            text="Hasło musi mieć od 6 do 15 znaków oraz może składać się ze wszystkich liter alfabetu polskiego, cyfr i symboli: +,*,@,#,$,&,^,~,_,?"
-                            class="red lexend" *ngIf="!noweValid"></Label>
+                        <Label text="Wybierz rodzaj parafii" class="red lexend" *ngIf="!rodzajValid"></Label>
                     </FlexboxLayout>
-
-                    <FlexboxLayout row="2" class="kontener center">
+                    <!-- (tap)="displayActionDialog('diecezja')" -->
+                    <FlexboxLayout row="2" class="kontener center" height="100%">
                         <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
-                                <TextField hint="Powtórz nowe hasło" class="text-field lexend" formControlName="powtorz"
-                                    autocapitalizationType="none" secure="true" #powtorz></TextField>
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2" flexDirection="row">
+                                <Label [text]="_diecezja" class="text-field lexend" width="85%" [ngClass]="{'szary': _diecezja === 'Wybierz diecezję'}"></Label>
+                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _diecezja === 'Wybierz diecezję', 'bialy': _diecezja !== 'Wybierz diecezję'}"></Label>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                                <Label text="DIECEZJA" class="audiowide" marginLeft="3" marginRight="3"></Label>
                             </FlexboxLayout>
                         </GridLayout>
 
-                        <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzValid"></Label>
-
+                        <Label text="Wybierz diecezję" class="red lexend" *ngIf="!diecezjaValid"></Label>
                     </FlexboxLayout>
                 </StackLayout>
             </ScrollView>
         </FlexboxLayout>
 
         <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
-            <Label text="Zmień hasło" class="audiowide"></Label>
+            <Label text="Zmień dane parafii" class="audiowide"></Label>
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">

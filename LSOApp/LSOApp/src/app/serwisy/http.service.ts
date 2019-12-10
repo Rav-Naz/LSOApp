@@ -273,7 +273,7 @@ export class HttpService {
         return new Promise<number>(resolve => {
             let options = new HttpHeaders({
                 "Content-Type": "application/json",
-                "data": encodeURI(JSON.stringify({stopien: ministrant.stopien, punkty: ministrant.punkty, id_user: ministrant.id_user, admin: ministrant.admin}))
+                "data": encodeURI(JSON.stringify({stopien: ministrant.stopien, punkty: ministrant.punkty, id_user: ministrant.id_user, admin: ministrant.admin, imie: ministrant.imie, nazwisko: ministrant.nazwisko}))
             });
 
             this.http.post(this.serverUrl + '/user_update', null, { headers: options }).subscribe(res => {

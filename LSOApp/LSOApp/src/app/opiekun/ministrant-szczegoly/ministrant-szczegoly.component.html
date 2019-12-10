@@ -1,12 +1,12 @@
 <FlexboxLayout class="back wh100 center" (tap)="dismiss()">
     <GridLayout rows="*,auto" columns="*" width="90%">
 
-        <StackLayout row="0" col="0" height="90%">
+        <StackLayout row="0" col="0" height="90%" [formGroup]="form">
 
             <FlexboxLayout class="naglowek">
                 <FlexboxLayout class="nagCont">
-                    <Label [text]="ministrant.imie | caps" class="nagText audiowide"></Label>
-                    <Label [text]="ministrant.nazwisko | caps" class="nagText audiowide"></Label>
+                    <TextField [text]="ministrant.imie" class="nagText audiowide" (returnPress)="wpiszImieINazwisko()" (blur)="wpiszImieINazwisko()" returnKeyType="done" formControlName="imie" #imie></TextField>
+                    <TextField [text]="ministrant.nazwisko" class="nagText audiowide" (returnPress)="wpiszImieINazwisko()" (blur)="wpiszImieINazwisko()" returnKeyType="done" formControlName="nazwisko" #nazwisko></TextField>
                 </FlexboxLayout>
             </FlexboxLayout>
 
@@ -19,7 +19,7 @@
 
                             <Label text="Punkty" class="opisCont opis lexend" row="0" col="0"></Label>
 
-                            <FlexboxLayout row="0" col="1" class="daneCont" [formGroup]="form">
+                            <FlexboxLayout row="0" col="1" class="daneCont">
                                 <Button text="-" class="przycisk audiowide" (tap)="zmienPunkty(-1)"></Button>
                                 <TextField [text]="ministrant.punkty.toString()" class="punkty lexend" (returnPress)="wpiszPunkty()" (blur)="wpiszPunkty()" maxLength="4" keyboardType="number" formControlName="punkty" #punkty></TextField>
                                 <Button text="+" class="przycisk audiowide" (tap)="zmienPunkty(1)"></Button>
