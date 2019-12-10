@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
-import { Page, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
 import { Subscription } from 'rxjs';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { getFile } from 'tns-core-modules/http';
 import * as fileSystem from "tns-core-modules/file-system";
-import { isAndroid, isIOS } from "tns-core-modules/platform";
+import { isAndroid} from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
-import { Feedback, FeedbackType } from "nativescript-feedback";
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -35,11 +33,7 @@ export class WiadomosciOComponent implements OnInit {
 
     @ViewChild('textview', { static: false }) textviewRef: ElementRef<TextField>;
 
-    private feedback: Feedback;
-
-    constructor(private page: Page, private wiadosciService: WiadomosciService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {
-        this.feedback = new Feedback();
-    }
+    constructor(private page: Page, private wiadosciService: WiadomosciService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {}
 
     ngOnInit() {
         this.ui.zmienStan(2, true)
@@ -84,45 +78,20 @@ export class WiadomosciOComponent implements OnInit {
             this.wiadosciService.nowaWiadomosc(this.tresc).then(res => {
                 switch (res) {
                     case 0:
-                        this.feedback.show({
-                            title: "Błąd!",
-                            message: "Wystąpił nieoczekiwany błąd",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color("#e71e25"),
-                            type: FeedbackType.Error,
-
-                        });
+                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                         break;
                     case 1:
                         this.wiadosciService.pobierzWiadomosci().then(() => {
                             this.tresc = '';
                             // this.pisanieWiadomosci = false;
                             setTimeout(() => {
-                                this.feedback.show({
-                                    title: "Sukces!",
-                                    message: "Wysłano wiadomość",
-                                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                    duration: 3000,
-                                    backgroundColor: new Color(255, 49, 155, 49),
-                                    type: FeedbackType.Success,
-                                });
+                                this.ui.showFeedback('succes',"Wysłano wiadomość",3)
                             }, 400)
                         });
                         break;
                     default:
                         this.ui.zmienStan(2, false)
-                        this.feedback.show({
-                            title: "Błąd!",
-                            message: "Wystąpił nieoczekiwany błąd",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color("#e71e25"),
-                            type: FeedbackType.Error,
-                        });
+                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                         break;
                 }
             });
@@ -148,29 +117,13 @@ export class WiadomosciOComponent implements OnInit {
                 sciezka = fileSystem.path.join(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), nazwaPliku)
                 getFile(url, sciezka).then((result) => {
                     setTimeout(() => {
-                        this.feedback.show({
-                            title: "Sukces!",
-                            message: "Obraz pobrano do: " + result.path,
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color(255, 49, 155, 49),
-                            type: FeedbackType.Success,
-                        });
+                        this.ui.showFeedback('succes', "Obraz pobrano do: " + result.path,3)
                     }, 200)
                 })
             }).catch(() => {
                 setTimeout(() => {
                     this.ui.zmienStan(2, false)
-                    this.feedback.show({
-                        title: "Błąd!",
-                        message: "Bez Twojej zgody nie możemy nic zrobić :(",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color("#e71e25"),
-                        type: FeedbackType.Error,
-                    });
+                    this.ui.showFeedback('error',"Bez Twojej zgody nie możemy nic zrobić :(",3)
                 }, 200)
             })
         }
@@ -178,15 +131,7 @@ export class WiadomosciOComponent implements OnInit {
             sciezka = fileSystem.path.join(fileSystem.knownFolders.ios.downloads().path, nazwaPliku);
             getFile(url, sciezka).then((result) => {
                 setTimeout(() => {
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Obraz pobrano do: " + result.path,
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color(255, 49, 155, 49),
-                        type: FeedbackType.Success,
-                    });
+                    this.ui.showFeedback('succes', "Obraz pobrano do: " + result.path,3)
                 }, 200)
             });
         }
@@ -200,28 +145,13 @@ export class WiadomosciOComponent implements OnInit {
                     this.ui.zmienStan(2, true)
                     this.wiadosciService.usunWiadomosc(wiadomosc).then(res => {
                         if(res === 1)
-                        this.feedback.show({
-                            title: "Sukces!",
-                            message: "Usunięto wiadomość",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color(255, 49, 155, 49),
-                            type: FeedbackType.Success,
-                        });
+                        {
+                            this.ui.showFeedback('succes', "Usunięto wiadomość",3)
+                        }
                         else
                         {
                             this.ui.zmienStan(2, false)
-                            this.feedback.show({
-                                title: "Błąd!",
-                                message: "Wystąpił nieoczekiwany błąd",
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 3000,
-                                backgroundColor: new Color("#e71e25"),
-                                type: FeedbackType.Error,
-
-                            });
+                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                         }
                     });
                 }
@@ -230,15 +160,7 @@ export class WiadomosciOComponent implements OnInit {
         }
         else {
             this.ui.zmienStan(2, false)
-            this.feedback.show({
-                title: "Błąd!",
-                message: "Nie możesz usunąć wiadomości od ADMINISTRATORA",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color("#e71e25"),
-                type: FeedbackType.Error,
-            });
+            this.ui.showFeedback('error',"Nie możesz usunąć wiadomości od ADMINISTRATORA",3)
         }
     }
 

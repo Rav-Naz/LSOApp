@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { User } from '~/app/serwisy/user.model';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { Subscription } from 'rxjs';
-import { Feedback, FeedbackType} from "nativescript-feedback";
 import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
@@ -44,17 +43,13 @@ export class ObecnoscComponent implements OnInit {
 
     private odliczenie;
 
-    private feedback: Feedback;
-
 
     zmiana: boolean;
 
     @ViewChild("myCalendar", { static: false }) _calendar: RadCalendarComponent;
 
     constructor(private page: Page, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService,
-        private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {
-        this.feedback = new Feedback();
-    }
+        private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) { }
 
     ngOnInit() {
 
@@ -306,29 +301,11 @@ export class ObecnoscComponent implements OnInit {
                 this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien).then(res => {
                     if(res === 1)
                     {
-                        this.feedback.show({
-                            title: "Sukces!",
-                            message: "Zapisano obecności",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 2000,
-                            backgroundColor: new Color(255,49, 155, 49),
-                            type: FeedbackType.Success,
-
-                          });
+                        this.ui.showFeedback('succes',"Zapisano obecności",2)
                     }
                     else
                     {
-                        this.feedback.show({
-                            title: "Błąd!",
-                            message: "Wystąpił nieoczekiwany błąd",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color("#e71e25"),
-                            type: FeedbackType.Error,
-
-                        });
+                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     }
                 })
             }, 500)
@@ -349,16 +326,7 @@ export class ObecnoscComponent implements OnInit {
     {
 
         if (dzien > new Date()) {
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Nie wybiegaj w przyszłość :)",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 2000,
-                backgroundColor: new Color(255,255, 207, 51),
-                type: FeedbackType.Warning,
-
-            });
+            this.ui.showFeedback('warning',"Nie wybiegaj w przyszłość :)",2)
             return;
         }
 

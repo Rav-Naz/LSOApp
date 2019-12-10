@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { Stopien } from '~/app/serwisy/stopien.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { FeedbackType, Feedback } from 'nativescript-feedback';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -25,16 +24,14 @@ import { UiService } from '~/app/serwisy/ui.service';
     styleUrls: ['./ministrant-szczegoly.component.css'],
     moduleId: module.id,
 })
-export class MinistrantSzczegolyComponent implements OnInit {
+export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
 
-    private feedback: Feedback;
 
 
     constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions,public userService: UserService
         ,private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef,
-         private active: ActivatedRoute, public ui: UiService) {
-        this.feedback = new Feedback();
-    }
+         private active: ActivatedRoute, public ui: UiService) {}
+
     form: FormGroup;
     zmiana: boolean;
     ministrant: User = { id_user:0, id_diecezji:0, id_parafii: 0, punkty: 0, stopien: 0, imie: "", nazwisko: "", ulica: null, kod_pocztowy: null, miasto: null, email: null, telefon: null, aktywny: 0, admin: 0, ranking: 0};
@@ -109,6 +106,15 @@ export class MinistrantSzczegolyComponent implements OnInit {
         });
     }
 
+    ngAfterViewInit(): void {
+        if(this.ministrant !== undefined && this.ministrant !== null)
+            {
+                this.imieRef.nativeElement.text = this.ministrant.imie
+                this.nazwiskoRef.nativeElement.text = this.ministrant.nazwisko
+            }
+
+    }
+
     async zamknij() {
 
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
@@ -151,15 +157,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     otworzDyzury() {
         this.ui.zmienStan(4,true)
         if (this.PROLista[6] === 'edytuj-msze' || this.PROLista[6] === 'punktacja') {
-            this.feedback.show({
-                title: "Uwaga!",
-                message: this.PROLista[6] === 'edytuj-msze'? 'Aby skorzystać z tego widoku musisz zamknąć panel Edytuj Msze Święte' : 'Aby skorzystać z tego widoku musisz zamknąć panel Punktacja',
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-            });
+            this.ui.showFeedback('warning',this.PROLista[6] === 'edytuj-msze'? 'Aby skorzystać z tego widoku musisz zamknąć panel Edytuj Msze Święte' : 'Aby skorzystać z tego widoku musisz zamknąć panel Punktacja',3)
             return;
         }
         this.tabIndexService.nowyOutlet(4, 'ministrant-dyzury')
@@ -223,31 +221,14 @@ export class MinistrantSzczegolyComponent implements OnInit {
             if(res === 1)
             {
                 setTimeout(() => {
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Zapisano zmiany",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 2000,
-                        backgroundColor: new Color(255, 49, 155, 49),
-                        type: FeedbackType.Success,
-                    });
+                    this.ui.showFeedback('succes',"Zapisano zmiany",2)
                 }, 400)
                 this.zmiana = false;
                 this.zamknij()
             }
             else
             {
-                this.feedback.show({
-                    title: "Błąd!",
-                    message: "Wystąpił nieoczekiwany błąd",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color("#e71e25"),
-                    type: FeedbackType.Error,
-
-                });
+                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
             }
             this.ui.zmienStan(5,false)
         })
@@ -280,15 +261,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
         {
             this.imieRef.nativeElement.text =  this.ministrant.imie
             this.nazwiskoRef.nativeElement.text =  this.ministrant.nazwisko
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Wprowadzone dane nie są w poprawnej formie",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-            });
+            this.ui.showFeedback('warning',"Wprowadzone dane nie są w poprawnej formie",3)
             return;
         }
     }
@@ -297,15 +270,7 @@ export class MinistrantSzczegolyComponent implements OnInit {
     {
         if(this.ministrant.id_user === this.userService.UserID)
         {
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Nie możesz sam sobie oderbrać praw administratora",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-            });
+            this.ui.showFeedback('warning',"Nie możesz sam sobie oderbrać praw administratora",3)
             return;
         }
         else

@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { Stopien } from '~/app/serwisy/stopien.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { Feedback, FeedbackType } from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -20,12 +19,8 @@ import { UiService } from '~/app/serwisy/ui.service';
 })
 export class MinistrantNowyComponent implements OnInit {
 
-    private feedback: Feedback;
-
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
-         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {
-        this.feedback = new Feedback();
-    }
+         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {}
 
     form: FormGroup;
 
@@ -80,56 +75,22 @@ export class MinistrantNowyComponent implements OnInit {
         this.parafiaService.nowyMinistrant(this._stopien, this._imie, this._nazwisko, this._email).then(res => {
             switch (res) {
                 case 0:
-                        this.feedback.show({
-                            title: "Błąd!",
-                            message: "Wystąpił nieoczekiwany błąd",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color("#e71e25"),
-                            type: FeedbackType.Error,
-
-                        });
+                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     break;
                 case 1:
                     this.parafiaService.pobierzMinistrantow().then(() => {
                         setTimeout(() => {
-                            this.feedback.show({
-                                title: "Sukces!",
-                                message: "Dodano ministranta " + this._nazwisko + " " + this._imie,
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 2000,
-                                backgroundColor: new Color(255, 49, 155, 49),
-                                type: FeedbackType.Success,
-                            });
+                            this.ui.showFeedback('succes',"Dodano ministranta " + this._nazwisko + " " + this._imie,2)
                         }, 400)
                         this.anuluj()
                     })
                     break;
                 case 2:
-                        this.feedback.show({
-                            title: "Uwaga!",
-                            message: "Ten e-mail jest już przypisany do innego konta",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color(255,255, 207, 51),
-                            type: FeedbackType.Warning,
-                          });
+                        this.ui.showFeedback('warning',"Ten e-mail jest już przypisany do innego konta",3)
                     break;
 
                 default:
-                        this.feedback.show({
-                            title: "Błąd!",
-                            message: "Wystąpił nieoczekiwany błąd",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color("#e71e25"),
-                            type: FeedbackType.Error,
-
-                        });
+                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     break;
             }
         })

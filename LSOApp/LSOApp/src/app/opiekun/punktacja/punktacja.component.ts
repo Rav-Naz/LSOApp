@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -20,15 +19,11 @@ import { UiService } from '~/app/serwisy/ui.service';
 })
 export class PunktacjaComponent implements OnInit {
 
-    private feedback: Feedback;
-
     zmiana: boolean = false;
 
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
         private tabIndexService: TabindexService, private modal: ModalDialogService,
-         private vcRef: ViewContainerRef, private http: HttpService, private ui: UiService) {
-        this.feedback = new Feedback();
-    }
+         private vcRef: ViewContainerRef, private http: HttpService, private ui: UiService) {}
 
     pktZaObecnosc: number = 0;
     pktZaNieobecnosc: number = 0;
@@ -71,31 +66,14 @@ export class PunktacjaComponent implements OnInit {
                 this.parafiaService.parafia = daneParafii
                 this.ui.zmienStan(4,false)
                 setTimeout(() => {
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Zapisano punktację, zacznie ona obowiązywać od następnego sprawdzenia obecności",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3500,
-                        backgroundColor: new Color(255,49, 155, 49),
-                        type: FeedbackType.Success,
-                      });
+                    this.ui.showFeedback('succes', "Zapisano punktację, zacznie ona obowiązywać od następnego sprawdzenia obecności",3.5)
                 }, 400)
                 this.anuluj();
             }
             else
             {
                 this.ui.zmienStan(4,false)
-                this.feedback.show({
-                    title: "Błąd!",
-                    message: "Wystąpił nieoczekiwany błąd",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color("#e71e25"),
-                    type: FeedbackType.Error,
-
-                });
+                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
             }
         })
     }

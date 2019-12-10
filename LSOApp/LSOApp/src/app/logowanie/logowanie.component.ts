@@ -4,8 +4,7 @@ import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
-import { Feedback, FeedbackType } from "nativescript-feedback";
+import { Page } from 'tns-core-modules/ui/page/page';
 import { SecureStorage } from 'nativescript-secure-storage';
 import { LogowanieJakoComponent } from '../shared/modale/logowanie-jako/logowanie-jako.component';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
@@ -14,6 +13,7 @@ import { HttpService } from '../serwisy/http.service';
 import { UserService } from '../serwisy/user.service';
 import { User } from '../serwisy/user.model';
 import { ParafiaService } from '../serwisy/parafia.service';
+import { UiService } from '../serwisy/ui.service';
 
 @Component({
     selector: 'ns-logowanie',
@@ -38,15 +38,11 @@ export class LogowanieComponent implements OnInit {
 
     zapamietaj: boolean = false;
 
-    private feedback: Feedback;
-
     secureStorage: SecureStorage
 
     constructor(private router: RouterExtensions, private tabIndexService: TabindexService,
         private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef,
-        private http: HttpService, private userService: UserService, private parafiaService: ParafiaService) {
-        this.feedback = new Feedback();
-    }
+        private http: HttpService, private userService: UserService, private parafiaService: ParafiaService, private ui: UiService) {}
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -102,40 +98,16 @@ export class LogowanieComponent implements OnInit {
         this.http.logowanie(this._email, this._haslo).then(res => {
             if (res === 'brak' || res === 'niepoprawne') {
                 this.ladowanie = false;
-                this.feedback.show({
-                    title: "Uwaga!",
-                    message: "Niepoprawny adres e-mail i/lub hasło",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color(255, 255, 207, 51),
-                    type: FeedbackType.Warning,
-
-                });
+                this.ui.showFeedback('warning',"Niepoprawny adres e-mail i/lub hasło",3)
             }
             else if (res === 'nieaktywne') {
                 this.ladowanie = false;
-                this.feedback.show({
-                    title: "Uwaga!",
-                    message: "Musisz najpierw aktywować konto aby móc się zalogować",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color(255, 255, 207, 51),
-                    type: FeedbackType.Warning,
-                });
+                this.ui.showFeedback('warning',"Musisz najpierw aktywować konto aby móc się zalogować",3)
             }
             else if (res === 'blad') {
                 this.ladowanie = false;
-                this.feedback.show({
-                    title: "Błąd!",
-                    message: "Wystąpił nieoczekiwany błąd",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color("#e71e25"),
-                    type: FeedbackType.Error,
-                });
+                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+
             }
             else {
                 let user: User = JSON.parse(JSON.stringify(res))
@@ -172,29 +144,13 @@ export class LogowanieComponent implements OnInit {
                                                 this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
                                             }
                                             else {
-                                                this.feedback.show({
-                                                    title: "Błąd!",
-                                                    message: "Wystąpił nieoczekiwany błąd",
-                                                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                                    duration: 3000,
-                                                    backgroundColor: new Color("#e71e25"),
-                                                    type: FeedbackType.Error,
-                                                });
+                                                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                                             }
                                         })
                                     }
                                     else {
                                         this.ladowanie = false;
-                                        this.feedback.show({
-                                            title: "Błąd!",
-                                            message: "Wystąpił nieoczekiwany błąd",
-                                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                            duration: 3000,
-                                            backgroundColor: new Color("#e71e25"),
-                                            type: FeedbackType.Error,
-                                        });
+                                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                                     }
                                 })
                             }
@@ -212,15 +168,7 @@ export class LogowanieComponent implements OnInit {
                                     }
                                     else {
                                         this.ladowanie = false;
-                                        this.feedback.show({
-                                            title: "Błąd!",
-                                            message: "Wystąpił nieoczekiwany błąd",
-                                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                            duration: 3000,
-                                            backgroundColor: new Color("#e71e25"),
-                                            type: FeedbackType.Error,
-                                        });
+                                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                                     }
                                 })
 
@@ -244,15 +192,7 @@ export class LogowanieComponent implements OnInit {
                         }
                         else {
                             this.ladowanie = false;
-                            this.feedback.show({
-                                title: "Błąd!",
-                                message: "Wystąpił nieoczekiwany błąd",
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 3000,
-                                backgroundColor: new Color("#e71e25"),
-                                type: FeedbackType.Error,
-                            });
+                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                         }
                     })
                 }

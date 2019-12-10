@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Page, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
 import { Subscription } from 'rxjs';
 import {getFile} from'tns-core-modules/http';
 import * as fileSystem from "tns-core-modules/file-system";
-import { isAndroid, isIOS } from "tns-core-modules/platform";
+import { isAndroid } from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
-import { Feedback, FeedbackType} from "nativescript-feedback";
+import { UiService } from '~/app/serwisy/ui.service';
 
 declare var android
 
@@ -23,11 +21,8 @@ export class WiadomosciMComponent implements OnInit {
 
     wiadomosci: Array<Wiadomosc> = [];
     wiadomosciSub: Subscription;
-    private feedback: Feedback;
 
-    constructor(private page: Page, private indexService: TabindexService, private wiadosciService: WiadomosciService) {
-        this.feedback = new Feedback();
-    }
+    constructor(private page: Page, private ui: UiService, private wiadosciService: WiadomosciService) {}
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -81,28 +76,12 @@ export class WiadomosciMComponent implements OnInit {
                 sciezka = fileSystem.path.join(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), nazwaPliku)
                 getFile(url,sciezka).then((result) => {
                       setTimeout(() => {
-                        this.feedback.show({
-                            title: "Sukces!",
-                            message: "Obraz pobrano do: " + result.path,
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color(255,49, 155, 49),
-                            type: FeedbackType.Success,
-                          });
+                        this.ui.showFeedback('succes',"Obraz pobrano do: " + result.path,3)
                     }, 200)
                 })
             }).catch(() => {
                   setTimeout(() => {
-                    this.feedback.show({
-                        title: "Błąd!",
-                        message: "Bez Twojej zgody nie możemy nic zrobić :(",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color("#e71e25"),
-                        type: FeedbackType.Error,
-                      });
+                    this.ui.showFeedback('error',"Bez Twojej zgody nie możemy nic zrobić :(",3)
                 }, 200)
             })
         }
@@ -111,15 +90,7 @@ export class WiadomosciMComponent implements OnInit {
             sciezka = fileSystem.path.join(fileSystem.knownFolders.ios.downloads().path, nazwaPliku);
             getFile(url,sciezka).then((result) => {
                 setTimeout(() => {
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Obraz pobrano do: " + result.path,
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color(255,49, 155, 49),
-                        type: FeedbackType.Success,
-                      });
+                    this.ui.showFeedback('succes',"Obraz pobrano do: " + result.path,3)
                 }, 200)
             });
         }

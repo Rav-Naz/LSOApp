@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { UserService } from '~/app/serwisy/user.service';
 import { User } from '~/app/serwisy/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { Feedback, FeedbackType} from "nativescript-feedback";
 import { Subscription } from 'rxjs';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
   selector: 'ns-dane-profilowe',
@@ -19,11 +19,9 @@ import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 })
 export class DaneProfiloweComponent implements OnInit {
 
-    private feedback: Feedback;
 
-  constructor(private router: RouterExtensions, private page: Page, private userService: UserService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
-    this.feedback = new Feedback();
-  }
+  constructor(private router: RouterExtensions, private page: Page, private userService: UserService,
+     private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {}
 
     user: User;
     userSub: Subscription;
@@ -129,15 +127,7 @@ export class DaneProfiloweComponent implements OnInit {
 
         if(!this.form.valid)
         {
-            this.feedback.show({
-                title: "Błąd!",
-                message: "Formularz nie jest poprawny",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color("#e71e25"),
-                type: FeedbackType.Error,
-              });
+            this.ui.showFeedback('error',"Formularz nie jest poprawny",3)
             return;
         }
 
@@ -145,16 +135,7 @@ export class DaneProfiloweComponent implements OnInit {
             if(res === 1)
             {
                 setTimeout(() => {
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Dane zostały zmienione",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color(255,49, 155, 49),
-                        type: FeedbackType.Success,
-
-                    });
+                    this.ui.showFeedback('succes',"Dane zostały zmienione",3)
                 }, 400)
 
                 this.zmiana = false;
@@ -163,15 +144,7 @@ export class DaneProfiloweComponent implements OnInit {
             }
             else
             {
-                this.feedback.show({
-                    title: "Błąd!",
-                    message: "Wystąpił nieoczekiwany błąd",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color("#e71e25"),
-                    type: FeedbackType.Error,
-                });
+                this.ui.showFeedback('error', "Wystąpił nieoczekiwany błąd",3)
             }
         })
 

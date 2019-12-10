@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../serwisy/user.service';
 import { User } from '../serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';

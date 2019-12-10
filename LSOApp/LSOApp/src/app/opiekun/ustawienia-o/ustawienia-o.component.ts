@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import * as utils from "tns-core-modules/utils/utils";
 import * as email from "nativescript-email";
 import { UserService } from '~/app/serwisy/user.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
-import { Feedback, FeedbackType } from "nativescript-feedback";
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from '~/app/serwisy/http.service';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
@@ -26,15 +25,12 @@ import { UiService } from '~/app/serwisy/ui.service';
 })
 export class UstawieniaOComponent implements OnInit {
 
-    private feedback: Feedback;
     secureStorage: SecureStorage;
 
     constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
         private tabIndexService: TabindexService, private active: ActivatedRoute, private http: HttpService,
         public parafiaService: ParafiaService, private wiadomosciService: WiadomosciService, private wydarzeniaService: WydarzeniaService,
-        private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {
-        this.feedback = new Feedback();
-    }
+        private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {}
 
     wersja = this.userService.wersja;
     PROSub: Subscription;
@@ -52,16 +48,7 @@ export class UstawieniaOComponent implements OnInit {
 
     nawigujDo(sciezka: string) {
         if ((sciezka === "edytuj-msze" || sciezka === "punktacja") && this.PROLista[4] === "ministrant-dyzury") {
-
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Aby skorzystać z tego widoku musisz zamknąć panel Edytuj dyżury",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-            });
+            this.ui.showFeedback('warning',"Aby skorzystać z tego widoku musisz zamknąć panel Edytuj dyżury",3)
             return;
         }
         this.tabIndexService.nowyOutlet(6, sciezka);
@@ -82,15 +69,7 @@ export class UstawieniaOComponent implements OnInit {
             this.wydarzeniaService.wyczysc()
             this.router.navigate([""], { clearHistory: true, transition: { name: 'slideBottom' } }).then(() => {
                 setTimeout(() => {
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Pomyślnie wylogowano",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color(255, 49, 155, 49),
-                        type: FeedbackType.Success,
-                    });
+                    this.ui.showFeedback('succes',"Pomyślnie wylogowano",3)
                 }, 400)
             });
         })
@@ -115,38 +94,13 @@ export class UstawieniaOComponent implements OnInit {
                     this.ui.zmienStan(1, false)
                     switch (res) {
                         case 0:
-                            this.feedback.show({
-                                title: "Błąd!",
-                                message: "Wystąpił nieoczekiwany błąd",
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 2000,
-                                backgroundColor: new Color("#e71e25"),
-                                type: FeedbackType.Error,
-
-                            });
+                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                             break;
                         case 1:
-                            this.feedback.show({
-                                title: "Sukces!",
-                                message: "Pomyślnie wyzerowano punkty",
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 2000,
-                                backgroundColor: new Color(255, 49, 155, 49),
-                                type: FeedbackType.Success,
-                            });
+                            this.ui.showFeedback('succes',"Pomyślnie wyzerowano punkty",2)
                             break;
                         default:
-                                this.feedback.show({
-                                    title: "Błąd!",
-                                    message: "Nie możesz usunąć swojego konta z poziomu widoku opiekuna!",
-                                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                    duration: 3000,
-                                    backgroundColor: new Color("#e71e25"),
-                                    type: FeedbackType.Error,
-                                });
+                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                             break;
                     }
                 })
@@ -173,38 +127,13 @@ export class UstawieniaOComponent implements OnInit {
                     this.ui.zmienStan(0, false)
                     switch (res) {
                         case 0:
-                            this.feedback.show({
-                                title: "Błąd!",
-                                message: "Wystąpił nieoczekiwany błąd",
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 2000,
-                                backgroundColor: new Color("#e71e25"),
-                                type: FeedbackType.Error,
-
-                            });
+                           this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                             break;
                         case 1:
-                            this.feedback.show({
-                                title: "Sukces!",
-                                message: "Pomyślnie usunięto dyżury",
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 2000,
-                                backgroundColor: new Color(255, 49, 155, 49),
-                                type: FeedbackType.Success,
-                            });
+                            this.ui.showFeedback('succes',"Pomyślnie usunięto dyżury",2)
                             break;
                         default:
-                                this.feedback.show({
-                                    title: "Błąd!",
-                                    message: "Nie możesz usunąć swojego konta z poziomu widoku opiekuna!",
-                                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                    duration: 3000,
-                                    backgroundColor: new Color("#e71e25"),
-                                    type: FeedbackType.Error,
-                                });
+                                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                             break;
                     }
                 })

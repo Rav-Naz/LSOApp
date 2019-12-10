@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { User } from '~/app/serwisy/user.model';
@@ -7,7 +7,6 @@ import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { Subscription } from 'rxjs';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -21,13 +20,10 @@ import { UiService } from '~/app/serwisy/ui.service';
     moduleId: module.id,
 })
 export class MinistrantDyzuryComponent implements OnInit {
-    private feedback: Feedback;
 
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
         private wydarzeniaService: WydarzeniaService, private tabIndexService: TabindexService, private modal: ModalDialogService,
-        private vcRef: ViewContainerRef, public ui: UiService) {
-        this.feedback = new Feedback();
-    }
+        private vcRef: ViewContainerRef, public ui: UiService) {}
     nazwyDni = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota']
     dni = [false,false,false,false,false,false,false];
 
@@ -179,16 +175,7 @@ export class MinistrantDyzuryComponent implements OnInit {
         }
         else
         {
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Brak wydarzeń w tym dniu",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 2000,
-                backgroundColor: new Color(255,255, 207, 51),
-                type: FeedbackType.Warning,
-
-              });
+            this.ui.showFeedback('warning',"Brak wydarzeń w tym dniu",2)
             return;
         }
     }
@@ -201,15 +188,7 @@ export class MinistrantDyzuryComponent implements OnInit {
             if(res === 1)
             {
                 setTimeout(() => {
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Zapisano dyżury",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 2000,
-                        backgroundColor: new Color(255,49, 155, 49),
-                        type: FeedbackType.Success,
-                      });
+                    this.ui.showFeedback('succes',"Zapisano dyżury",2)
                 }, 400)
                 this.ui.zmienStan(5,false)
                 this.ui.zmienStan(4,false)
@@ -220,16 +199,7 @@ export class MinistrantDyzuryComponent implements OnInit {
             {
                 this.ui.zmienStan(4,false)
                 this.ui.zmienStan(5,false)
-                this.feedback.show({
-                    title: "Błąd!",
-                    message: "Wystąpił nieoczekiwany błąd",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color("#e71e25"),
-                    type: FeedbackType.Error,
-
-                });
+                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
             }
         });
     }

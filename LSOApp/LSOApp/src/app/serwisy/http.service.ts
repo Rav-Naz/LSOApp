@@ -188,6 +188,25 @@ export class HttpService {
         });
     }
 
+        //AKTUALIZACJA DANYCH PARAFII
+        async aktualizacjaDanychParafii(nazwa_parafii: string, id_diecezji: number, miasto: string, id_typu: number) {
+            return new Promise<number>(resolve => {
+                let options = new HttpHeaders({
+                    "Content-Type": "application/json",
+                    "data": encodeURI(JSON.stringify({nazwa_parafii: nazwa_parafii, id_diecezji: id_diecezji, miasto: miasto, telefid_typuon: id_typu, id_parafii: this.id_parafii}))
+                });
+
+                this.http.post(this.serverUrl + '/update_parish', null, { headers: options }).subscribe(res => {
+                    if (res.hasOwnProperty('insertId')) {
+                        resolve(1);
+                    }
+                    else {
+                        resolve(0);
+                    }
+                });
+            });
+        }
+
 
     //PRZYPOMNIENIE HASŁA
     async przypomnij(email: string) {
@@ -322,7 +341,6 @@ export class HttpService {
     }
 
     //MIEJSCE W RANKINGU
-
     async miejsceWRankingu()
     {
         return new Promise<number>(resolve => {

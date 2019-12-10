@@ -55,6 +55,11 @@ export class ParafiaService {
         return this.parafia.nazwa_parafii
     }
 
+    get Parafia()
+    {
+        return this.parafia
+    }
+
     get Obecnosci() //Wykorzystanie: obecnosc
     {
         return this.obecnosciWydarzenia.asObservable();
@@ -354,6 +359,17 @@ export class ParafiaService {
         })
 
 
+    }
+
+    async aktualizujParafie(nazwa_parafii: string, id_diecezji: number, miasto: string, id_typu: number)
+    {
+        return new Promise<number>(resolve => {
+            this.http.aktualizacjaDanychParafii(nazwa_parafii,id_diecezji,miasto,id_typu).then(res => {
+                this.pobierzParafie().then(res => {
+                    resolve(res)
+                })
+            })
+        })
     }
 
     nowaObecnosc(id_wydarzenia: number, id_user: number, data: Date) //Wykorzystanie: obecnosc

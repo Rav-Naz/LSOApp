@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@ang
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
-import { FeedbackType, Feedback } from 'nativescript-feedback';
+import { Page} from 'tns-core-modules/ui/page/page';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { HttpService } from '~/app/serwisy/http.service';
@@ -30,12 +29,8 @@ export class AktywacjaKontaComponent implements OnInit {
 
     wyslanePrzyp: number = 0;
 
-    private feedback: Feedback;
-
     constructor(private router: RouterExtensions, private page: Page, private tabIndexService: TabindexService,
-        private parafiService: ParafiaService, private http: HttpService, public ui: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {
-        this.feedback = new Feedback();
-    }
+        private parafiService: ParafiaService, private http: HttpService, public ui: UiService, private modal: ModalDialogService, private vcRef: ViewContainerRef) {}
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -79,16 +74,7 @@ export class AktywacjaKontaComponent implements OnInit {
     wyslij() {
         if (!this.form.valid) {
 
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Wprowadź poprawny adres e-mail",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-
-            });
+            this.ui.showFeedback('warning',"Wprowadź poprawny adres e-mail",3)
             return;
         }
 
@@ -98,16 +84,7 @@ export class AktywacjaKontaComponent implements OnInit {
             switch (res) {
                 case 0:
                     this.ui.zmienStan(4,false)
-                    this.feedback.show({
-                        title: "Błąd!",
-                        message: "Wystąpił nieoczekiwany błąd",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color("#e71e25"),
-                        type: FeedbackType.Error,
-
-                    });
+                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     break;
 
                 case 1:
@@ -120,29 +97,11 @@ export class AktywacjaKontaComponent implements OnInit {
 
                 case 2:
                         this.ui.zmienStan(4,false)
-                        this.feedback.show({
-                            title: "Uwaga!",
-                            message: "Ten adres e-mail jest już przypisany do innego konta!",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color(255, 255, 207, 51),
-                            type: FeedbackType.Warning,
-
-                        });
+                        this.ui.showFeedback('warning',"Ten adres e-mail jest już przypisany do innego konta",3)
                     break;
                 default:
                         this.ui.zmienStan(4,false)
-                    this.feedback.show({
-                        title: "Błąd!",
-                        message: "Wystąpił nieoczekiwany błąd",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color("#e71e25"),
-                        type: FeedbackType.Error,
-
-                    });
+                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     break;
             }
         })
@@ -162,15 +121,7 @@ export class AktywacjaKontaComponent implements OnInit {
                     {
 
                         setTimeout(() => {
-                            this.feedback.show({
-                                title: "Sukces!",
-                                message: "Zapisano punktację, zacznie ona obowiązywać od następnego sprawdzenia obecności",
-                                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                                duration: 3500,
-                                backgroundColor: new Color(255,49, 155, 49),
-                                type: FeedbackType.Success,
-                              });
+                            this.ui.showFeedback('succes',"Usunięto dostęp do konta",3)
                         }, 400)
                         this.ui.zmienStan(4,false)
                         this.powrot();
@@ -179,16 +130,7 @@ export class AktywacjaKontaComponent implements OnInit {
                     {
                         this.ui.zmienStan(5,false)
                         this.ui.zmienStan(4,false)
-                        this.feedback.show({
-                            title: "Błąd!",
-                            message: "Wystąpił nieoczekiwany błąd",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color("#e71e25"),
-                            type: FeedbackType.Error,
-
-                        });
+                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     }
                 })
             }

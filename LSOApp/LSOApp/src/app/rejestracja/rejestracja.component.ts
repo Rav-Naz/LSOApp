@@ -5,12 +5,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
 import { ScrollView } from 'tns-core-modules/ui/scroll-view'
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
-import { Feedback, FeedbackType } from "nativescript-feedback";
+import { Page } from 'tns-core-modules/ui/page/page';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '../shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { HttpService } from '../serwisy/http.service';
+import { UiService } from '../serwisy/ui.service';
 
 
 @Component({
@@ -61,12 +61,9 @@ export class RejestracjaComponent implements OnInit {
     ////////////////////////////
 
     dialog: { title: string; message: string; cancelButtonText: string; actions: string[]; };
-    private feedback: Feedback;
 
-    constructor(private router: RouterExtensions, private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef, private httpService: HttpService) {
-        this.feedback = new Feedback();
-
-    }
+    constructor(private router: RouterExtensions, private page: Page, private modal: ModalDialogService,
+        private vcRef: ViewContainerRef, private httpService: HttpService, private ui: UiService) {}
 
 
     ngOnInit() {
@@ -174,15 +171,7 @@ export class RejestracjaComponent implements OnInit {
     }
 
     displayAlertDialog(messege: string) {
-        this.feedback.show({
-            title: "Uwaga!",
-            message: messege,
-            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-            duration: 3000,
-            backgroundColor: new Color(255, 255, 207, 51),
-            type: FeedbackType.Warning,
-        });
+        this.ui.showFeedback('warning',messege,3)
     }
 
     regulamin() {
@@ -195,16 +184,7 @@ export class RejestracjaComponent implements OnInit {
         }
 
         if (!this.formP.valid) {
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Wypełnij poprawnie wszystkie pola",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-
-            });
+            this.ui.showFeedback('warning',"Wypełnij poprawnie wszystkie pola",3)
             return;
         }
 
@@ -217,16 +197,7 @@ export class RejestracjaComponent implements OnInit {
         //     return;
         // }
         if (!this.regulaminPRef.nativeElement.checked) {
-            this.feedback.show({
-                title: "Uwaga!",
-                message: "Zaakceptuj regulamin i politykę prywatności",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color(255, 255, 207, 51),
-                type: FeedbackType.Warning,
-
-            });
+            this.ui.showFeedback('warning',"Zaakceptuj regulamin i politykę prywatności",3)
             setTimeout(() => {
                 let scroll = this.scrollView.nativeElement;
                 scroll.scrollToVerticalOffset(scroll.scrollableHeight, true);
@@ -247,16 +218,7 @@ export class RejestracjaComponent implements OnInit {
         this.httpService.rejestracja(this._wezwanie, this._diecezja_id, this._miasto, this._rodzaj_id, this._stopien_id, this._imie, this._nazwisko, this._emailP/*, this._hasloP*/).then((res) => {
             switch (res) {
                 case 0:
-                    this.feedback.show({
-                        title: "Błąd!",
-                        message: "Wystąpił nieoczekiwany błąd",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color("#e71e25"),
-                        type: FeedbackType.Error,
-
-                    });
+                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     this.ladowanie = false;
                     break;
 
@@ -270,16 +232,7 @@ export class RejestracjaComponent implements OnInit {
                     this.ladowanie = false;
                     break;
                 default:
-                    this.feedback.show({
-                        title: "Błąd!",
-                        message: "Wystąpił nieoczekiwany błąd",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color("#e71e25"),
-                        type: FeedbackType.Error,
-
-                    });
+                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
                     this.ladowanie = false;
                     break;
             }

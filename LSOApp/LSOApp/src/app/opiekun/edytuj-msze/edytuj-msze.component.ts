@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page, EventData, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page, EventData } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
@@ -8,7 +8,6 @@ import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import * as TimePicker from "nativescript-datetimepicker"
 import { Button } from "tns-core-modules/ui/button";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { Feedback, FeedbackType } from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -22,12 +21,8 @@ import { UiService } from '~/app/serwisy/ui.service';
 })
 export class EdytujMszeComponent implements OnInit {
 
-    private feedback: Feedback;
-
     constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService,
-         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {
-        this.feedback = new Feedback();
-    }
+         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {}
 
     DzienTygodnia = [0, 1, 2, 3, 4, 5, 6]
     wybranyDzien: number;
@@ -83,16 +78,7 @@ export class EdytujMszeComponent implements OnInit {
                     this.zmiana = true;
                 }
                 else {
-                    this.feedback.show({
-                        title: "Uwaga!",
-                        message: "Wydarzenie o takiej godzinie już istnieje",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 3000,
-                        backgroundColor: new Color(255, 255, 207, 51),
-                        type: FeedbackType.Warning,
-
-                    });
+                    this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3)
                 }
             }
         })
@@ -115,28 +101,11 @@ export class EdytujMszeComponent implements OnInit {
                 this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien);
                 this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien).then(() => {
                     this.zmiana = false;
-                    this.feedback.show({
-                        title: "Sukces!",
-                        message: "Zapisano wydarzenia",
-                        titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                        messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                        duration: 2000,
-                        backgroundColor: new Color(255, 49, 155, 49),
-                        type: FeedbackType.Success,
-
-                    });
+                    this.ui.showFeedback('succes',"Zapisano wydarzenia",3)
                 })
             }
             else {
-                this.feedback.show({
-                    title: "Błąd!",
-                    message: "Wystąpił nieoczekiwany błąd",
-                    titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                    messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                    duration: 3000,
-                    backgroundColor: new Color("#e71e25"),
-                    type: FeedbackType.Error,
-                });
+                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
             }
         })
     }

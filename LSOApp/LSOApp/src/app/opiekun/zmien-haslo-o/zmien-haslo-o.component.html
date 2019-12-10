@@ -8,11 +8,11 @@
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2" flexDirection="row">
-                                <Label text="pw. " class="lexend" [ngClass]="{'szary': _wezwanie === '', 'bialy': _wezwanie !== ''}" marginLeft="5"></Label>
-                                <TextField hint="np. Świętej Rodziny" class="text-field lexend" returnKeyType="next"
+                                <Label text="pw. " fontSize="15" class="lexend" [ngClass]="{'szary': _wezwanie === '', 'bialy': _wezwanie !== ''}" marginLeft="5"></Label>
+                                <TextField hint="np. Świętej Rodziny" class="text-field lexend" returnKeyType="done"
                                     autocapitalizationType="words" formControlName="wezwanie" #wezwanie width="81%"
+                                    (returnPress)="dismiss()"
                                     >
-                                    <!-- (returnPress)="displayActionDialog('rodzaj')" -->
                                 </TextField>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
@@ -25,13 +25,12 @@
                             class="red lexend" *ngIf="!wezwanieValid"></Label>
                     </FlexboxLayout>
 
-                    <!-- (tap)="displayActionDialog('rodzaj')" -->
-                    <FlexboxLayout class="kontener center" height="100%" >
+                    <FlexboxLayout class="kontener center" height="100%" (tap)="displayActionDialog('rodzaj')" >
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2" flexDirection="row">
                                 <Label [text]="_rodzaj" class="text-field lexend" width="85%" [ngClass]="{'szary': _rodzaj === 'Wybierz rodzaj parafii'}"></Label>
-                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _rodzaj === 'Wybierz rodzaj parafii', 'bialy': _rodzaj !== 'Wybierz rodzaj parafii'}"></Label>
+                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _rodzaj === 'Wybierz rodzaj parafii', 'bialy': _rodzaj !== 'Wybierz rodzaj parafii'}" fontSize="15"></Label>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="RODZAJ PARAFII" class="audiowide" marginLeft="3" marginRight="3"></Label>
@@ -40,13 +39,12 @@
 
                         <Label text="Wybierz rodzaj parafii" class="red lexend" *ngIf="!rodzajValid"></Label>
                     </FlexboxLayout>
-                    <!-- (tap)="displayActionDialog('diecezja')" -->
-                    <FlexboxLayout row="2" class="kontener center" height="100%">
+                    <FlexboxLayout row="2" class="kontener center" height="100%" (tap)="displayActionDialog('diecezja')">
                         <GridLayout columns="auto,*" rows="10,10,auto">
                             <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
                                 colSpan="2" flexDirection="row">
                                 <Label [text]="_diecezja" class="text-field lexend" width="85%" [ngClass]="{'szary': _diecezja === 'Wybierz diecezję'}"></Label>
-                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _diecezja === 'Wybierz diecezję', 'bialy': _diecezja !== 'Wybierz diecezję'}"></Label>
+                                <Label text="&#xe013;" class="icon" [ngClass]="{'szary': _diecezja === 'Wybierz diecezję', 'bialy': _diecezja !== 'Wybierz diecezję'}" fontSize="15"></Label>
                             </FlexboxLayout>
                             <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
                                 <Label text="DIECEZJA" class="audiowide" marginLeft="3" marginRight="3"></Label>
@@ -55,6 +53,24 @@
 
                         <Label text="Wybierz diecezję" class="red lexend" *ngIf="!diecezjaValid"></Label>
                     </FlexboxLayout>
+
+                    <FlexboxLayout class="kontener center" height="100%">
+                        <GridLayout columns="auto,*" rows="10,10,auto">
+                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
+                                colSpan="2">
+                                <TextField hint="Wpisz miasto" class="text-field lexend" returnKeyType="done"
+                                    autocapitalizationType="words" formControlName="miasto" #miasto (returnPress)="dismiss()">
+                                </TextField>
+                            </FlexboxLayout>
+                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
+                                <Label text="MIASTO" class="audiowide" marginLeft="3" marginRight="3"></Label>
+                            </FlexboxLayout>
+                        </GridLayout>
+
+                        <Label text="Miasto musi mieć od 2 do 30 znaków oraz składać się z polskiego alfabetu"
+                            class="red lexend" *ngIf="!miastoValid"></Label>
+                    </FlexboxLayout>
+
                 </StackLayout>
             </ScrollView>
         </FlexboxLayout>
@@ -66,7 +82,7 @@
         <GridLayout columns="*,*" rows="60" row="3">
             <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide"
-                [isEnabled]="this.form.valid"></Button>
+                [isEnabled]="this.form.valid && zmiana"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

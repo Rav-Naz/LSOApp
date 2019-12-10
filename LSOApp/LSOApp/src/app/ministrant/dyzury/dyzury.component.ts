@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Page, Color, isIOS } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { UserService } from '~/app/serwisy/user.service';
 import { User } from '~/app/serwisy/user.model';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { LocalNotifications } from "nativescript-local-notifications";
 import { SecureStorage } from "nativescript-secure-storage";
 import { Subscription } from 'rxjs';
-import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ParafiaService } from '~/app/serwisy/parafia.service';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-dyzury',
@@ -29,12 +28,9 @@ export class DyzuryComponent implements OnInit {
     rowDzis = [0, 2, 4, 6, 8, 10, 12]
     rowPasy = [1, 3, 5, 7, 9, 11]
     dni = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota']
-    private feedback: Feedback;
 
-    constructor(private page: Page, private userService: UserService, private indexService: TabindexService, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService)
-    {
-        this.feedback = new Feedback();
-    }
+    constructor(private page: Page, private userService: UserService, private ui: UiService)
+    {}
 
     ngOnInit() {
         this.dzis = this.rowDzis[new Date().getDay()];

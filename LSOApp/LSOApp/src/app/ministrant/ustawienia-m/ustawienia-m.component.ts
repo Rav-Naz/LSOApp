@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import * as utils from "tns-core-modules/utils/utils";
@@ -8,8 +7,8 @@ import * as email from "nativescript-email";
 import { UserService } from '~/app/serwisy/user.service';
 import { Subscription } from 'rxjs';
 import { SecureStorage } from "nativescript-secure-storage";
-import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ActivatedRoute } from '@angular/router';
+import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
     selector: 'ns-ustawienia-m',
@@ -20,13 +19,10 @@ import { ActivatedRoute } from '@angular/router';
 export class UstawieniaMComponent implements OnInit {
     powiadomieniaSub: Subscription;
 
-    private feedback: Feedback;
-
     czyAdmin: boolean = false;
 
-    constructor(private page: Page, private indexService: TabindexService, private router: RouterExtensions, private userService: UserService, private active: ActivatedRoute, private tabService: TabindexService) {
-        this.feedback = new Feedback();
-    }
+    constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
+        private active: ActivatedRoute, private tabService: TabindexService, private ui: UiService) {}
 
     wersja = this.userService.wersja;
     checked: boolean;
@@ -61,15 +57,7 @@ export class UstawieniaMComponent implements OnInit {
                 this.router.navigate([""],{clearHistory: true, transition: { name: 'slideBottom' }}).then(() => {
                     this.tabService.nowyIndex(0);
                     setTimeout(() => {
-                        this.feedback.show({
-                            title: "Sukces!",
-                            message: "Pomyślnie wylogowano",
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 3000,
-                            backgroundColor: new Color(255,49, 155, 49),
-                            type: FeedbackType.Success,
-                          });
+                        this.ui.showFeedback('succes',"Pomyślnie wylogowano",3)
                     }, 400)
                 });
             })

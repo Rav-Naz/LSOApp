@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { Subscription, using } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { Feedback, FeedbackType} from "nativescript-feedback";
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
@@ -29,14 +28,10 @@ export class MinistranciComponent implements OnInit {
 
     sortujPoImieniu: boolean = false;
 
-    private feedback: Feedback;
-
     ladowanie: boolean = true;
 
     constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService,
-         private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute, private userService: UserService, public ui: UiService) {
-        this.feedback = new Feedback();
-    }
+         private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute, private userService: UserService, public ui: UiService) {}
 
     ngOnInit() {
         this.ui.zmienStan(1,true)
@@ -96,16 +91,7 @@ export class MinistranciComponent implements OnInit {
 
         if(ministrant.id_user === this.userService.UserID)
         {
-            this.feedback.show({
-                title: "Błąd!",
-                message: "Nie możesz usunąć swojego konta z poziomu widoku opiekuna!",
-                titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                duration: 3000,
-                backgroundColor: new Color("#e71e25"),
-                type: FeedbackType.Error,
-
-            });
+            this.ui.showFeedback('error',"Nie możesz usunąć swojego konta z poziomu widoku opiekuna",3)
             return
         }
 
@@ -116,16 +102,7 @@ export class MinistranciComponent implements OnInit {
                 this.parafiaService.usunMinistranta(ministrant.id_user).then(() => {
                     this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien)
                     setTimeout(() => {
-                        this.feedback.show({
-                            title: "Sukces!",
-                            message: "Usunięto ministranta " + ministrant.nazwisko + " " + ministrant.imie,
-                            titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
-                            messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
-                            duration: 2000,
-                            backgroundColor: new Color(255,49, 155, 49),
-                            type: FeedbackType.Success,
-
-                          });
+                        this.ui.showFeedback('succes',"Usunięto ministranta " + ministrant.nazwisko + " " + ministrant.imie,3)
                     }, 400)
                 });
             }
