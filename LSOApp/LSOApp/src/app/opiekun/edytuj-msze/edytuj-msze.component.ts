@@ -61,7 +61,7 @@ export class EdytujMszeComponent implements OnInit {
         })
     }
 
-    async timePick(args: EventData, time?: Date)
+    async timePick(args: EventData, title: string, time?: Date)
     {
         return new Promise<Date>(resolve => {
             TimePicker.DateTimePicker.pickTime({
@@ -69,7 +69,7 @@ export class EdytujMszeComponent implements OnInit {
                 time: time? time : new Date(),
                 okButtonText: "Dodaj",
                 cancelButtonText: "Anuluj",
-                title: "Wybierz godzinę",
+                title: title,
                 locale: "en_GB",
                 is24Hours: true
             }).then((res) => {
@@ -79,7 +79,7 @@ export class EdytujMszeComponent implements OnInit {
     }
 
     async dodaj(args: EventData) {
-        this.timePick(args).then(res => {
+        this.timePick(args,"Wybierz godzinę").then(res => {
             let godzina = res
             if (godzina !== null) {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === godzina.getHours() && new Date(wydarzenie.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
@@ -99,7 +99,7 @@ export class EdytujMszeComponent implements OnInit {
 
     async edytuj(args: EventData, wydarzenie: Wydarzenie, index: number)
     {
-        this.timePick(args, new Date(wydarzenie.godzina)).then(res => {
+        this.timePick(args,"Edytuj godzinę",new Date(wydarzenie.godzina)).then(res => {
             let godzina = res
             if(godzina !== null)
             {
