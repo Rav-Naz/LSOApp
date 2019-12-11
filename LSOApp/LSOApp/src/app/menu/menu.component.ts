@@ -48,7 +48,6 @@ export class MenuComponent implements OnInit {
                     { relativeTo: this.active });
             }
         })
-
     }
     ngOnDestroy()
     {

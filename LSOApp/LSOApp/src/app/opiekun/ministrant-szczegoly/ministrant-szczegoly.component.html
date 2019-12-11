@@ -55,6 +55,7 @@
                                         <FlexboxLayout *ngFor="let dyzur of dyzury" horizontalAlignment="right">
                                             <Label [text]="dyzurHeader(dyzur.dzien_tygodnia)"
                                                 class="dane lexend"></Label>
+                                            <Label text=" " class="dane lexend"></Label>
                                             <Label [text]="dyzur.godzina.toString() | godzina"
                                                 class="dane lexend"></Label>
                                         </FlexboxLayout>

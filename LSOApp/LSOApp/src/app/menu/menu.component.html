@@ -17,18 +17,18 @@
         </GridLayout>
         <!-- Widok ministranta -->
         <FlexboxLayout class="wh100" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
-                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysOriginal">`
+                <Tabs [selectedIndex]="selectedIndex" class="tabs" (selectedIndexChanged)="zmianaIndexu($event)">
 
                         <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                        <TabStrip>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe01b;"></Label>
+                        <TabStrip class="lexend strip-item">
+                            <TabStripItem>
+                                <Label text="Moje dyżury"></Label>
                             </TabStripItem>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe032;"></Label>
+                            <TabStripItem>
+                                <Label text="Wiadomości"></Label>
                             </TabStripItem>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe05b;"></Label>
+                            <TabStripItem>
+                                <Label text="Ustawienia"></Label>
                             </TabStripItem>
                         </TabStrip>
 
@@ -45,21 +45,21 @@
         </FlexboxLayout>
         <!-- Widok opiekuna -->
         <FlexboxLayout class="wh100" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
-                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysTemplate">
+                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="top" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysTemplate">
 
                         <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                        <TabStrip>
+                        <TabStrip class="icon strip-item">
                             <TabStripItem class="icon strip-item">
-                                <Label text="&#xe0d7;"></Label>
+                                <Label text="Obecność"></Label>
                             </TabStripItem>
                             <TabStripItem class="icon strip-item">
-                                <Label text="&#xe092;"></Label>
+                                <Label text="Ministranci"></Label>
                             </TabStripItem>
                             <TabStripItem class="icon strip-item">
-                                <Label text="&#xe032;"></Label>
+                                <Label text="Wiadomości"></Label>
                             </TabStripItem>
                             <TabStripItem class="icon strip-item">
-                                <Label text="&#xe05b;"></Label>
+                                <Label text="Ustawienia"></Label>
                             </TabStripItem>
                         </TabStrip>
 

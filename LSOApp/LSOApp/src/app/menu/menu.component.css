@@ -17,6 +17,7 @@
 .strip-item
 {
     background-color: black;
+    font-size: 13;
 }
 
 .strip-item:active
