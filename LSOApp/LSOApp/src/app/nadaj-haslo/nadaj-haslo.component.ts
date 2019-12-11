@@ -98,7 +98,7 @@ export class NadajHasloComponent implements OnInit {
                 }
                 else
                 {
-                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                    this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                 }
                 this.ladowanie = false;
         })

@@ -199,7 +199,7 @@ export class MinistrantDyzuryComponent implements OnInit {
             {
                 this.ui.zmienStan(4,false)
                 this.ui.zmienStan(5,false)
-                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
             }
         });
     }

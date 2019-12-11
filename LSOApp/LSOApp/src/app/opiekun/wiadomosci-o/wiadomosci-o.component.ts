@@ -78,7 +78,7 @@ export class WiadomosciOComponent implements OnInit {
             this.wiadosciService.nowaWiadomosc(this.tresc).then(res => {
                 switch (res) {
                     case 0:
-                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         break;
                     case 1:
                         this.wiadosciService.pobierzWiadomosci().then(() => {
@@ -91,7 +91,7 @@ export class WiadomosciOComponent implements OnInit {
                         break;
                     default:
                         this.ui.zmienStan(2, false)
-                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         break;
                 }
             });
@@ -151,7 +151,7 @@ export class WiadomosciOComponent implements OnInit {
                         else
                         {
                             this.ui.zmienStan(2, false)
-                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                            this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         }
                     });
                 }

@@ -96,7 +96,7 @@ export class WydarzeniaService {
     //     return {id: this.indexWydarzenia, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia: dzien_tygodnia, godzina:  new Date(null, null, null, godzina.getHours(), godzina.getMinutes()).toJSON()}
     // }
 
-    async zapiszWydarzenia(staraLista: Array<Wydarzenie>, nowaLista: Array<Wydarzenie>, dzien_tygodnia: number) //Wykorzystanie: edutyj-msze
+    async zapiszWydarzenia(staraLista: Array<Wydarzenie>, nowaLista: Array<Wydarzenie>, edytowanaLista: Array<Wydarzenie>, dzien_tygodnia: number) //Wykorzystanie: edutyj-msze
     {
         // console.log("stara ", staraLista.length)
         // console.log("nowa ", nowaLista.length)
@@ -168,6 +168,17 @@ export class WydarzeniaService {
                     }
                 })
             }).then(() => {
+                return new Promise<number>((resolve1) => {
+                    let i = 0;
+                    edytowanaLista.forEach(async edit => {
+                        i++
+                        this.http.aktualizacjaWydarzenie(new Date(edit.godzina), edit.id)
+                    })
+                    if (i === edytowanaLista.length) {
+                        resolve1(1)
+                    }
+                })
+            }).then(() => {
                 setTimeout(() => {
                     resolve(1)
                 }, 500)
@@ -185,7 +196,6 @@ export class WydarzeniaService {
 
     private async dodajWydarzenie(wydarzenie: Wydarzenie) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
     {
-        console.log("dodawanie ", wydarzenie)
         return new Promise<number>((resolve) => {
             this.http.dodajNoweWydarzenie(wydarzenie.dzien_tygodnia, wydarzenie.godzina).then(res => {
                 resolve(res)
@@ -196,7 +206,6 @@ export class WydarzeniaService {
 
     private async usunWydarzenie(wydarzenie: Wydarzenie) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
     {
-        console.log("usuwanie ", wydarzenie)
         return new Promise<number>((resolve) => {
             // let wyszukany = this._wydarzenia.filter(wydarzenia => wydarzenia.id === wydarzenie.id)[0];
             // let index = this._wydarzenia.indexOf(wyszukany);

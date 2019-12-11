@@ -47,6 +47,10 @@ export class UserService {
         return this.userSub.asObservable();
     }
 
+    get UserImieINazwisko() { //Wykorzystanie: dyzury, dane-profilowe
+        return this.user.imie + ' ' + this.user.nazwisko;
+    }
+
     get UserDyzurySub() //Wykorzystanie: dyzury
     {
         return this.userDyzurySub.asObservable();

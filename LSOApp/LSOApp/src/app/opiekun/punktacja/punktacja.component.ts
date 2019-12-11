@@ -73,7 +73,7 @@ export class PunktacjaComponent implements OnInit {
             else
             {
                 this.ui.zmienStan(4,false)
-                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
             }
         })
     }

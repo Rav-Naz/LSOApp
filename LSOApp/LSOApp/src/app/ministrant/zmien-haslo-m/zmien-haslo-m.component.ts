@@ -71,6 +71,8 @@ export class ZmienHasloMComponent implements OnInit {
             return;
         }
 
+        this.ui.zmienStan(4,true)
+
         this.userService.zmienHaslo(this._stare,this._nowe).then(res => {
             switch (res) {
                 case 1:
@@ -84,12 +86,13 @@ export class ZmienHasloMComponent implements OnInit {
                         this.ui.showFeedback('warning',"Aktualne hasło nie jest poprawne",3)
                     break;
                 case 0:
-                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
                 default:
-                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
             }
+            this.ui.zmienStan(4,false)
         })
     }
 

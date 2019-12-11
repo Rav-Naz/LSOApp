@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { SecureStorage } from "nativescript-secure-storage";
 import { ActivatedRoute } from '@angular/router';
 import { UiService } from '~/app/serwisy/ui.service';
+import { User } from '~/app/serwisy/user.model';
 
 @Component({
     selector: 'ns-ustawienia-m',
@@ -26,10 +27,12 @@ export class UstawieniaMComponent implements OnInit {
 
     wersja = this.userService.wersja;
     checked: boolean;
+    userImieINazwisko: string;
     private secureStroage = new SecureStorage;
 
     ngOnInit() {
         this.page.actionBarHidden = true;
+        this.userImieINazwisko = this.userService.UserImieINazwisko
         this.powiadomieniaSub = this.userService.UserDyuzryPowiadomienia.subscribe(wartosc => {
             this.checked = wartosc;
         })

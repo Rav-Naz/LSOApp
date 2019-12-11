@@ -12,7 +12,7 @@
                                 <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
                                 </FlexboxLayout>
                                 <FlexboxLayout class="center" width="100%" col="0">
-                                    <Label [text]="msza.godzina.toString() | godzina" class="text lexend"></Label>
+                                    <Label [text]="msza.godzina.toString() | godzina" class="text lexend" (tap)="edytuj($event, msza, i)"></Label>
                                 </FlexboxLayout>
                                 <FlexboxLayout class="center" width="100%" col="1">
                                     <Button text="&#xe073;" class="iks icon" (tap)="usun(msza)" androidElevation="0"></Button>

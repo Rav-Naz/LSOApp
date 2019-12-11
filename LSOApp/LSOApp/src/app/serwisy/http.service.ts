@@ -4,7 +4,6 @@ import * as sha512 from 'js-sha512';
 import { User } from './user.model';
 import { Wydarzenie } from './wydarzenie.model';
 import { Obecnosc } from './obecnosc.model';
-import { Stopien } from './stopien.model';
 import { Wiadomosc } from './wiadomosci.model';
 
 @Injectable({
@@ -65,6 +64,8 @@ export class HttpService {
                 {
                     resolve('blad')
                 }
+            }, err => {
+                resolve('blad')
             });
         });
     }
@@ -102,7 +103,9 @@ export class HttpService {
                 {
                     resolve('blad')
                 }
-            });
+            }, err => {
+                resolve('blad')
+            }   );
         });
     }
 
@@ -135,6 +138,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -163,6 +168,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -184,6 +191,8 @@ export class HttpService {
                 {
                     resolve('blad')
                 }
+            }, err => {
+                resolve('blad')
             });
         });
     }
@@ -203,6 +212,8 @@ export class HttpService {
                     else {
                         resolve(0);
                     }
+                }, err => {
+                    resolve(0)
                 });
             });
         }
@@ -219,6 +230,8 @@ export class HttpService {
             this.http.post(this.serverUrl + '/remind', null, { headers: options }).subscribe(res => {
                 let response = JSON.parse(JSON.stringify(res))
                 resolve(response.changedRows)
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -233,7 +246,9 @@ export class HttpService {
 
             this.http.get(this.serverUrl + '/ministranci', { headers: options }).subscribe(res => {
                 resolve(JSON.parse(JSON.stringify(res)))
-            });
+            }), err => {
+                resolve([])
+            };
         });
     }
 
@@ -258,6 +273,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -283,6 +300,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -302,6 +321,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -322,6 +343,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -359,6 +382,8 @@ export class HttpService {
                 {
                     resolve(mijesce)
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -379,6 +404,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -398,6 +425,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -421,6 +450,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -448,6 +479,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -504,6 +537,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -523,6 +558,31 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
+            });
+        });
+    }
+
+    //AKTUALIZACJA WYDARZENIA
+    async aktualizacjaWydarzenie(godzina: Date, id_wydarzenia: number) {
+        return new Promise<number>(resolve => {
+            let czas = new Date(godzina)
+            let options = new HttpHeaders({
+                "Content-Type": "application/json",
+                "data": encodeURI(JSON.stringify({godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), id_wydarzenia: id_wydarzenia }))
+            });
+
+            this.http.post(this.serverUrl + '/edit_event', null, { headers: options }).subscribe(res => {
+
+                if (res.hasOwnProperty('insertId')) {
+                    resolve(1);
+                }
+                else {
+                    resolve(0);
+                }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -570,6 +630,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -589,6 +651,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -608,6 +672,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -623,7 +689,6 @@ export class HttpService {
             });
 
             this.http.get(this.serverUrl + '/presence', { headers: options }).subscribe(res => {
-
                 resolve(JSON.parse(JSON.stringify(res)))
             });
         });
@@ -646,6 +711,8 @@ export class HttpService {
                 {
                     resolve(1)
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -662,6 +729,8 @@ export class HttpService {
 
             this.http.post(this.serverUrl + '/add_presence', null, { headers: options }).subscribe(res => {
                 resolve(1)
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -695,6 +764,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -714,6 +785,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -733,6 +806,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }
@@ -754,6 +829,8 @@ export class HttpService {
                 else {
                     resolve(0);
                 }
+            }, err => {
+                resolve(0)
             });
         });
     }

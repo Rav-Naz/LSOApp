@@ -94,13 +94,13 @@ export class UstawieniaOComponent implements OnInit {
                     this.ui.zmienStan(1, false)
                     switch (res) {
                         case 0:
-                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                            this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                             break;
                         case 1:
                             this.ui.showFeedback('succes',"Pomyślnie wyzerowano punkty",2)
                             break;
                         default:
-                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                            this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                             break;
                     }
                 })
@@ -127,13 +127,13 @@ export class UstawieniaOComponent implements OnInit {
                     this.ui.zmienStan(0, false)
                     switch (res) {
                         case 0:
-                           this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                           this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                             break;
                         case 1:
                             this.ui.showFeedback('succes',"Pomyślnie usunięto dyżury",2)
                             break;
                         default:
-                                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                             break;
                     }
                 })

@@ -54,7 +54,7 @@ export class UsunKontoOComponent implements OnInit {
             switch (res) {
                 case 0:
                     this.ui.zmienStan(4, false)
-                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                    this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
                 case 1:
                     this.secureStorage.removeAll().then(() => {
@@ -88,7 +88,7 @@ export class UsunKontoOComponent implements OnInit {
 
                     break;
                 default:
-                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                    this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
             }
         })

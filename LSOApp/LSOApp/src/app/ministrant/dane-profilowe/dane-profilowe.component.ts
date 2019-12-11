@@ -131,6 +131,8 @@ export class DaneProfiloweComponent implements OnInit {
             return;
         }
 
+        this.ui.zmienStan(4,true)
+
         this.userService.zmienDane(this._telefon,this._ulica,this._kod,this._miasto).then(res => {
             if(res === 1)
             {
@@ -144,8 +146,9 @@ export class DaneProfiloweComponent implements OnInit {
             }
             else
             {
-                this.ui.showFeedback('error', "Wystąpił nieoczekiwany błąd",3)
+                this.ui.showFeedback('error', "Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
             }
+            this.ui.zmienStan(4,false)
         })
 
     }

@@ -30,6 +30,7 @@ export class EdytujMszeComponent implements OnInit {
     wydarzeniaSub: Subscription;
     wydarzeniaDnia: Array<Wydarzenie>;
     stareWydarzeniaDnia: Array<Wydarzenie>;
+    aktualizujWydarzeniaDnia: Array<Wydarzenie>
 
     ngOnInit() {
         this.ui.zmienStan(3,true)
@@ -38,6 +39,7 @@ export class EdytujMszeComponent implements OnInit {
         this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaEdycjaSub.subscribe((lista) => {
             this.wydarzeniaDnia = [];
             this.stareWydarzeniaDnia = [];
+            this.aktualizujWydarzeniaDnia = [];
             // console.log(lista)
             // this.wydarzeniaDnia = [];
             this.ui.zmienStan(3,false)
@@ -59,23 +61,34 @@ export class EdytujMszeComponent implements OnInit {
         })
     }
 
-    dodaj(args: EventData) {
+    async timePick(args: EventData, time?: Date)
+    {
+        return new Promise<Date>(resolve => {
+            TimePicker.DateTimePicker.pickTime({
+                context: (<Button>args.object)._context,
+                time: time? time : new Date(),
+                okButtonText: "Dodaj",
+                cancelButtonText: "Anuluj",
+                title: "Wybierz godzinę",
+                locale: "en_GB",
+                is24Hours: true
+            }).then((res) => {
+                resolve(res)
+            })
+        })
+    }
 
-        TimePicker.DateTimePicker.pickTime({
-            context: (<Button>args.object)._context,
-            time: new Date(),
-            okButtonText: "Dodaj",
-            cancelButtonText: "Anuluj",
-            title: "Wybierz godzinę",
-            locale: "en_GB",
-            is24Hours: true
-        }).then((godzina) => {
+    async dodaj(args: EventData) {
+        this.timePick(args).then(res => {
+            let godzina = res
             if (godzina !== null) {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === godzina.getHours() && new Date(wydarzenie.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
                     // godzina.setHours(godzina.getHours() + 1);
                     this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(2018, 10, 15, godzina.getHours(), godzina.getMinutes()).toJSON() });
-                    this.sortuj()
                     this.zmiana = true;
+                    setTimeout(() => {
+                        this.sortuj()
+                    },50)
                 }
                 else {
                     this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3)
@@ -84,9 +97,40 @@ export class EdytujMszeComponent implements OnInit {
         })
     }
 
+    async edytuj(args: EventData, wydarzenie: Wydarzenie, index: number)
+    {
+        this.timePick(args, new Date(wydarzenie.godzina)).then(res => {
+            let godzina = res
+            if(godzina !== null)
+            {
+                if (this.wydarzeniaDnia.filter(wydarzeniaaa => new Date(wydarzeniaaa.godzina).getHours() === godzina.getHours() && new Date(wydarzeniaaa.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
+                    this.czyAktualizowane(wydarzenie)
+                    this.wydarzeniaDnia[index].godzina = godzina.toJSON()
+                    wydarzenie.godzina = godzina.toJSON()
+                    this.aktualizujWydarzeniaDnia.push(wydarzenie)
+                    this.zmiana = true
+                }
+                else {
+                    this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3)
+                }
+            }
+        })
+    }
+
+    private czyAktualizowane( wydarzenie: Wydarzenie)
+    {
+        let czyAktualizowane = this.aktualizujWydarzeniaDnia.filter(item => item.id === wydarzenie.id)[0]
+        if(czyAktualizowane !== undefined)
+        {
+            let index = this.aktualizujWydarzeniaDnia.indexOf(czyAktualizowane);
+            this.aktualizujWydarzeniaDnia.splice(index, 1)
+        }
+    }
+
     async usun(wydarzenie: Wydarzenie) {
         await this.czyKontynuowac(true, "Usunięcie wydarzenia spowoduje utratę przypisanych do niego dyżurów.\nCzy chcesz trwale usunąć wydarzenie z godziny " + new Date(wydarzenie.godzina).toString().slice(16, 21) + "?").then((kontynuowac) => {
             if (!kontynuowac) {
+                this.czyAktualizowane(wydarzenie)
                 let index = this.wydarzeniaDnia.indexOf(wydarzenie);
                 this.wydarzeniaDnia.splice(index, 1);
                 this.zmiana = true;
@@ -95,17 +139,18 @@ export class EdytujMszeComponent implements OnInit {
     }
 
     zapisz() {
+        this.zmiana = false
         this.ui.zmienStan(3,true)
-        this.wydarzeniaService.zapiszWydarzenia(this.stareWydarzeniaDnia, this.wydarzeniaDnia, this.wybranyDzien).then(res => {
+        this.wydarzeniaService.zapiszWydarzenia(this.stareWydarzeniaDnia, this.wydarzeniaDnia, this.aktualizujWydarzeniaDnia, this.wybranyDzien).then(res => {
             if (res === 1) {
                 this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien);
                 this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien).then(() => {
-                    this.zmiana = false;
                     this.ui.showFeedback('succes',"Zapisano wydarzenia",3)
                 })
             }
             else {
-                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                this.zmiana = true;
+                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
             }
         })
     }

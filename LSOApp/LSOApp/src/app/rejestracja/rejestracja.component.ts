@@ -218,7 +218,7 @@ export class RejestracjaComponent implements OnInit {
         this.httpService.rejestracja(this._wezwanie, this._diecezja_id, this._miasto, this._rodzaj_id, this._stopien_id, this._imie, this._nazwisko, this._emailP/*, this._hasloP*/).then((res) => {
             switch (res) {
                 case 0:
-                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                    this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     this.ladowanie = false;
                     break;
 
@@ -232,7 +232,7 @@ export class RejestracjaComponent implements OnInit {
                     this.ladowanie = false;
                     break;
                 default:
-                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                    this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     this.ladowanie = false;
                     break;
             }

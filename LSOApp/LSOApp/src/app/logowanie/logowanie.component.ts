@@ -106,7 +106,7 @@ export class LogowanieComponent implements OnInit {
             }
             else if (res === 'blad') {
                 this.ladowanie = false;
-                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
 
             }
             else {
@@ -144,13 +144,13 @@ export class LogowanieComponent implements OnInit {
                                                 this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
                                             }
                                             else {
-                                                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                                                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                                             }
                                         })
                                     }
                                     else {
                                         this.ladowanie = false;
-                                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                                     }
                                 })
                             }
@@ -168,7 +168,7 @@ export class LogowanieComponent implements OnInit {
                                     }
                                     else {
                                         this.ladowanie = false;
-                                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                                     }
                                 })
 
@@ -192,7 +192,7 @@ export class LogowanieComponent implements OnInit {
                         }
                         else {
                             this.ladowanie = false;
-                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                            this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         }
                     })
                 }

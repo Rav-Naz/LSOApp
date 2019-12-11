@@ -75,7 +75,7 @@ export class MinistrantNowyComponent implements OnInit {
         this.parafiaService.nowyMinistrant(this._stopien, this._imie, this._nazwisko, this._email).then(res => {
             switch (res) {
                 case 0:
-                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
                 case 1:
                     this.parafiaService.pobierzMinistrantow().then(() => {
@@ -90,7 +90,7 @@ export class MinistrantNowyComponent implements OnInit {
                     break;
 
                 default:
-                        this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
             }
         })

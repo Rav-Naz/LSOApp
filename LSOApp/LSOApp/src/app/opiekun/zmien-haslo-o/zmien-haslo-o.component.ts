@@ -104,7 +104,7 @@ export class ZmienHasloOComponent implements OnInit, AfterViewInit {
             }
             else
             {
-                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3)
+                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
             }
             this.ui.zmienStan(4,false)
         })
