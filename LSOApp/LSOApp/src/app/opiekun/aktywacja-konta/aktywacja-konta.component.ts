@@ -26,6 +26,7 @@ export class AktywacjaKontaComponent implements OnInit {
     emailValid: boolean = true;
     btnEnabled: boolean = false;
     dane;
+    checked: boolean = false;
 
     wyslanePrzyp: number = 0;
 
@@ -135,6 +136,12 @@ export class AktywacjaKontaComponent implements OnInit {
                 })
             }
         })
+    }
+
+    check(event: boolean)
+    {
+        this.checked = event
+
     }
 
     private czyKontynuowac(zmiana: boolean) {

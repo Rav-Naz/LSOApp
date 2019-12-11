@@ -215,6 +215,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
     }
 
     zapisz() {
+        this.zmiana = false;
         this.ui.zmienStan(5,true)
         this.wpiszPunkty();
         this.parafiaService.updateMinistranta(this.ministrant).then(res => {
@@ -223,12 +224,12 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
                 setTimeout(() => {
                     this.ui.showFeedback('succes',"Zapisano zmiany",2)
                 }, 400)
-                this.zmiana = false;
                 this.zamknij()
             }
             else
             {
                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                this.zmiana = true;
             }
             this.ui.zmienStan(5,false)
         })

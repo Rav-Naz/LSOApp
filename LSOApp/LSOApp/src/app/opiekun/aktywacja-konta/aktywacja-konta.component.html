@@ -14,6 +14,14 @@
                     </FlexboxLayout>
                 </GridLayout>
                 <Label text="Niepoprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
+                <GridLayout columns="*,30" rows="auto" width="85%" margin="10">
+                    <!-- <FlexboxLayout col="0" class="center" alignItems="flex-end"> -->
+                        <Label text="Uzyskałem zgodę na podanie adresu e-mail w celu utworzenia konta dla ministranta&#xA;(pole wymagane)" class="stand lexend"></Label>
+                        <FlexboxLayout width="30" height="30" alignItems="center" justifyContent="center" col="1">
+                            <ns-checkbox-zwykly (checkStatus)="check($event)" [stan]="false"></ns-checkbox-zwykly>
+                        </FlexboxLayout>
+                    <!-- </FlexboxLayout> -->
+                    </GridLayout>
             </StackLayout>
                 <Label text="Link aktywacyjny został wysłany na podany adres email. Jeśli przez dłuższy czas ministrant nie otrzymał wiadomości, należy sprawdzić zakładkę 'SPAM'."
                     class="stand lexend" width="90%" *ngIf="wyslanePrzyp === 1"></Label>
@@ -34,7 +42,7 @@
             <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="wyslanePrzyp === 0" colSpan="2"></Button>
             <Button text="Wyślij" col="2" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
-                *ngIf="wyslanePrzyp === 0" [isEnabled]="this.form.valid" colSpan="2"></Button>
+                *ngIf="wyslanePrzyp === 0" [isEnabled]="this.form.valid && checked" colSpan="2"></Button>
                 <Button text="Powrót" [col]="wyslanePrzyp === 1?0:1" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="wyslanePrzyp === 1 || wyslanePrzyp === 2" colSpan="2"></Button>
                 <Button text="Ponów" col="2" (tap)="wyslanePrzyp = 0" class="anuluj zapisz b-p-10 audiowide"
