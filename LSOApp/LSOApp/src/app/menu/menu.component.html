@@ -20,7 +20,7 @@
                 <Tabs [selectedIndex]="selectedIndex" class="tabs" (selectedIndexChanged)="zmianaIndexu($event)">
 
                         <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                        <TabStrip class="lexend strip-item">
+                        <TabStrip class="lexend strip-item" highlightColor="red">
                             <TabStripItem>
                                 <Label text="Moje dyżury"></Label>
                             </TabStripItem>
@@ -48,12 +48,12 @@
                 <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="top" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysTemplate">
 
                         <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                        <TabStrip class="icon strip-item">
+                        <TabStrip class="lexend strip-item" highlightColor="red">
                             <TabStripItem class="icon strip-item">
                                 <Label text="Obecność"></Label>
                             </TabStripItem>
                             <TabStripItem class="icon strip-item">
-                                <Label text="Ministranci"></Label>
+                                <Label text="Osoby"></Label>
                             </TabStripItem>
                             <TabStripItem class="icon strip-item">
                                 <Label text="Wiadomości"></Label>
