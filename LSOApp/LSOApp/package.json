@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "org.nativescript.LSOAPP",
+    "id": "com.msf.lsoapp",
     "tns-android": {
       "version": "6.2.0"
     },
@@ -8,7 +8,7 @@
       "version": "6.2.0"
     }
   },
-  "description": "NativeScript Application",
+  "description": "Apliakcja dla ministrantów",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "dependencies": {
@@ -47,5 +47,5 @@
     "typescript": "3.4.5"
   },
   "gitHead": "8c1a4866a66daab09bf5ef8e5a96472687192373",
-  "readme": "NativeScript Application"
+  "readme": "Apliakcja dla ministrantów"
 }
