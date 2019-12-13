@@ -202,7 +202,7 @@ export class HttpService {
             return new Promise<number>(resolve => {
                 let options = new HttpHeaders({
                     "Content-Type": "application/json",
-                    "data": encodeURI(JSON.stringify({nazwa_parafii: nazwa_parafii, id_diecezji: id_diecezji, miasto: miasto, telefid_typuon: id_typu, id_parafii: this.id_parafii}))
+                    "data": encodeURI(JSON.stringify({nazwa_parafii: nazwa_parafii, id_diecezji: id_diecezji, miasto: miasto, id_typu: id_typu, id_parafii: this.id_parafii}))
                 });
 
                 this.http.post(this.serverUrl + '/update_parish', null, { headers: options }).subscribe(res => {

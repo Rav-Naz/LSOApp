@@ -13,6 +13,6 @@
 
 .obecny
 {
-    background-color: #e71e25;
-    border-color:  #e71e25;
+    background: linear-gradient(to bottom, #e71e25,#720e11);
+    border-color:transparent;
 }
