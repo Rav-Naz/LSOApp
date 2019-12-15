@@ -60,6 +60,11 @@ export class MenuComponent implements OnInit {
         this.selectedIndex = event.object.get('selectedIndex');
     }
 
+    zmienStrone(strona: number)
+    {
+        this.selectedIndex = strona;
+    }
+
     nic()
     {
 

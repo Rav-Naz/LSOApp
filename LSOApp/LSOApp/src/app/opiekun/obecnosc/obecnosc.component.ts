@@ -109,12 +109,10 @@ export class ObecnoscComponent implements OnInit {
 
             this.parafiaService.aktualneWydarzenieId = this.aktywneWydarzenie.id;
 
-            // if (this.dzisiejszeWydarzenia.length !== 0) {
-                this.header(this.aktywnyDzien, this.aktywneWydarzenie); //Tworzenie nagłówka
-                this.odliczenie = setTimeout(async () => {
-                    this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id); //Pobieranie danych o dyżurach
-                }, this.sprawdzane && this.zmiana?0:500)
-            // }
+            this.header(this.aktywnyDzien, this.aktywneWydarzenie); //Tworzenie nagłówka
+            this.odliczenie = setTimeout(async () => {
+                this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id); //Pobieranie danych o dyżurach
+            }, this.sprawdzane && this.zmiana?0:500)
         })
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
@@ -129,14 +127,6 @@ export class ObecnoscComponent implements OnInit {
                 this.ui.zmienStan(0,false)
             }
             this.zmiana = false;
-            // if (lista !== null && lista !== undefined) {
-            //     lista.forEach((item) => {
-            //         this.ministranciDoWydarzenia.push(this.parafiaService.WybranyMinistrant(item.id_user))
-            //     });
-            //     this.ministranciDoWydarzenia.sort((min1, min2) => {
-            //         return sortPolskich(min1.nazwisko,min2.nazwisko)
-            //     });
-            // }
         });
 
         this.ObecSub = this.parafiaService.Obecnosci.subscribe(lista => {
@@ -152,9 +142,6 @@ export class ObecnoscComponent implements OnInit {
             if (lista.length > 0) { //W przypadku gdy w pamieci sa juz obecnosci dla tego dnia i wydarzenia
                 this.sprawdzane = true;
                 this.noweObecnosci = lista
-                // lista.forEach(element => {
-                //     this.noweObecnosci.push({ id: element.id, id_wydarzenia: element.id_wydarzenia, id_user: element.id_user, data: element.data, status: element.status });
-                // })
                 this.zmiana = false;
             }
             else {// W przypadku gdy sprawdzamy obecnosc w tym dniu pierwszy raz
@@ -345,13 +332,11 @@ export class ObecnoscComponent implements OnInit {
 
         let zakres = new Date(2018,10,15,teraz.getHours(), teraz.getMinutes() + 15);
         let wydarzenieGodz = new Date(this.aktywneWydarzenie.godzina)
-        // console.log(wydarzenieGodz,zakres)
 
         if (this.aktywnyDzien.getDate() < teraz.getDate()) {
             return true;
         }
         else if (this.aktywnyDzien.getDate() === teraz.getDate() && this.aktywnyDzien.getMonth() === teraz.getMonth() && this.aktywnyDzien.getFullYear() === teraz.getFullYear() &&
-        //  (wydarzenieGodz.getHours() > zakres.getHours() || (wydarzenieGodz.getHours() === zakres.getHours() && wydarzenieGodz.getMinutes() >= zakres.getMinutes())
         wydarzenieGodz > zakres)
          {
             this.zmiana = false;

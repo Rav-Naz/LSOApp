@@ -9,28 +9,7 @@ import { HttpService } from './http.service';
 })
 export class WydarzeniaService {
 
-    // secureStorage: SecureStorage;
-
-    constructor(private parafiaService: ParafiaService, private http: HttpService) {
-        // this.secureStorage = new SecureStorage();
-        // this.secureStorage.get({ key: "wydarzenia" }).then((wydarzenia) => {
-        //     if(wydarzenia !== null)
-        //     {
-        //         let jsonObj: Array<Wydarzenie> = JSON.parse(wydarzenia);
-        //         this._wydarzenia = jsonObj;
-        //         this.wydarzeniaDyzury.next(this._wydarzenia);
-        //     }
-        // }).then(() => {
-        //     this.secureStorage.get({ key: "indexWydarzenia" }).then((indexWydarzenia) => {
-        //         if(indexWydarzenia !== null)
-        //         {
-        //             let jsonObj: number = JSON.parse(indexWydarzenia);
-        //             this.indexWydarzenia = jsonObj;
-        //         }
-        //     })
-        // })
-
-    }
+    constructor(private parafiaService: ParafiaService, private http: HttpService) {}
 
     aktywnyDzien: number;
 
@@ -89,57 +68,14 @@ export class WydarzeniaService {
         return this._wydarzenia.filter((item) => item.id === id_wyd)[0];
     }
 
-    // noweWydarzenie(dzien_tygodnia: number, godzina: Date) //Wykorzystanie: edytuj-msze
-    // {
-    //     this.indexWydarzenia++;
-    //     // this.secureStorage.setSync({key: "indexWydarzenia", value: JSON.stringify(this.indexWydarzenia)})
-    //     return {id: this.indexWydarzenia, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia: dzien_tygodnia, godzina:  new Date(null, null, null, godzina.getHours(), godzina.getMinutes()).toJSON()}
-    // }
-
     async zapiszWydarzenia(staraLista: Array<Wydarzenie>, nowaLista: Array<Wydarzenie>, edytowanaLista: Array<Wydarzenie>, dzien_tygodnia: number) //Wykorzystanie: edutyj-msze
     {
-        // console.log("stara ", staraLista.length)
-        // console.log("nowa ", nowaLista.length)
-        // return new Promise<number>((resolve1) => {
-        //     do_dodania.forEach(item => {
-        //         return new Promise<void>((resolve) => {
-        //             this.http.dodajNoweWydarzenie(2,dzien_tygodnia,item.godzina).then(res => {
-        //                 if(res === 1)
-        //                 {
-        //                     resolve()
-        //                 }
-        //                 else
-        //                 {
-        //                     resolve1(0)
-        //                 }
-        //             })
-        //         })
-        //     })
-
-        //     do_usuniecia.forEach(item => {
-        //         return new Promise<void>((resolve) => {
-        //             this.http.usunWydarzenie(item.id).then(res => {
-        //                 if(res === 1)
-        //                 {
-        //                     resolve()
-        //                 }
-        //                 else
-        //                 {
-        //                     resolve1(0)
-        //                 }
-        //             })
-        //         })
-        //     })
-
-        //     resolve1(1)
-        // })
         return new Promise<number>((resolve) => {
             return new Promise<number>((resolve1) => {
                 let i = 0;
                 staraLista.forEach(stary => {
                     i++
                     if (nowaLista.filter(nowy => stary.id === nowy.id)[0] === undefined) {
-                        // this.parafiaService.usunWszystkieDyzuryDlaWydarzenia(stary.id)
                         this.usunWydarzenie(stary).then(res => {
                             if (res === 0) {
                                 resolve(0)
@@ -184,14 +120,6 @@ export class WydarzeniaService {
                 }, 500)
             })
         })
-
-
-
-        // this.secureStorage.set({key: "wydarzenia", value: JSON.stringify(this._wydarzenia)}).then(async() => {
-        //     this.wydarzeniaDyzury.next(this._wydarzenia)
-        //     await this.wydarzeniaWEdycji(dzien_tygodnia);
-        // })
-
     }
 
     private async dodajWydarzenie(wydarzenie: Wydarzenie) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
@@ -207,9 +135,6 @@ export class WydarzeniaService {
     private async usunWydarzenie(wydarzenie: Wydarzenie) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
     {
         return new Promise<number>((resolve) => {
-            // let wyszukany = this._wydarzenia.filter(wydarzenia => wydarzenia.id === wydarzenie.id)[0];
-            // let index = this._wydarzenia.indexOf(wyszukany);
-            // this._wydarzenia.splice(index,1);
             this.http.usunWydarzenie(wydarzenie.id).then(res => {
                 resolve(res)
             })

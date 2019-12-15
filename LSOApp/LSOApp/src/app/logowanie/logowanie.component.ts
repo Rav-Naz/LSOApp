@@ -85,7 +85,6 @@ export class LogowanieComponent implements OnInit {
 
     }
 
-
     zapomnialem() {
         this.router.navigate(['/zapomnialem'], { transition: { name: 'slideBottom' } });
     }
@@ -116,7 +115,6 @@ export class LogowanieComponent implements OnInit {
                 this.userService.zmienUsera(user);
 
                 if (user.admin === 1) {
-                    //    this.ladowanie = false;
                     this.modal.showModal(LogowanieJakoComponent, {
                         context: null,
                         viewContainerRef: this.vcRef,

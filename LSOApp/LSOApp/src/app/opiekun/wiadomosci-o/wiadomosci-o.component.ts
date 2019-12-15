@@ -83,7 +83,6 @@ export class WiadomosciOComponent implements OnInit {
                     case 1:
                         this.wiadosciService.pobierzWiadomosci().then(() => {
                             this.tresc = '';
-                            // this.pisanieWiadomosci = false;
                             setTimeout(() => {
                                 this.ui.showFeedback('succes',"Wysłano wiadomość",3)
                             }, 400)

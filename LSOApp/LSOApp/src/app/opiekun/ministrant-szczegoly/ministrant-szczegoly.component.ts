@@ -82,12 +82,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
             }
 
             this.dyzury = lista_dyzurow
-            // if (lista_dyzurow.length === 0) {
-            //     return;
-            // }
-            // lista_dyzurow.forEach(dyzur => {
-            //     this.dyzury.push(this.wydarzeniaService.wybraneWydarzenie(dyzur.id_wydarzenia));
-            // });
+
             this.dyzury.sort((wyd1, wyd2) => {
                 if (wyd1.dzien_tygodnia > wyd2.dzien_tygodnia) {
                     return 1;

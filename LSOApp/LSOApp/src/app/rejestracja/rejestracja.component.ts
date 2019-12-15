@@ -75,8 +75,6 @@ export class RejestracjaComponent implements OnInit {
             imie: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń ]{1,20})')] }),
             nazwisko: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń-]{1,20})')] }),
             emailP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.email] }),
-            // hasloP: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')] }),
-            // powtorzP: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
         })
 
         this.formP.get('wezwanie').statusChanges.subscribe(status => {
@@ -95,12 +93,6 @@ export class RejestracjaComponent implements OnInit {
         this.formP.get('emailP').statusChanges.subscribe(status => {
             this.emailPValid = status === 'VALID';
         });
-        // this.formP.get('hasloP').statusChanges.subscribe(status => {
-        //     this.hasloPValid = status === 'VALID';
-        // });
-        // this.formP.get('powtorzP').statusChanges.subscribe(status => {
-        //     this.powtorzPValid = status === 'VALID';
-        // });
     }
 
     displayActionDialog(akcja: 'stopien' | 'diecezja' | 'rodzaj') {
@@ -188,14 +180,6 @@ export class RejestracjaComponent implements OnInit {
             return;
         }
 
-        // if (this.formP.get('hasloP').value !== this.formP.get('powtorzP').value) {
-        //     this.powtorzPValid = false;
-        //     setTimeout(() => {
-        //         let scroll = this.scrollView.nativeElement;
-        //         scroll.scrollToVerticalOffset(scroll.scrollableHeight, true);
-        //     }, 100)
-        //     return;
-        // }
         if (!this.regulaminPRef.nativeElement.checked) {
             this.ui.showFeedback('warning',"Zaakceptuj regulamin i politykę prywatności",3)
             setTimeout(() => {
@@ -209,7 +193,6 @@ export class RejestracjaComponent implements OnInit {
         this._wezwanie = this.formP.get('wezwanie').value;
         this._miasto = this.formP.get('miasto').value;
         this._emailP = this.formP.get('emailP').value;
-        // this._hasloP = this.formP.get('hasloP').value;
         this._imie = this.formP.get('imie').value;
         this._nazwisko = this.formP.get('nazwisko').value;
 

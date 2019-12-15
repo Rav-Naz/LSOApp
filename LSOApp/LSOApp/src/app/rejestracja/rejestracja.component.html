@@ -139,38 +139,6 @@
                         <Label text="Wpisz poprawny adres e-mail" class="red lexend" *ngIf="!emailPValid"></Label>
                     </FlexboxLayout>
 
-                    <!-- <FlexboxLayout class="kontener center" height="100%">
-                        <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
-                                colSpan="2">
-                                <TextField hint="Wpisz hasło" class="text-field lexend" autocapitalizationType="none"
-                                    [secure]="true" formControlName="hasloP" #hasloP></TextField>
-                            </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                <Label text="HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
-                            </FlexboxLayout>
-                        </GridLayout>
-
-                        <Label
-                            text="Hasło musi mieć od 6 do 15 znaków oraz składać się z polskiego alfabetu, cyfr i symboli: +,*,@,#,$,&,^,~,_,?"
-                            class="red lexend" *ngIf="!hasloPValid"></Label>
-                    </FlexboxLayout>
-
-                    <FlexboxLayout class="kontener center" height="100%">
-                        <GridLayout columns="auto,*" rows="10,10,auto">
-                            <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0"
-                                colSpan="2">
-                                <TextField hint="Powtórz hasło" class="text-field lexend" autocapitalizationType="none"
-                                    [secure]="true" formControlName="powtorzP" #powtorzP></TextField>
-                            </FlexboxLayout>
-                            <FlexboxLayout row="0" rowSpan="2" col="0" class="etykieta center">
-                                <Label text="POWTÓRZ HASŁO" class="audiowide" marginLeft="3" marginRight="3"></Label>
-                            </FlexboxLayout>
-                        </GridLayout>
-
-                        <Label text="Hasła się różnią" class="red lexend" *ngIf="!powtorzPValid"></Label>
-                    </FlexboxLayout> -->
-
                     <GridLayout columns="50,*" rows="40" width="90%">
                         <FlexboxLayout class="flex2 center wh100" col="0">
                             <Switch #regulaminP></Switch>
@@ -188,10 +156,6 @@
                 <StackLayout *ngIf="udanaRejP" horizontalAlignment="center">
                     <Label class="dane audiowide" text="Dziękujemy za rejestrację!"></Label>
                     <Label text="Na poniższy adres e-mail wysłaliśmy link aktywacyjny" class="dane lexend" textWrap="true"></Label>
-                    <!-- <Label [text]="'Diecezja: ' + _diecezja" class="dane lexend"></Label>
-                        <Label [text]="'Miasto: ' + _miasto" class="dane lexend"></Label>
-                        <Label [text]="'Rodzaj parafii: ' + _rodzaj" class="dane lexend"></Label>
-                        <Label [text]="'Wezwanie: ' + _wezwanie" class="dane lexend"></Label> -->
                     <Label [text]="_emailP" class="dane lexend" fontSize="17"></Label>
                     <Label text="Aby móc zalogować się na konto musisz je najpierw potwierdzić!" class="dane lexend" textWrap="true"></Label>
                     <Label text="KOD AKTYWACYJNY JEST WAŻNY PRZEZ 30 MINUT!" class="dane lexend" textWrap="true"></Label>

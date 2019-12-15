@@ -44,8 +44,6 @@ export class UstawieniaMComponent implements OnInit {
 
     nawigujDo(sciezka: string) {
         this.router.navigate(['../' + sciezka], {relativeTo: this.active, transition: { name: 'slideLeft' }});
-        // this.router.navigate(['/menu' ,{ outlets: {ministranci: [sciezka]} }],{ relativeTo: this.active, transition: { name: 'slideLeft' }});
-        // this.router.navigateByUrl("/menu/(dyzury:dyzury//wiadomosciM:wiadomosciM//ustawieniaM:" + sciezka + ")", {transition: { name: 'slideLeft' }});
     }
 
     otworzLink(link: string)
@@ -85,13 +83,5 @@ export class UstawieniaMComponent implements OnInit {
     {
         this.userService.zmienPowiadomienia(!this.checked);
     }
-
-    // zmienNaAdmina()
-    // {
-    //     this.tabService.zmianaOpiekuna(true).then(res => {
-    //         this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
-    //     })
-
-    // }
 
 }

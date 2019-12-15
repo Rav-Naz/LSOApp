@@ -14,24 +14,10 @@
                 <Label [text]="this.user.punkty" class="text audiowide"></Label>
                 <Label text="PUNKTY" class="text2 audiowide"></Label>
             </FlexboxLayout>
-        </GridLayout>
+    </GridLayout>
         <!-- Widok ministranta -->
-        <FlexboxLayout class="wh100" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
-                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysOriginal">`
-
-                        <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                        <TabStrip>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe01b;"></Label>
-                            </TabStripItem>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe032;"></Label>
-                            </TabStripItem>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe05b;"></Label>
-                            </TabStripItem>
-                        </TabStrip>
-
+        <GridLayout columns="*" rows="*,auto" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
+                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)">
                         <TabContentItem>
                             <page-router-outlet name="dyzury"></page-router-outlet>
                         </TabContentItem>
@@ -42,27 +28,15 @@
                             <page-router-outlet name="ustawieniaM"></page-router-outlet>
                         </TabContentItem>
                     </Tabs>
-        </FlexboxLayout>
+                    <GridLayout columns="*,*,*" rows="50"  row="1" backgroundColor="black">
+                        <Button col="0" text="&#xe01b;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 0}" (tap)="zmienStrone(0)"></Button>
+                        <Button col="1" text="&#xe032;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 1}" (tap)="zmienStrone(1)"></Button>
+                        <Button col="2" text="&#xe05b;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 2}" (tap)="zmienStrone(2)"></Button>
+                    </GridLayout>
+        </GridLayout>
         <!-- Widok opiekuna -->
-        <FlexboxLayout class="wh100" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
-                <Tabs [selectedIndex]="selectedIndex" class="tabs" tabsPosition="bottom" (selectedIndexChanged)="zmianaIndexu($event)" iosIconRenderingMode="alwaysTemplate">
-
-                        <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-                        <TabStrip>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe0d7;"></Label>
-                            </TabStripItem>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe092;"></Label>
-                            </TabStripItem>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe032;"></Label>
-                            </TabStripItem>
-                            <TabStripItem class="icon strip-item">
-                                <Label text="&#xe05b;"></Label>
-                            </TabStripItem>
-                        </TabStrip>
-
+        <GridLayout columns="*" rows="*,auto" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
+                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" row="0">
                         <TabContentItem>
                             <page-router-outlet name="obecnosc"></page-router-outlet>
                         </TabContentItem>
@@ -75,9 +49,15 @@
                         <TabContentItem>
                             <page-router-outlet name="ustawieniaO"></page-router-outlet>
                         </TabContentItem>
-
                     </Tabs>
-        </FlexboxLayout>
+                    <GridLayout columns="*,*,*,*" rows="50"  row="1" backgroundColor="black">
+                        <Button col="0" text="&#xe0d7;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 0}" (tap)="zmienStrone(0)"></Button>
+                        <Button col="1" text="&#xe092;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 1}" (tap)="zmienStrone(1)"></Button>
+                        <Button col="2" text="&#xe032;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 2}" (tap)="zmienStrone(2)"></Button>
+                        <Button col="3" text="&#xe05b;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 3}" (tap)="zmienStrone(3)"></Button>
+                    </GridLayout>
+
+        </GridLayout>
 
 
     </FlexboxLayout>

@@ -40,24 +40,16 @@ export class EdytujMszeComponent implements OnInit {
             this.wydarzeniaDnia = [];
             this.stareWydarzeniaDnia = [];
             this.aktualizujWydarzeniaDnia = [];
-            // console.log(lista)
-            // this.wydarzeniaDnia = [];
+
             this.ui.zmienStan(3,false)
+
             if (lista === null || lista === undefined) return
             if (lista.length === 0) return
-            // this.wydarzeniaDnia = lista
-            // this.stareWydarzeniaDnia = lista
-
-            // console.log(this.wydarzeniaDnia)
-            // console.log(this.stareWydarzeniaDnia)
-            // this.stareWydarzeniaDnia = [];
-            // if (lista !== null && lista !== undefined) {
                 lista.forEach(wydarzenie => {
                     this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
                     this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
                 })
                 this.sortuj()
-            // }
         })
     }
 
@@ -83,7 +75,6 @@ export class EdytujMszeComponent implements OnInit {
             let godzina = res
             if (godzina !== null) {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === godzina.getHours() && new Date(wydarzenie.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
-                    // godzina.setHours(godzina.getHours() + 1);
                     this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(2018, 10, 15, godzina.getHours(), godzina.getMinutes()).toJSON() });
                     this.zmiana = true;
                     setTimeout(() => {

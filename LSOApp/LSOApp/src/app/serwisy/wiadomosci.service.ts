@@ -10,19 +10,7 @@ export class WiadomosciService {
 
     private _wiadomosci: Array<Wiadomosc> = [];
 
-    // secureStorage: SecureStorage;
-
-    constructor(private http: HttpService) {
-        // this.secureStorage = new SecureStorage();
-        // this.secureStorage.get({ key: "wiadomosci" }).then((wiadomosci) => {
-        //     if(wiadomosci !== null)
-        //     {
-        //         let jsonObj: Array<Wiadomosc> = JSON.parse(wiadomosci);
-        //         this._wiadomosci = jsonObj;
-        //         this.wiadomosci.next(this._wiadomosci);
-        //     }
-        // })
-    }
+    constructor(private http: HttpService) {}
 
     private wiadomosci = new BehaviorSubject<Array<Wiadomosc>>(null);
 
@@ -43,9 +31,6 @@ export class WiadomosciService {
                 this.wiadomosci.next(res);
                 resolve()
             })
-            // this.secureStorage.set({key: "wiadomosci", value: JSON.stringify(this._wiadomosci)}).then(() => {
-            //     resolve()
-            // })
         })
     }
 

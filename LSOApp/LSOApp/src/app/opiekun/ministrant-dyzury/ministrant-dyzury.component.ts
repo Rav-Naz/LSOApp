@@ -46,8 +46,6 @@ export class MinistrantDyzuryComponent implements OnInit {
 
         this.page.actionBarHidden = true;
 
-        // this.ministrant = this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
-
         this.wydarzeniaService.wszystkieWydarzeniaWDyzurach()
 
         this.parafiaService.wyszukajDyzury(this.parafiaService.aktualnyMinistrantId);

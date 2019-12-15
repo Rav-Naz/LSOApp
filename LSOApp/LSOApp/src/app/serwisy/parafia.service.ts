@@ -146,12 +146,6 @@ export class ParafiaService {
         })
     }
 
-    // dyzuryMinistrant(id_user: number) //Wykorzystanie: userService(constructor)
-    // {
-    //     let lista =this._dyzury.filter(item => item.id_user === id_user);
-    //     return lista;
-    // }
-
     async zapiszDyzury(nowe: Array<Wydarzenie>, stare: Array<Wydarzenie>) //Wykorzystanie: ministranci-dyzury
     {
         return new Promise<number>(async (resolve) => {
@@ -178,13 +172,6 @@ export class ParafiaService {
                 })
             }, 500)
         })
-
-        // this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)}).then(async() => {
-        //     this.secureStorage.set({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])}).then(async() => {
-        //         await this.wyszukajDyzury(this.aktualnyMinistrantId);
-        //         this.dyzurDoWydarzenia(this.aktualneWydarzenieId)
-        //     })
-        // })
     }
 
     private usunDyzur(id_wydarzenia: number, id_user: number) { //Wykorzystanie: parafiaService(zapiszDyzury)
@@ -194,11 +181,6 @@ export class ParafiaService {
                 resolve(res)
             })
         })
-        // let doUsuniecia = this._dyzury.filter(dyzur => dyzur.id_user === this.aktualnyMinistrantId && dyzur.id_wydarzenia === id_wydarzenia)[0];//Wykorzystanie: ministranci-dyzury
-        // if (doUsuniecia !== undefined && doUsuniecia !== null) {
-        //     let index = this._dyzury.indexOf(doUsuniecia);
-        //     this._dyzury.splice(index, 1);
-        // }
     }
 
     private dodajDyzur(id_wydarzenia: number, id_user: number) {//Wykorzystanie: parafiaService(zapiszDyzury)
@@ -207,8 +189,6 @@ export class ParafiaService {
                 resolve(res)
             })
         })
-        // this.indexDyzuru++;
-        // this._dyzury.push({ id: this.indexDyzuru, id_user: this.aktualnyMinistrantId, id_wydarzenia: id_wydarzenia })//Wykorzystanie: ministranci-dyzury
     }
 
     async usunWszystkieDyzuryDlaWydarzenia(id_wydarzenia: number) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
@@ -221,8 +201,6 @@ export class ParafiaService {
             this._dyzury.splice(index, 1);
            })
        }
-
-    //    this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)})
     }
 
     async usunWszystkieDyzury()
@@ -244,13 +222,6 @@ export class ParafiaService {
                 resolve(res)
             })
         })
-        // this.indexMinistrantow++;
-        // this.ministranciLista.push({id_user: this.indexMinistrantow, id_diecezji: 1, id_parafii: 1, punkty: 0, stopien: stopien, imie: imie, nazwisko: nazwisko, ulica: null, kod_pocztowy: null, miasto: null, email: email, telefon: null, aktywny: false});
-        // this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-        //     this.secureStorage.set({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])}).then(async() => {
-        //         await this.odswiezListeMinistrantow();
-        //     })
-        // })
     }
 
 
@@ -277,9 +248,6 @@ export class ParafiaService {
             lista = this.ministranciLista;
             this.ministranci.next(lista);
             resolve();
-            // setTimeout(() => {
-            //     resolve();
-            // },2500)
         })
     }
 
@@ -292,19 +260,10 @@ export class ParafiaService {
                 })
             })
         })
-        // let min = this.ministranciLista.filter(mini => mini.id_user === ministrant.id_user)[0];
-        // this.ministranciLista[this.ministranciLista.indexOf(min)] = ministrant;
-        // this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-        //     await this.odswiezListeMinistrantow();
-        // })
     }
 
     async usunMinistranta(id_user: number) //Wykorzystanie: ministranci
     {
-    //    let min = this.ministranciLista.filter(ministrant => ministrant.id_user === id_user)[0];
-    //    let indexListaMinistrantow = this.ministranciLista.indexOf(min);
-    //    this.ministranciLista.splice(indexListaMinistrantow,1);
-
         return new Promise<number>(resolve => {
             this.http.usunMinistranta(id_user).then(res => {
                 this.pobierzMinistrantow().then(() => {
@@ -312,20 +271,6 @@ export class ParafiaService {
                 })
             })
         })
-
-    //    let listaDyzurow = this._dyzury.filter(dyzur => dyzur.id_user === id_user);
-    //    if(listaDyzurow !== undefined)
-    //    {
-    //     listaDyzurow.forEach(dyzur => {
-    //         let indexDyzuru = this._dyzury.indexOf(dyzur);
-    //         this._dyzury.splice(indexDyzuru,1);
-    //     })
-    //    }
-    //    this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-    //     this.secureStorage.set({key: "dyzury", value: JSON.stringify(this._dyzury)}).then(async() => {
-    //         await this.odswiezListeMinistrantow();
-    //     })
-    // })
     }
 
     async usunKontoMinistanta(id_user:number)
@@ -337,20 +282,10 @@ export class ParafiaService {
                 })
             })
         })
-        // let min = this.ministranciLista.filter(mini => mini.id_user === ministrant.id_user)[0];
-        // this.ministranciLista[this.ministranciLista.indexOf(min)] = ministrant;
-        // this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-        //     await this.odswiezListeMinistrantow();
-        // })
     }
 
     obecnosciDoWydarzenia(id_wydarzenia:number, data: Date) //Wykorzystanie: obecnosc
     {
-        // let ob = this._obecnosci.filter(obecnosc => obecnosc.id_wydarzenia === id_wydarzenia && new Date(obecnosc.data).getDate() === data.getDate() &&  new Date(obecnosc.data).getMonth() === data.getMonth() && new Date(obecnosc.data).getFullYear() === data.getFullYear());
-        // if(ob === undefined)
-        // {
-        //     ob = [];
-        // }
         return new Promise<number>((resolve) => {
             this.http.pobierzObecnosciDoWydarzenia(id_wydarzenia, data).then(res => {
                 this.obecnosciWydarzenia.next(JSON.parse(JSON.stringify(res)));
@@ -375,7 +310,6 @@ export class ParafiaService {
     nowaObecnosc(id_wydarzenia: number, id_user: number, data: Date) //Wykorzystanie: obecnosc
     {
         let ob: Obecnosc = {id: 0, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate(), data.getHours() + 2).toJSON(), status: null }
-        // this.secureStorage.setSync({key: "indexyParafia", value: JSON.stringify([this.indexDyzuru,this.indexObecnosci,this.indexMinistrantow])})
         return ob;
     }
 
@@ -401,58 +335,5 @@ export class ParafiaService {
                 })
             }, 500)
         })
-        // let id_wydarzenia = nowaLista[0].id_wydarzenia;
-        // let data = new Date(nowaLista[0].data);
-        // nowaLista.forEach(obecnosc => {
-        //   if(czySprawdzanie)
-        //   {
-
-        //   }
-        //   else
-        //   {
-        //       let index = this._obecnosci.indexOf(ob);
-        //       let aktualnyStatus = this._obecnosci[index].status
-        //       let punkty: number = 0;
-
-        //       if(aktualnyStatus !== obecnosc.status)
-        //       {
-        //           if(aktualnyStatus === 0 && obecnosc.status === 1)
-        //           {
-        //             punkty += this.punktyZaObecnosc-this.punktyZaNieobecnosc;
-        //           }
-        //           else if(aktualnyStatus === 0 && obecnosc.status === null)
-        //           {
-        //             punkty += -this.punktyZaNieobecnosc;
-        //           }
-        //           else if(aktualnyStatus === 1 && obecnosc.status === 0)
-        //           {
-        //             punkty += this.punktyZaNieobecnosc-this.punktyZaObecnosc;
-        //           }
-        //           else if(aktualnyStatus === 1 && obecnosc.status === null)
-        //           {
-        //             punkty += -this.punktyZaObecnosc;
-        //           }
-        //           else if(aktualnyStatus === null && obecnosc.status === 0)
-        //           {
-        //             punkty += this.punktyZaNieobecnosc;
-        //           }
-        //           else if(aktualnyStatus === null && obecnosc.status === 1)
-        //           {
-        //             punkty += this.punktyZaObecnosc;
-        //           }
-        //           this.ministranciLista.filter(ministrant => ministrant.id_user === obecnosc.id_user)[0].punkty += punkty;
-        //       }
-        //      this._obecnosci[index].status = obecnosc.status;
-        //   }
-        // });
-
-
-        // this.secureStorage.set({key: "obecnosci", value: JSON.stringify(this._obecnosci)}).then(async() => {
-        //     this.secureStorage.set({key: "ministranci", value: JSON.stringify(this.ministranciLista)}).then(async() => {
-        //     this.obecnosciDoWydarzenia(id_wydarzenia,data);
-        //     await this.odswiezListeMinistrantow();
-        //     });
-        // })
-        // this.dyzurDoWydarzenia(id_wydarzenia);
     }
 }

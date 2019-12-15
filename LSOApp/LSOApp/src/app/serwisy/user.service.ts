@@ -12,7 +12,7 @@ import { Wydarzenie } from './wydarzenie.model';
 export class UserService {
 
     private secureStorage;
-    public wersja: string = "1.0"; //Wykorzystanie: ustawienia-m, ustawienia-o
+    public wersja: string = "2.0.3"; //Wykorzystanie: ustawienia-m, ustawienia-o
     private user: User
 
     constructor(private http: HttpService){
@@ -76,12 +76,6 @@ export class UserService {
         this.user = user
         this.userSub.next(user)
     }
-
-    // setUserDyzury(lista)
-    // {
-    //     this.userDyzury = lista;
-    //     this.userDyzurySub.next(lista)
-    // }
 
     async zmienPowiadomienia(wartosc: boolean)
     {   return new Promise<void>((resolve) => {

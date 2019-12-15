@@ -15,13 +15,11 @@
                 </GridLayout>
                 <Label text="Niepoprawny adres e-mail" class="red lexend" *ngIf="!emailValid"></Label>
                 <GridLayout columns="*,30" rows="auto" width="85%" margin="10">
-                    <!-- <FlexboxLayout col="0" class="center" alignItems="flex-end"> -->
-                        <Label text="Uzyskałem zgodę na podanie adresu e-mail w celu utworzenia konta dla ministranta&#xA;(pole wymagane)" class="stand lexend"></Label>
-                        <FlexboxLayout width="30" height="30" alignItems="center" justifyContent="center" col="1">
-                            <ns-checkbox-zwykly (checkStatus)="check($event)" [stan]="false"></ns-checkbox-zwykly>
-                        </FlexboxLayout>
-                    <!-- </FlexboxLayout> -->
-                    </GridLayout>
+                    <Label text="Uzyskałem zgodę na podanie adresu e-mail w celu utworzenia konta dla ministranta&#xA;(pole wymagane)" class="stand lexend"></Label>
+                    <FlexboxLayout width="30" height="30" alignItems="center" justifyContent="center" col="1">
+                        <ns-checkbox-zwykly (checkStatus)="check($event)" [stan]="false"></ns-checkbox-zwykly>
+                    </FlexboxLayout>
+                </GridLayout>
             </StackLayout>
                 <Label text="Link aktywacyjny został wysłany na podany adres email. Jeśli przez dłuższy czas ministrant nie otrzymał wiadomości, należy sprawdzić zakładkę 'SPAM'."
                     class="stand lexend" width="90%" *ngIf="wyslanePrzyp === 1"></Label>
