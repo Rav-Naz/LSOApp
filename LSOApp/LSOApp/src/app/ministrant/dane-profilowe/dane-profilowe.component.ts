@@ -144,6 +144,10 @@ export class DaneProfiloweComponent implements OnInit {
 
                 this.zamknij();
             }
+            else if(res === 404)
+            {
+                this.ui.sesjaWygasla()
+            }
             else
             {
                 this.ui.showFeedback('error', "Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)

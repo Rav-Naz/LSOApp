@@ -40,11 +40,16 @@ export class WydarzeniaService {
     }
 
     dzisiejszeWydarzenia(dzien: number) {//Wykorzystanie: wydarzeniaService (wydarzeniaWEdycji)
-        return new Promise<void>((resolve) => {
+        return new Promise<number>((resolve) => {
             this.aktywnyDzien = dzien;
             this.http.pobierzWydarzeniaNaDanyDzien(dzien).then(res => {
+                if(res === null)
+                {
+                    resolve(404)
+                    return
+                }
                 this.wydarzeniaObecnosc.next(res);
-                resolve();
+                resolve(1);
             })
         })
     }
@@ -53,6 +58,10 @@ export class WydarzeniaService {
     {
         return new Promise<number>((resolve) => {
             this.http.pobierzWszystkieWydarzenia().then(res => {
+                if(res === null)
+                {
+                    resolve(404)
+                }
                 this.wydarzeniaDyzury.next(res)
                 resolve(1)
             })
@@ -77,8 +86,8 @@ export class WydarzeniaService {
                     i++
                     if (nowaLista.filter(nowy => stary.id === nowy.id)[0] === undefined) {
                         this.usunWydarzenie(stary).then(res => {
-                            if (res === 0) {
-                                resolve(0)
+                            if (res === 0 || res === 404) {
+                                resolve(404)
                             }
                         });
                     }
@@ -93,8 +102,8 @@ export class WydarzeniaService {
                         i++
                         if (staraLista.filter(stary => nowy.id === stary.id)[0] === undefined) {
                             this.dodajWydarzenie(nowy).then(res => {
-                                if (res === 0) {
-                                    resolve(0)
+                                if (res === 0 || res === 404) {
+                                    resolve(404)
                                 }
                             });
                         }
@@ -108,7 +117,11 @@ export class WydarzeniaService {
                     let i = 0;
                     edytowanaLista.forEach(async edit => {
                         i++
-                        this.http.aktualizacjaWydarzenie(new Date(edit.godzina), edit.id)
+                        this.http.aktualizacjaWydarzenie(new Date(edit.godzina), edit.id).then(res => {
+                            if (res === 0 || res === 404) {
+                                resolve(404)
+                            }
+                        })
                     })
                     if (i === edytowanaLista.length) {
                         resolve1(1)
@@ -143,10 +156,15 @@ export class WydarzeniaService {
 
     wydarzeniaWEdycji(dzien_tygodnia: number) //Wykorzystanie: edytuj-msze, wydarzeniaService(zapiszWydarzenia)
     {
-        return new Promise<void>((resolve) => {
+        return new Promise<number>((resolve) => {
             this.http.pobierzWydarzeniaNaDanyDzien(dzien_tygodnia).then(res => {
+                if(res === null)
+                {
+                    resolve(404)
+                    return
+                }
                 this.wydarzeniaEdycja.next(res);
-                resolve();
+                resolve(1);
             })
         })
     }

@@ -1,7 +1,7 @@
 <FlexboxLayout class="back wh100 center">
     <GridLayout columns="*" rows="auto,*,auto">
         <FlexboxLayout class="center" width="100%" row="0">
-            <Label [text]="userImieINazwisko" class="opis audiowide"></Label>
+            <Label [text]="userImieINazwisko" class="opis audiowide" (tap)="nawigujDo('dane-profilowe')"></Label>
             <GridLayout columns="auto,*" rows="auto" width="90%">
                 <Label text="Twoje dane" class="opis lexend" col="0"></Label>
                 <Button text="Dane profilowe" class="click audiowide" col="1" (tap)="nawigujDo('dane-profilowe')"></Button>

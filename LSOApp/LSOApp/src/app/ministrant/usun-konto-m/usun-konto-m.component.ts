@@ -64,6 +64,9 @@ export class UsunKontoMComponent implements OnInit {
                 case 0:
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
+                case 404:
+                        this.ui.sesjaWygasla()
+                    break;
                 default:
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;

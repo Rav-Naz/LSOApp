@@ -39,6 +39,7 @@ import { WyborModalComponent } from './shared/modale/wybor-modal/wybor-modal.com
 import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { LogowanieJakoComponent } from './shared/modale/logowanie-jako/logowanie-jako.component';
 import { NadajHasloComponent } from './nadaj-haslo/nadaj-haslo.component';
+import { SesjaWygaslaComponent } from './shared/modale/sesja-wygasla/sesja-wygasla.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -94,12 +95,13 @@ import { NadajHasloComponent } from './nadaj-haslo/nadaj-haslo.component';
         PotwierdzenieModalComponent,
         LogowanieJakoComponent,
         NadajHasloComponent,
+        SesjaWygaslaComponent,
     ],
     providers: [],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
-    entryComponents: [WyborModalComponent, PotwierdzenieModalComponent, LogowanieJakoComponent]
+    entryComponents: [WyborModalComponent, PotwierdzenieModalComponent, LogowanieJakoComponent, SesjaWygaslaComponent]
 })
 /*
 Pass your application module to the bootstrapModule function located in main.ts to start your app

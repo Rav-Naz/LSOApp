@@ -54,9 +54,6 @@ export class PunktacjaComponent implements OnInit {
 
         this.ui.zmienStan(4,true)
 
-        this.parafiaService.parafia.punkty_dod_sluzba = this.pktZaObecnosc;
-        this.parafiaService.parafia.punkty_uj_sluzba = this.pktZaNieobecnosc;
-
         this.zmiana = false;
 
         this.http.aktualizacjaPunktow(this.pktZaObecnosc, this.pktZaNieobecnosc).then(res => {
@@ -70,10 +67,17 @@ export class PunktacjaComponent implements OnInit {
                 }, 400)
                 this.anuluj();
             }
+            else if(res === 404)
+            {
+                this.ui.sesjaWygasla()
+                this.ui.zmienStan(4,false)
+                this.zmiana = true;
+            }
             else
             {
                 this.ui.zmienStan(4,false)
                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                this.zmiana = true;
             }
         })
     }

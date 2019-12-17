@@ -54,6 +54,10 @@ export class WiadomosciService {
                         resolve(1)
                     });
                 }
+                else if(res === 404)
+                {
+                    resolve(404)
+                }
                 else
                 {
                     resolve(0)

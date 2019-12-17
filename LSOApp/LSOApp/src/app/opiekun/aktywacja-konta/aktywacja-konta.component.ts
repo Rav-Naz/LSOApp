@@ -95,10 +95,13 @@ export class AktywacjaKontaComponent implements OnInit {
                         this.ui.zmienStan(4,false)
                     })
                     break;
-
                 case 2:
                         this.ui.zmienStan(4,false)
                         this.ui.showFeedback('warning',"Ten adres e-mail jest już przypisany do innego konta",3)
+                        break;
+                case 404:
+                    this.ui.sesjaWygasla()
+                    this.ui.zmienStan(4,false)
                     break;
                 default:
                         this.ui.zmienStan(4,false)
@@ -126,6 +129,12 @@ export class AktywacjaKontaComponent implements OnInit {
                         }, 400)
                         this.ui.zmienStan(4,false)
                         this.powrot();
+                    }
+                    else if(res === 404)
+                    {
+                        this.ui.sesjaWygasla()
+                        this.ui.zmienStan(5,false)
+                        this.ui.zmienStan(4,false)
                     }
                     else
                     {

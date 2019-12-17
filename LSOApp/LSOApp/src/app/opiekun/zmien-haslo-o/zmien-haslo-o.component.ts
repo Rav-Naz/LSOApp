@@ -102,6 +102,10 @@ export class ZmienHasloOComponent implements OnInit, AfterViewInit {
                     this.ui.showFeedback('succes',"Dane zostały zaktualizowane",3)
                 }, 400)
             }
+            else if(res === 404)
+            {
+                this.ui.sesjaWygasla()
+            }
             else
             {
                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)

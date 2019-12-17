@@ -46,7 +46,12 @@ export class DyzuryComponent implements OnInit {
         secureStorage.clearAllOnFirstRun();
         this.stareDyzury = [];
 
-        this.userService.mojeDyzury(this.user.id_user);
+        this.userService.mojeDyzury(this.user.id_user).then(res => {
+            if(res === 404)
+            {
+                this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2)
+            }
+        });
 
         this.dyzurySub = this.userService.UserDyzurySub.subscribe(dyzury => {
 

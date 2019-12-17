@@ -86,7 +86,7 @@ export class LogowanieComponent implements OnInit {
     }
 
     zapomnialem() {
-        this.router.navigate(['/zapomnialem'], { transition: { name: 'slideBottom' } });
+        this.router.navigate(['/zapomnialem'], { transition: { name: 'slideBottom', duration: 500 } });
     }
 
     zaloguj() {
@@ -139,10 +139,16 @@ export class LogowanieComponent implements OnInit {
                                                 else {
                                                     this.secureStorage.set({ key: 'pasy', value: null })
                                                 }
-                                                this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                                                this.router.navigate(['/menu'], { transition: { name: 'slideTop', duration: 500 }, clearHistory: true });
+                                            }
+                                            else if(res === 404)
+                                            {
+                                                this.ui.showFeedback('error',"Czas na zalogowanie minął. Spróbuj jeszcze raz",3)
+                                                this.ladowanie = false;
                                             }
                                             else {
                                                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                                                this.ladowanie = false;
                                             }
                                         })
                                     }
@@ -156,7 +162,7 @@ export class LogowanieComponent implements OnInit {
 
                                 this.tabIndexService.zmianaOpiekuna(false).then(res => {
                                     if (res === 1) {
-                                        this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                                        this.router.navigate(['/menu'], { transition: { name: 'slideTop', duration: 500 }, clearHistory: true });
                                         if (this.zapamietaj) {
                                             this.secureStorage.set({ key: 'pasy', value: JSON.stringify({ email: this._email, haslo: this._haslo }) })
                                         }
@@ -180,7 +186,7 @@ export class LogowanieComponent implements OnInit {
                 else {
                     this.tabIndexService.zmianaOpiekuna(false).then(res => {
                         if (res === 1) {
-                            this.router.navigate(['/menu'], { transition: { name: 'slideTop' }, clearHistory: true });
+                            this.router.navigate(['/menu'], { transition: { name: 'slideTop', duration: 500}, clearHistory: true });
                             if (this.zapamietaj) {
                                 this.secureStorage.set({ key: 'pasy', value: JSON.stringify({ email: this._email, haslo: this._haslo }) })
                             }
@@ -200,11 +206,11 @@ export class LogowanieComponent implements OnInit {
     }
 
     doRejestracji() {
-        this.router.navigate(['/rejestracja'], { transition: { name: 'slideLeft' } });
+        this.router.navigate(['/rejestracja'], { transition: { name: 'slideLeft' , duration: 500} });
     }
 
     nadajHaslo() {
-        this.router.navigate(['/nadaj-haslo'], { transition: { name: 'slideRight' } });
+        this.router.navigate(['/nadaj-haslo'], { transition: { name: 'slideRight' , duration: 500} });
     }
 
 

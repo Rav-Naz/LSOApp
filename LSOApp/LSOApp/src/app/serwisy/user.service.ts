@@ -92,6 +92,11 @@ export class UserService {
     async mojeDyzury(id_user: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
         return new Promise<number>(resolve => {
             this.http.pobierzDyzuryDlaMinistranta(id_user).then(res => {
+                if(res === null)
+                {
+                    resolve(404)
+                    return
+                }
                 this.userDyzurySub.next(res);
                 resolve(1);
             })
@@ -109,9 +114,9 @@ export class UserService {
     async zmienDane(telefon:string,ulica: string, kod:string,miasto: string) { //Wykorzystanie: dane-profilowe
         return new Promise<number>((resolve) => {
             this.http.aktualizacjaDanychMinistranta(ulica,kod,miasto,telefon).then(res => {
-                if(res === 0)
+                if(res === 0 || res === 404)
                 {
-                    resolve(0)
+                    resolve(res)
                 }
                 else
                 {

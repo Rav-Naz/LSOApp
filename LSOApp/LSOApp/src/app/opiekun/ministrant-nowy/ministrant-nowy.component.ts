@@ -28,6 +28,7 @@ export class MinistrantNowyComponent implements OnInit {
     nazwiskoValid: boolean = true;
     stopienValid: boolean = true;
     emailValid: boolean = true;
+    zapisywanie: boolean = false;
 
     _imie: string;
     _nazwisko: string;
@@ -66,6 +67,8 @@ export class MinistrantNowyComponent implements OnInit {
             return;
         }
 
+        this.zapisywanie = true
+
         this._imie = this.form.get('imie').value;
         this._nazwisko = this.form.get('nazwisko').value;
         this._email = this.form.get('email').value !== '' ? this.form.get('email').value : null;
@@ -75,6 +78,7 @@ export class MinistrantNowyComponent implements OnInit {
         this.parafiaService.nowyMinistrant(this._stopien, this._imie, this._nazwisko, this._email).then(res => {
             switch (res) {
                 case 0:
+                    this.zapisywanie = false
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
                 case 1:
@@ -86,13 +90,19 @@ export class MinistrantNowyComponent implements OnInit {
                     })
                     break;
                 case 2:
+                    this.zapisywanie = false
                         this.ui.showFeedback('warning',"Ten e-mail jest już przypisany do innego konta",3)
                     break;
-
+                case 404:
+                    this.zapisywanie = false
+                    this.ui.sesjaWygasla()
+                    break;
                 default:
+                    this.zapisywanie = false
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;
             }
+            this.ui.zmienStan(1,false)
         })
     }
 

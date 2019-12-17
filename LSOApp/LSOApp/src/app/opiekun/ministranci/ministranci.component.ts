@@ -39,18 +39,20 @@ export class MinistranciComponent implements OnInit {
             this.ui.zmienStan(1,false)
         })
         this.page.actionBarHidden = true;
-        this.miniSub = this.parafiaService.Ministranci.subscribe(lista => {
-            this.ministranci = [];
-            if(lista !== null)
-            {
-                lista.forEach(ministrant => {
-                    this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny, admin: ministrant.admin, ranking: ministrant.ranking})
-                })
-                this.ministranci = this.ministranci.filter(item => item.stopien !== 11)
-                this.sortujListe();
-                this.ui.zmienStan(1,false)
-            }
-        })
+        setTimeout(() => {
+            this.miniSub = this.parafiaService.Ministranci.subscribe(lista => {
+                this.ministranci = [];
+                if(lista !== null)
+                {
+                    lista.forEach(ministrant => {
+                        this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny, admin: ministrant.admin, ranking: ministrant.ranking})
+                    })
+                    this.ministranci = this.ministranci.filter(item => item.stopien !== 11)
+                    this.sortujListe();
+                    this.ui.zmienStan(1,false)
+                }
+            })
+        },200)
     }
 
     zmianaSortu() {
@@ -59,7 +61,6 @@ export class MinistranciComponent implements OnInit {
     }
 
     sortujListe() {
-
         this.ministranci.sort((min1, min2) => {
             if (this.sortujPoImieniu) {
                return sortPolskich(min1.nazwisko,min2.nazwisko)
@@ -99,7 +100,13 @@ export class MinistranciComponent implements OnInit {
             if(!kontynuowac)
             {
                 this.ui.zmienStan(1,true)
-                this.parafiaService.usunMinistranta(ministrant.id_user).then(() => {
+                this.parafiaService.usunMinistranta(ministrant.id_user).then(res => {
+                    if(res === 404)
+                    {
+                        this.ui.sesjaWygasla()
+                        this.ui.zmienStan(1,false)
+                        return
+                    }
                     this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien)
                     setTimeout(() => {
                         this.ui.showFeedback('succes',"Usunięto ministranta " + ministrant.nazwisko + " " + ministrant.imie,3)

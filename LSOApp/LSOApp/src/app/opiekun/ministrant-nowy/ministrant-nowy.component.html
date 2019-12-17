@@ -78,7 +78,7 @@
         <GridLayout columns="*,*" rows="60" row="3">
             <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Dodaj" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide"
-                [isEnabled]="this.form.valid && stopienNazwa !=='Wybierz stopień'"></Button>
+                [isEnabled]="this.form.valid && stopienNazwa !=='Wybierz stopień' && !zapisywanie"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

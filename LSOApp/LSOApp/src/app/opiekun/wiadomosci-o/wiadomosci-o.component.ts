@@ -88,6 +88,10 @@ export class WiadomosciOComponent implements OnInit {
                             }, 400)
                         });
                         break;
+                    case 404:
+                        this.ui.zmienStan(2, false)
+                        this.ui.sesjaWygasla()
+                        break;
                     default:
                         this.ui.zmienStan(2, false)
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
@@ -142,10 +146,16 @@ export class WiadomosciOComponent implements OnInit {
             await this.czyKontynuowac(true).then((kontynuowac) => {
                 if (!kontynuowac) {
                     this.ui.zmienStan(2, true)
+                    this.tresc = ''
                     this.wiadosciService.usunWiadomosc(wiadomosc).then(res => {
                         if(res === 1)
                         {
                             this.ui.showFeedback('succes', "Usunięto wiadomość",3)
+                        }
+                        else if(res === 404)
+                        {
+                            this.ui.sesjaWygasla()
+                            this.ui.zmienStan(2, false)
                         }
                         else
                         {

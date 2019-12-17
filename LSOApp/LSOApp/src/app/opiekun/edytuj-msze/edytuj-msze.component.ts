@@ -139,6 +139,10 @@ export class EdytujMszeComponent implements OnInit {
                     this.ui.showFeedback('succes',"Zapisano wydarzenia",3)
                 })
             }
+            else if( res === 404)
+            {
+                this.ui.sesjaWygasla()
+            }
             else {
                 this.zmiana = true;
                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
@@ -207,7 +211,12 @@ export class EdytujMszeComponent implements OnInit {
                 this.ui.zmienStan(3,true)
                 this.zmiana = false;
                 this.wybranyDzien = dzien;
-                this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien);
+                this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien).then(res => {
+                    if(res === 404)
+                    {
+                        this.ui.sesjaWygasla()
+                    }
+                });
             }
         });
     }

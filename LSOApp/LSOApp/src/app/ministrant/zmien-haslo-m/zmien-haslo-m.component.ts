@@ -85,6 +85,9 @@ export class ZmienHasloMComponent implements OnInit {
                 case 2:
                         this.ui.showFeedback('warning',"Aktualne hasło nie jest poprawne",3)
                     break;
+                case 404:
+                    this.ui.sesjaWygasla()
+                    break;
                 case 0:
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     break;

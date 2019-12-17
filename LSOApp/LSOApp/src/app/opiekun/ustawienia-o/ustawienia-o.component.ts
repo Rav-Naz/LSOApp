@@ -99,6 +99,9 @@ export class UstawieniaOComponent implements OnInit {
                         case 1:
                             this.ui.showFeedback('succes',"Pomyślnie wyzerowano punkty",2)
                             break;
+                        case 404:
+                            this.ui.sesjaWygasla()
+                            break;
                         default:
                             this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                             break;
@@ -131,6 +134,9 @@ export class UstawieniaOComponent implements OnInit {
                             break;
                         case 1:
                             this.ui.showFeedback('succes',"Pomyślnie usunięto dyżury",2)
+                            break;
+                        case 404:
+                            this.ui.sesjaWygasla()
                             break;
                         default:
                                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)

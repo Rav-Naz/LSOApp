@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Page, isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { Page} from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -53,7 +53,22 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
             this.PROLista = listaOutletow;
         })
 
-        this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId);
+        this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId).then(res => {
+            if(res === 0)
+            {
+                this.ui.zmienStan(5,true)
+                this.ui.zmienStan(1,true)
+                setTimeout(() => {
+                    this.ui.sesjaWygasla()
+                    this.ui.zmienStan(5,false)
+                    this.ui.zmienStan(1,false)
+                },1000)
+                this.tabIndexService.nowyOutlet(4, 'ministranci')
+                this.router.back();
+                return
+            }
+        });
+
 
         this.podgladMinistranta = this.parafiaService.PodgladMinistranta.subscribe(min => {
             if(min !== undefined && min !== null)
@@ -220,6 +235,11 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
                     this.ui.showFeedback('succes',"Zapisano zmiany",2)
                 }, 400)
                 this.zamknij()
+            }
+            else if(res === 404)
+            {
+                this.ui.sesjaWygasla()
+                this.zmiana = true;
             }
             else
             {

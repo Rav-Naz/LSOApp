@@ -46,39 +46,47 @@ export class MinistrantDyzuryComponent implements OnInit {
 
         this.page.actionBarHidden = true;
 
-        this.wydarzeniaService.wszystkieWydarzeniaWDyzurach()
-
-        this.parafiaService.wyszukajDyzury(this.parafiaService.aktualnyMinistrantId);
-
-        this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaDyzurySub.subscribe( lista => {
-            if(lista !== null)
+        this.wydarzeniaService.wszystkieWydarzeniaWDyzurach().then(res => {
+            if(res === 404)
             {
-                this.wszystkieWydarzenia = lista;
+                setTimeout(() => {
+                    this.ui.sesjaWygasla()
+                },200)
+                return
             }
-        })
+            this.parafiaService.wyszukajDyzury(this.parafiaService.aktualnyMinistrantId);
+
+            this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaDyzurySub.subscribe( lista => {
+                if(lista !== null)
+                {
+                    this.wszystkieWydarzenia = lista;
+                }
+            })
 
 
-        this.dyzurSub = this.parafiaService.DyzuryMinistranta.subscribe(lista_dyzurow => {
-            let dyzury: Array<Wydarzenie> = [];
-            this.wydarzeniaMinistranta = [null,null,null,null,null,null,null];
-            this.stareWydarzeniaMinistranta = [null,null,null,null,null,null,null];
-            if (lista_dyzurow.length === 0) {
+            this.dyzurSub = this.parafiaService.DyzuryMinistranta.subscribe(lista_dyzurow => {
+                let dyzury: Array<Wydarzenie> = [];
+                this.wydarzeniaMinistranta = [null,null,null,null,null,null,null];
+                this.stareWydarzeniaMinistranta = [null,null,null,null,null,null,null];
+                if (lista_dyzurow.length === 0) {
+                    this.ui.zmienStan(6,false)
+                    return;
+                }
+                dyzury = lista_dyzurow
+
+                for (let index = 0; index < 7; index++) {
+                   let c = dyzury.filter(dyzur => dyzur.dzien_tygodnia === index)[0];
+                   if(c !== undefined)
+                   {
+                       this.wydarzeniaMinistranta[index] = c;
+                       this.stareWydarzeniaMinistranta[index] = c;
+                       this.dni[index] = true;
+                   }
+                }
                 this.ui.zmienStan(6,false)
-                return;
-            }
-            dyzury = lista_dyzurow
-
-            for (let index = 0; index < 7; index++) {
-               let c = dyzury.filter(dyzur => dyzur.dzien_tygodnia === index)[0];
-               if(c !== undefined)
-               {
-                   this.wydarzeniaMinistranta[index] = c;
-                   this.stareWydarzeniaMinistranta[index] = c;
-                   this.dni[index] = true;
-               }
-            }
-            this.ui.zmienStan(6,false)
+            })
         })
+
     }
 
     zmianaCheckboxa(index:number, event)
@@ -192,6 +200,12 @@ export class MinistrantDyzuryComponent implements OnInit {
                 this.ui.zmienStan(4,false)
                 this.zmiana = false;
                 this.anuluj()
+            }
+            else if(res === 404)
+            {
+                this.ui.sesjaWygasla()
+                this.ui.zmienStan(4,false)
+                this.ui.zmienStan(5,false)
             }
             else
             {

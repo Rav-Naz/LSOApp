@@ -1,13 +1,16 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { Feedback, FeedbackType } from "nativescript-feedback";
 import { isIOS, Color } from 'tns-core-modules/ui/page/page';
+import { SesjaWygaslaComponent } from '../shared/modale/sesja-wygasla/sesja-wygasla.component';
+import { ModalDialogService } from 'nativescript-angular/common';
+import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UiService {
 
-    constructor(){
+    constructor( private modal: ModalDialogService){
         this.feedback = new Feedback();
     }
 
@@ -42,6 +45,20 @@ export class UiService {
             type: typ === 'succes'? FeedbackType.Success : typ === 'warning'? FeedbackType.Warning : FeedbackType.Error,
 
         });
+    }
+
+    sesjaWygasla()
+    {
+        this.modal.showModal(SesjaWygaslaComponent, {
+            context: null,
+            viewContainerRef: this._rootVCRef,
+            fullscreen: false,
+            stretched: false,
+            animated: true,
+            closeCallback: null,
+            dimAmount: 0.8 // Sets the alpha of the background dim,
+
+        } as ExtendedShowModalOptions).then((result) => {})
     }
 
     get ladowane()

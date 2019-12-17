@@ -90,6 +90,10 @@ export class ParafiaService {
                 {
                     resolve(0)
                 }
+                else if(res === 'jwt')
+                {
+                    resolve(404)
+                }
                 else
                 {
                     this.parafia = JSON.parse(JSON.stringify(res))
@@ -103,9 +107,16 @@ export class ParafiaService {
     {
         return new Promise<Array<User>>(resolve => {
             this.http.pobierzMinistrantow().then(async res => {
-                this.ministranciLista = res;
-                await this.odswiezListeMinistrantow();
-                resolve(res)
+                if(res !== null)
+                {
+                    this.ministranciLista = res;
+                    await this.odswiezListeMinistrantow();
+                    resolve(res)
+                }
+                else
+                {
+                    resolve(res)
+                }
             })
         })
     }
@@ -113,6 +124,11 @@ export class ParafiaService {
     wyszukajDyzury(id_user: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
         return new Promise<number>(resolve => {
             this.http.pobierzDyzuryDlaMinistranta(id_user).then(res => {
+                if(res === null)
+                {
+                    resolve(404)
+                    return
+                }
                 this.dyzuryMinistranta.next(res);
                 resolve(1);
             })
@@ -122,6 +138,11 @@ export class ParafiaService {
     dyzurDoWydarzenia(id_wydarzenia: number) { //Wykorzystanie: obecnosc
         return new Promise<number>((resolve) => {
             this.http.pobierzDyzuryDoWydarzenia(id_wydarzenia).then(res => {
+                if(res === null)
+                {
+                    resolve(404)
+                    return
+                }
                 this.dyzuryWydarzenia.next(res);
                 resolve(1)
             })
@@ -138,6 +159,10 @@ export class ParafiaService {
                         resolve(1)
                     })
                 }
+                else if(res === 404)
+                {
+                    resolve(res)
+                }
                 else
                 {
                     resolve(0)
@@ -152,7 +177,7 @@ export class ParafiaService {
             for (let index = 0; index < 7; index++) {
                 if (nowe[index] !== stare[index]) {
                     if (nowe[index] === null) {
-                        await this.usunDyzur(stare[index].id, this.aktualnyMinistrantId);
+                        await this.usunDyzur(stare[index].id, this.aktualnyMinistrantId)
                     }
                     else if (stare[index] === null) {
                         await this.dodajDyzur(nowe[index].id, this.aktualnyMinistrantId);
@@ -165,7 +190,12 @@ export class ParafiaService {
             }
 
             setTimeout(() => {
-                this.wyszukajDyzury(this.aktualnyMinistrantId).then(() => {
+                this.wyszukajDyzury(this.aktualnyMinistrantId).then(res => {
+                    if(res === 404)
+                    {
+                        resolve(res)
+                        return
+                    }
                     this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(res => {
                         resolve(res)
                     })
@@ -207,6 +237,11 @@ export class ParafiaService {
     {
         return new Promise<number>(resolve => {
             this.http.usunWszystkieDyzury().then(res => {
+                if(res === 404)
+                {
+                    resolve(res)
+                    return
+                }
                 this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(ress => {
                     resolve(1)
                 })
@@ -255,6 +290,11 @@ export class ParafiaService {
     {
         return new Promise<number>((resolve) => {
             this.http.aktualizacjaMinistranta(ministrant).then(res => {
+                if(res === 404)
+                {
+                    resolve(res)
+                    return
+                }
                 this.pobierzMinistrantow().then(() => {
                     resolve(res)
                 })
@@ -266,6 +306,11 @@ export class ParafiaService {
     {
         return new Promise<number>(resolve => {
             this.http.usunMinistranta(id_user).then(res => {
+                if(res === 404)
+                {
+                    resolve(res)
+                    return
+                }
                 this.pobierzMinistrantow().then(() => {
                     resolve(res)
                 })
@@ -277,6 +322,11 @@ export class ParafiaService {
     {
         return new Promise<number>((resolve) => {
             this.http.usunKontoMinistranta(id_user).then(res => {
+                if(res === 404)
+                {
+                    resolve(404)
+                    return
+                }
                 this.WybranyMinistrant(id_user).then(() => {
                     resolve(res)
                 })
@@ -300,6 +350,11 @@ export class ParafiaService {
     {
         return new Promise<number>(resolve => {
             this.http.aktualizacjaDanychParafii(nazwa_parafii,id_diecezji,miasto,id_typu).then(res => {
+                if(res === 404)
+                {
+                    resolve(res)
+                    return
+                }
                 this.pobierzParafie().then(res => {
                     resolve(res)
                 })
@@ -330,7 +385,12 @@ export class ParafiaService {
             }
 
             setTimeout(() => {
-                this.pobierzMinistrantow().then(() => {
+                this.pobierzMinistrantow().then(res => {
+                    if(res === null)
+                    {
+                        resolve(404)
+                        return
+                    }
                     resolve(1)
                 })
             }, 500)

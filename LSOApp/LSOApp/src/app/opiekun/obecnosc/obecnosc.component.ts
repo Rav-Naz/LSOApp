@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, OnDestroy } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
@@ -20,7 +20,7 @@ import { UiService } from '~/app/serwisy/ui.service';
     styleUrls: ['./obecnosc.component.css'],
     moduleId: module.id,
 })
-export class ObecnoscComponent implements OnInit {
+export class ObecnoscComponent implements OnInit, OnDestroy {
 
     kalendarz: boolean = false;
     DyzurySub: Subscription;
@@ -43,6 +43,8 @@ export class ObecnoscComponent implements OnInit {
 
     private odliczenie;
 
+    interval;
+
 
     zmiana: boolean;
 
@@ -62,6 +64,9 @@ export class ObecnoscComponent implements OnInit {
         this.cofam = false;
 
         this.dzis = new Date(); // Data pobierana z bazy
+        this.interval = setInterval(() => {
+            this.dzis = new Date();
+        },60000)
 
         this.page.actionBarHidden = true;
         this.aktywnyDzien = new Date();
@@ -162,6 +167,10 @@ export class ObecnoscComponent implements OnInit {
         });
     }
 
+    ngOnDestroy(): void {
+        this.interval = null;
+    }
+
     header(aktywnyDz: Date, wydarzenie?: Wydarzenie) {
 
         let dzien: number = aktywnyDz.getDate();
@@ -228,7 +237,12 @@ export class ObecnoscComponent implements OnInit {
                         this.parafiaService.aktualneWydarzenieId = this.aktywneWydarzenie.id;
 
                         this.odliczenie = setTimeout(async () => {
-                            this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id);
+                            this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id).then(res => {
+                                if(res === 404)
+                                {
+                                    this.ui.sesjaWygasla()
+                                }
+                            });
                         }, this.sprawdzane && this.zmiana?0:500)
 
                         if (this.aktywneWydarzenie) {
@@ -283,7 +297,14 @@ export class ObecnoscComponent implements OnInit {
     zapiszZmiany() {
         this.ui.zmienStan(0,true)
         this.ui.zmienStan(1,true)
-        this.parafiaService.zapiszObecnosci(this.noweObecnosci, this.sprawdzane).then(() => {
+        this.parafiaService.zapiszObecnosci(this.noweObecnosci, this.sprawdzane).then(res => {
+            if(res === 404)
+            {
+                this.ui.zmienStan(0,false)
+                this.ui.zmienStan(1,false)
+                this.ui.sesjaWygasla()
+                return
+            }
             setTimeout(() => {
                 this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien).then(res => {
                     if(res === 1)
@@ -323,7 +344,13 @@ export class ObecnoscComponent implements OnInit {
 
         this.ui.zmienStan(0,true)
 
-        await this.wydarzeniaService.dzisiejszeWydarzenia(this.aktywnyDzien.getDay())
+        await this.wydarzeniaService.dzisiejszeWydarzenia(this.aktywnyDzien.getDay()).then(res => {
+            if(res === 404)
+            {
+                this.header(this.aktywnyDzien)
+                this.ui.sesjaWygasla()
+            }
+        })
 
     }
 
