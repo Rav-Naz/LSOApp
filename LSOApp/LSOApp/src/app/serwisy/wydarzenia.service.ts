@@ -23,6 +23,9 @@ export class WydarzeniaService {
     {
         this.aktywnyDzien = 0;
         this._wydarzenia = [];
+        this.wydarzeniaDyzury.next(null)
+        this.wydarzeniaObecnosc.next(null)
+        this.wydarzeniaEdycja.next(null)
     }
 
     get WydarzeniaObecnoscSub() {

@@ -147,6 +147,9 @@ export class HttpService {
                 else if (res === 'istnieje') {
                     resolve(2);
                 }
+                else if (res === 'ponowne') {
+                    resolve(3);
+                }
                 else {
                     resolve(0);
                 }

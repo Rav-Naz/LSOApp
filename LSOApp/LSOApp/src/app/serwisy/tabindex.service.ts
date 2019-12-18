@@ -36,6 +36,7 @@ export class TabindexService {
         ];
         this.opiekun = false;
         this._tabSelectedIndex.next(0)
+        this._czyOpiekun.next(false)
 
     }
 

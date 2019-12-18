@@ -53,9 +53,9 @@ export class DaneProfiloweComponent implements OnInit {
 
     this.form = new FormGroup({
         telefon: new FormControl(this.user.telefon, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[0-9]{9}$')]}),
-        ulica: new FormControl(this.user.ulica, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -]{3,30})')] }),
+        ulica: new FormControl(this.user.ulica, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -0123456789/]{3,30})')] }),
         kod: new FormControl(this.user.kod_pocztowy, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[0-9]{2}-[0-9]{3}$')] }),
-        miasto: new FormControl(this.user.miasto, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -]{3,20})')] })
+        miasto: new FormControl(this.user.miasto, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń -0123456789/]{3,20})')] })
     });
 
     this.form.get('telefon').statusChanges.subscribe(status => {

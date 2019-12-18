@@ -40,6 +40,9 @@ export class UserService {
     {
         this.user = null;
         this.userDyzury = [];
+        this.userSub.next(null)
+        this.userDyzurySub.next(null)
+        this.powiadomieniaODyzurach.next(null)
 
     }
 
@@ -69,6 +72,11 @@ export class UserService {
     get UserPerm()
     {
         return this.user.admin;
+    }
+
+    get UserEmail()
+    {
+        return this.user.email;
     }
 
     zmienUsera(user: User)

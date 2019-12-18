@@ -30,7 +30,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     PROLista: Array<string>;
     dzisiejszeWydarzenia: Array<Wydarzenie>
     noweObecnosci: Array<Obecnosc>;
-    aktywneWydarzenie: Wydarzenie;
+    aktywneWydarzenie: Wydarzenie = { id: 0, id_parafii: 0,nazwa: "Msza Święta",typ: 0, cykl: 1,dzien_tygodnia: 0, godzina: "2018-11-15T21:27:00.000Z",data_dokladna: null};
     aktywnyDzien: Date;
     najblizszeWydarzenie: Wydarzenie;
     ministranciDoWydarzenia: Array<User>
@@ -75,6 +75,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
         this.WydarzeniaSub = this.wydarzeniaService.WydarzeniaObecnoscSub.subscribe(lista => {
             this.dzisiejszeWydarzenia = [];
+            this.parafiaService.aktualneWydarzenieId = 0
             if(lista !== null)
             {
                 this.dzisiejszeWydarzenia = lista.sort((wyd1, wyd2) => {
@@ -243,7 +244,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                                     this.ui.sesjaWygasla()
                                 }
                             });
-                        }, this.sprawdzane && this.zmiana?0:500)
+                        }, this.sprawdzane && this.zmiana?50:250)
 
                         if (this.aktywneWydarzenie) {
                             this.header(this.aktywnyDzien, this.aktywneWydarzenie);

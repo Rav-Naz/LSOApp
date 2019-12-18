@@ -49,6 +49,11 @@ export class ParafiaService {
         this.ministranciLista = [];
         this._dyzury = [];
         this._obecnosci = [];
+        this.ministranci.next(null)
+        this.dyzuryWydarzenia.next(null)
+        this.dyzuryMinistranta.next(null)
+        this.obecnosciWydarzenia.next(null)
+        this.podgladanyMinistrant.next(null)
     }
 
     get nazwaParafii() {
@@ -196,9 +201,12 @@ export class ParafiaService {
                         resolve(res)
                         return
                     }
-                    this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(res => {
-                        resolve(res)
-                    })
+                    if(this.aktualneWydarzenieId !== null)
+                    {
+                        this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(res => {
+                            resolve(res)
+                        })
+                    }
                 })
             }, 500)
         })
@@ -242,9 +250,12 @@ export class ParafiaService {
                     resolve(res)
                     return
                 }
-                this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(ress => {
-                    resolve(1)
-                })
+                if(this.aktualneWydarzenieId !== null)
+                {
+                    this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(ress => {
+                        resolve(1)
+                    })
+                }
             })
         })
     }

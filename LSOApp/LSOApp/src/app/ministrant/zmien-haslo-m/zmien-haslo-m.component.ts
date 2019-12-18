@@ -6,6 +6,7 @@ import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UserService } from '~/app/serwisy/user.service';
 import { UiService } from '~/app/serwisy/ui.service';
+import { SecureStorage } from 'nativescript-secure-storage';
 
 
 @Component({
@@ -29,12 +30,16 @@ export class ZmienHasloMComponent implements OnInit {
     _nowe: string;
     _powtorz: string;
 
+    secureStorage: SecureStorage;
+
     @ViewChild('stare', { static: false }) stareRef: ElementRef<TextField>;
     @ViewChild('nowe', { static: false }) noweRef: ElementRef<TextField>;
     @ViewChild('powtorz', { static: false }) powtorzRef: ElementRef<TextField>;
 
     ngOnInit() {
         this.page.actionBarHidden = true;
+
+        this.secureStorage = new SecureStorage;
 
         this.form = new FormGroup({
             stare: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
@@ -79,6 +84,7 @@ export class ZmienHasloMComponent implements OnInit {
                     setTimeout(() => {
                         this.ui.showFeedback('succes',"Hasło zostało zmienione",3)
                   }, 400)
+                  this.secureStorage.set({ key: 'pasy', value: JSON.stringify({ email: this.userService.UserEmail, haslo: this._nowe }) })
 
                   this.anuluj();
                     break;

@@ -214,6 +214,10 @@ export class RejestracjaComponent implements OnInit {
                     this.displayAlertDialog('Ten adres e-mail jest już przypisany do innego konta!')
                     this.ladowanie = false;
                     break;
+                case 3:
+                    this.ui.showFeedback('warning','Ten adres e-mail jest już przypisany do innego konta, które jeszcze nie zostało aktywowane. Aby ponownie wysłać kod aktywacji przejdź do widoku logowanie -> "ZAPOMNIAŁEM HASŁA"',8)
+                    this.ladowanie = false;
+                    break;
                 default:
                     this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                     this.ladowanie = false;

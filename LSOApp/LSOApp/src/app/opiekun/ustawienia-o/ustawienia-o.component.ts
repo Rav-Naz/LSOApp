@@ -76,6 +76,11 @@ export class UstawieniaOComponent implements OnInit {
     }
 
     wyzerujPunkty() {
+        if (this.PROLista[4] === "ministrant-szczegoly" || this.PROLista[4] === 'ministrant-dyzury' || this.PROLista[4] === 'aktywacja-konta') {
+            this.ui.showFeedback('warning',"Aby skorzystać z tej funkcji musisz zamknąć panel Szczegóły Ministranta",3)
+            return;
+        }
+
         this.modal.showModal(PotwierdzenieModalComponent, {
             context: 'Czy jesteś pewny, że chcesz wyzerować punkty WSZYSTKIM ministrantom w swojej parafii? Ta funkcja jest zalecana przy rozpoczęciu nowego roku liturgicznego.',
             viewContainerRef: this.vcRef,
@@ -112,6 +117,12 @@ export class UstawieniaOComponent implements OnInit {
     }
 
     usunDyzury() {
+
+        if (this.PROLista[4] === "ministrant-szczegoly" || this.PROLista[4] === 'ministrant-dyzury' || this.PROLista[4] === 'aktywacja-konta') {
+            this.ui.showFeedback('warning',"Aby skorzystać z tej funkcji musisz zamknąć panel Szczegóły Ministranta",3)
+            return;
+        }
+
         this.modal.showModal(PotwierdzenieModalComponent, {
             context: 'Czy jesteś pewny, że chcesz usunąć WSZYSTKIE dyżury ministrantów w swojej parafii? Ta funkcja jest zalecana przy rozpoczęciu nowego roku liturgicznego.',
             viewContainerRef: this.vcRef,

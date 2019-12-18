@@ -105,7 +105,7 @@ export class LogowanieComponent implements OnInit {
             }
             else if (res === 'blad') {
                 this.ladowanie = false;
-                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                this.ui.showFeedback('error',"Wystąpił problem z połączeniem. Sprawdź czy posiadasz najnowszą wersję aplikacji oraz dobre połączenie z internetem",5)
 
             }
             else {
@@ -147,14 +147,14 @@ export class LogowanieComponent implements OnInit {
                                                 this.ladowanie = false;
                                             }
                                             else {
-                                                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                                                this.ui.showFeedback('error',"Wystąpił problem z połączeniem. Sprawdź czy posiadasz najnowszą wersję aplikacji oraz dobre połączenie z internetem",5)
                                                 this.ladowanie = false;
                                             }
                                         })
                                     }
                                     else {
                                         this.ladowanie = false;
-                                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                                        this.ui.showFeedback('error',"Wystąpił problem z połączeniem. Sprawdź czy posiadasz najnowszą wersję aplikacji oraz dobre połączenie z internetem",5)
                                     }
                                 })
                             }
@@ -172,7 +172,7 @@ export class LogowanieComponent implements OnInit {
                                     }
                                     else {
                                         this.ladowanie = false;
-                                        this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                                        this.ui.showFeedback('error',"Wystąpił problem z połączeniem. Sprawdź czy posiadasz najnowszą wersję aplikacji oraz dobre połączenie z internetem",5)
                                     }
                                 })
 
@@ -196,7 +196,7 @@ export class LogowanieComponent implements OnInit {
                         }
                         else {
                             this.ladowanie = false;
-                            this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                            this.ui.showFeedback('error',"Wystąpił problem z połączeniem. Sprawdź czy posiadasz najnowszą wersję aplikacji oraz dobre połączenie z internetem",5)
                         }
                     })
                 }
