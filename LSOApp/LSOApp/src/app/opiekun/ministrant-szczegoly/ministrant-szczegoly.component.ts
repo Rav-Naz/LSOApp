@@ -53,6 +53,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
             this.PROLista = listaOutletow;
         })
 
+        //Wybrany ministrant
         this.parafiaService.WybranyMinistrant(this.parafiaService.aktualnyMinistrantId).then(res => {
             if(res === 0)
             {
