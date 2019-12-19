@@ -78,6 +78,8 @@ export class HttpService {
                 else if(res[0].hasOwnProperty('id_parafii'))
                 {
                     this.JWT = res[1]
+                    this.nadajId_User(res[0].id_user)
+                    this.nadajId_Parafii(res[0].id_parafii)
                     resolve(JSON.parse(JSON.stringify(res[0])))
                 }
                 else
@@ -297,7 +299,7 @@ export class HttpService {
     async aktywacjaMinistranta(email: string, id_user: number) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/activate_user', {email: email, id_user: id_user, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/activate_user', {email: email, id_user: id_user,id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -324,7 +326,7 @@ export class HttpService {
     async aktualizacjaMinistranta(ministrant: User) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/user_update', {stopien: ministrant.stopien, punkty: ministrant.punkty, id_user: ministrant.id_user, admin: ministrant.admin, imie: ministrant.imie, nazwisko: ministrant.nazwisko, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/user_update', {stopien: ministrant.stopien, punkty: ministrant.punkty, id_user: ministrant.id_user, admin: ministrant.admin, imie: ministrant.imie, nazwisko: ministrant.nazwisko,id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -346,7 +348,7 @@ export class HttpService {
     async aktualizacjaDanychMinistranta(ulica: string, kod_pocztowy: string, miasto: string, telefon: string) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/update_user_data', {ulica: ulica, kod_pocztowy: kod_pocztowy, miasto: miasto, telefon: telefon, id_user: this.id_user, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/update_user_data', {ulica: ulica, kod_pocztowy: kod_pocztowy, miasto: miasto, telefon: telefon, id_user: this.id_user, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     resolve(this.id_user);
                 }
@@ -411,7 +413,7 @@ export class HttpService {
     async usunMinistranta(id_user: number) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/delete_user', { id_user: id_user, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/delete_user', { id_user: id_user, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === 'zakonczono') {
                     resolve(1);
                 }
@@ -432,7 +434,7 @@ export class HttpService {
     async usunKontoMinistranta(id_user: number) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/delete_user_account_admin', { id_user: id_user, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/delete_user_account_admin', { id_user: id_user,id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === 'zakonczono') {
                     resolve(1);
                 }
@@ -453,7 +455,7 @@ export class HttpService {
     async zmienHaslo(aktualne_haslo: string, nowe_haslo: string) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/change_password', { aktualne_haslo: sha512.sha512.hmac('mSf', aktualne_haslo), nowe_haslo: sha512.sha512.hmac('mSf', nowe_haslo), id_user: this.id_user, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/change_password', { aktualne_haslo: sha512.sha512.hmac('mSf', aktualne_haslo), nowe_haslo: sha512.sha512.hmac('mSf', nowe_haslo), id_user: this.id_user, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === 'zakonczono') {
                     resolve(1);
                 }
@@ -543,6 +545,7 @@ export class HttpService {
 
             this.http.post(this.serverUrl + '/new_event', { id_parafii: this.id_parafii, dzien_tygodnia: dzien_tygodnia,
                  godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                console.log('Dodaj',res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -569,7 +572,8 @@ export class HttpService {
     async usunWydarzenie(id_wydarzenia: number) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/delete_event', { id_wydarzenia: id_wydarzenia, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/delete_event', { id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                console.log('Usuń',res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -592,9 +596,9 @@ export class HttpService {
             let czas = new Date(godzina)
 
             this.http.post(this.serverUrl + '/edit_event', {godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()),
-                 id_wydarzenia: id_wydarzenia, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
-
-                if (res.hasOwnProperty('insertId')) {
+                 id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                console.log('Aktualizuj',res)
+                if (res === "zakonczono") {
                     resolve(1);
                 }
                 else if(res === "You have not permission to get the data")
@@ -614,7 +618,7 @@ export class HttpService {
     async pobierzDyzuryDlaMinistranta(id_user: number) {
         return new Promise<Array<Wydarzenie>>(resolve => {
 
-            this.http.post(this.serverUrl + '/user_duty',{ id_user: id_user, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/user_duty',{ id_user: id_user, id_parafii: this.id_parafii , smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
                     resolve(JSON.parse(JSON.stringify(null)))
@@ -631,7 +635,7 @@ export class HttpService {
     async pobierzDyzuryDoWydarzenia(id_wydarzenia: number) {
         return new Promise<Array<User>>(resolve => {
 
-            this.http.post(this.serverUrl + '/event_duty',{ id_wydarzenia: id_wydarzenia, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/event_duty',{ id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
                     resolve(JSON.parse(JSON.stringify(null)))
@@ -646,7 +650,7 @@ export class HttpService {
     async usunDyzur(id_user: number, id_wydarzenia: number) {
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/delete_duty', { id_user: id_user, id_wydarzenia: id_wydarzenia, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/delete_duty', { id_user: id_user, id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === 'zakonczono') {
                     resolve(1);
                 }
@@ -711,7 +715,7 @@ export class HttpService {
             let date = data
             date.setHours(2)
 
-            this.http.post(this.serverUrl + '/presence',{ id_wydarzenia: id_wydarzenia, data: date.toJSON(), smart: this.smart , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/presence',{ id_wydarzenia: id_wydarzenia, data: date.toJSON(),id_parafii: this.id_parafii, smart: this.smart , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 resolve(JSON.parse(JSON.stringify(res)))
             });
         });
@@ -722,7 +726,7 @@ export class HttpService {
         return new Promise<number>(resolve => {
 
             this.http.post(this.serverUrl + '/update_presence', { id_obecnosci: obecnosc.id, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba,
-                 punkty_uj_sluzba: punkty_uj_sluzba, id_user: obecnosc.id_user, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                 punkty_uj_sluzba: punkty_uj_sluzba, id_user: obecnosc.id_user, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === 'brak')
                 {
                     resolve(0)
@@ -746,7 +750,7 @@ export class HttpService {
         return new Promise<number>(resolve => {
 
             this.http.post(this.serverUrl + '/add_presence', { id_wydarzenia: obecnosc.id_wydarzenia, id_user: obecnosc.id_user,
-                data: obecnosc.data, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
+                data: obecnosc.data, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
                 resolve(1)
             }, err => {
                 resolve(0)

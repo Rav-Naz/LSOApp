@@ -86,7 +86,7 @@ export class LogowanieComponent implements OnInit {
     }
 
     zapomnialem() {
-        this.router.navigate(['/zapomnialem'], { transition: { name: 'slideBottom', duration: 500 } });
+        this.router.navigate(['/zapomnialem'], { transition: { name: 'slideBottom', duration: 300 } });
     }
 
     zaloguj() {
@@ -110,9 +110,7 @@ export class LogowanieComponent implements OnInit {
             }
             else {
                 let user: User = JSON.parse(JSON.stringify(res))
-                this.http.nadajId_Parafii(user.id_parafii);
-                this.http.nadajId_User(user.id_user);
-                this.userService.zmienUsera(user);
+                this.userService.zmienUsera(user)
 
                 if (user.admin === 1) {
                     this.modal.showModal(LogowanieJakoComponent, {
@@ -206,11 +204,11 @@ export class LogowanieComponent implements OnInit {
     }
 
     doRejestracji() {
-        this.router.navigate(['/rejestracja'], { transition: { name: 'slideLeft' , duration: 500} });
+        this.router.navigate(['/rejestracja'], { transition: { name: 'slideLeft' , duration: 300} });
     }
 
     nadajHaslo() {
-        this.router.navigate(['/nadaj-haslo'], { transition: { name: 'slideRight' , duration: 500} });
+        this.router.navigate(['/nadaj-haslo'], { transition: { name: 'slideRight' , duration: 300} });
     }
 
 

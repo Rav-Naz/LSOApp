@@ -49,10 +49,10 @@ export class ParafiaService {
         this.ministranciLista = [];
         this._dyzury = [];
         this._obecnosci = [];
-        this.ministranci.next(null)
-        this.dyzuryWydarzenia.next(null)
-        this.dyzuryMinistranta.next(null)
-        this.obecnosciWydarzenia.next(null)
+        this.ministranci.next([])
+        this.dyzuryWydarzenia.next([])
+        this.dyzuryMinistranta.next([])
+        this.obecnosciWydarzenia.next([])
         this.podgladanyMinistrant.next(null)
     }
 

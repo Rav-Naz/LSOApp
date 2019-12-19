@@ -41,7 +41,7 @@ export class UserService {
         this.user = null;
         this.userDyzury = [];
         this.userSub.next(null)
-        this.userDyzurySub.next(null)
+        this.userDyzurySub.next([])
         this.powiadomieniaODyzurach.next(null)
 
     }

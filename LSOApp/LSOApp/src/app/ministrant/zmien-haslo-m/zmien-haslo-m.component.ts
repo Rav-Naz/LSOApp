@@ -84,8 +84,7 @@ export class ZmienHasloMComponent implements OnInit {
                     setTimeout(() => {
                         this.ui.showFeedback('succes',"Hasło zostało zmienione",3)
                   }, 400)
-                  this.secureStorage.set({ key: 'pasy', value: JSON.stringify({ email: this.userService.UserEmail, haslo: this._nowe }) })
-
+                  this.secureStorage.set({ key: 'pasy', value: null })
                   this.anuluj();
                     break;
                 case 2:

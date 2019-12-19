@@ -17,7 +17,7 @@ export class WiadomosciService {
     wyczysc()
     {
         this._wiadomosci = [];
-        this.wiadomosci.next(null)
+        this.wiadomosci.next([])
     }
 
     get Wiadomosci() //Wykorzystanie: wiadomosci-m, wiadomosci-o
