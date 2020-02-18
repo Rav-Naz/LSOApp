@@ -39,7 +39,7 @@
                     </GridLayout>
                 </StackLayout>
             </ScrollView>
-            <Button text="Zapisz" class="btn audiowide" *ngIf="ministranciDoWydarzenia.length > 0 && !ui.ladowane[0]" (tap)="zapiszZmiany()" [isEnabled]="zmiana"></Button>
+            <Button text="Zapisz" class="btn audiowide" *ngIf="ministranciDoWydarzenia.length > 0 && !ui.ladowane[0]" (tap)="zapiszZmiany()" [isEnabled]="zmiana" [ngClass]="{disabled: zmiana}"></Button>
             <Label text="Brak dzisiejszych wydarzeń, aby je dodać przejdź do panelu ustawień" *ngIf="dzisiejszeWydarzenia.length === 0 && !ui.ladowane[0]" class="brak lexend"  width="90%"></Label>
 
             <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[0]">

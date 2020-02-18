@@ -154,6 +154,13 @@ TextField{
     border-color:  rgb(206, 206, 206);
 }
 
+.disabled
+{
+    background: rgb(206, 206, 206);
+    color: rgb(124, 124, 124);
+    border-color:  rgb(206, 206, 206);
+}
+
 .zapisz:pressed
 {
     background: linear-gradient(to bottom, #a5151a,#640b0e);

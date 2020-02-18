@@ -68,9 +68,9 @@
     <Label text="Nadaj hasło" class="audiowide"></Label>
 </FlexboxLayout>
 
-<GridLayout columns="*,*" rows="60" row="3">
+<GridLayout columns="*,*" rows="60" row="3" width="90%">
     <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="powrot()" class="anuluj b-p-10 audiowide"></Button>
-    <Button text="Zapisz" col="1" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="this.form.valid"></Button>
+    <Button text="Zapisz" col="1" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="this.form.valid" [ngClass]="{disabled: !this.form.valid}"></Button>
 </GridLayout>
 </GridLayout>
 </FlexboxLayout>

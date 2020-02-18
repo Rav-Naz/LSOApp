@@ -1,1 +1,18 @@
-/* Add mobile styles for the component here.  */
+.grid
+{
+    height: 98%;
+}
+
+.flex2
+{
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.dane
+{
+    font-size: 15;
+    color: black;
+    textwrap: true;
+    text-align: center;
+}

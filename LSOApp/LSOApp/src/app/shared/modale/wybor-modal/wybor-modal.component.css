@@ -7,7 +7,9 @@
 
 .btn
 {
+    height: 35;
     text-wrap: true;
+    text-align: center;
     border-radius: 5%;
     color: white;
     font-size: 12;

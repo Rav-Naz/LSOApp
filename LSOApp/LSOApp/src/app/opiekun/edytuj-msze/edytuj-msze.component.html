@@ -47,7 +47,7 @@
 
         <GridLayout columns="*,*" rows="60" row="3">
             <Button [text]="zmiana?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
-            <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="zmiana"></Button>
+            <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="zmiana" [ngClass]="{disabled: !zmiana}"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

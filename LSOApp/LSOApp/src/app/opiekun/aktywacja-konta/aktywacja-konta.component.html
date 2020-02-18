@@ -40,7 +40,7 @@
             <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="wyslanePrzyp === 0" colSpan="2"></Button>
             <Button text="Wyślij" col="2" (tap)="wyslij()" class="anuluj b-p-10 zapisz audiowide"
-                *ngIf="wyslanePrzyp === 0" [isEnabled]="this.form.valid && checked" colSpan="2"></Button>
+                *ngIf="wyslanePrzyp === 0" [isEnabled]="this.form.valid && checked" [ngClass]="{disabled: !this.form.valid || checked}" colSpan="2"></Button>
                 <Button text="Powrót" [col]="wyslanePrzyp === 1?0:1" (tap)="powrot()" class="anuluj b-p-10 audiowide"
                 *ngIf="wyslanePrzyp === 1 || wyslanePrzyp === 2" colSpan="2"></Button>
                 <Button text="Ponów" col="2" (tap)="wyslanePrzyp = 0" class="anuluj zapisz b-p-10 audiowide"

@@ -127,7 +127,7 @@
         <GridLayout columns="*,*" rows="60" row="1" class="przyciski">
             <Button [text]="this.form.valid && zmiana?'Anuluj':'Zamknij'" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide" fontSize="17"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" fontSize="17"
-                [isEnabled]="zmiana && this.form.valid"></Button>
+                [isEnabled]="zmiana && this.form.valid" [ngClass]="{disabled: !zmiana && !this.form.valid}"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

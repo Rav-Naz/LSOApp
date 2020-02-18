@@ -24,7 +24,7 @@ export class WyborModalComponent implements OnInit {
           this.lista.push(sp);
       })
 
-      if(this.lista.length>20)
+      if(this.lista.length>14)
       {
           this.height = "85%"
       }

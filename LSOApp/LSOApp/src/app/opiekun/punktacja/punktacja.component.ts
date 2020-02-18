@@ -84,7 +84,6 @@ export class PunktacjaComponent implements OnInit {
 
 
     async anuluj() {
-
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
             if (!kontynuowac) {
                 this.tabIndexService.nowyOutlet(6, "ustawieniaO");

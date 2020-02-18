@@ -29,7 +29,7 @@
         <GridLayout columns="*,*" rows="60" row="3">
             <Button [text]="this.form.valid?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Usuń" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide"
-                [isEnabled]="this.form.valid"></Button>
+                [isEnabled]="this.form.valid" [ngClass]="{disabled: !this.form.valid}"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

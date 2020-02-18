@@ -172,7 +172,7 @@
                 class="anuluj b-p-10 audiowide" *ngIf="!udanaRejP"></Button>
             <Button text="Zapisz" col="2" colSpan="2" (tap)="zarejestrujP()" class="anuluj b-p-10 zapisz audiowide"
                 [isEnabled]="this.formP.valid && _diecezja !== 'Wybierz diecezję' && _rodzaj !== 'Wybierz rodzaj parafii' && _stopien !== 'Wybierz stopień'"
-                *ngIf="!udanaRejP"></Button>
+                *ngIf="!udanaRejP" [ngClass]="{disabled: !this.formP.valid || _diecezja === 'Wybierz diecezję' || _rodzaj === 'Wybierz rodzaj parafii' || _stopien === 'Wybierz stopień'}"></Button>
             <Button text="Powrót" col="1" colSpan="2" (tap)="powrot()" class="anuluj b-p-10 zapisz audiowide"
                 *ngIf="udanaRejP"></Button>
         </GridLayout>
