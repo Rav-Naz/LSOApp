@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ElementRef, ViewChild } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
@@ -7,12 +7,11 @@ import { Subscription } from 'rxjs';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { ActivatedRoute } from '@angular/router';
 import { sortPolskich } from '~/app/shared/sortPolskich';
 import { UserService } from '~/app/serwisy/user.service';
 import { UiService } from '~/app/serwisy/ui.service';
+import { ListView } from 'tns-core-modules/ui/list-view/list-view';
 
 @Component({
     selector: 'ns-ministranci',
@@ -28,7 +27,11 @@ export class MinistranciComponent implements OnInit {
 
     sortujPoImieniu: boolean = false;
 
+    idOstatniegoMinistranta: number = 0;
+
     ladowanie: boolean = true;
+
+    @ViewChild('list', { static: false }) listView: ElementRef<ListView>;
 
     constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService,
          private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute, private userService: UserService, public ui: UiService) {}
@@ -50,6 +53,9 @@ export class MinistranciComponent implements OnInit {
                     this.ministranci = this.ministranci.filter(item => item.stopien !== 11)
                     this.sortujListe();
                     this.ui.zmienStan(1,false)
+                    setTimeout(() => {
+                        this.listView.nativeElement.scrollToIndexAnimated(this.idOstatniegoMinistranta);
+                    }, 700)
                 }
             })
         },200)
@@ -77,8 +83,9 @@ export class MinistranciComponent implements OnInit {
         });
     }
 
-    szczegolyMinistranta(id: number) {
-        this.tabIndexService.nowyOutlet(4, 'ministrant-szczegoly')
+    szczegolyMinistranta(id: number, index: number) {
+        this.tabIndexService.nowyOutlet(4, 'ministrant-szczegoly');
+        this.idOstatniegoMinistranta = index;
         this.parafiaService.aktualnyMinistrantId = id;
         this.router.navigate(['../ministrant-szczegoly'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
     }
@@ -88,7 +95,7 @@ export class MinistranciComponent implements OnInit {
         this.router.navigate(['../ministrant-nowy'], {relativeTo: this.active, transition: { name: 'slideBottom' }});
     }
 
-    async usunMinistranta(ministrant: User) {
+    async usunMinistranta(ministrant: User, index: number) {
 
         if(ministrant.id_user === this.userService.UserID)
         {
@@ -96,8 +103,8 @@ export class MinistranciComponent implements OnInit {
             return
         }
 
-        await this.czyKontynuowac(true,"Czy na pewno chcesz usunąć\n" + ministrant.nazwisko + " " + ministrant.imie + "\nz listy ministrantów?").then((kontynuowac) => {
-            if(!kontynuowac)
+        await this.ui.pokazModalWyboru("Czy na pewno chcesz usunąć\n" + ministrant.nazwisko + " " + ministrant.imie + "\nz listy ministrantów?").then((kontynuowac) => {
+            if(kontynuowac)
             {
                 this.ui.zmienStan(1,true)
                 this.parafiaService.usunMinistranta(ministrant.id_user).then(res => {
@@ -107,6 +114,7 @@ export class MinistranciComponent implements OnInit {
                         this.ui.zmienStan(1,false)
                         return
                     }
+                    this.idOstatniegoMinistranta = index;
                     this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien)
                     setTimeout(() => {
                         this.ui.showFeedback('succes',"Usunięto ministranta " + ministrant.nazwisko + " " + ministrant.imie,3)
@@ -114,37 +122,5 @@ export class MinistranciComponent implements OnInit {
                 });
             }
         });
-    }
-
-    private czyKontynuowac(zmiana: boolean, context: string)
-    {
-        return new Promise<boolean>((resolve) => {
-            if(zmiana === true)
-            {
-                this.modal.showModal(PotwierdzenieModalComponent,{
-                    context: context,
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated:  true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                  } as ExtendedShowModalOptions).then((wybor) => {
-                      if(wybor === true)
-                      {
-                        resolve(false);
-                      }
-                      else
-                      {
-                        resolve(true);
-                      }
-                  })
-            }
-            else
-            {
-                resolve(false)
-            }
-        })
     }
 }

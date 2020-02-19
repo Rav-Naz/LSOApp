@@ -4,6 +4,7 @@ import { isIOS, Color } from 'tns-core-modules/ui/page/page';
 import { SesjaWygaslaComponent } from '../shared/modale/sesja-wygasla/sesja-wygasla.component';
 import { ModalDialogService } from 'nativescript-angular/common';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
+import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,24 @@ export class UiService {
             type: typ === 'succes'? FeedbackType.Success : typ === 'warning'? FeedbackType.Warning : FeedbackType.Error,
 
         });
+    }
+
+    pokazModalWyboru(context: string)
+    {
+        return new Promise<boolean>((resolve) => {
+                this.modal.showModal(PotwierdzenieModalComponent, {
+                    context: context,
+                    viewContainerRef: this._rootVCRef,
+                    fullscreen: false,
+                    stretched: false,
+                    animated: false,
+                    closeCallback: null,
+                    dimAmount: 0.8 // Sets the alpha of the background dim,
+
+                } as ExtendedShowModalOptions).then((wybor) => {
+                    resolve(wybor);
+                })
+            })
     }
 
     sesjaWygasla()

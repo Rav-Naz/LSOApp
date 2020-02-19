@@ -38,6 +38,8 @@ export class LogowanieComponent implements OnInit {
 
     zapamietaj: boolean = false;
 
+    focus: boolean = false;
+
     secureStorage: SecureStorage
 
     constructor(private router: RouterExtensions, private tabIndexService: TabindexService,
@@ -85,10 +87,6 @@ export class LogowanieComponent implements OnInit {
 
     }
 
-    zapomnialem() {
-        this.router.navigate(['/zapomnialem'], { transition: { name: 'slideBottom', duration: 300 } });
-    }
-
     zaloguj() {
         this.ladowanie = true;
         this._email = this.form.get('email').value;
@@ -110,7 +108,7 @@ export class LogowanieComponent implements OnInit {
             }
             else {
                 let user: User = JSON.parse(JSON.stringify(res))
-                this.userService.zmienUsera(user)
+                this.userService.zmienUsera(user);
 
                 if (user.admin === 1) {
                     this.modal.showModal(LogowanieJakoComponent, {
@@ -137,6 +135,7 @@ export class LogowanieComponent implements OnInit {
                                                 else {
                                                     this.secureStorage.set({ key: 'pasy', value: null })
                                                 }
+                                                this.dismiss();
                                                 this.router.navigate(['/menu'], { transition: { name: 'slideTop', duration: 500 }, clearHistory: true });
                                             }
                                             else if(res === 404)
@@ -160,6 +159,7 @@ export class LogowanieComponent implements OnInit {
 
                                 this.tabIndexService.zmianaOpiekuna(false).then(res => {
                                     if (res === 1) {
+                                        this.dismiss();
                                         this.router.navigate(['/menu'], { transition: { name: 'slideTop', duration: 500 }, clearHistory: true });
                                         if (this.zapamietaj) {
                                             this.secureStorage.set({ key: 'pasy', value: JSON.stringify({ email: this._email, haslo: this._haslo }) })
@@ -184,6 +184,7 @@ export class LogowanieComponent implements OnInit {
                 else {
                     this.tabIndexService.zmianaOpiekuna(false).then(res => {
                         if (res === 1) {
+                            this.dismiss();
                             this.router.navigate(['/menu'], { transition: { name: 'slideTop', duration: 500}, clearHistory: true });
                             if (this.zapamietaj) {
                                 this.secureStorage.set({ key: 'pasy', value: JSON.stringify({ email: this._email, haslo: this._haslo }) })
@@ -203,27 +204,40 @@ export class LogowanieComponent implements OnInit {
 
     }
 
-    doRejestracji() {
-        this.router.navigate(['/rejestracja'], { transition: { name: 'slideLeft' , duration: 300} });
+    nawiguj(gdzie: string, animacja: string) {
+        if(this.focus)
+        {
+            this.dismiss();
+            setTimeout(() => {
+                this.router.navigate([gdzie], { transition: { name: animacja , duration: 300} });
+            },200)
+        }
+        else
+        {
+            this.router.navigate([gdzie], { transition: { name: animacja , duration: 300} });
+        }
     }
-
-    nadajHaslo() {
-        this.router.navigate(['/nadaj-haslo'], { transition: { name: 'slideRight' , duration: 300} });
-    }
-
 
 
     onSwipe(args: SwipeGestureEventData) {
 
         if (args.direction === 1) {
-            this.nadajHaslo();
+            this.dismiss();
+            this.nawiguj('/nadaj-haslo','slideRight');
         }
         else if (args.direction === 2) {
-            this.doRejestracji();
+            this.dismiss();
+            this.nawiguj('/rejestracja','slideLeft');
         }
         else if (args.direction === 8) {
-            this.zapomnialem();
+            this.dismiss();
+            this.nawiguj('/zapomnialem','slideBottom');
         }
+    }
+
+    onFocus()
+    {
+        this.focus = true;
     }
 
     nic() {
@@ -237,6 +251,7 @@ export class LogowanieComponent implements OnInit {
     dismiss()
     {
         this.emailRef.nativeElement.dismissSoftInput()
+        this.hasloRef.nativeElement.dismissSoftInput()
     }
 }
 

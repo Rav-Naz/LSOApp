@@ -132,7 +132,7 @@ export class ZmienHasloOComponent implements OnInit, AfterViewInit {
             viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,
-            animated: true,
+            animated: false,
             closeCallback: null,
             dimAmount: 0.8 // Sets the alpha of the background dim,
 

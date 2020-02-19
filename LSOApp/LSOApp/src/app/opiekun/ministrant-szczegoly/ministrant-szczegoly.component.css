@@ -35,9 +35,9 @@
 
 .opis
 {
-    flex-wrap: true;
     color: rgb(80, 80, 80);
     font-size: 12;
+    text-wrap: true;
 }
 
 .opisCont
@@ -89,6 +89,13 @@
     padding: 1;
 }
 
+.strzalka-flex
+{
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
 .center
 {
     height: 100%;
@@ -101,7 +108,7 @@
     color: rgb(40, 40, 40);
     font-weight: 200;
     font-size: 12;
-    flex-wrap: true;
+    text-wrap: true;
     text-align: right;
     width: 100%;
 }

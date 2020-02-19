@@ -7,9 +7,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { Subscription } from 'rxjs';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
+import { Button } from 'tns-core-modules/ui/button/button';
 
 @Component({
   selector: 'ns-dane-profilowe',
@@ -32,6 +31,7 @@ export class DaneProfiloweComponent implements OnInit {
     @ViewChild('ulica', { static: false }) ulicaRef: ElementRef<TextField>;
     @ViewChild('kod', { static: false }) kodRef: ElementRef<TextField>;
     @ViewChild('miasto', { static: false }) miastoRef: ElementRef<TextField>;
+    @ViewChild('close', { static: false }) close: ElementRef<Button>;
 
     _telefon: string;
     _ulica: string;
@@ -79,9 +79,11 @@ export class DaneProfiloweComponent implements OnInit {
     async zamknij()
     {
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
-            if(!kontynuowac)
+            if(kontynuowac)
             {
-                this.router.back();
+                setTimeout(() => {
+                    this.router.back();
+                },300)
             }
         });
     }
@@ -91,29 +93,13 @@ export class DaneProfiloweComponent implements OnInit {
         return new Promise<boolean>((resolve) => {
             if(zmiana === true)
             {
-                this.modal.showModal(PotwierdzenieModalComponent,{
-                    context: "Zmienione dane profilowe nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated:  true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                  } as ExtendedShowModalOptions).then((wybor) => {
-                      if(wybor === true)
-                      {
-                        resolve(false);
-                      }
-                      else
-                      {
-                        resolve(true);
-                      }
-                  })
+                this.ui.pokazModalWyboru("Zmienione dane profilowe nie zostaną zapisane.\nCzy chcesz kontynuować?").then((result => {
+                    resolve(result)
+                }))
             }
             else
             {
-                resolve(false)
+                resolve(true)
             }
         })
     }

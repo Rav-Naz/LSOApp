@@ -10,7 +10,6 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -107,7 +106,7 @@ export class MinistrantDyzuryComponent implements OnInit {
 
     async anuluj() {
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
-            if(!kontynuowac)
+            if(kontynuowac)
             {
                 this.tabIndexService.nowyOutlet(4,'ministrant-szczegoly')
                 this.router.back();
@@ -120,29 +119,13 @@ export class MinistrantDyzuryComponent implements OnInit {
         return new Promise<boolean>((resolve) => {
             if(zmiana === true)
             {
-                this.modal.showModal(PotwierdzenieModalComponent,{
-                    context: "Dane o dyżurach dla tego ministranta nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated:  true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                  } as ExtendedShowModalOptions).then((wybor) => {
-                      if(wybor === true)
-                      {
-                        resolve(false);
-                      }
-                      else
-                      {
-                        resolve(true);
-                      }
-                  })
+                this.ui.pokazModalWyboru("Dane o dyżurach dla tego ministranta nie zostaną zapisane.\nCzy chcesz kontynuować?").then((result) => {
+                    resolve(result);
+                })
             }
             else
             {
-                resolve(false)
+                resolve(true)
             }
         })
     }
@@ -166,7 +149,7 @@ export class MinistrantDyzuryComponent implements OnInit {
                 viewContainerRef:  this.vcRef,
                 fullscreen: false,
                 stretched: false,
-                animated:  true,
+                animated:  false,
                 closeCallback: null,
                 dimAmount: 0.8 // Sets the alpha of the background dim,
 

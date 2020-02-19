@@ -13,8 +13,6 @@ import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { SecureStorage } from 'nativescript-secure-storage';
 import { ModalDialogService } from 'nativescript-angular/common';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -81,16 +79,7 @@ export class UstawieniaOComponent implements OnInit {
             return;
         }
 
-        this.modal.showModal(PotwierdzenieModalComponent, {
-            context: 'Czy jesteś pewny, że chcesz wyzerować punkty WSZYSTKIM ministrantom w swojej parafii? Ta funkcja jest zalecana przy rozpoczęciu nowego roku liturgicznego.',
-            viewContainerRef: this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated: true,
-            closeCallback: null,
-            dimAmount: 0.8
-
-        } as ExtendedShowModalOptions).then((wybor) => {
+       this.ui.pokazModalWyboru('Czy jesteś pewny, że chcesz wyzerować punkty WSZYSTKIM ministrantom w swojej parafii? Ta funkcja jest zalecana przy rozpoczęciu nowego roku liturgicznego.').then((wybor) => {
             if (wybor) {
                 this.ui.zmienStan(4, true)
                 this.ui.zmienStan(1, true)
@@ -123,16 +112,7 @@ export class UstawieniaOComponent implements OnInit {
             return;
         }
 
-        this.modal.showModal(PotwierdzenieModalComponent, {
-            context: 'Czy jesteś pewny, że chcesz usunąć WSZYSTKIE dyżury ministrantów w swojej parafii? Ta funkcja jest zalecana przy rozpoczęciu nowego roku liturgicznego.',
-            viewContainerRef: this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated: true,
-            closeCallback: null,
-            dimAmount: 0.8
-
-        } as ExtendedShowModalOptions).then((wybor) => {
+        this.ui.pokazModalWyboru('Czy jesteś pewny, że chcesz usunąć WSZYSTKIE dyżury ministrantów w swojej parafii? Ta funkcja jest zalecana przy rozpoczęciu nowego roku liturgicznego.').then((wybor) => {
             if (wybor) {
                 this.ui.zmienStan(4, true)
                 this.ui.zmienStan(0, true)

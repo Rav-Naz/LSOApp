@@ -10,8 +10,6 @@ import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -213,7 +211,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         clearTimeout(this.odliczenie)
 
             this.czyKontynuowac().then((kontynuowac) => {
-                if(!kontynuowac)
+                if(kontynuowac)
                 {
                     this.ui.zmienStan(0,true)
                     if((this.index + liczba)<0 || (this.index + liczba)>(this.dzisiejszeWydarzenia.length-1))
@@ -260,29 +258,13 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         return new Promise<boolean>((resolve) => {
             if(this.sprawdzane && this.zmiana)
             {
-                this.modal.showModal(PotwierdzenieModalComponent,{
-                    context: "Dane o obecności dla tego wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated:  true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                  } as ExtendedShowModalOptions).then((wybor) => {
-                      if(wybor === true)
-                      {
-                        resolve(false);
-                      }
-                      else
-                      {
-                        resolve(true);
-                      }
-                  })
+                this.ui.pokazModalWyboru("Dane o obecności dla tego wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((result) => {
+                    resolve(result);
+                })
             }
             else
             {
-                resolve(false)
+                resolve(true)
             }
         })
     }

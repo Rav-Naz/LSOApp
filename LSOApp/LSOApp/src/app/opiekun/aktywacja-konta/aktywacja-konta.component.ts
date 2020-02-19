@@ -7,9 +7,7 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { HttpService } from '~/app/serwisy/http.service';
 import { UiService } from '~/app/serwisy/ui.service';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { ModalDialogService } from 'nativescript-angular/directives/dialogs';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 
 @Component({
     selector: 'ns-aktywacja-konta',
@@ -114,8 +112,8 @@ export class AktywacjaKontaComponent implements OnInit {
 
     usun()
     {
-        this.czyKontynuowac(true).then(wybor => {
-            if(!wybor)
+        this.ui.pokazModalWyboru("Usuwając dostęp do konta dla ministranta utraci on mozliwość logowania, lecz jego dane pozostaną.\nCzy chcesz kontynuować?").then(wybor => {
+            if(wybor)
             {
 
                 this.ui.zmienStan(4,true)
@@ -151,33 +149,6 @@ export class AktywacjaKontaComponent implements OnInit {
     {
         this.checked = event
 
-    }
-
-    private czyKontynuowac(zmiana: boolean) {
-        return new Promise<boolean>((resolve) => {
-            if (zmiana === true) {
-                this.modal.showModal(PotwierdzenieModalComponent, {
-                    context: "Usuwając dostęp do konta dla ministranta utraci on mozliwość logowania, lecz jego dane pozostaną.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated: true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                } as ExtendedShowModalOptions).then((wybor) => {
-                    if (wybor === true) {
-                        resolve(false);
-                    }
-                    else {
-                        resolve(true);
-                    }
-                })
-            }
-            else {
-                resolve(false)
-            }
-        })
     }
 
     dismiss()

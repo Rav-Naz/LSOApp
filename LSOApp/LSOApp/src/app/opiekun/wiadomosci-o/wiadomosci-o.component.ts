@@ -8,9 +8,7 @@ import { getFile } from 'tns-core-modules/http';
 import * as fileSystem from "tns-core-modules/file-system";
 import { isAndroid} from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
 
 declare var android
@@ -143,8 +141,8 @@ export class WiadomosciOComponent implements OnInit {
 
     async usunWiadomosc(wiadomosc: Wiadomosc) {
         if (wiadomosc.autor_id !== 0) {
-            await this.czyKontynuowac(true).then((kontynuowac) => {
-                if (!kontynuowac) {
+            await this.ui.pokazModalWyboru("Wiadomość zostanie usunięta dla Ciebie i ministrantów.\nCzy chcesz kontynuować?").then((kontynuowac) => {
+                if (kontynuowac) {
                     this.ui.zmienStan(2, true)
                     this.tresc = ''
                     this.wiadosciService.usunWiadomosc(wiadomosc).then(res => {
@@ -171,33 +169,6 @@ export class WiadomosciOComponent implements OnInit {
             this.ui.zmienStan(2, false)
             this.ui.showFeedback('error',"Nie możesz usunąć wiadomości od ADMINISTRATORA",3)
         }
-    }
-
-    private czyKontynuowac(zmiana: boolean) {
-        return new Promise<boolean>((resolve) => {
-            if (zmiana === true) {
-                this.modal.showModal(PotwierdzenieModalComponent, {
-                    context: "Wiadomość zostanie usunięta dla Ciebie i ministrantów.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated: true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                } as ExtendedShowModalOptions).then((wybor) => {
-                    if (wybor === true) {
-                        resolve(false);
-                    }
-                    else {
-                        resolve(true);
-                    }
-                })
-            }
-            else {
-                resolve(false)
-            }
-        })
     }
 
     dismiss()

@@ -4,8 +4,6 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { HttpService } from '~/app/serwisy/http.service';
 import { Parafia } from '~/app/serwisy/parafia.model';
 import { UiService } from '~/app/serwisy/ui.service';
@@ -85,7 +83,7 @@ export class PunktacjaComponent implements OnInit {
 
     async anuluj() {
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
-            if (!kontynuowac) {
+            if (kontynuowac) {
                 this.tabIndexService.nowyOutlet(6, "ustawieniaO");
                 this.router.back();
             }
@@ -96,22 +94,8 @@ export class PunktacjaComponent implements OnInit {
         return new Promise<boolean>((resolve) => {
             if (zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc))) {
                 if (zmiana === true) {
-                    this.modal.showModal(PotwierdzenieModalComponent, {
-                        context: "Zmienione dane o punktacji nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                        viewContainerRef: this.vcRef,
-                        fullscreen: false,
-                        stretched: false,
-                        animated: true,
-                        closeCallback: null,
-                        dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                    } as ExtendedShowModalOptions).then((wybor) => {
-                        if (wybor === true) {
-                            resolve(false);
-                        }
-                        else {
-                            resolve(true);
-                        }
+                    this.ui.pokazModalWyboru("Zmienione dane o punktacji nie zostaną zapisane.\nCzy chcesz kontynuować?").then((result) => {
+                        resolve(result);
                     })
                 }
                 else {
@@ -119,7 +103,7 @@ export class PunktacjaComponent implements OnInit {
                 }
             }
             else {
-                resolve(false)
+                resolve(true)
             }
         })
     }

@@ -17,22 +17,24 @@
     </GridLayout>
         <!-- Widok ministranta -->
         <GridLayout columns="*" rows="*,auto" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
+            <FlexboxLayout col="0" height="100%">
                 <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)">
-                        <TabContentItem>
-                            <page-router-outlet name="dyzury"></page-router-outlet>
-                        </TabContentItem>
-                        <TabContentItem>
-                            <page-router-outlet name="wiadomosciM"></page-router-outlet>
-                        </TabContentItem>
-                        <TabContentItem>
-                            <page-router-outlet name="ustawieniaM"></page-router-outlet>
-                        </TabContentItem>
-                    </Tabs>
-                    <GridLayout columns="*,*,*" rows="50"  row="1" backgroundColor="black">
-                        <Button col="0" text="&#xe01b;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 0}" (tap)="zmienStrone(0)"></Button>
-                        <Button col="1" text="&#xe032;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 1}" (tap)="zmienStrone(1)"></Button>
-                        <Button col="2" text="&#xe05b;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 2}" (tap)="zmienStrone(2)"></Button>
-                    </GridLayout>
+                    <TabContentItem>
+                        <page-router-outlet name="dyzury"></page-router-outlet>
+                    </TabContentItem>
+                    <TabContentItem>
+                        <page-router-outlet name="wiadomosciM"></page-router-outlet>
+                    </TabContentItem>
+                    <TabContentItem>
+                        <page-router-outlet name="ustawieniaM"></page-router-outlet>
+                    </TabContentItem>
+                </Tabs>
+            </FlexboxLayout>
+            <GridLayout columns="*,*,*" rows="50"  row="1" backgroundColor="black">
+                <Button col="0" text="&#xe01b;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 0}" (tap)="zmienStrone(0)"></Button>
+                <Button col="1" text="&#xe032;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 1}" (tap)="zmienStrone(1)"></Button>
+                <Button col="2" text="&#xe0e3;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 2}" (tap)="zmienStrone(2)"></Button>
+            </GridLayout>
         </GridLayout>
         <!-- Widok opiekuna -->
         <GridLayout columns="*" rows="*,auto" *ngIf="this.tabIndexService.opiekun" flexDirection="column">

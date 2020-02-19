@@ -16,7 +16,6 @@
                                 <Label text="04/02/2000" class="data black lexend"></Label>
                             </StackLayout>
                             <FlexboxLayout class="wiadomosc b-p-10 center" col="1" row="0" rowSpan="2">
-                                <!-- <Label text="OPIEKUN" class="autor"></Label> -->
                                 <TextView [(ngModel)]="tresc" hint="Wpisz treść wiadomosci" class="textview lexend" #textview></TextView>
                                 <FlexboxLayout class="flexEnd">
                                     <Button [text]="tresc.length >= 1? 'Wyślij' : 'Zamknij'" (tap)="wyslij()" class="btn b-p-10 audiowide"></Button>
@@ -25,12 +24,9 @@
                         </GridLayout>
                 </DockLayout>
 
-
-
-
                 <ng-containter *ngIf="!ui.ladowane[2]" orientation="vertical">
                     <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0"></Label>
-                    <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid" (longPress)="usunWiadomosc(wiadomosc)">
+                    <GridLayout *ngFor="let wiadomosc of wiadomosci" columns="auto,*" rows="auto,*" class="grid" (doubleTap)="usunWiadomosc(wiadomosc)">
                         <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>
                         <StackLayout class="center" margin="7" marginLeft="15" col="0" row="0">
                             <Label [text]="wiadomosc.data.toString() | godzina" class="godzina lexend"></Label>

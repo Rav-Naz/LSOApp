@@ -9,8 +9,6 @@ import * as TimePicker from "nativescript-datetimepicker"
 import { Button } from "tns-core-modules/ui/button";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -164,7 +162,7 @@ export class EdytujMszeComponent implements OnInit {
     async anuluj() {
 
         await this.czyKontynuowac(this.zmiana, "Zmienione wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((kontynuowac) => {
-            if (!kontynuowac) {
+            if (kontynuowac) {
                 this.tabIndexService.nowyOutlet(6, "ustawieniaO");
                 this.router.back();
             }
@@ -174,26 +172,12 @@ export class EdytujMszeComponent implements OnInit {
     private czyKontynuowac(zmiana: boolean, context: string) {
         return new Promise<boolean>((resolve) => {
             if (zmiana === true) {
-                this.modal.showModal(PotwierdzenieModalComponent, {
-                    context: context,
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated: true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                } as ExtendedShowModalOptions).then((wybor) => {
-                    if (wybor === true) {
-                        resolve(false);
-                    }
-                    else {
-                        resolve(true);
-                    }
+                this.ui.pokazModalWyboru(context).then((result) => {
+                    resolve(result);
                 })
             }
             else {
-                resolve(false)
+                resolve(true)
             }
         })
     }
@@ -207,7 +191,7 @@ export class EdytujMszeComponent implements OnInit {
             return;
         }
         await this.czyKontynuowac(this.zmiana, "Zmienione wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((kontynuowac) => {
-            if (!kontynuowac) {
+            if (kontynuowac) {
                 this.ui.zmienStan(3,true)
                 this.zmiana = false;
                 this.wybranyDzien = dzien;

@@ -5,18 +5,18 @@
 
             <FlexboxLayout class="naglowek">
                 <FlexboxLayout class="nagCont">
-                    <TextField [text]="ministrant.imie" class="nagText audiowide" (returnPress)="wpiszImieINazwisko()" (blur)="wpiszImieINazwisko()" returnKeyType="done" formControlName="imie" #imie></TextField>
-                    <TextField [text]="ministrant.nazwisko" class="nagText audiowide" (returnPress)="wpiszImieINazwisko()" (blur)="wpiszImieINazwisko()" returnKeyType="done" formControlName="nazwisko" #nazwisko></TextField>
+                    <TextField [text]="ministrant.imie" class="nagText audiowide" (returnPress)="wpiszImieINazwisko()" (blur)="wpiszImieINazwisko()"  returnKeyType="done" formControlName="imie" #imie [visibility]="this.ui.ladowane[5]? 'hidden' : 'visible'"></TextField>
+                    <TextField [text]="ministrant.nazwisko" class="nagText audiowide" (returnPress)="wpiszImieINazwisko()" (blur)="wpiszImieINazwisko()" returnKeyType="done" formControlName="nazwisko" #nazwisko [visibility]="this.ui.ladowane[5]? 'hidden' : 'visible'"></TextField>
                 </FlexboxLayout>
             </FlexboxLayout>
 
             <GridLayout class="scroll wh100">
                 <ScrollView scrollBarIndicatorVisible="false" (tap)="dismiss()">
                     <StackLayout>
-                        <GridLayout rows="auto,auto,auto,auto,auto,auto" columns="auto,*"  *ngIf="!this.ui.ladowane[5]">
+                        <GridLayout rows="auto,auto,auto,auto,auto,auto" columns="auto,*" *ngIf="!this.ui.ladowane[5]">
                             <FlexboxLayout row="0" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-
+                            <!-- Punkty -->
                             <Label text="Punkty" class="opisCont opis lexend" row="0" col="0"></Label>
 
                             <FlexboxLayout row="0" col="1" class="daneCont">
@@ -27,61 +27,57 @@
 
                             <FlexboxLayout row="1" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-                            <FlexboxLayout row="1" col="0" class="opisCont">
-                                <Label text="Stopień" class="opis lexend"></Label>
-                            </FlexboxLayout>
+                            <!-- Stopień -->
+                            <Label text="Stopień" row="1" col="0" class="opisCont opis lexend"></Label>
                             <GridLayout columns="*,25" rows="auto" row="1" col="1" class="daneCont"
                                 (tap)="zmienStopien(ministrant)">
                                 <FlexboxLayout col="0" class="center" alignItems="flex-end">
-                                    <Label [text]="stopien(ministrant.stopien)" class="dane lexend" horizontalAlignment="right"></Label>
+                                    <Label [text]="stopien(ministrant.stopien)" class="dane lexend" horizontalAlignment="right" marginBottom="3"></Label>
                                 </FlexboxLayout>
-                                <FlexboxLayout class="center" col="2">
-                                    <Label text="&#xe001;" class="strzalka icon"></Label>
+                                <FlexboxLayout class="strzalka-flex" col="2">
+                                    <Label text="&#xe001;" class="strzalka icon" alignSelf="center"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
 
 
                             <FlexboxLayout row="2" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-
+                            <!-- Dyżury -->
                             <Label text="Dyżury" row="2" col="0" class="opisCont opis lexend"></Label>
 
                             <GridLayout columns="*,25" rows="auto" row="2" col="1" class="daneCont"
                                 (tap)="otworzDyzury()">
                                 <FlexboxLayout col="0" class="center" alignItems="flex-end">
                                     <Label text="Brak" class="dane lexend" horizontalAlignment="right" row="1" col="1"
-                                        *ngIf="dyzury.length === 0"></Label>
+                                        *ngIf="dyzury.length === 0" marginBottom="3"></Label>
                                     <StackLayout *ngIf="dyzury.length > 0">
                                         <FlexboxLayout *ngFor="let dyzur of dyzury" horizontalAlignment="right">
-                                            <Label [text]="dyzurHeader(dyzur.dzien_tygodnia)"
-                                                class="dane lexend"></Label>
-                                            <Label text=" " class="dane lexend"></Label>
-                                            <Label [text]="dyzur.godzina.toString() | godzina"
-                                                class="dane lexend"></Label>
+                                            <Label [text]="dyzurHeader(dyzur.dzien_tygodnia) + data(dyzur.godzina)"
+                                                class="dane lexend" marginBottom="3"></Label>
                                         </FlexboxLayout>
                                     </StackLayout>
                                 </FlexboxLayout>
-                                <FlexboxLayout class="center" col="2">
-                                    <Label text="&#xe001;" class="strzalka icon"></Label>
+                                <FlexboxLayout col="2" class="strzalka-flex">
+                                    <Label text="&#xe001;" class="strzalka icon" alignSelf="center"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
 
                             <FlexboxLayout row="3" col="0" colSpan="2" class="podkr" *ngIf="this.ministrant.id_user !== userService.UserID">
                             </FlexboxLayout>
-
+                            <!-- Konto -->
                             <Label text="Podpięte&#xA;konto" row="3" col="0" class="opisCont opis lexend" *ngIf="this.ministrant.id_user !== userService.UserID"></Label>
 
-                            <GridLayout columns="*,25" rows="auto" row="3" col="1" class="daneCont"
+                            <GridLayout columns="*,25" rows="25" row="3" col="1" class="daneCont"
                                 (tap)="aktywujKonto()" *ngIf="this.ministrant.id_user !== userService.UserID">
-                                <FlexboxLayout col="0" class="center" alignItems="flex-end">
+                                <FlexboxLayout col="0" height="100%">
                                     <Label [text]="ministrant.email === null ? 'Aktywuj konto' : ministrant.email"
-                                        class="dane lexend" horizontalAlignment="right" row="1" col="1"></Label>
+                                        class="dane lexend" horizontalAlignment="right" marginBottom="3"></Label>
                                 </FlexboxLayout>
-                                <FlexboxLayout class="center" col="2">
-                                    <Label text="&#xe001;" class="strzalka icon"></Label>
+                                <FlexboxLayout class="strzalka-flex" col="2">
+                                    <Label text="&#xe001;" class="strzalka icon" alignSelf="center"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-
+                            <!-- Dane -->
                             <Label text="Dane&#xA;personalne" row="4" col="0" class="opisCont opis lexend"></Label>
 
                             <GridLayout columns="*,25" rows="auto" row="4" col="1" class="daneCont">
@@ -96,13 +92,13 @@
                                             class="dane lexend" *ngIf="ministrant.telefon !== null"></Label>
                                     </StackLayout>
                                     <Label text="Brak" class="dane lexend"
-                                        *ngIf="!ministrant.ulica && !ministrant.kod_pocztowy && !ministrant.miasto && !ministrant.telefon"></Label>
+                                        *ngIf="!ministrant.ulica && !ministrant.kod_pocztowy && !ministrant.miasto && !ministrant.telefon" height="25"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
 
                             <FlexboxLayout *ngIf="this.ministrant.id_user !== userService.UserID && this.ministrant.aktywny === 1" row="4" col="0" colSpan="2" class="podkr">
                             </FlexboxLayout>
-
+                            <!-- Admin -->
                             <Label text="Prawa&#xA;administratora" row="5" col="0" class="opisCont opis lexend" *ngIf="this.ministrant.id_user !== userService.UserID && this.ministrant.aktywny === 1"></Label>
 
                             <GridLayout columns="*,25" rows="auto" row="5" col="1" class="daneCont" *ngIf="this.ministrant.id_user !== userService.UserID && this.ministrant.aktywny === 1">
@@ -114,7 +110,7 @@
                             </GridLayout>
 
                         </GridLayout>
-                        <FlexboxLayout class="wh100 center" *ngIf="this.ui.ladowane[5]">
+                        <FlexboxLayout class="wh100 center" *ngIf="this.ui.ladowane[5]" margin="30">
                             <ActivityIndicator [busy]="true"></ActivityIndicator>
                         </FlexboxLayout>
                     </StackLayout>
@@ -127,7 +123,7 @@
         <GridLayout columns="*,*" rows="60" row="1" class="przyciski">
             <Button [text]="this.form.valid && zmiana?'Anuluj':'Zamknij'" col="0" (tap)="zamknij()" class="anuluj b-p-10 audiowide" fontSize="17"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" fontSize="17"
-                [isEnabled]="zmiana && this.form.valid" [ngClass]="{disabled: !zmiana && !this.form.valid}"></Button>
+                [isEnabled]="zmiana && this.form.valid" [ngClass]="{disabled: !zmiana || !this.form.valid}"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

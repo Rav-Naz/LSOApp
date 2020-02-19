@@ -10,7 +10,6 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -93,7 +92,9 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
 
             if(lista_dyzurow === null || lista_dyzurow === undefined)
             {
-                this.ui.zmienStan(5,false)
+                setTimeout(() => {
+                    this.ui.zmienStan(5,false)
+                },500)
                 return
             }
 
@@ -108,7 +109,9 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
                 }
                 return 0;
             })
-            this.ui.zmienStan(5,false)
+            setTimeout(() => {
+                this.ui.zmienStan(5,false)
+            },500)
         });
         this.form = new FormGroup({
             punkty: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('^[-0-9]{1,4}$')] }),
@@ -129,7 +132,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
     async zamknij() {
 
         await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
-            if (!kontynuowac) {
+            if (kontynuowac) {
                 this.tabIndexService.nowyOutlet(4, 'ministranci')
                 this.router.back();
                 this.parafiaService.odswiezListeMinistrantow();
@@ -141,30 +144,17 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
     private czyKontynuowac(zmiana: boolean) {
         return new Promise<boolean>((resolve) => {
             if (zmiana === true) {
-                this.modal.showModal(PotwierdzenieModalComponent, {
-                    context: "Zmienione dane tego ministranta nie zostaną zapisane.\nCzy chcesz kontynuować?",
-                    viewContainerRef: this.vcRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated: true,
-                    closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
-
-                } as ExtendedShowModalOptions).then((wybor) => {
-                    if (wybor === true) {
-                        resolve(false);
-                    }
-                    else {
-                        resolve(true);
-                    }
-                })
+               this.ui.pokazModalWyboru("Dane o dyżurach dla tego ministranta nie zostaną zapisane.\nCzy chcesz kontynuować?").then((result) => {
+                   resolve(result);
+               })
             }
             else {
-                resolve(false)
+                resolve(true)
             }
         })
     }
 
+    
     otworzDyzury() {
         this.ui.zmienStan(4,true)
         if (this.PROLista[6] === 'edytuj-msze' || this.PROLista[6] === 'punktacja') {
@@ -174,32 +164,38 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
         this.tabIndexService.nowyOutlet(4, 'ministrant-dyzury')
         this.router.navigate(['../ministrant-dyzury'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
         this.ui.zmienStan(4,false)
-
+        
     }
-
+    
     aktywujKonto() {
         this.ui.zmienStan(4,true)
-            this.parafiaService.wyslanyEmail = {email: this.ministrant.email, aktywny: this.ministrant.aktywny, id_user: this.ministrant.id_user};
-
-            this.tabIndexService.nowyOutlet(4, 'aktywacja-konta')
-            this.router.navigate(['../aktywacja-konta'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
-            this.ui.zmienStan(4,false)
+        this.parafiaService.wyslanyEmail = {email: this.ministrant.email, aktywny: this.ministrant.aktywny, id_user: this.ministrant.id_user};
+        
+        this.tabIndexService.nowyOutlet(4, 'aktywacja-konta')
+        this.router.navigate(['../aktywacja-konta'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
+        this.ui.zmienStan(4,false)
     }
-
+    
     zmienPunkty(punkty: number) {
         this.wpiszPunkty();
         this.zmiana = true;
         this.ministrant.punkty += punkty;
     }
-
+    
     dyzurHeader(dzien_tygodnia: number) {
         return this.DzienTyg[dzien_tygodnia] + ' ';
     }
-
+    
     stopien(stopien: number) {
         return Stopien[stopien];
     }
 
+    data(value: string)
+    {
+        let data = new Date(value)
+        return data.toString().slice(16,21);
+    }
+    
     zmienStopien(ministrant: User) {
         this.displayActionDialog(ministrant)
     }
@@ -213,7 +209,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
             viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,
-            animated: true,
+            animated: false,
             closeCallback: null,
             dimAmount: 0.8 // Sets the alpha of the background dim,
 
@@ -253,7 +249,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
 
     wpiszPunkty()
     {
-        this.punkty.nativeElement.dismissSoftInput();
+       // this.punkty.nativeElement.dismissSoftInput();
         if(this.ministrant.punkty !== parseInt(this.form.get('punkty').value))
         {
             this.ministrant.punkty = parseInt(this.form.get('punkty').value)
@@ -263,7 +259,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
 
     wpiszImieINazwisko()
     {
-        this.imieRef.nativeElement.dismissSoftInput()
+        //this.imieRef.nativeElement.dismissSoftInput()
         if(this.form.get('imie').value === this.ministrant.imie && this.form.get('nazwisko').value === this.ministrant.nazwisko)
         {
             return
@@ -307,6 +303,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
 
     dismiss()
     {
+        return
         this.punkty.nativeElement.dismissSoftInput()
         this.wpiszPunkty()
         this.wpiszImieINazwisko()
