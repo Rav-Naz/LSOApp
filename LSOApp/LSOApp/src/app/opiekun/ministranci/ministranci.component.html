@@ -1,6 +1,6 @@
 <FlexboxLayout class="back center wh100">
     <GridLayout rows="auto" columns="auto,*,auto" class="grid">
-        <Button class="sort-btn center" (tap)="zmianaSortu()" [isEnabled]="!ui.ladowane[1]">
+        <Button class="sort-btn center" (tap)="zmianaSortu()" [isEnabled]="!ui.ladowane[1]" col="2" >
             <FormattedString class="format">
                 <Span text=" &#xe018;" class="opis center icon" fontSize="10"></Span>
                 <Span text="Sortuj: " class="opis center audiowide"></Span>
@@ -8,23 +8,22 @@
             </FormattedString>
         </Button>
 
-        <FlexboxLayout class="pasek center" col="1"></FlexboxLayout>
-
-        <Button class="cont center dodaj" col="2" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]">
+        <Button class="cont center dodaj b-p-10" col="0" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]">
             <FormattedString class="format">
                 <Span text="&#xe072;" class="icon plus" fontSize="16"></Span>
             </FormattedString>
         </Button>
     </GridLayout>
 
-    <GridLayout class="lista">
+    <GridLayout class="lista" marginLeft="5" marginRight="5">
 
         <Label text="Brak ministrantów na liście" class="brak lexend" *ngIf="ministranci.length === 0 && !ui.ladowane[1]"></Label>
 
-        <ListView [items]="ministranci" *ngIf="!ui.ladowane[1]" separatorColor="black" #list>
-            <ng-template let-item="item" let-i="index">
-                <GridLayout rows="50" columns="auto,*,auto" [ngClass]="{szary: i%2 === 0}"
-                    (tap)="szczegolyMinistranta(item.id_user, i)"  (doubleTap)="usunMinistranta(item, i)">
+        <RadListView [items]="ministranci" *ngIf="!ui.ladowane[1]" separatorColor="black" #list swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
+            <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
+            <ng-template let-item="item" let-i="index" tkListItemTemplate>
+                <GridLayout rows="50" columns="auto,*,auto" [ngClass]="{szary: i%2 === 0}" class="back b-p-10"
+                    (tap)="szczegolyMinistranta(item.id_user, i)">
 
                     <FlexboxLayout col="0" width="8%" class="center" flexDirection="row">
                         <Label [text]="sortujPoImieniu? i+1+'. ' : (item.ranking === null ? '--. ' : item.ranking + '. ')" [ngClass]="{'index-admin': item.admin === 1}" class="index lexend"></Label>
@@ -42,7 +41,13 @@
                     </Button>
                 </GridLayout>
             </ng-template>
-        </ListView>
+            <GridLayout *tkListItemSwipeTemplate columns="40, *" rows="*">
+                <FlexboxLayout id="delete" col="0" (tap)="onLeftSwipeClick($event)" class="acion-cont b-p-10">
+                   <Label text="&#xe08e;" class="icon" margin="5"></Label>
+                </FlexboxLayout>
+           </GridLayout>
+        </ListViewLinearLayout>
+        </RadListView>
 
         <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[1]">
                 <ActivityIndicator [busy]="true"></ActivityIndicator>

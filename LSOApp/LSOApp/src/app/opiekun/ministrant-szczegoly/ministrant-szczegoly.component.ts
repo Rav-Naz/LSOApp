@@ -135,7 +135,6 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
             if (kontynuowac) {
                 this.tabIndexService.nowyOutlet(4, 'ministranci')
                 this.router.back();
-                this.parafiaService.odswiezListeMinistrantow();
             }
         });
 
@@ -224,6 +223,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
     zapisz() {
         this.zmiana = false;
         this.ui.zmienStan(5,true)
+        this.ui.zmienStan(1,true);
         this.wpiszPunkty();
         this.parafiaService.updateMinistranta(this.ministrant).then(res => {
             if(res === 1)
@@ -243,6 +243,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                 this.zmiana = true;
             }
+            this.ui.zmienStan(1,false)
             this.ui.zmienStan(5,false)
         })
     }

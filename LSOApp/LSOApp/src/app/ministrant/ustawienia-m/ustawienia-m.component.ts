@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { SecureStorage } from "nativescript-secure-storage";
 import { ActivatedRoute } from '@angular/router';
 import { UiService } from '~/app/serwisy/ui.service';
-import { User } from '~/app/serwisy/user.model';
 
 @Component({
     selector: 'ns-ustawienia-m',

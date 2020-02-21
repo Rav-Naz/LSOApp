@@ -1,17 +1,16 @@
-import { Component, OnInit, ViewContainerRef, ElementRef, ViewChild } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Page, View } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Subscription } from 'rxjs';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { ActivatedRoute } from '@angular/router';
 import { sortPolskich } from '~/app/shared/sortPolskich';
 import { UserService } from '~/app/serwisy/user.service';
 import { UiService } from '~/app/serwisy/ui.service';
-import { ListView } from 'tns-core-modules/ui/list-view/list-view';
+import { ListViewEventData, RadListView } from 'nativescript-ui-listview';
 
 @Component({
     selector: 'ns-ministranci',
@@ -27,14 +26,12 @@ export class MinistranciComponent implements OnInit {
 
     sortujPoImieniu: boolean = false;
 
-    idOstatniegoMinistranta: number = 0;
-
     ladowanie: boolean = true;
 
-    @ViewChild('list', { static: false }) listView: ElementRef<ListView>;
+    @ViewChild('list', { static: false }) listView: ElementRef<RadListView>;
 
     constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService,
-         private modal: ModalDialogService, private vcRef: ViewContainerRef, private active: ActivatedRoute, private userService: UserService, public ui: UiService) {}
+         private active: ActivatedRoute, private userService: UserService, public ui: UiService) {}
 
     ngOnInit() {
         this.ui.zmienStan(1,true)
@@ -53,9 +50,6 @@ export class MinistranciComponent implements OnInit {
                     this.ministranci = this.ministranci.filter(item => item.stopien !== 11)
                     this.sortujListe();
                     this.ui.zmienStan(1,false)
-                    setTimeout(() => {
-                        this.listView.nativeElement.scrollToIndexAnimated(this.idOstatniegoMinistranta);
-                    }, 700)
                 }
             })
         },200)
@@ -83,9 +77,23 @@ export class MinistranciComponent implements OnInit {
         });
     }
 
+    public onSwipeCellStarted(args: ListViewEventData) {
+        const swipeLimits = args.data.swipeLimits;
+        const swipeView = args['object'];
+        const leftItem = swipeView.getViewById<View>('delete');
+        swipeLimits.left = leftItem.getMeasuredWidth();
+        swipeLimits.right = 0;
+        swipeLimits.threshold = leftItem.getMeasuredWidth() / 2;
+    }
+
+    onLeftSwipeClick(args)
+    {
+        let index = this.ministranci.indexOf(args.object.bindingContext);
+        this.usunMinistranta(this.ministranci[index], index);
+    }
+
     szczegolyMinistranta(id: number, index: number) {
         this.tabIndexService.nowyOutlet(4, 'ministrant-szczegoly');
-        this.idOstatniegoMinistranta = index;
         this.parafiaService.aktualnyMinistrantId = id;
         this.router.navigate(['../ministrant-szczegoly'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
     }
@@ -114,7 +122,6 @@ export class MinistranciComponent implements OnInit {
                         this.ui.zmienStan(1,false)
                         return
                     }
-                    this.idOstatniegoMinistranta = index;
                     this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien)
                     setTimeout(() => {
                         this.ui.showFeedback('succes',"Usunięto ministranta " + ministrant.nazwisko + " " + ministrant.imie,3)

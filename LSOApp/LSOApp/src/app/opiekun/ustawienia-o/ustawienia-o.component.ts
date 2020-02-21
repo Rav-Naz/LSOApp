@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import * as utils from "tns-core-modules/utils/utils";
@@ -12,7 +12,6 @@ import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { SecureStorage } from 'nativescript-secure-storage';
-import { ModalDialogService } from 'nativescript-angular/common';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -28,7 +27,7 @@ export class UstawieniaOComponent implements OnInit {
     constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
         private tabIndexService: TabindexService, private active: ActivatedRoute, private http: HttpService,
         public parafiaService: ParafiaService, private wiadomosciService: WiadomosciService, private wydarzeniaService: WydarzeniaService,
-        private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {}
+        private ui: UiService) {}
 
     wersja = this.userService.wersja;
     PROSub: Subscription;

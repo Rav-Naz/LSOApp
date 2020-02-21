@@ -69,6 +69,11 @@ export class UserService {
         return this.user.id_user;
     }
 
+    get UserStopien()
+    {
+        return this.user.stopien;
+    }
+
     get UserPerm()
     {
         return this.user.admin;

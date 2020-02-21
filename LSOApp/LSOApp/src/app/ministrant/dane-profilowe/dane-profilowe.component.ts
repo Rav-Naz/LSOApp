@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { UserService } from '~/app/serwisy/user.service';
@@ -6,7 +6,6 @@ import { User } from '~/app/serwisy/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { Subscription } from 'rxjs';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { UiService } from '~/app/serwisy/ui.service';
 import { Button } from 'tns-core-modules/ui/button/button';
 
@@ -20,7 +19,7 @@ export class DaneProfiloweComponent implements OnInit {
 
 
   constructor(private router: RouterExtensions, private page: Page, private userService: UserService,
-     private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {}
+     private ui: UiService) {}
 
     user: User;
     userSub: Subscription;

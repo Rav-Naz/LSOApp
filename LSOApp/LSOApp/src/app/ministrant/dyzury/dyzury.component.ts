@@ -3,11 +3,8 @@ import { Page } from 'tns-core-modules/ui/page/page';
 import { UserService } from '~/app/serwisy/user.service';
 import { User } from '~/app/serwisy/user.model';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { SecureStorage } from "nativescript-secure-storage";
 import { Subscription } from 'rxjs';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page, EventData } from 'tns-core-modules/ui/page/page';
+import { Component, OnInit } from '@angular/core';
+import { Page, EventData, View } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
@@ -8,8 +8,8 @@ import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import * as TimePicker from "nativescript-datetimepicker"
 import { Button } from "tns-core-modules/ui/button";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { UiService } from '~/app/serwisy/ui.service';
+import { ListViewEventData } from 'nativescript-ui-listview';
 
 @Component({
     selector: 'ns-edytuj-msze',
@@ -20,7 +20,7 @@ import { UiService } from '~/app/serwisy/ui.service';
 export class EdytujMszeComponent implements OnInit {
 
     constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService,
-         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {}
+         private tabIndexService: TabindexService, public ui: UiService) {}
 
     DzienTygodnia = [0, 1, 2, 3, 4, 5, 6]
     wybranyDzien: number;
@@ -116,9 +116,24 @@ export class EdytujMszeComponent implements OnInit {
         }
     }
 
+    public onSwipeCellStarted(args: ListViewEventData) {
+        const swipeLimits = args.data.swipeLimits;
+        const swipeView = args['object'];
+        const leftItem = swipeView.getViewById<View>('delete');
+        swipeLimits.left = leftItem.getMeasuredWidth();
+        swipeLimits.right = 0;
+        swipeLimits.threshold = leftItem.getMeasuredWidth() / 2;
+    }
+
+    onLeftSwipeClick(args)
+    {
+        let index = this.wydarzeniaDnia.indexOf(args.object.bindingContext);
+        this.usun(this.wydarzeniaDnia[index]);
+    }
+
     async usun(wydarzenie: Wydarzenie) {
         await this.czyKontynuowac(true, "Usunięcie wydarzenia spowoduje utratę przypisanych do niego dyżurów.\nCzy chcesz trwale usunąć wydarzenie z godziny " + new Date(wydarzenie.godzina).toString().slice(16, 21) + "?").then((kontynuowac) => {
-            if (!kontynuowac) {
+            if (kontynuowac) {
                 this.czyAktualizowane(wydarzenie)
                 let index = this.wydarzeniaDnia.indexOf(wydarzenie);
                 this.wydarzeniaDnia.splice(index, 1);

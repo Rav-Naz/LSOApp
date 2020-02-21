@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { HttpService } from '~/app/serwisy/http.service';
 import { Parafia } from '~/app/serwisy/parafia.model';
 import { UiService } from '~/app/serwisy/ui.service';
@@ -20,8 +19,7 @@ export class PunktacjaComponent implements OnInit {
     zmiana: boolean = false;
 
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
-        private tabIndexService: TabindexService, private modal: ModalDialogService,
-         private vcRef: ViewContainerRef, private http: HttpService, private ui: UiService) {}
+        private tabIndexService: TabindexService, private http: HttpService, private ui: UiService) {}
 
     pktZaObecnosc: number = 0;
     pktZaNieobecnosc: number = 0;

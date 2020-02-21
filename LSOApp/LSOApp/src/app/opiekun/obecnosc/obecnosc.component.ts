@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -49,7 +48,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     @ViewChild("myCalendar", { static: false }) _calendar: RadCalendarComponent;
 
     constructor(private page: Page, private wydarzeniaService: WydarzeniaService, private parafiaService: ParafiaService,
-        private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) { }
+        private tabIndexService: TabindexService, public ui: UiService) { }
 
     ngOnInit() {
 

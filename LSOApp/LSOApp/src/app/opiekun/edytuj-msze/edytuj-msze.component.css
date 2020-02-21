@@ -50,11 +50,31 @@
     padding: 0;
 }
 
+.acion-cont
+{
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    color: white;
+    font-size: 16;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
 .text
 {
     color: rgb(80, 80, 80);
     font-size: 22;
-    margin-bottom: 5;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+    height: 40;
+    margin-top: 3;
+}
+
+.szary
+{
+    background-color: rgb(240, 240, 240);
 }
 
 .iks

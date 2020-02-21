@@ -40,7 +40,7 @@ import { PotwierdzenieModalComponent } from './shared/modale/potwierdzenie-modal
 import { LogowanieJakoComponent } from './shared/modale/logowanie-jako/logowanie-jako.component';
 import { NadajHasloComponent } from './nadaj-haslo/nadaj-haslo.component';
 import { SesjaWygaslaComponent } from './shared/modale/sesja-wygasla/sesja-wygasla.component';
-
+import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -62,7 +62,8 @@ import { SesjaWygaslaComponent } from './shared/modale/sesja-wygasla/sesja-wygas
         ReactiveFormsModule,
         SharedModule,
         NativeScriptUICalendarModule,
-        NativeScriptHttpClientModule
+        NativeScriptHttpClientModule,
+        NativeScriptUIListViewModule
     ],
     declarations: [
         AppComponent,

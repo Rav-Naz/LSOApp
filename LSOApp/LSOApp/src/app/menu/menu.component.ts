@@ -64,8 +64,5 @@ export class MenuComponent implements OnInit {
         this.selectedIndex = strona;
     }
 
-    nic()
-    {
-
-    }
+    nic(){}
 }

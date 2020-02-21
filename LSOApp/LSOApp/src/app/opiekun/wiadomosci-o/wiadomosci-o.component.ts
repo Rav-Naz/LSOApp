@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Page, View } from 'tns-core-modules/ui/page/page';
 import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
 import { Subscription } from 'rxjs';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
@@ -8,8 +8,8 @@ import { getFile } from 'tns-core-modules/http';
 import * as fileSystem from "tns-core-modules/file-system";
 import { isAndroid} from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { UiService } from '~/app/serwisy/ui.service';
+import { ListViewEventData } from 'nativescript-ui-listview';
 
 declare var android
 
@@ -31,7 +31,7 @@ export class WiadomosciOComponent implements OnInit {
 
     @ViewChild('textview', { static: false }) textviewRef: ElementRef<TextField>;
 
-    constructor(private page: Page, private wiadosciService: WiadomosciService, private modal: ModalDialogService, private vcRef: ViewContainerRef, public ui: UiService) {}
+    constructor(private page: Page, private wiadosciService: WiadomosciService, public ui: UiService) {}
 
     ngOnInit() {
         this.ui.zmienStan(2, true)
@@ -104,6 +104,21 @@ export class WiadomosciOComponent implements OnInit {
 
     otworz() {
         this.pisanieWiadomosci = true;
+    }
+
+    public onSwipeCellStarted(args: ListViewEventData) {
+        const swipeLimits = args.data.swipeLimits;
+        const swipeView = args['object'];
+        const leftItem = swipeView.getViewById<View>('delete');
+        swipeLimits.left = leftItem.getMeasuredWidth();
+        swipeLimits.right = 0;
+        swipeLimits.threshold = leftItem.getMeasuredWidth() / 2;
+    }
+
+    onLeftSwipeClick(args)
+    {
+        let index = this.wiadomosci.indexOf(args.object.bindingContext);
+        this.usunWiadomosc(this.wiadomosci[index]);
     }
 
     pobierzObraz(url: string) {
