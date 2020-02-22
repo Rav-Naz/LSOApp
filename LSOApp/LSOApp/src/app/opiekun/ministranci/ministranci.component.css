@@ -51,6 +51,11 @@ ListView
     margin-bottom: 5;
 }
 
+.acion-cont:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
+}
+
 .marg-l-r
 {
     margin-left: 7;

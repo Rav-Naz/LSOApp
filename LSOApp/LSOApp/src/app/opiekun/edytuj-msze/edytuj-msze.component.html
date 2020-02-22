@@ -19,6 +19,8 @@
                         </FormattedString>
                     </Button>
 
+                    <Label text="Brak mszy w tym dniu" class="opis lexend" horizontalAlignment="center" textWrap="true" *ngIf="wydarzeniaDnia.length === 0"></Label>
+
                     <GridLayout>
                         <RadListView [items]="wydarzeniaDnia" separatorColor="grey" swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" *ngIf="!ui.ladowane[3]">
                             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
@@ -26,9 +28,7 @@
                                 <Label [text]="item.godzina.toString() | godzina" class="b-p-10 text lexend" (tap)="edytuj($event, item, i)"  [ngClass]="{'szary': i%2 === 0}"></Label>
                             </ng-template>
                             <GridLayout *tkListItemSwipeTemplate columns="40, *" marginTop="3">
-                                <FlexboxLayout id="delete" col="0" (tap)="onLeftSwipeClick($event)" class="acion-cont b-p-10">
-                                   <Label text="&#xe08e;" class="icon" margin="10" width="40"></Label>
-                                </FlexboxLayout>
+                                <Button text="&#xe08e;" id="delete" col="0" (tap)="onLeftSwipeClick($event)" class="acion-cont b-p-10 icon"  width="40"></Button>
                            </GridLayout>
                         </ListViewLinearLayout>
                         </RadListView>

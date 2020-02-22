@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Page, View } from 'tns-core-modules/ui/page/page';
+import { Page, View, EventData, Color } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { sortPolskich } from '~/app/shared/sortPolskich';
 import { UserService } from '~/app/serwisy/user.service';
 import { UiService } from '~/app/serwisy/ui.service';
-import { ListViewEventData, RadListView } from 'nativescript-ui-listview';
+import { ListViewEventData, RadListView, PullToRefreshStyle } from 'nativescript-ui-listview';
 
 @Component({
     selector: 'ns-ministranci',
@@ -27,8 +27,6 @@ export class MinistranciComponent implements OnInit {
     sortujPoImieniu: boolean = false;
 
     ladowanie: boolean = true;
-
-    @ViewChild('list', { static: false }) listView: ElementRef<RadListView>;
 
     constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService,
          private active: ActivatedRoute, private userService: UserService, public ui: UiService) {}
@@ -90,6 +88,22 @@ export class MinistranciComponent implements OnInit {
     {
         let index = this.ministranci.indexOf(args.object.bindingContext);
         this.usunMinistranta(this.ministranci[index], index);
+    }
+
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this.parafiaService.pobierzMinistrantow().then(res => {
+            setTimeout(function () {
+                const listView = args.object;
+                listView.notifyPullToRefreshFinished();
+            }, 500);
+        })
+    }
+
+    onLoaded(event: EventData) {
+        let style = new PullToRefreshStyle();
+        style.indicatorColor = new Color("red");
+        style.indicatorBackgroundColor = new Color("black");
+        (<RadListView>event.object).pullToRefreshStyle = style;
     }
 
     szczegolyMinistranta(id: number, index: number) {

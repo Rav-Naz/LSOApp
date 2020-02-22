@@ -61,6 +61,11 @@
     text-align: center;
 }
 
+.acion-cont:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
+}
+
 .text
 {
     color: rgb(80, 80, 80);

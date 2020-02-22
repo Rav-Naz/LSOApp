@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Page, View } from 'tns-core-modules/ui/page/page';
+import { Page, View, EventData, Color } from 'tns-core-modules/ui/page/page';
 import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
 import { Subscription } from 'rxjs';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
@@ -9,7 +9,7 @@ import * as fileSystem from "tns-core-modules/file-system";
 import { isAndroid} from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
 import { UiService } from '~/app/serwisy/ui.service';
-import { ListViewEventData } from 'nativescript-ui-listview';
+import { ListViewEventData, PullToRefreshStyle, RadListView } from 'nativescript-ui-listview';
 
 declare var android
 
@@ -36,7 +36,9 @@ export class WiadomosciOComponent implements OnInit {
     ngOnInit() {
         this.ui.zmienStan(2, true)
         this.page.actionBarHidden = true;
-        this.wiadosciService.pobierzWiadomosci();
+        this.wiadosciService.pobierzWiadomosci().then((res) => {
+            this.ui.zmienStan(2,false);
+     });
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
             this.wiadomosci = [];
             if (wiadomosci === null) {
@@ -45,7 +47,6 @@ export class WiadomosciOComponent implements OnInit {
             else {
                 this.wiadomosci = wiadomosci
             }
-            this.ui.zmienStan(2, false)
         });
     }
 
@@ -100,6 +101,22 @@ export class WiadomosciOComponent implements OnInit {
         else {
             this.pisanieWiadomosci = false;
         }
+    }
+
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this.wiadosciService.pobierzWiadomosci().then(res => {
+            setTimeout(function () {
+                const listView = args.object;
+                listView.notifyPullToRefreshFinished();
+            }, 1000);
+        })
+    }
+
+    onLoaded(event: EventData) {
+        let style = new PullToRefreshStyle();
+        style.indicatorColor = new Color("red");
+        style.indicatorBackgroundColor = new Color("black");
+        (<RadListView>event.object).pullToRefreshStyle = style;
     }
 
     otworz() {

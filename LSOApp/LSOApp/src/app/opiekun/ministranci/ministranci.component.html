@@ -19,7 +19,9 @@
 
         <Label text="Brak ministrantów na liście" class="brak lexend" *ngIf="ministranci.length === 0 && !ui.ladowane[1]"></Label>
 
-        <RadListView [items]="ministranci" *ngIf="!ui.ladowane[1]" separatorColor="black" #list swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
+        <RadListView [items]="ministranci" *ngIf="!ui.ladowane[1]" separatorColor="black" swipeActions="true"
+         (itemSwipeProgressStarted)="onSwipeCellStarted($event)" [pullToRefresh]="!ui.ladowane[1]"
+        (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)">
             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
             <ng-template let-item="item" let-i="index" tkListItemTemplate>
                 <GridLayout rows="50" columns="auto,*,auto" [ngClass]="{szary: i%2 === 0}" class="back b-p-10"
@@ -42,9 +44,7 @@
                 </GridLayout>
             </ng-template>
             <GridLayout *tkListItemSwipeTemplate columns="40, *" rows="*">
-                <FlexboxLayout id="delete" col="0" (tap)="onLeftSwipeClick($event)" class="acion-cont b-p-10">
-                   <Label text="&#xe08e;" class="icon" margin="5"></Label>
-                </FlexboxLayout>
+                <Button id="delete" col="0" (tap)="onLeftSwipeClick($event)" text="&#xe08e;" class="icon acion-cont b-p-10"></Button>
            </GridLayout>
         </ListViewLinearLayout>
         </RadListView>

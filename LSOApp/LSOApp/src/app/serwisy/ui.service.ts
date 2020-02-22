@@ -22,11 +22,12 @@ export class UiService {
     private listaLadowania = [
         true, // dyzury
         true, // ministranci
-        true, // wiadomosci
+        true, // wiadomosci-o
         true, // edytuj-wydarzenia
         false, // menu
         true, //ministrant-szczegoly
         true, //edytuj-dyzury
+        true //wiadomosci-m
     ]
 
     zmienStan(index:number, stan: boolean)
@@ -58,7 +59,7 @@ export class UiService {
                     stretched: false,
                     animated: false,
                     closeCallback: null,
-                    dimAmount: 0.8 // Sets the alpha of the background dim,
+                    dimAmount: 0.8, // Sets the alpha of the background dim,
 
                 } as ExtendedShowModalOptions).then((wybor) => {
                     resolve(wybor);

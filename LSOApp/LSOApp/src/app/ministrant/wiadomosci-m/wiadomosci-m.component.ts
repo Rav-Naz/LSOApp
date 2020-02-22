@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page, EventData, Color } from 'tns-core-modules/ui/page/page';
 import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import * as fileSystem from "tns-core-modules/file-system";
 import { isAndroid } from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
 import { UiService } from '~/app/serwisy/ui.service';
+import { ListViewEventData, PullToRefreshStyle, RadListView } from 'nativescript-ui-listview';
 
 declare var android
 
@@ -22,11 +23,14 @@ export class WiadomosciMComponent implements OnInit {
     wiadomosci: Array<Wiadomosc> = [];
     wiadomosciSub: Subscription;
 
-    constructor(private page: Page, private ui: UiService, private wiadosciService: WiadomosciService) {}
+    constructor(private page: Page, public ui: UiService, private wiadosciService: WiadomosciService) {}
 
     ngOnInit() {
         this.page.actionBarHidden = true;
-        this.wiadosciService.pobierzWiadomosci();
+        this.ui.zmienStan(7,true);
+        this.wiadosciService.pobierzWiadomosci().then((res) => {
+               this.ui.zmienStan(7,false);
+        });
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
         if(wiadomosci !== null)
         {
@@ -41,6 +45,22 @@ export class WiadomosciMComponent implements OnInit {
             })
         }
         });
+    }
+
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this.wiadosciService.pobierzWiadomosci().then(res => {
+            setTimeout(function () {
+                const listView = args.object;
+                listView.notifyPullToRefreshFinished();
+            }, 1000);
+        })
+    }
+
+    onLoaded(event: EventData) {
+        let style = new PullToRefreshStyle();
+        style.indicatorColor = new Color("red");
+        style.indicatorBackgroundColor = new Color("black");
+        (<RadListView>event.object).pullToRefreshStyle = style;
     }
 
     dataFormat(wiadomosc: Wiadomosc) {
