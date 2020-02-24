@@ -50,6 +50,13 @@
     padding: 0;
 }
 
+.nie
+{
+    background: rgb(206, 206, 206);
+    color: rgb(124, 124, 124);
+    border-color:  rgb(206, 206, 206);
+}
+
 .acion-cont
 {
     background: linear-gradient(to bottom, #e71e25,#a5151a);
@@ -75,11 +82,6 @@
     background-color: white;
     height: 40;
     margin-top: 3;
-}
-
-.szary
-{
-    background-color: rgb(240, 240, 240);
 }
 
 .iks

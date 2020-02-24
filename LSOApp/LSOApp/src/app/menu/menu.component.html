@@ -1,6 +1,6 @@
 <GridLayout>
 <FlexboxLayout class="wh100 back" flexDirection="column">
-    <GridLayout columns="*,*,*" rows="*" height="15%">
+    <GridLayout columns="*,*,*" rows="*" height="15%" marginBottom="5">
             <FlexboxLayout *ngIf="!this.tabIndexService.opiekun && this.user.stopien !== 11" col="0" row="0" flexDirection="column" alignItems="center"
             justifyContent="center">
             <Label [text]="this.miejsce === 0? '--' : this.miejsce" class="text audiowide"></Label>

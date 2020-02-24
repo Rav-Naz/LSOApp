@@ -6,7 +6,7 @@
                  (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)">
                     <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
                     <ng-template tkListItemTemplate let-item="item">
-                        <GridLayout columns="auto,*" rows="40,*" class="grid" backgroundColor="black">
+                        <GridLayout columns="auto,*" rows="45,*" class="grid" backgroundColor="black">
                             <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>
                             <StackLayout class="center" margin="7" marginLeft="15" col="0" row="0">
                                 <Label [text]="item.data.toString() | godzina" class="godzina lexend"></Label>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Page, View, EventData, Color } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
@@ -11,6 +11,7 @@ import { sortPolskich } from '~/app/shared/sortPolskich';
 import { UserService } from '~/app/serwisy/user.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { ListViewEventData, RadListView, PullToRefreshStyle } from 'nativescript-ui-listview';
+import { GridLayout } from 'tns-core-modules/ui/layouts/grid-layout/grid-layout';
 
 @Component({
     selector: 'ns-ministranci',
@@ -73,6 +74,11 @@ export class MinistranciComponent implements OnInit {
                 return 0;
             }
         });
+    }
+
+    kolor(index: number)
+    {
+        return index%2 === 0 ? new Color("#141414") :  new Color("black")
     }
 
     public onSwipeCellStarted(args: ListViewEventData) {

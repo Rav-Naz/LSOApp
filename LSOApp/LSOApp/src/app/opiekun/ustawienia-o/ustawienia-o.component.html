@@ -4,7 +4,7 @@
             <StackLayout class="flex2">
 
                 <Label [text]="'p. pw. ' + parafiaService.nazwaParafii" class="opis audiowide" horizontalAlignment="center" (tap)="nawigujDo('zmien-haslo-o')"></Label>
-                <GridLayout columns="auto,*" rows="auto,auto" width="90%">
+                <GridLayout columns="auto,*" rows="40,40" width="90%">
                     <Label text="Punkty" class="opis lexend" col="0"></Label>
                     <Button text="Zmień punktajcę" class="click audiowide" col="1"
                         (tap)="nawigujDo('punktacja')"></Button>
@@ -12,7 +12,7 @@
                         (tap)="wyzerujPunkty()"></Button>
                 </GridLayout>
 
-                <GridLayout columns="auto,*" rows="auto,auto" class="element">
+                <GridLayout columns="auto,*" rows="40,40" class="element">
                     <Label text="Wydarzenia" class="opis lexend" col="0"></Label>
                     <Button text="Edytuj Msze Święte" class="click audiowide" col="1"
                         (tap)="nawigujDo('edytuj-msze')"></Button>
@@ -20,7 +20,7 @@
                         (tap)="usunDyzury()"></Button>
                 </GridLayout>
 
-                <GridLayout columns="auto,*" rows="auto,auto,auto" class="element">
+                <GridLayout columns="auto,*" rows="40,40,40" class="element">
                     <Label text="Konto parafii" class="opis lexend" col="0" row="0"></Label>
                     <Button text="Usuń konto" class="click audiowide" col="1" row="0"
                         (tap)="nawigujDo('usun-konto-o')"></Button>
@@ -31,15 +31,15 @@
 
             </StackLayout>
         </ScrollView>
-        <FlexboxLayout class="flex2" row="2">
-            <GridLayout columns="auto,*" rows="auto" class="element">
+        <FlexboxLayout class="flex2" row="1">
+            <GridLayout columns="auto,*" rows="40" class="element">
                 <Label [text]="'LSO App ' + wersja" class="wersja lexend" col="0"></Label>
                 <Button text="Kontakt" class="click audiowide" (tap)="kontakt()" col="1"></Button>
             </GridLayout>
-            <GridLayout width="90%">
+            <GridLayout width="90%" rows="40">
                 <Button text="Informacje o aplikacji" class="click audiowide" (tap)="nawigujDo('info-o')"></Button>
             </GridLayout>
-            <GridLayout width="90%">
+            <GridLayout width="90%" rows="40">
                 <Button text="Regulamin i polityka prywatności" class="click audiowide"
                     (tap)="otworzLink('https://lsoapp.pl/polityka-prywatnosci/')"></Button>
             </GridLayout>

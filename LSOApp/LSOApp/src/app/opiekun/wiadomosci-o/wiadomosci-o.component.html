@@ -7,15 +7,17 @@
                         <Button text="Utwórz nową" (tap)="otworz()" class="btn b-p-10 audiowide" [isEnabled]="!ui.ladowane[2]"></Button>
                     </FlexboxLayout>
 
-                    <GridLayout columns="auto,*" rows="auto" class="grid" *ngIf="pisanieWiadomosci" dock="top">
+                    <GridLayout columns="auto,*" rows="150" class="grid" *ngIf="pisanieWiadomosci" dock="top">
                         <FlexboxLayout class="red black" col="0" row="0" colSpan="2"></FlexboxLayout>
                         <StackLayout class="center" margin="7" col="0" row="0">
                             <Label text="00:00" class="godzina black lexend"></Label>
                             <Label text="04/02/2000" class="data black lexend"></Label>
                         </StackLayout>
-                        <FlexboxLayout class="wiadomosc b-p-10 center" marginLeft="7" col="1" row="0" rowSpan="2" flexDirection="column">
-                            <TextView [(ngModel)]="tresc" hint="Wpisz treść wiadomosci" class="textview lexend" #textview></TextView>
-                            <FlexboxLayout class="flexEnd">
+                        <FlexboxLayout class="wiadomosc b-p-10" marginLeft="7" col="1" row="0" rowSpan="2" flexDirection="column">
+                            <ScrollView height="80%">
+                                <TextView [(ngModel)]="tresc" hint="Wpisz treść wiadomosci" class="textview lexend" #textview></TextView>
+                            </ScrollView>
+                            <FlexboxLayout class="flexEnd" height="60">
                                 <Button [text]="tresc.length >= 1? 'Wyślij' : 'Zamknij'" (tap)="wyslij()" class="btn b-p-10 audiowide"></Button>
                             </FlexboxLayout>
                         </FlexboxLayout>
@@ -29,7 +31,7 @@
                         (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)">
                             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
                             <ng-template tkListItemTemplate let-item="item">
-                                <GridLayout columns="auto,*" rows="40,*" class="grid" backgroundColor="black">
+                                <GridLayout columns="auto,*" rows="45,*" class="grid" backgroundColor="black">
                                     <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>
                                     <StackLayout class="center" margin="7" marginLeft="15" col="0" row="0">
                                         <Label [text]="item.data.toString() | godzina" class="godzina lexend"></Label>

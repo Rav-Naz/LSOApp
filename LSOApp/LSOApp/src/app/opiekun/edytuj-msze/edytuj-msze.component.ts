@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Page, EventData, View } from 'tns-core-modules/ui/page/page';
+import { Page, EventData, View, Color } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
@@ -199,6 +199,11 @@ export class EdytujMszeComponent implements OnInit {
 
     dzienTygodnia(dzien: number) {
         return DzienTyg[dzien];
+    }
+
+    kolor(index: number)
+    {
+        return index%2 === 0 ? new Color("#f0f0f0") :  new Color("white")
     }
 
     async zmienDzien(dzien: number) {

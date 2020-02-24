@@ -11,12 +11,14 @@
     color: white;
     font-weight: bold;
     font-size: 10;
+    padding: 0;
 }
 
 .data
 {
     color: white;
     font-size: 10;
+    padding: 0;
 }
 
 .red
@@ -53,7 +55,7 @@
 }
 
 .wiadomosc
-{   
+{
     background-color: white;
     border-color: white;
 }

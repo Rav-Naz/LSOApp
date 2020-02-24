@@ -1,18 +1,22 @@
 <FlexboxLayout class="back center wh100">
-    <GridLayout rows="auto" columns="auto,*,auto" class="grid">
-        <Button class="sort-btn center" (tap)="zmianaSortu()" [isEnabled]="!ui.ladowane[1]" col="2" >
-            <FormattedString class="format">
-                <Span text=" &#xe018;" class="opis center icon" fontSize="10"></Span>
-                <Span text="Sortuj: " class="opis center audiowide"></Span>
-                <Span [text]="sortujPoImieniu? 'Alfabetycznie ':'Ranking '" class="czarny audiowide"></Span>
-            </FormattedString>
-        </Button>
+    <GridLayout rows="80" columns="auto,*,auto">
+        <FlexboxLayout col="2" flexDirection="column" justifyContent="flex-start" marginTop="5" marginRight="5">
+            <Button class="sort-btn" (tap)="zmianaSortu()" [isEnabled]="!ui.ladowane[1]" >
+                <FormattedString class="format">
+                    <Span text=" &#xe018;" class="opis center icon" fontSize="10"></Span>
+                    <Span text="Sortuj: " class="opis center audiowide"></Span>
+                    <Span [text]="sortujPoImieniu? 'Alfabetycznie ':'Ranking '" class="czarny audiowide"></Span>
+                </FormattedString>
+            </Button>
+        </FlexboxLayout>
 
-        <Button class="cont center dodaj b-p-10" col="0" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]">
-            <FormattedString class="format">
-                <Span text="&#xe072;" class="icon plus" fontSize="16"></Span>
-            </FormattedString>
-        </Button>
+        <FlexboxLayout col="0" flexDirection="column" justifyContent="flex-start">
+            <Button class="cont dodaj b-p-10" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]" marginLeft="4">
+                <FormattedString class="format">
+                    <Span text="&#xe072;" class="icon plus" fontSize="16"></Span>
+                </FormattedString>
+            </Button>
+        </FlexboxLayout>
     </GridLayout>
 
     <GridLayout class="lista" marginLeft="5" marginRight="5">
@@ -23,19 +27,15 @@
          (itemSwipeProgressStarted)="onSwipeCellStarted($event)" [pullToRefresh]="!ui.ladowane[1]"
         (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)">
             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
-            <ng-template let-item="item" let-i="index" tkListItemTemplate>
-                <GridLayout rows="50" columns="auto,*,auto" [ngClass]="{szary: i%2 === 0}" class="back b-p-10"
+            <ng-template let-item="item" let-i="index" tkListItemTemplate >
+                <GridLayout rows="50" columns="*,auto" class="b-p-10 "  [backgroundColor]="kolor(i)"
                     (tap)="szczegolyMinistranta(item.id_user, i)">
 
-                    <FlexboxLayout col="0" width="8%" class="center" flexDirection="row">
-                        <Label [text]="sortujPoImieniu? i+1+'. ' : (item.ranking === null ? '--. ' : item.ranking + '. ')" [ngClass]="{'index-admin': item.admin === 1}" class="index lexend"></Label>
+                    <FlexboxLayout col="0" class="center" alignItems="flex-start">
+                        <Label [text]="(sortujPoImieniu? i+1+'. ' : (item.ranking === null ? '--. ' : item.ranking + '. ')) + item.nazwisko + ' ' + item.imie" [ngClass]="{'imie-admin': item.admin === 1}" class="imie lexend" marginLeft="5"></Label>
                     </FlexboxLayout>
 
-                    <FlexboxLayout col="1" class="center" alignItems="flex-start">
-                        <Label [text]="item.nazwisko + ' ' + item.imie" [ngClass]="{'imie-admin': item.admin === 1}" class="imie lexend"></Label>
-                    </FlexboxLayout>
-
-                    <Button class="strzalka" (tap)="szczegolyMinistranta(item.id_user, i)" [ngClass]="{szary: i%2 === 0}" androidElevation="0" justifyContent="flex-end" col="2">
+                    <Button class="strzalka" (tap)="szczegolyMinistranta(item.id_user, i)" androidElevation="0" justifyContent="flex-end" col="1" [backgroundColor]="kolor(i)">
                         <FormattedString>
                             <Span [text]="item.punkty + ' pkt.'" class="lexend"></Span>
                             <Span text=" &#xe001;" fontSize="11" class="icon"></Span>

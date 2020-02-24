@@ -88,14 +88,13 @@ export class WiadomosciOComponent implements OnInit {
                         });
                         break;
                     case 404:
-                        this.ui.zmienStan(2, false)
                         this.ui.sesjaWygasla()
                         break;
                     default:
-                        this.ui.zmienStan(2, false)
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         break;
                 }
+                this.ui.zmienStan(2, false)
             });
         }
         else {
@@ -185,13 +184,12 @@ export class WiadomosciOComponent implements OnInit {
                         else if(res === 404)
                         {
                             this.ui.sesjaWygasla()
-                            this.ui.zmienStan(2, false)
                         }
                         else
                         {
-                            this.ui.zmienStan(2, false)
                             this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         }
+                        this.ui.zmienStan(2, false)
                     });
                 }
             });
