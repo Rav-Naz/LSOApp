@@ -23,7 +23,7 @@
                 </StackLayout>
                     <Label text="Link aktywacyjny został wysłany na podany adres email. Jeśli przez dłuższy czas ministrant nie otrzymał wiadomości, należy sprawdzić zakładkę 'SPAM'."
                         class="stand lexend" width="90%" *ngIf="wyslanePrzyp === 1"></Label>
-                    <Label text="KOD AKTYWACYJNY JEST WAŻNY PRZEZ 30 MINUT!" class="stand lexend" textWrap="true" *ngIf="wyslanePrzyp === 1"  width="90%"></Label>
+                    <Label text="KOD AKTYWACYJNY JEST WAŻNY PRZEZ 24 GODZINY!" class="stand lexend" textWrap="true" *ngIf="wyslanePrzyp === 1"  width="90%"></Label>
                     <FlexboxLayout width="90%" *ngIf="wyslanePrzyp === 2" class="wh100 center">
                             <Label text="Adres e-mail:" class="stand audiowide"></Label>
                             <Label [text]="this.dane.email" class="stand lexend"></Label>

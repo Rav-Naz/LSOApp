@@ -10,6 +10,8 @@ import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UiService } from '~/app/serwisy/ui.service';
+import { sortPolskich } from '~/app/shared/sortPolskich';
+import { throws } from 'assert';
 
 @Component({
     selector: 'ns-obecnosc',
@@ -24,8 +26,11 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     ObecSub: Subscription;
     PROSub: Subscription;
     WydarzeniaSub: Subscription;
+    MinistranciSub: Subscription;
     PROLista: Array<string>;
     dzisiejszeWydarzenia: Array<Wydarzenie>
+    wszyscyMinistranci: Array<User> = [];
+    wszyscyAktualniMinistranci: Array<User> = [];
     noweObecnosci: Array<Obecnosc>;
     aktywneWydarzenie: Wydarzenie = { id: 0, id_parafii: 0,nazwa: "Msza Święta",typ: 0, cykl: 1,dzien_tygodnia: 0, godzina: "2018-11-15T21:27:00.000Z",data_dokladna: null};
     aktywnyDzien: Date;
@@ -37,6 +42,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     dzis: Date;
     cofam: boolean;
     sprawdzane: boolean;
+    pokazDodatkowa: boolean = false;
 
     private odliczenie;
 
@@ -67,6 +73,13 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
         this.page.actionBarHidden = true;
         this.aktywnyDzien = new Date();
+
+        this.MinistranciSub = this.parafiaService.Ministranci.subscribe( lista => {
+            this.wszyscyMinistranci = [];
+            if(lista !== null && lista !== undefined){
+               this.wszyscyMinistranci = Array.from(lista);
+            }
+        })
 
         this.wydarzeniaService.dzisiejszeWydarzenia(this.aktywnyDzien.getDay())
 
@@ -115,7 +128,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             this.header(this.aktywnyDzien, this.aktywneWydarzenie); //Tworzenie nagłówka
             this.odliczenie = setTimeout(async () => {
                 this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id); //Pobieranie danych o dyżurach
-            }, this.sprawdzane && this.zmiana?0:500)
+            }, this.sprawdzane && this.zmiana ? 0 : 500)
         })
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
@@ -123,6 +136,12 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             {
                 this.ministranciDoWydarzenia = lista;
                 this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
+                this.wszyscyAktualniMinistranci = [...this.wszyscyMinistranci];
+                this.ministranciDoWydarzenia.forEach( user => {
+                    let index = this.wszyscyAktualniMinistranci.indexOf(this.wszyscyAktualniMinistranci.filter(user2 => user.id_user === user2.id_user)[0]);
+                    this.wszyscyAktualniMinistranci.splice(index, 1);
+                    this.sortujListe(false)
+                })
             }
             else
             {
@@ -142,15 +161,15 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             }
 
 
-            if (lista.length > 0) { //W przypadku gdy w pamieci sa juz obecnosci dla tego dnia i wydarzenia
+            if (lista.length > 0) { //W przypadku gdy w bazie sa juz obecnosci dla tego dnia i wydarzenia
                 this.sprawdzane = true;
-                this.noweObecnosci = lista
+                this.noweObecnosci = lista;
                 this.zmiana = false;
             }
             else {// W przypadku gdy sprawdzamy obecnosc w tym dniu pierwszy raz
                 this.sprawdzane = false;
                 this.ministranciDoWydarzenia.forEach(ministrant => {
-                    this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, ministrant.id_user, this.aktywnyDzien));
+                    this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, ministrant.id_user, this.aktywnyDzien, 0));
                 })
                 if(this.ministranciDoWydarzenia.length === 0)
                 {
@@ -268,10 +287,25 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         })
     }
 
-    zmienStatusObecnosci(event, id_user: number) {
+    zmienStatusObecnosci(event, id_user: number, dodatkowa: boolean) {
         let status = this.noweObecnosci.filter(obecnosc => obecnosc.id_user === id_user)[0];
-        if (status !== undefined) {
+        if (status !== undefined && !dodatkowa) {
             status.status = event;
+        }
+        else if(dodatkowa)
+        {
+            if(event === null && !this.sprawdzane)
+            {
+                let index = this.noweObecnosci.indexOf(this.noweObecnosci.filter(user => user.id_user === id_user)[0]);
+                this.noweObecnosci.splice(index,1)
+            }
+            else if(status !== undefined)
+            {
+                status.status = event;
+            }
+            else {
+                this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, id_user, this.aktywnyDzien, 1))
+            };
         }
         this.zmiana = true
     }
@@ -300,6 +334,21 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                 })
             }, 500)
         })
+    }
+
+    sortujListe(gora: boolean) {
+        if(gora)
+        {
+            this.ministranciDoWydarzenia.sort((min1, min2) => {
+                return sortPolskich(min1.nazwisko,min2.nazwisko)
+            });
+        }
+        else
+        {
+            this.wszyscyAktualniMinistranci.sort((min1, min2) => {
+                return sortPolskich(min1.nazwisko,min2.nazwisko)
+            });
+        }
     }
 
     naKalendarz(bool: boolean) {
@@ -352,6 +401,11 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             return false;
         }
         return true;
+    }
+
+    zmienPokazDodatkowa()
+    {
+        this.pokazDodatkowa = !this.pokazDodatkowa;
     }
 
     czyJestNaLiscie(ministrant: User) {

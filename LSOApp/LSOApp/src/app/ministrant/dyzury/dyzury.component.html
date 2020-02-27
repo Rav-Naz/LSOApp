@@ -1,21 +1,25 @@
 <FlexboxLayout class="back center wh100">
-    <StackLayout class="wh100">
+    <StackLayout class="wh100" (swipe)="onSwipe($event)">
         <FlexboxLayout class="center" marginBottom="5">
             <Label [text]="'Cześć ' + user.imie + '!'" class="czesc lexend"></Label>
-            <Label text="Twoje dyżury:" class="text lexend"></Label>
+            <Label [text]="ui.ladowane[0] ? 'Ładowanie dyżurów...' : 'Twoje dyżury:' " class="text lexend"></Label>
         </FlexboxLayout>
-        <GridLayout rows="20,*,20,*,20,*,20,*,20,*,20,*,20," columns="*,20,*" class="grid">
+        <FlexboxLayout class="wh100 center">
+            <GridLayout rows="20,*,20,*,20,*,20,*,20,*,20,*,20," columns="*,20,*" class="grid" *ngIf="!ui.ladowane[0]">
 
-            <Label *ngFor="let dzien of rowDzis" class="dzienK" col="1" [row]="dzien"></Label>
+                <Label *ngFor="let dzien of rowDzis" class="dzienK" col="1" [row]="dzien"></Label>
 
-            <Label *ngFor="let przerwa of rowPasy" class="przerwa" col="1" [row]="przerwa"></Label>
+                <Label *ngFor="let przerwa of rowPasy" class="przerwa" col="1" [row]="przerwa"></Label>
 
-            <Label class="dzis" col="1" [row]="dzis"></Label>
+                <Label class="dzis" col="1" [row]="dzis"></Label>
 
-            <Label *ngFor="let row of dni, let i = index" [text]="row" col="0" [row]="i*2" class="dzien lexend"></Label>
+                <Label *ngFor="let row of dni, let i = index" [text]="row" col="0" [row]="i*2" class="dzien lexend"></Label>
 
-            <Label *ngFor="let row of dyzury" [text]="GodzinaDyzuruNaDanyDzien(row)" [row]="row.dzien_tygodnia*2"
-                    class="godzina lexend wh100" col="2"></Label>
-        </GridLayout>
+                <Label *ngFor="let row of dyzury" [text]="GodzinaDyzuruNaDanyDzien(row)" [row]="row.dzien_tygodnia*2"
+                        class="godzina lexend wh100" col="2"></Label>
+
+            </GridLayout>
+            <ActivityIndicator [busy]="true" *ngIf="ui.ladowane[0]"></ActivityIndicator>
+        </FlexboxLayout>
     </StackLayout>
 </FlexboxLayout>

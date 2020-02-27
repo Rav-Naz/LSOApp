@@ -373,27 +373,26 @@ export class ParafiaService {
         })
     }
 
-    nowaObecnosc(id_wydarzenia: number, id_user: number, data: Date) //Wykorzystanie: obecnosc
+    nowaObecnosc(id_wydarzenia: number, id_user: number, data: Date, start: number) //Wykorzystanie: obecnosc
     {
-        let ob: Obecnosc = {id: 0, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate(), data.getHours() + 2).toJSON(), status: null }
+        let ob: Obecnosc = {id: 0, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate(), data.getHours() + 2).toJSON(), status: start === 0 ? null : 1 }
         return ob;
     }
 
     async zapiszObecnosci(nowaLista: Array<Obecnosc>, czySprawdzanie: boolean) //Wykorzystanie: obecnosc
     {
         return new Promise<number>((resolve) => {
-            if(czySprawdzanie)
-            {
+
                 nowaLista.forEach(element => {
-                    this.http.updateObecnosci(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba)
+                    if(element.id === 0)
+                    {
+                        this.http.nowaObecnosc(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba)
+                    }
+                    else
+                    {
+                        this.http.updateObecnosci(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba)
+                    }
                 })
-            }
-            else
-            {
-                nowaLista.forEach(element => {
-                    this.http.nowaObecnosc(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba)
-                })
-            }
 
             setTimeout(() => {
                 this.pobierzMinistrantow().then(res => {

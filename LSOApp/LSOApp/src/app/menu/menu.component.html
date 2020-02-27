@@ -22,10 +22,10 @@
                     <TabContentItem *ngIf="this.user.stopien !== 11">
                         <page-router-outlet name="dyzury"></page-router-outlet>
                     </TabContentItem>
-                    <TabContentItem>
+                    <TabContentItem *ngIf="true">
                         <page-router-outlet name="wiadomosciM"></page-router-outlet>
                     </TabContentItem>
-                    <TabContentItem>
+                    <TabContentItem *ngIf="true">
                         <page-router-outlet name="ustawieniaM"></page-router-outlet>
                     </TabContentItem>
                 </Tabs>

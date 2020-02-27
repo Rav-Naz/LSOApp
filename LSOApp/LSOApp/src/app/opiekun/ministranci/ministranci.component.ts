@@ -11,7 +11,6 @@ import { sortPolskich } from '~/app/shared/sortPolskich';
 import { UserService } from '~/app/serwisy/user.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { ListViewEventData, RadListView, PullToRefreshStyle } from 'nativescript-ui-listview';
-import { GridLayout } from 'tns-core-modules/ui/layouts/grid-layout/grid-layout';
 
 @Component({
     selector: 'ns-ministranci',

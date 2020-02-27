@@ -6,6 +6,7 @@ import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { SecureStorage } from "nativescript-secure-storage";
 import { Subscription } from 'rxjs';
 import { UiService } from '~/app/serwisy/ui.service';
+import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 
 @Component({
     selector: 'ns-dyzury',
@@ -26,18 +27,17 @@ export class DyzuryComponent implements OnInit {
     rowPasy = [1, 3, 5, 7, 9, 11]
     dni = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota']
 
-    constructor(private page: Page, private userService: UserService, private ui: UiService)
+    constructor(private page: Page, private userService: UserService, public ui: UiService)
     {}
 
     ngOnInit() {
+        this.ui.zmienStan(0,true);
         this.dzis = this.rowDzis[new Date().getDay()];
         this.page.actionBarHidden = true;
 
         this.userSub = this.userService.UserSub.subscribe(user => {
             this.user = user;
         });
-
-
 
         let secureStorage = new SecureStorage;
         secureStorage.clearAllOnFirstRun();
@@ -48,6 +48,10 @@ export class DyzuryComponent implements OnInit {
             {
                 this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2)
             }
+            setTimeout(() => {
+
+                this.ui.zmienStan(0,false);
+            },500)
         });
 
         this.dyzurySub = this.userService.UserDyzurySub.subscribe(dyzury => {
@@ -61,5 +65,26 @@ export class DyzuryComponent implements OnInit {
                 this.dyzury = dyzury
             }
         })
+    }
+
+    GodzinaDyzuruNaDanyDzien(dzien: Wydarzenie) {
+        return new Date(dzien.godzina).toString().slice(16,21)
+    }
+
+    onSwipe(args: SwipeGestureEventData)
+    {
+        this.ui.zmienStan(0,true);
+        if (args.direction === 8) {
+            this.userService.mojeDyzury(this.user.id_user).then(res => {
+                if(res === 404)
+                {
+                    this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2)
+                }
+                setTimeout(() => {
+
+                    this.ui.zmienStan(0,false);
+                },500)
+            });
+        }
     }
 }

@@ -13,11 +13,17 @@ export class CheckboxStatusComponent{
 
     @Input() status;
 
+    @Input() trzyStany = true;
+
     zmien()
     {
-      if(this.status === 1)
+      if(this.status === 1 && this.trzyStany)
       {
         this.status = CheckboxStatus.Nieobecny;
+      }
+      else if(this.status === 1)
+      {
+        this.status = null
       }
       else if(this.status === 0)
       {
