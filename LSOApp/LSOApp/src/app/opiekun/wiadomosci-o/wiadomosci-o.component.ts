@@ -36,7 +36,7 @@ export class WiadomosciOComponent implements OnInit {
     ngOnInit() {
         this.ui.zmienStan(2, true)
         this.page.actionBarHidden = true;
-        this.wiadosciService.pobierzWiadomosci().then((res) => {
+        this.wiadosciService.pobierzWiadomosci(1).then((res) => {
             this.ui.zmienStan(2,false);
      });
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
@@ -80,7 +80,7 @@ export class WiadomosciOComponent implements OnInit {
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         break;
                     case 1:
-                        this.wiadosciService.pobierzWiadomosci().then(() => {
+                        this.wiadosciService.pobierzWiadomosci(1).then(() => {
                             this.tresc = '';
                             setTimeout(() => {
                                 this.ui.showFeedback('succes',"Wysłano wiadomość",3)
@@ -103,7 +103,7 @@ export class WiadomosciOComponent implements OnInit {
     }
 
     public onPullToRefreshInitiated(args: ListViewEventData) {
-        this.wiadosciService.pobierzWiadomosci().then(res => {
+        this.wiadosciService.pobierzWiadomosci(1).then(res => {
             setTimeout(function () {
                 const listView = args.object;
                 listView.notifyPullToRefreshFinished();

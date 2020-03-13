@@ -28,7 +28,7 @@ export class WiadomosciMComponent implements OnInit {
     ngOnInit() {
         this.page.actionBarHidden = true;
         this.ui.zmienStan(7,true);
-        this.wiadosciService.pobierzWiadomosci().then((res) => {
+        this.wiadosciService.pobierzWiadomosci(0).then((res) => {
                this.ui.zmienStan(7,false);
         });
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
@@ -48,7 +48,7 @@ export class WiadomosciMComponent implements OnInit {
     }
 
     public onPullToRefreshInitiated(args: ListViewEventData) {
-        this.wiadosciService.pobierzWiadomosci().then(res => {
+        this.wiadosciService.pobierzWiadomosci(0).then(res => {
             setTimeout(function () {
                 const listView = args.object;
                 listView.notifyPullToRefreshFinished();

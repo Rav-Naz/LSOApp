@@ -25,10 +25,10 @@ export class WiadomosciService {
         return this.wiadomosci.asObservable();
     }
 
-    async pobierzWiadomosci()//Wykorzystanie: wiadomosci-m, wiadomosci-o
+    async pobierzWiadomosci(do_opiekuna: number)//Wykorzystanie: wiadomosci-m, wiadomosci-o
     {
         return new Promise<Array<Wiadomosc>>(resolve => {
-            this.http.pobierzWidaomosci(1).then(res => {
+            this.http.pobierzWidaomosci(do_opiekuna).then(res => {
                 this.wiadomosci.next(res);
                 resolve()
             })
@@ -51,7 +51,7 @@ export class WiadomosciService {
 
                 if(res === 1)
                 {
-                    await this.pobierzWiadomosci().then(() => {
+                    await this.pobierzWiadomosci(1).then(() => {
                         resolve(1)
                     });
                 }
