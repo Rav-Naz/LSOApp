@@ -34,6 +34,9 @@ export class HttpService {
     private id_parafii: number = null;
     private id_user: number = null;
 
+    private device_id: string = null;
+    private os: string = null;
+
 
     private headers = new HttpHeaders({
         "Content-Type": "application/json",
@@ -47,6 +50,11 @@ export class HttpService {
     nadajId_User(id_user: number)
     {
         this.id_user = id_user;
+    }
+    nadaj_wlasciwosci_urzadzenia(os: string, device_id: string)
+    {
+        this.os = os
+        this.device_id = device_id
     }
 
     wyczysc()
