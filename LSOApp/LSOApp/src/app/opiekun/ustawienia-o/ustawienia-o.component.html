@@ -44,5 +44,9 @@
                     (tap)="otworzLink('https://lsoapp.pl/polityka-prywatnosci/')"></Button>
             </GridLayout>
         </FlexboxLayout>
+
+        <FlexboxLayout class="wh100 center fade" *ngIf="ui.ladowane[2]" col="0" rowSpan="7">
+            <ActivityIndicator [busy]="true"></ActivityIndicator>
+        </FlexboxLayout>
     </GridLayout>
 </FlexboxLayout>

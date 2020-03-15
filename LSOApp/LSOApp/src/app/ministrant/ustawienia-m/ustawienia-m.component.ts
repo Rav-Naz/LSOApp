@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { SecureStorage } from "nativescript-secure-storage";
 import { ActivatedRoute } from '@angular/router';
 import { UiService } from '~/app/serwisy/ui.service';
+import { HttpService } from '~/app/serwisy/http.service';
 
 @Component({
     selector: 'ns-ustawienia-m',
@@ -20,12 +21,12 @@ export class UstawieniaMComponent implements OnInit {
     powiadomieniaSub: Subscription;
 
     czyAdmin: boolean = false;
+    powiadomienia: boolean = true;
 
-    constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
-        private active: ActivatedRoute, private tabService: TabindexService, private ui: UiService) {}
+    constructor(private page: Page, private router: RouterExtensions, public userService: UserService,
+        private active: ActivatedRoute, private tabService: TabindexService, public ui: UiService, private http: HttpService) {}
 
     wersja = this.userService.wersja;
-    checked: boolean;
     userImieINazwisko: string;
     private secureStroage = new SecureStorage;
 
@@ -33,7 +34,7 @@ export class UstawieniaMComponent implements OnInit {
         this.page.actionBarHidden = true;
         this.userImieINazwisko = this.userService.UserImieINazwisko
         this.powiadomieniaSub = this.userService.UserDyuzryPowiadomienia.subscribe(wartosc => {
-            this.checked = wartosc;
+            this.powiadomienia = wartosc;
         })
         if(this.userService.UserPerm === 1)
         {
@@ -52,15 +53,24 @@ export class UstawieniaMComponent implements OnInit {
 
     wyloguj()
     {
-        this.userService.zmienPowiadomienia(false).then(() => {
-            this.secureStroage.removeAll().then(() => {
-                this.router.navigate([""],{clearHistory: true, transition: { name: 'slideBottom' }}).then(() => {
-                    this.tabService.nowyIndex(0);
-                    setTimeout(() => {
-                        this.ui.showFeedback('succes',"Pomyślnie wylogowano",3)
-                    }, 400)
-                });
-            })
+        this.ui.zmienStan(7, true)
+        this.http.wyloguj().then((res) => {
+            if(res === 1)
+            {
+                this.secureStroage.removeAll().then(() => {
+                    this.router.navigate([""],{clearHistory: true, transition: { name: 'slideBottom' }}).then(() => {
+                        this.tabService.nowyIndex(0);
+                        setTimeout(() => {
+                            this.ui.showFeedback('succes',"Pomyślnie wylogowano",3)
+                        }, 400)
+                    });
+                })
+            }
+            else
+            {
+                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",2)
+            }
+            this.ui.zmienStan(7, false)
         })
     }
 
@@ -80,7 +90,7 @@ export class UstawieniaMComponent implements OnInit {
 
     zmienPowiadomienia()
     {
-        this.userService.zmienPowiadomienia(!this.checked);
+        this.userService.zmienPowiadomienia(!this.powiadomienia)
     }
 
 }

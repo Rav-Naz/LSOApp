@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { User } from './user.model';
 import { Dyzur } from './dyzur.model';
 import { BehaviorSubject } from 'rxjs';
-import { SecureStorage } from "nativescript-secure-storage";
 import { HttpService } from './http.service';
 import { Wydarzenie } from './wydarzenie.model';
 
@@ -15,20 +14,7 @@ export class UserService {
     public wersja: string = "2.1.0"; //Wykorzystanie: ustawienia-m, ustawienia-o
     private user: User
 
-    constructor(private http: HttpService){
-        this.secureStorage = new SecureStorage;
-        this.secureStorage.get({key:"powiadomieniaDyzury"}).then((wartosc) => {
-            if(wartosc === null)
-            {
-                wartosc = true;
-            }
-            else
-            {
-                wartosc = JSON.parse(wartosc);
-            }
-            this.zmienPowiadomienia(wartosc);
-        })
-    }
+    constructor(private http: HttpService){}
 
     userDyzury: Array<Dyzur> = [];
 
@@ -88,16 +74,14 @@ export class UserService {
     {
         this.user = user
         this.userSub.next(user)
+        this.powiadomieniaODyzurach.next(user.powiadomienia === 1 ? true : false)
     }
 
     async zmienPowiadomienia(wartosc: boolean)
     {   return new Promise<void>((resolve) => {
-        this.secureStorage.set({ key: "powiadomieniaDyzury", value: JSON.stringify(wartosc)}).then((udaloSie) => {
-            if(udaloSie)
-            {
-                this.powiadomieniaODyzurach.next(wartosc);
-                resolve();
-            }
+        this.powiadomieniaODyzurach.next(wartosc)
+        this.http.zmienPowiadomienia(wartosc).then((res) => {
+            resolve()
         })
     })
     }

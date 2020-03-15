@@ -11,6 +11,7 @@ declare var process: any;
 @Injectable({
     providedIn: 'root'
 })
+
 export class HttpService {
 
     private getEnvironmentVars(key: string): string {
@@ -34,7 +35,7 @@ export class HttpService {
     private id_parafii: number = null;
     private id_user: number = null;
 
-    private device_id: string = null;
+    private urzadzenie_id: string = null;
     private os: string = null;
 
 
@@ -54,7 +55,7 @@ export class HttpService {
     nadaj_wlasciwosci_urzadzenia(os: string, device_id: string)
     {
         this.os = os
-        this.device_id = device_id
+        this.urzadzenie_id = device_id
     }
 
     wyczysc()
@@ -69,8 +70,7 @@ export class HttpService {
     //LOGOWANIE
     async logowanie(email: string, haslo: string) {
         return new Promise<string>(resolve => {
-
-            this.http.post(this.serverUrl + '/login',{ email: email, haslo: sha512.sha512.hmac('mSf', haslo), smart: this.smart } , { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/login',{ email: email, haslo: sha512.sha512.hmac('mSf', haslo), smart: this.smart, urzadzenie_id: this.urzadzenie_id, os: this.os } , { headers: this.headers }).subscribe(res => {
                 if(res === 'nieaktywne')
                 {
                     resolve('nieaktywne')
@@ -183,6 +183,37 @@ export class HttpService {
     }
 
 ////////////////// ZAPYTANIA Z JWT //////////////////
+
+    //WYLOGOWANIE
+    async wyloguj() {
+        return new Promise<number>(resolve => {
+            this.http.post(this.serverUrl + '/logout', {smart: this.smart, id_user: this.id_user, jwt: this.JWT} , { headers: this.headers }).subscribe(res => {
+                if(res === 'wylogowano')
+                {
+                    resolve(1)
+                }
+                else
+                {
+                    resolve(0)
+                }
+            }, err => {
+                console.log(err)
+                resolve(0)
+            });
+        });
+    }
+
+    //ZMIEN POWIADOMIENIA
+    async zmienPowiadomienia(wartosc: boolean) {
+        return new Promise<number>(resolve => {
+
+            this.http.post(this.serverUrl + '/change_notifications', {smart: this.smart, id_user: this.id_user, powiadomienia: wartosc ? 1 : 0, jwt: this.JWT} , { headers: this.headers }).subscribe(res => {
+               resolve(1)
+            }, err => {
+                resolve(0)
+            });
+        });
+    }
 
     //USUWANIE PARAFII
     async usuwanieParafii(haslo: string) {

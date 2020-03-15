@@ -13,5 +13,6 @@ export interface User {
     telefon?: string,
     aktywny: number,
     admin: number,
-    ranking: number
+    ranking: number,
+    powiadomienia?: number
 }

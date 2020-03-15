@@ -27,7 +27,7 @@ export class UstawieniaOComponent implements OnInit {
     constructor(private page: Page, private router: RouterExtensions, private userService: UserService,
         private tabIndexService: TabindexService, private active: ActivatedRoute, private http: HttpService,
         public parafiaService: ParafiaService, private wiadomosciService: WiadomosciService, private wydarzeniaService: WydarzeniaService,
-        private ui: UiService) {}
+        public ui: UiService) {}
 
     wersja = this.userService.wersja;
     PROSub: Subscription;
@@ -57,18 +57,30 @@ export class UstawieniaOComponent implements OnInit {
     }
 
     wyloguj() {
-        this.secureStorage.removeAll().then(() => {
-            this.http.wyczysc()
-            this.parafiaService.wyczysc()
-            this.tabIndexService.wyczysc()
-            this.userService.wyczysc()
-            this.wiadomosciService.wyczysc()
-            this.wydarzeniaService.wyczysc()
-            this.router.navigate([""], { clearHistory: true, transition: { name: 'slideBottom' } }).then(() => {
-                setTimeout(() => {
-                    this.ui.showFeedback('succes',"Pomyślnie wylogowano",3)
-                }, 400)
-            });
+        this.ui.zmienStan(2, true)
+        this.http.wyloguj().then((res) => {
+            if(res === 1)
+            {
+                this.secureStorage.removeAll().then(() => {
+                    this.http.wyczysc()
+                    this.parafiaService.wyczysc()
+                    this.tabIndexService.wyczysc()
+                    this.userService.wyczysc()
+                    this.wiadomosciService.wyczysc()
+                    this.wydarzeniaService.wyczysc()
+                    this.router.navigate([""],{clearHistory: true, transition: { name: 'slideBottom' }}).then(() => {
+                        this.tabIndexService.nowyIndex(0);
+                        setTimeout(() => {
+                            this.ui.showFeedback('succes',"Pomyślnie wylogowano",3)
+                        }, 400)
+                    });
+                })
+            }
+            else
+            {
+                this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",2)
+            }
+            this.ui.zmienStan(2, false)
         })
     }
 
