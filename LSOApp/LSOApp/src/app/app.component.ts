@@ -1,6 +1,5 @@
 import { Component, ViewContainerRef } from "@angular/core";
 import { UiService } from "./serwisy/ui.service";
-import { Page } from "tns-core-modules/ui/page/page";
 import * as firebase from 'nativescript-plugin-firebase';
 import * as platform from 'tns-core-modules/platform'
 import { HttpService } from "./serwisy/http.service";
