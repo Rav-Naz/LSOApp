@@ -44,12 +44,14 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     sprawdzane: boolean;
     pokazDodatkowa: boolean = false;
 
+    opoznienie = false;
+
     private odliczenie;
 
     interval;
 
 
-    zmiana: boolean;
+    zmiana: boolean = false;
 
     @ViewChild("myCalendar", { static: false }) _calendar: RadCalendarComponent;
 
@@ -66,7 +68,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
         this.cofam = false;
 
-        this.dzis = new Date(); // Data pobierana z bazy
+        this.dzis = new Date();
         this.interval = setInterval(() => {
             this.dzis = new Date();
         },60000)
@@ -160,7 +162,6 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                 return;
             }
 
-
             if (lista.length > 0) { //W przypadku gdy w bazie sa juz obecnosci dla tego dnia i wydarzenia
                 this.sprawdzane = true;
                 this.noweObecnosci = lista;
@@ -182,6 +183,10 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             }
             this.ui.zmienStan(0,false)
         });
+
+        setTimeout(() => {
+            this.opoznienie = true
+        }, 3000)
     }
 
     ngOnDestroy(): void {

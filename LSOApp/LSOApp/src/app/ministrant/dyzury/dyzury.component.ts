@@ -73,8 +73,8 @@ export class DyzuryComponent implements OnInit {
 
     onSwipe(args: SwipeGestureEventData)
     {
-        this.ui.zmienStan(0,true);
         if (args.direction === 8) {
+            this.ui.zmienStan(0,true);
             this.userService.mojeDyzury(this.user.id_user).then(res => {
                 if(res === 404)
                 {

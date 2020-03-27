@@ -6,7 +6,7 @@ import {BehaviorSubject } from 'rxjs';
 })
 export class TabindexService {
 
-    public opiekun: boolean = false;
+    public opiekun: boolean = undefined;
 
     outlety: Array<string> =
     [

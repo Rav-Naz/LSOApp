@@ -10,7 +10,6 @@ import { Wydarzenie } from './wydarzenie.model';
 })
 export class UserService {
 
-    private secureStorage;
     public wersja: string = "2.1.0"; //Wykorzystanie: ustawienia-m, ustawienia-o
     private user: User
 

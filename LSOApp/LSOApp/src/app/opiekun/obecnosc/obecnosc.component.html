@@ -25,10 +25,10 @@
             </FlexboxLayout>
 
             <Label text="Brak dzisiejszych wydarzeń, aby je dodać przejdź do panelu ustawień" *ngIf="dzisiejszeWydarzenia.length === 0 && !ui.ladowane[0]" class="brak lexend"  width="90%"></Label>
-            <ScrollView *ngIf="!ui.ladowane[0] && dzisiejszeWydarzenia.length > 0" height="77%" >
+            <ScrollView *ngIf="!ui.ladowane[0] && dzisiejszeWydarzenia.length > 0 && opoznienie" height="77%">
                 <Label text="Brak przypisanych ministrantów, aby ich dodać przejdź do panelu ministranta" *ngIf="ministranciDoWydarzenia.length === 0 && dzisiejszeWydarzenia.length !== 0 && !ui.ladowane[0]" class="brak lexend" width="90%"></Label>
-                <StackLayout>
-                    <ng-container *ngIf="ministranciDoWydarzenia.length > 0">
+                <StackLayout width="100%">
+                    <ng-container *ngIf="ministranciDoWydarzenia.length > 0" width="100%">
                         <GridLayout height="auto" marginBottom="3">
                             <Label backgroundColor="#C8C8C8" height="1" width="100%" marginTop="5"></Label>
                             <Label text="SŁUŻBA OBOWIĄZKOWA" backgroundColor="black" fontSize="12" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
@@ -62,9 +62,9 @@
                     </ng-container>
                 </StackLayout>
             </ScrollView>
-            <Button text="Zapisz" class="btn audiowide" *ngIf="ministranciDoWydarzenia.length > 0 && !ui.ladowane[0]" (tap)="zapiszZmiany()" [isEnabled]="zmiana" [ngClass]="{disabled: zmiana}"></Button>
+            <Button text="Zapisz" class="btn audiowide" *ngIf="ministranciDoWydarzenia.length > 0 && !ui.ladowane[0] && opoznienie" (tap)="zapiszZmiany()" [isEnabled]="zmiana" [ngClass]="{disabled: zmiana}"></Button>
 
-            <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[0]">
+            <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[0] || !opoznienie">
                 <ActivityIndicator [busy]="true"></ActivityIndicator>
         </FlexboxLayout>
         </StackLayout>

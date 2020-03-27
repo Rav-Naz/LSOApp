@@ -636,7 +636,6 @@ export class HttpService {
 
             this.http.post(this.serverUrl + '/edit_event', {godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()),
                  id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
-                console.log('Aktualizuj',res)
                 if (res === "zakonczono") {
                     resolve(1);
                 }
