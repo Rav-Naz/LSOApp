@@ -22,8 +22,6 @@ export class AppComponent {
 
 
             onMessageReceivedCallback: (message: firebase.Message) => {
-            //   console.log('[Firebase] onMessageReceivedCallback:');
-            //   console.log(message)
               if(message.foreground)
               {
                 if(this.tabService.opiekun === true)
@@ -31,11 +29,6 @@ export class AppComponent {
                     if(message.body === "Od: Administrator")
                     {
                         this.uiService.showFeedback("succes", "Dostałeś nową wiadomość od Administratora!", 3)
-                        // this.tabService.nowyIndex(2);
-                        // this.uiService.zmienStan(2, true)
-                        // this.wiadosciService.pobierzWiadomosci(1).then(() => {
-                        //     this.uiService.zmienStan(2, false)
-                        // })
                     }
                 }
                 else if(this.tabService.opiekun === false)
@@ -43,21 +36,10 @@ export class AppComponent {
                     if(message.body === "Od: Administrator")
                     {
                         this.uiService.showFeedback("succes", "Dostałeś nową wiadomość od Administratora!", 3)
-                        // this.tabService.nowyIndex(1);
-                        // this.uiService.zmienStan(7,true);
-                        // this.wiadosciService.pobierzWiadomosci(0).then((res) => {
-                        //     this.uiService.zmienStan(7,false);
-                        // });
-
                     }
                     else if(message.body === "Od: Opiekun")
                     {
                         this.uiService.showFeedback("succes", "Dostałeś nową wiadomość od Opiekuna!", 3)
-                        // this.tabService.nowyIndex(1);
-                        // this.uiService.zmienStan(7,true);
-                        // this.wiadosciService.pobierzWiadomosci(0).then((res) => {
-                        //     this.uiService.zmienStan(7,false);
-                        // });
                     }
                     else if(message.title === "Przypomnienie o dyżurze")
                     {
@@ -69,13 +51,11 @@ export class AppComponent {
           })
             .then(() => {
                 firebase.getCurrentPushToken().then((res) => {
-                    // console.log(res)
                     this.http.nadaj_wlasciwosci_urzadzenia(platform.isIOS ? "IOS" : platform.isAndroid ? "Android" : "Inny", res)
                 })
             })
             .catch(error => {
                 firebase.getCurrentPushToken().then((res) => {
-                // console.log(res)
                 this.http.nadaj_wlasciwosci_urzadzenia(platform.isIOS ? "IOS" : platform.isAndroid ? "Android" : "Inny", res)
               })
             });

@@ -86,6 +86,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         this.wydarzeniaService.dzisiejszeWydarzenia(this.aktywnyDzien.getDay())
 
         this.WydarzeniaSub = this.wydarzeniaService.WydarzeniaObecnoscSub.subscribe(lista => {
+            this.ui.zmienStan(0,true)
             this.dzisiejszeWydarzenia = [];
             this.parafiaService.aktualneWydarzenieId = 0
             if(lista !== null)
@@ -154,6 +155,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         });
 
         this.ObecSub = this.parafiaService.Obecnosci.subscribe(lista => {
+
             this.noweObecnosci = [];
 
             if (lista === null) {
@@ -182,11 +184,12 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                 }
             }
             this.ui.zmienStan(0,false)
-        });
 
+        });
         setTimeout(() => {
             this.opoznienie = true
         }, 3000)
+
     }
 
     ngOnDestroy(): void {
