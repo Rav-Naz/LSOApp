@@ -197,7 +197,6 @@ export class HttpService {
                     resolve(0)
                 }
             }, err => {
-                console.log(err)
                 resolve(0)
             });
         });
@@ -584,7 +583,6 @@ export class HttpService {
 
             this.http.post(this.serverUrl + '/new_event', { id_parafii: this.id_parafii, dzien_tygodnia: dzien_tygodnia,
                  godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
-                console.log('Dodaj',res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -612,7 +610,6 @@ export class HttpService {
         return new Promise<number>(resolve => {
 
             this.http.post(this.serverUrl + '/delete_event', { id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
-                console.log('Usuń',res)
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -760,11 +757,10 @@ export class HttpService {
     }
 
     //AKTUALIZOWANIE ISTNIEJĄCEJ OBECNOŚCI
-    async updateObecnosci(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number) {
+    async updateObecnosci(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number) {
         return new Promise<number>(resolve => {
-
             this.http.post(this.serverUrl + '/update_presence', { id_obecnosci: obecnosc.id, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba,
-                 punkty_uj_sluzba: punkty_uj_sluzba, id_user: obecnosc.id_user, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                 punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, id_user: obecnosc.id_user, typ: obecnosc.typ, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === 'brak')
                 {
                     resolve(0)
@@ -784,11 +780,11 @@ export class HttpService {
     }
 
     //DODAWANIE NOWEJ OBECNOŚCI
-    async nowaObecnosc(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number) {
+    async nowaObecnosc(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number) {
         return new Promise<number>(resolve => {
 
             this.http.post(this.serverUrl + '/add_presence', { id_wydarzenia: obecnosc.id_wydarzenia, id_user: obecnosc.id_user,
-                data: obecnosc.data, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
+                data: obecnosc.data, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, typ: obecnosc.typ, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
                 resolve(1)
             }, err => {
                 resolve(0)
@@ -814,7 +810,6 @@ export class HttpService {
     async wyslijWidaomosc(tresc: string) {
         return new Promise<number>(resolve => {
             this.http.post(this.serverUrl + '/new_message', { autor_id: this.id_parafii, odbiorca_id: this.id_parafii, tresc: tresc, linkobrazu: null, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
-                console.log(res)
                 if (res === "wyslano") {
                     resolve(1);
                 }
@@ -826,7 +821,6 @@ export class HttpService {
                     resolve(0);
                 }
             }, err => {
-                console.log(err)
                 resolve(0)
             });
         });

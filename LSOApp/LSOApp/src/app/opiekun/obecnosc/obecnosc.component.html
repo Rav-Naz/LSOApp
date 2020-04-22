@@ -48,6 +48,7 @@
                         <Label backgroundColor="#C8C8C8" height="1" width="100%" marginTop="5"></Label>
                         <Label [text]="'SŁUŻBA DODATKOWA ' + (pokazDodatkowa ? '-' : '+')" fontSize="12" backgroundColor="black" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
                     </GridLayout>
+                    <ActivityIndicator [busy]="true" *ngIf="!pokazDodatkowa && ladowanieDodatkowych"></ActivityIndicator>
                     <ng-container *ngIf="pokazDodatkowa && wszyscyAktualniMinistranci.length > 0">
                         <GridLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
                                 *ngFor="let item of wszyscyAktualniMinistranci; let i = index" width="100%">

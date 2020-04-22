@@ -11,7 +11,6 @@ import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { sortPolskich } from '~/app/shared/sortPolskich';
-import { throws } from 'assert';
 
 @Component({
     selector: 'ns-obecnosc',
@@ -43,6 +42,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     cofam: boolean;
     sprawdzane: boolean;
     pokazDodatkowa: boolean = false;
+    ladowanieDodatkowych:boolean = false;
 
     opoznienie = false;
 
@@ -172,7 +172,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             else {// W przypadku gdy sprawdzamy obecnosc w tym dniu pierwszy raz
                 this.sprawdzane = false;
                 this.ministranciDoWydarzenia.forEach(ministrant => {
-                    this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, ministrant.id_user, this.aktywnyDzien, 0));
+                    this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, ministrant.id_user, this.aktywnyDzien, 0, 0));
                 })
                 if(this.ministranciDoWydarzenia.length === 0)
                 {
@@ -312,7 +312,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                 status.status = event;
             }
             else {
-                this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, id_user, this.aktywnyDzien, 1))
+                this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, id_user, this.aktywnyDzien, 1, 1))
             };
         }
         this.zmiana = true
@@ -413,7 +413,18 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
     zmienPokazDodatkowa()
     {
-        this.pokazDodatkowa = !this.pokazDodatkowa;
+        if(!this.pokazDodatkowa)
+        {
+            this.ladowanieDodatkowych = true;
+            setTimeout(() => {
+                this.ladowanieDodatkowych = false;
+                this.pokazDodatkowa = true;
+            },500)
+        }
+        else
+        {
+            this.pokazDodatkowa = false;
+        }
     }
 
     czyJestNaLiscie(ministrant: User) {

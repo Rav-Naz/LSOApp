@@ -373,9 +373,9 @@ export class ParafiaService {
         })
     }
 
-    nowaObecnosc(id_wydarzenia: number, id_user: number, data: Date, start: number) //Wykorzystanie: obecnosc
+    nowaObecnosc(id_wydarzenia: number, id_user: number, data: Date, start: number, typ: number) //Wykorzystanie: obecnosc
     {
-        let ob: Obecnosc = {id: 0, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate(), data.getHours() + 2).toJSON(), status: start === 0 ? null : 1 }
+        let ob: Obecnosc = {id: 0, id_wydarzenia: id_wydarzenia, id_user: id_user, data: new Date(data.getFullYear(),data.getMonth(),data.getDate(), data.getHours() + 2).toJSON(), status: start === 0 ? null : 1, typ: typ}
         return ob;
     }
 
@@ -386,11 +386,11 @@ export class ParafiaService {
                 nowaLista.forEach(element => {
                     if(element.id === 0)
                     {
-                        this.http.nowaObecnosc(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba)
+                        this.http.nowaObecnosc(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba, this.parafia.punkty_dodatkowe)
                     }
                     else
                     {
-                        this.http.updateObecnosci(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba)
+                        this.http.updateObecnosci(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba, this.parafia.punkty_dodatkowe)
                     }
                 })
 

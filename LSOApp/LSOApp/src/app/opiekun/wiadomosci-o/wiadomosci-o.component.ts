@@ -84,7 +84,7 @@ export class WiadomosciOComponent implements OnInit {
                             this.tresc = '';
                             setTimeout(() => {
                                 this.ui.showFeedback('succes',"Wysłano wiadomość",3)
-                            }, 400)
+                            }, 100)
                         });
                         break;
                     case 404:
