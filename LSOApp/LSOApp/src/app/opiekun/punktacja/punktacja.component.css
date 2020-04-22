@@ -34,6 +34,27 @@
     border-color: rgb(200, 200, 200);
 }
 
+.dis
+{
+    background: rgb(206, 206, 206);
+    color: rgb(124, 124, 124);
+    border-color:  rgb(206, 206, 206);
+}
+
+.zapis
+{
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+    color: white;
+}
+
+.zapis:disabled
+{
+    background: rgb(206, 206, 206);
+    color: rgb(124, 124, 124);
+    border-color:  rgb(206, 206, 206);
+}
+
 .punkty
 {
     margin: 10;

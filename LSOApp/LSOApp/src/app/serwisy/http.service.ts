@@ -813,19 +813,20 @@ export class HttpService {
     //WYSYŁANIE WIADOMOŚCI
     async wyslijWidaomosc(tresc: string) {
         return new Promise<number>(resolve => {
-
             this.http.post(this.serverUrl + '/new_message', { autor_id: this.id_parafii, odbiorca_id: this.id_parafii, tresc: tresc, linkobrazu: null, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
-                if (res.hasOwnProperty('insertId')) {
+                console.log(res)
+                if (res === "wyslano") {
                     resolve(1);
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
+                console.log(err)
                 resolve(0)
             });
         });
@@ -874,10 +875,10 @@ export class HttpService {
     }
 
     //AKTUALIZACJA PUNKTÓW
-    async aktualizacjaPunktow(punkty_dod_sluzba: number, punkty_uj_sluzba: number) {
+    async aktualizacjaPunktow(punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number) {
         return new Promise<any>(resolve => {
 
-            this.http.post(this.serverUrl + '/update_points', { punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/update_points', { punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     this.pobierzParafie().then(res => {
                         resolve(res)

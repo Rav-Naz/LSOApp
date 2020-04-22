@@ -1,7 +1,7 @@
 <FlexboxLayout class="back center wh100">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex wh100 center" row="1" rowSpan="2">
-            <GridLayout rows="60,60" columns="auto,40,*" width="85%">
+            <GridLayout rows="60,60,60" columns="auto,40,*" width="85%">
 
                 <FlexboxLayout row="0" col="0" colSpan="3" class="podkr">
                 </FlexboxLayout>
@@ -15,6 +15,8 @@
                     <Slider minValue="0" maxValue="10" value="1" [(ngModel)]="pktZaObecnosc" width="100%" (valueChange)="zmien()"></Slider>
                 </FlexboxLayout>
 
+                <FlexboxLayout row="1" col="0" colSpan="3" class="podkr">
+                </FlexboxLayout>
                 <FlexboxLayout row="1" col="0" class="center" flexDirection="row">
                     <Label text="Nieobecność" class="opis lexend"></Label>
                 </FlexboxLayout>
@@ -24,6 +26,16 @@
                 <FlexboxLayout class="center" flexDirection="row" justifyContent="flex-end" row="1" col="2">
                     <Slider minValue="-10" maxValue="0" [(ngModel)]="pktZaNieobecnosc" width="100%" (valueChange)="zmien()"></Slider>
                 </FlexboxLayout>
+
+                <FlexboxLayout row="2" col="0" class="center" flexDirection="row">
+                    <Label text="Dodatkowa" class="opis lexend"></Label>
+                </FlexboxLayout>
+                <FlexboxLayout class="punkty center" row="2" col="1">
+                        <Label [text]="this.pktZaDodatkowa.toFixed(0)" class="lexend"></Label>
+                    </FlexboxLayout>
+                <FlexboxLayout class="center" flexDirection="row" justifyContent="flex-end" row="2" col="2">
+                    <Slider minValue="0" maxValue="10" [(ngModel)]="pktZaDodatkowa" width="100%" (valueChange)="zmien()"></Slider>
+                </FlexboxLayout>
             </GridLayout>
         </FlexboxLayout>
 
@@ -32,8 +44,8 @@
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">
-            <Button [text]="zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc))?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
-            <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc))" [ngClass]="{disabled: zmiana && ((this.pktZaNieobecnosc === this.poczNieobecnosc) && (this.pktZaObecnosc === this.poczObecnosc))}"></Button>
+            <Button [text]="zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc) || (this.pktZaDodatkowa !== this.poczDodatkowa))?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
+            <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapis audiowide" [isEnabled]="zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc) || (this.pktZaDodatkowa !== this.poczDodatkowa))" [ngClass]="{dis: zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc) || (this.pktZaDodatkowa !== this.poczDodatkowa))}"></Button>
         </GridLayout>
     </GridLayout>
 </FlexboxLayout>

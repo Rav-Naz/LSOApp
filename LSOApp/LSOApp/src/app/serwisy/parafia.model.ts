@@ -5,5 +5,6 @@ export interface Parafia {
     miasto: string,
     id_typu: number,
     punkty_dod_sluzba: number,
-    punkty_uj_sluzba: number
+    punkty_uj_sluzba: number,
+    punkty_dodatkowe: number
 }
