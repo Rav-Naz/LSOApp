@@ -5,6 +5,7 @@ import { User } from './user.model';
 import { Wydarzenie } from './wydarzenie.model';
 import { Obecnosc } from './obecnosc.model';
 import { Wiadomosc } from './wiadomosci.model';
+import { decode, toUnicode } from 'punycode';
 
 declare var process: any;
 
@@ -793,10 +794,10 @@ export class HttpService {
     }
 
     //POBIERANIE WIADOMOŚCI
-    async pobierzWidaomosci(do_opiekuna: number) {
+    async pobierzWidaomosci(do_opiekuna: number, limit:number) {
         return new Promise<Array<Wiadomosc>>(resolve => {
 
-            this.http.post(this.serverUrl + '/messages',{ id_parafii: this.id_parafii, do_opiekuna: do_opiekuna, smart: this.smart , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/messages',{ id_parafii: this.id_parafii, do_opiekuna: do_opiekuna, smart: this.smart, limit: limit , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
                     resolve(JSON.parse(JSON.stringify(null)))
@@ -809,7 +810,7 @@ export class HttpService {
     //WYSYŁANIE WIADOMOŚCI
     async wyslijWidaomosc(tresc: string) {
         return new Promise<number>(resolve => {
-            this.http.post(this.serverUrl + '/new_message', { autor_id: this.id_parafii, odbiorca_id: this.id_parafii, tresc: tresc, linkobrazu: null, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/new_message', { autor_id: this.id_parafii, odbiorca_id: this.id_parafii, tresc: encodeURI(tresc), linkobrazu: null, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === "wyslano") {
                     resolve(1);
                 }

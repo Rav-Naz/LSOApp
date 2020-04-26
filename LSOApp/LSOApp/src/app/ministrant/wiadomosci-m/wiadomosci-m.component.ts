@@ -23,12 +23,16 @@ export class WiadomosciMComponent implements OnInit {
     wiadomosci: Array<Wiadomosc> = [];
     wiadomosciSub: Subscription;
 
+    doladowanie: boolean = false;
+    ladujWiecej: boolean = false;
+    limit: number = 25;
+
     constructor(private page: Page, public ui: UiService, private wiadosciService: WiadomosciService) {}
 
     ngOnInit() {
         this.page.actionBarHidden = true;
         this.ui.zmienStan(7,true);
-        this.wiadosciService.pobierzWiadomosci(0).then((res) => {
+        this.wiadosciService.pobierzWiadomosci(0, this.limit).then((res) => {
                this.ui.zmienStan(7,false);
         });
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
@@ -48,7 +52,7 @@ export class WiadomosciMComponent implements OnInit {
     }
 
     public onPullToRefreshInitiated(args: ListViewEventData) {
-        this.wiadosciService.pobierzWiadomosci(0).then(res => {
+        this.wiadosciService.pobierzWiadomosci(0, this.wiadomosci.length + this.limit).then(res => {
             setTimeout(function () {
                 const listView = args.object;
                 listView.notifyPullToRefreshFinished();

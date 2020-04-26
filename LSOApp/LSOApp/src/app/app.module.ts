@@ -41,6 +41,7 @@ import { LogowanieJakoComponent } from './shared/modale/logowanie-jako/logowanie
 import { NadajHasloComponent } from './nadaj-haslo/nadaj-haslo.component';
 import { SesjaWygaslaComponent } from './shared/modale/sesja-wygasla/sesja-wygasla.component';
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
+import { EnterPipe } from './pipes/uri.pipe';
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -97,6 +98,7 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
         LogowanieJakoComponent,
         NadajHasloComponent,
         SesjaWygaslaComponent,
+        EnterPipe,
     ],
     providers: [],
     schemas: [

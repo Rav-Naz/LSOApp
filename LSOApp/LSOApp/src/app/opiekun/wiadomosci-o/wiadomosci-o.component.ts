@@ -9,7 +9,7 @@ import * as fileSystem from "tns-core-modules/file-system";
 import { isAndroid} from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
 import { UiService } from '~/app/serwisy/ui.service';
-import { ListViewEventData, PullToRefreshStyle, RadListView } from 'nativescript-ui-listview';
+import { ListViewEventData, PullToRefreshStyle, RadListView, LoadOnDemandListViewEventData} from 'nativescript-ui-listview';
 
 declare var android
 
@@ -27,27 +27,44 @@ export class WiadomosciOComponent implements OnInit {
 
     tresc: string = '';
 
+    doladowanie: boolean = true;
+    limit: number = 20;
+    ostatniaWiadomosc: Wiadomosc;
+
     pisanieWiadomosci: boolean = false;
 
     @ViewChild('textview', { static: false }) textviewRef: ElementRef<TextField>;
+    @ViewChild('radListView', { static: false }) radListView: ElementRef<RadListView>;
 
     constructor(private page: Page, private wiadosciService: WiadomosciService, public ui: UiService) {}
 
     ngOnInit() {
         this.ui.zmienStan(2, true)
         this.page.actionBarHidden = true;
-        this.wiadosciService.pobierzWiadomosci(1).then((res) => {
+        this.wiadosciService.pobierzWiadomosci(1,this.limit).then((res) => {
             this.ui.zmienStan(2,false);
      });
-        this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
-            this.wiadomosci = [];
-            if (wiadomosci === null) {
-                return;
+
+     this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
+        this.wiadomosci = [];
+        if (wiadomosci === null) {
+            return;
+        }
+        else
+        {
+            this.wiadomosci = [...wiadomosci]
+            if(this.radListView && this.ostatniaWiadomosc.id !== this.wiadomosci[this.wiadomosci.length - 1].id)
+            {
+                this.radListView.nativeElement.notifyPullToRefreshFinished(true)
             }
-            else {
-                this.wiadomosci = wiadomosci
+            else if(this.radListView && !this.doladowanie)
+            {
+                this.radListView.nativeElement.notifyLoadOnDemandFinished(true)
             }
-        });
+            this.doladowanie = false;
+            this.ostatniaWiadomosc = this.wiadomosci[this.wiadomosci.length - 1]
+        }
+    });
     }
 
     dataFormat(wiadomosc: Wiadomosc) {
@@ -80,7 +97,8 @@ export class WiadomosciOComponent implements OnInit {
                         this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
                         break;
                     case 1:
-                        this.wiadosciService.pobierzWiadomosci(1).then(() => {
+                        this.doladowanie = true;
+                        this.wiadosciService.pobierzWiadomosci(1, this.wiadomosci.length).then(() => {
                             this.tresc = '';
                             setTimeout(() => {
                                 this.ui.showFeedback('succes',"Wysłano wiadomość",3)
@@ -102,11 +120,20 @@ export class WiadomosciOComponent implements OnInit {
         }
     }
 
+    public onLoadMoreItemsRequested(args: LoadOnDemandListViewEventData)
+    {
+        this.wiadosciService.pobierzWiadomosci(1, this.wiadomosci.length + this.limit).then(res => {
+            this.radListView.nativeElement.notifyLoadOnDemandFinished(false)
+            args.returnValue = true
+        })
+    }
+
     public onPullToRefreshInitiated(args: ListViewEventData) {
-        this.wiadosciService.pobierzWiadomosci(1).then(res => {
-            setTimeout(function () {
+        this.doladowanie = true;
+        this.wiadosciService.pobierzWiadomosci(1, this.wiadomosci.length).then(res => {
+            setTimeout(() => {
                 const listView = args.object;
-                listView.notifyPullToRefreshFinished();
+                listView.notifyPullToRefreshFinished(true);
             }, 1000);
         })
     }
@@ -176,7 +203,8 @@ export class WiadomosciOComponent implements OnInit {
                 if (kontynuowac) {
                     this.ui.zmienStan(2, true)
                     this.tresc = ''
-                    this.wiadosciService.usunWiadomosc(wiadomosc).then(res => {
+                    this.doladowanie = true;
+                    this.wiadosciService.usunWiadomosc(wiadomosc, this.wiadomosci.length).then(res => {
                         if(res === 1)
                         {
                             this.ui.showFeedback('succes', "Usunięto wiadomość",3)

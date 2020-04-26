@@ -25,10 +25,10 @@ export class WiadomosciService {
         return this.wiadomosci.asObservable();
     }
 
-    async pobierzWiadomosci(do_opiekuna: number)//Wykorzystanie: wiadomosci-m, wiadomosci-o
+    async pobierzWiadomosci(do_opiekuna: number, limit: number)//Wykorzystanie: wiadomosci-m, wiadomosci-o
     {
         return new Promise<Array<Wiadomosc>>(resolve => {
-            this.http.pobierzWidaomosci(do_opiekuna).then(res => {
+            this.http.pobierzWidaomosci(do_opiekuna, limit).then(res => {
                 this.wiadomosci.next(res);
                 resolve()
             })
@@ -45,13 +45,13 @@ export class WiadomosciService {
         })
     }
 
-    async usunWiadomosc(wiadomosc: Wiadomosc) {
+    async usunWiadomosc(wiadomosc: Wiadomosc, limit: number) {
         return new Promise<number>(resolve => {
             this.http.usunWiadomosc(wiadomosc.id).then( async res => {
 
                 if(res === 1)
                 {
-                    await this.pobierzWiadomosci(1).then(() => {
+                    await this.pobierzWiadomosci(1, limit).then(() => {
                         resolve(1)
                     });
                 }
