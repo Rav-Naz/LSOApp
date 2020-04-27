@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Page, EventData, Color } from 'tns-core-modules/ui/page/page';
 import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
@@ -8,7 +8,9 @@ import * as fileSystem from "tns-core-modules/file-system";
 import { isAndroid } from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
 import { UiService } from '~/app/serwisy/ui.service';
-import { ListViewEventData, PullToRefreshStyle, RadListView } from 'nativescript-ui-listview';
+import { ListViewEventData, PullToRefreshStyle, RadListView, LoadOnDemandListViewEventData } from 'nativescript-ui-listview';
+import { HttpService } from '~/app/serwisy/http.service';
+import { UserService } from '~/app/serwisy/user.service';
 
 declare var android
 
@@ -23,11 +25,13 @@ export class WiadomosciMComponent implements OnInit {
     wiadomosci: Array<Wiadomosc> = [];
     wiadomosciSub: Subscription;
 
-    doladowanie: boolean = false;
-    ladujWiecej: boolean = false;
-    limit: number = 25;
+    doladowanie: boolean = true;
+    limit: number = 20;
+    ostatniaWiadomosc: Wiadomosc;
 
-    constructor(private page: Page, public ui: UiService, private wiadosciService: WiadomosciService) {}
+    @ViewChild('radListView', { static: false }) radListView: ElementRef<RadListView>;
+
+    constructor(private page: Page, public ui: UiService, private wiadosciService: WiadomosciService, private http: HttpService, private userService: UserService) {}
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -36,26 +40,44 @@ export class WiadomosciMComponent implements OnInit {
                this.ui.zmienStan(7,false);
         });
         this.wiadomosciSub = this.wiadosciService.Wiadomosci.subscribe(wiadomosci => {
-        if(wiadomosci !== null)
-        {
-            this.wiadomosci = wiadomosci.sort((wiad1, wiad2) => {
-                if (wiad1.data < wiad2.data) {
-                    return 1;
+            this.wiadomosci = [];
+            if (wiadomosci === null) {
+                return;
+            }
+            else
+            {
+                this.wiadomosci = [...wiadomosci]
+                if(this.radListView && this.ostatniaWiadomosc.id !== this.wiadomosci[this.wiadomosci.length - 1].id)
+                {
+                    this.radListView.nativeElement.notifyPullToRefreshFinished(true)
                 }
-                if (wiad1.data > wiad2.data) {
-                    return -1;
+                else if(this.radListView && !this.doladowanie)
+                {
+                    this.radListView.nativeElement.notifyLoadOnDemandFinished(true)
                 }
-                return 0;
-            })
-        }
+                this.doladowanie = false;
+                this.ostatniaWiadomosc = this.wiadomosci[this.wiadomosci.length - 1]
+            }
         });
     }
 
+    public onLoadMoreItemsRequested(args: LoadOnDemandListViewEventData)
+    {
+        this.wiadosciService.pobierzWiadomosci(0, this.wiadomosci.length + this.limit).then(res => {
+            this.radListView.nativeElement.notifyLoadOnDemandFinished(false)
+            args.returnValue = true
+        })
+    }
+
     public onPullToRefreshInitiated(args: ListViewEventData) {
+        this.http.pobierzMinistranta(this.userService.UserID).then(res => {
+            this.userService.zmienUsera(res);
+        })
+        this.doladowanie = true;
         this.wiadosciService.pobierzWiadomosci(0, this.wiadomosci.length + this.limit).then(res => {
             setTimeout(function () {
                 const listView = args.object;
-                listView.notifyPullToRefreshFinished();
+                listView.notifyPullToRefreshFinished(true);
             }, 1000);
         })
     }

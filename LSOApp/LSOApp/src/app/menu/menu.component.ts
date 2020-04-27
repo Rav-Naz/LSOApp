@@ -25,7 +25,7 @@ export class MenuComponent implements OnInit {
     user: User;
     userSub: Subscription;
     adminSub: Subscription;
-    miejsce: number = 0;
+    public miejsce: number = 0;
 
     ngOnInit() {
         this.page.actionBarHidden = true;

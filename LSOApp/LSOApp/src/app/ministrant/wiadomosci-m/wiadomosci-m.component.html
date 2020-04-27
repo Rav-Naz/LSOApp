@@ -3,7 +3,8 @@
             <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0 && !ui.ladowane[7]"></Label>
             <GridLayout *ngIf="wiadomosci.length !== 0 && !ui.ladowane[7]" >
                 <RadListView [items]="wiadomosci" separatorColor="black" [pullToRefresh]="!ui.ladowane[7]"
-                 (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)">
+                 (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)"
+                 loadOnDemandMode="Auto" (loadMoreDataRequested)="onLoadMoreItemsRequested($event)" #radListView>
                     <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
                     <ng-template tkListItemTemplate let-item="item">
                         <GridLayout columns="auto,*" rows="45,*" class="grid" backgroundColor="black">
@@ -14,7 +15,7 @@
                             </StackLayout>
                             <FlexboxLayout class="item b-p-10 center" col="1" row="0" rowSpan="2" backgroundColor="white">
                                 <Label [text]="item.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
-                                <Label [text]="item.tresc" class="tresc lexend" #label></Label>
+                                <Label [text]="item.tresc | uri" class="tresc lexend" #label></Label>
                                 <Image [src]="item.linkobrazu" class="obraz lexend" *ngIf="item.linkobrazu" height="270"></Image>
                                 <Button text="Pobierz obraz" class="btn audiowide b-p-10" (tap)="pobierzObraz(item.linkobrazu)" *ngIf="item.linkobrazu"></Button>
                             </FlexboxLayout>

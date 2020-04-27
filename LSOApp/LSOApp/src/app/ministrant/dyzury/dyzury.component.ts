@@ -7,6 +7,7 @@ import { SecureStorage } from "nativescript-secure-storage";
 import { Subscription } from 'rxjs';
 import { UiService } from '~/app/serwisy/ui.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
+import { HttpService } from '~/app/serwisy/http.service';
 
 @Component({
     selector: 'ns-dyzury',
@@ -27,7 +28,7 @@ export class DyzuryComponent implements OnInit {
     rowPasy = [1, 3, 5, 7, 9, 11]
     dni = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota']
 
-    constructor(private page: Page, private userService: UserService, public ui: UiService)
+    constructor(private page: Page, private userService: UserService, public ui: UiService, public http: HttpService)
     {}
 
     ngOnInit() {
@@ -75,6 +76,9 @@ export class DyzuryComponent implements OnInit {
     {
         if (args.direction === 8) {
             this.ui.zmienStan(0,true);
+            this.http.pobierzMinistranta(this.user.id_user).then(res => {
+                this.userService.zmienUsera(res);
+            })
             this.userService.mojeDyzury(this.user.id_user).then(res => {
                 if(res === 404)
                 {

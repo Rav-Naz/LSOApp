@@ -138,19 +138,19 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             if(lista !== [] && lista !== null)
             {
                 this.ministranciDoWydarzenia = lista;
-                this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
-                this.wszyscyAktualniMinistranci = [...this.wszyscyMinistranci];
                 this.ministranciDoWydarzenia.forEach( user => {
                     let index = this.wszyscyAktualniMinistranci.indexOf(this.wszyscyAktualniMinistranci.filter(user2 => user.id_user === user2.id_user)[0]);
                     this.wszyscyAktualniMinistranci.splice(index, 1);
-                    this.sortujListe(false)
                 })
             }
             else
             {
                 this.ministranciDoWydarzenia = [];
-                this.ui.zmienStan(0,false)
+                //this.ui.zmienStan(0,false)
             }
+            this.wszyscyAktualniMinistranci = [...this.wszyscyMinistranci].filter(item => item.stopien !== 11);
+            this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
+            this.sortujListe(false)
             this.zmiana = false;
         });
 
