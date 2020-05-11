@@ -135,20 +135,11 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         })
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
-            if(lista !== [] && lista !== null)
-            {
-                this.ministranciDoWydarzenia = lista;
-                this.ministranciDoWydarzenia.forEach( user => {
-                    let index = this.wszyscyAktualniMinistranci.indexOf(this.wszyscyAktualniMinistranci.filter(user2 => user.id_user === user2.id_user)[0]);
-                    this.wszyscyAktualniMinistranci.splice(index, 1);
-                })
-            }
-            else
-            {
-                this.ministranciDoWydarzenia = [];
-                //this.ui.zmienStan(0,false)
-            }
+            lista !== [] && lista !== null ? this.ministranciDoWydarzenia = lista : this.ministranciDoWydarzenia = [];
             this.wszyscyAktualniMinistranci = [...this.wszyscyMinistranci].filter(item => item.stopien !== 11);
+            this.ministranciDoWydarzenia.forEach( user => {
+                this.wszyscyAktualniMinistranci = this.wszyscyAktualniMinistranci.filter(user2 => user.id_user !== user2.id_user)
+            })
             this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
             this.sortujListe(false)
             this.zmiana = false;
