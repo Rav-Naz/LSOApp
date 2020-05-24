@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef } from "@angular/core";
 import { UiService } from "./serwisy/ui.service";
-import * as firebase from 'nativescript-plugin-firebase';
+const firebase = require('nativescript-plugin-firebase');
 import * as platform from 'tns-core-modules/platform'
 import { HttpService } from "./serwisy/http.service";
 import { TabindexService } from "./serwisy/tabindex.service";
@@ -21,7 +21,7 @@ export class AppComponent {
             showNotificationsWhenInForeground: true,
 
 
-            onMessageReceivedCallback: (message: firebase.Message) => {
+            onMessageReceivedCallback: (message) => {
               if(message.foreground)
               {
                 if(this.tabService.opiekun === true)
@@ -51,11 +51,13 @@ export class AppComponent {
           })
             .then(() => {
                 firebase.getCurrentPushToken().then((res) => {
+                    console.log("BBBBB",res);
                     this.http.nadaj_wlasciwosci_urzadzenia(platform.isIOS ? "IOS" : platform.isAndroid ? "Android" : "Inny", res)
                 })
             })
             .catch(error => {
                 firebase.getCurrentPushToken().then((res) => {
+                console.log(" AAAAAAA ",res);
                 this.http.nadaj_wlasciwosci_urzadzenia(platform.isIOS ? "IOS" : platform.isAndroid ? "Android" : "Inny", res)
               })
             });
