@@ -77,7 +77,7 @@ export class UsunKontoMComponent implements OnInit {
 
     anuluj() {
         this.tabIndexService.nowyOutlet(2, "ustawieniaM");
-        this.router.back();
+        this.router.backToPreviousPage();
     }
 
     dismiss()

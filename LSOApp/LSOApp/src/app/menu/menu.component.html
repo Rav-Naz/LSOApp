@@ -39,7 +39,7 @@
         <!-- Widok opiekuna -->
         <GridLayout columns="*" rows="*,auto" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
             <FlexboxLayout row="0" height="100%">
-                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="selectedIndex === 1 && this.tabIndexService.outlety[4] === 'ministranci' ? false : selectedIndex === 2 ? false : this.tabIndexService.outlety[6] === 'edytuj-msze' ? false : true">
+                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="selectedIndex === 1 && this.tabIndexService.outlety[4] === 'ministranci' ? false : selectedIndex === 2 ? false : this.tabIndexService.outlety[6] === 'edytuj-msze' ? false : this.tabIndexService.outlety[6] === 'punktacja' ? false : true">
 
                     <TabContentItem>
                         <page-router-outlet name="obecnosc"></page-router-outlet>

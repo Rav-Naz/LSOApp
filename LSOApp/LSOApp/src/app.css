@@ -134,6 +134,7 @@ TextField{
     border-width: 2;
     margin: 10;
     font-size: 17;
+    text-wrap: true;
 }
 
 .anuluj:pressed

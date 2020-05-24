@@ -1,23 +1,18 @@
 <FlexboxLayout class="back center wh100">
-    <GridLayout rows="80" columns="auto,*,auto">
-        <FlexboxLayout col="2" flexDirection="column" justifyContent="flex-start" marginTop="5" marginRight="5">
-            <Button class="sort-btn" (tap)="zmianaSortu()" [isEnabled]="!ui.ladowane[1]" >
-                <FormattedString class="format">
-                    <Span text=" &#xe018;" class="opis center icon" fontSize="10"></Span>
-                    <Span text="Sortuj: " class="opis center audiowide"></Span>
-                    <Span [text]="sortujPoImieniu? 'Alfabetycznie ':'Ranking '" class="czarny audiowide"></Span>
-                </FormattedString>
-            </Button>
-        </FlexboxLayout>
-
-        <FlexboxLayout col="0" flexDirection="column" justifyContent="flex-start">
-            <Button class="cont dodaj b-p-10" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]" marginLeft="4">
-                <FormattedString class="format">
-                    <Span text="&#xe072;" class="icon plus" fontSize="16"></Span>
-                </FormattedString>
-            </Button>
-        </FlexboxLayout>
-    </GridLayout>
+    <FlexboxLayout flexDirection="row" height="80" width="95%" justifyContent="space-between">
+        <Button class="sort-btn" (tap)="zmianaSortu()" [isEnabled]="!ui.ladowane[1]" marginTop="5" marginRight="5">
+            <FormattedString class="format">
+                <Span text=" &#xe018;" class="opis center icon" fontSize="10"></Span>
+                <Span text="Sortuj: " class="opis center audiowide"></Span>
+                <Span [text]="sortujPoImieniu? 'Alfabetycznie ':'Ranking '" class="czarny audiowide"></Span>
+            </FormattedString>
+        </Button>
+        <Button class="cont dodaj b-p-10" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]" marginLeft="4" >
+            <FormattedString class="format">
+                <Span text="&#xe072;" class="icon plus" fontSize="16"></Span>
+            </FormattedString>
+        </Button>
+    </FlexboxLayout>
 
     <GridLayout class="lista" marginLeft="5" marginRight="5">
 

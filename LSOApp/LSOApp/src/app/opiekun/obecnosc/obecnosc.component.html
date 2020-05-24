@@ -2,26 +2,26 @@
     <FlexboxLayout class="back wh100 center">
         <!-- Widok dnia -->
         <StackLayout class="wh100" *ngIf="!kalendarz">
-            <FlexboxLayout class="grid-container">
-                <GridLayout rows="50" columns="50,*,50" height="10%">
-                    <Button col="0" class="strzalki b-p-10 icon" (tap)="indexZmiana(-1)" androidElevation="0">
-                        <FormattedString>
-                            <Span text="&#xe002;"></Span>
-                        </FormattedString>
-                    </Button>
-                    <Button col="1" class="center margin-l-r b-p-10 kal" (tap)="naKalendarz(true)" androidElevation="0" alignItems="center">
-                        <FormattedString>
-                            <Span text="&#xe01f; " class="header icon" alignSelf="center" fontSize="12" backgroundColor="rgb(0,0,0,0)"></Span>
-                            <Span [text]="naglowek" class="header lexend" alignSelf="center" backgroundColor="rgb(0,0,0,0)"></Span>
-                            <Span [text]="data" class="data lexend" alignSelf="center" backgroundColor="rgb(0,0,0,0)"></Span>
-                        </FormattedString>
-                    </Button>
-                    <Button col="2" *ngIf="czyMoznaDoPrzodu()" class="strzalki b-p-10 icon" (tap)="indexZmiana(1)" androidElevation="0">
+            <FlexboxLayout class="grid-container" flexDirection="row" height="10%" justifyContent="center">
+                <Button class="strzalki b-p-10 icon" (tap)="indexZmiana(-1)" androidElevation="0" width="50" height="50">
+                    <FormattedString>
+                        <Span text="&#xe002;"></Span>
+                    </FormattedString>
+                </Button>
+                <Button class="center margin-l-r b-p-10 kal" (tap)="naKalendarz(true)" androidElevation="0" alignItems="center" width="60%">
+                    <FormattedString>
+                        <Span text="&#xe01f; " class="header icon" alignSelf="center" fontSize="12" backgroundColor="rgb(0,0,0,0)"></Span>
+                        <Span [text]="naglowek" class="header lexend" alignSelf="center" backgroundColor="rgb(0,0,0,0)"></Span>
+                        <Span [text]="data" class="data lexend" alignSelf="center" backgroundColor="rgb(0,0,0,0)"></Span>
+                    </FormattedString>
+                </Button>
+                <FlexboxLayout width="50" height="50">
+                    <Button *ngIf="czyMoznaDoPrzodu()" class="strzalki b-p-10 icon" (tap)="indexZmiana(1)" androidElevation="0" width="100%" height="100%">
                         <FormattedString>
                             <Span text="&#xe001;"></Span>
                         </FormattedString>
                     </Button>
-                </GridLayout>
+                </FlexboxLayout>
             </FlexboxLayout>
 
             <Label text="Brak dzisiejszych wydarzeń, aby je dodać przejdź do panelu ustawień" *ngIf="dzisiejszeWydarzenia.length === 0 && !ui.ladowane[0]" class="brak lexend"  width="90%"></Label>
@@ -33,16 +33,14 @@
                             <Label backgroundColor="#C8C8C8" height="1" width="100%" marginTop="5"></Label>
                             <Label text="SŁUŻBA OBOWIĄZKOWA" backgroundColor="black" fontSize="12" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
                         </GridLayout>
-                        <GridLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
+                        <FlexboxLayout [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
                             *ngFor="let item of ministranciDoWydarzenia; let i = index" width="100%">
-                            <FlexboxLayout col="0" class="box margin-l-r" *ngIf="moznaSprawdzac() && czyJestNaLiscie(item)">
-                                <ns-checkbox-status (checkStatus)="zmienStatusObecnosci($event, item.id_user, false)" [status]="aktualnyStatus(item)">
+                            <FlexboxLayout class="box margin-l-r"  width="40" height="40">
+                                <ns-checkbox-status (checkStatus)="zmienStatusObecnosci($event, item.id_user, false)" *ngIf="moznaSprawdzac() && czyJestNaLiscie(item)" [status]="aktualnyStatus(item)">
                                 </ns-checkbox-status>
                             </FlexboxLayout>
-                            <FlexboxLayout col="1" class="center margin-l-r" flexDirection="row" justifyContent="flex-start">
-                                <Label [text]="item.nazwisko + ' ' + item.imie" class="imie lexend"></Label>
-                            </FlexboxLayout>
-                        </GridLayout>
+                            <Label [text]="item.nazwisko + ' ' + item.imie" class="imie lexend margin-l-r"></Label>
+                        </FlexboxLayout>
                     </ng-container>
                     <GridLayout height="auto" marginBottom="3" (tap)="zmienPokazDodatkowa()" *ngIf="wszyscyAktualniMinistranci.length > 0" >
                         <Label backgroundColor="#C8C8C8" height="1" width="100%" marginTop="5"></Label>
@@ -50,16 +48,14 @@
                     </GridLayout>
                     <ActivityIndicator [busy]="true" *ngIf="!pokazDodatkowa && ladowanieDodatkowych"></ActivityIndicator>
                     <ng-container *ngIf="pokazDodatkowa && wszyscyAktualniMinistranci.length > 0">
-                        <GridLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
+                        <FlexboxLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
                                 *ngFor="let item of wszyscyAktualniMinistranci; let i = index" width="100%">
-                                <FlexboxLayout col="0" class="box margin-l-r" *ngIf="moznaSprawdzac()">
-                                    <ns-checkbox-status (checkStatus)="zmienStatusObecnosci($event, item.id_user,true)" [trzyStany]="false" [status]="aktualnyStatus(item)">
+                                <FlexboxLayout class="box margin-l-r" width="40" height="40">
+                                    <ns-checkbox-status *ngIf="moznaSprawdzac()" (checkStatus)="zmienStatusObecnosci($event, item.id_user,true)" [trzyStany]="false" [status]="aktualnyStatus(item)">
                                     </ns-checkbox-status>
                                 </FlexboxLayout>
-                                <FlexboxLayout col="1" class="center margin-l-r" flexDirection="row" justifyContent="flex-start">
-                                    <Label [text]="item.nazwisko + ' ' + item.imie" class="imie lexend"></Label>
-                                </FlexboxLayout>
-                            </GridLayout>
+                                    <Label [text]="item.nazwisko + ' ' + item.imie" class="imie lexend margin-l-r"></Label>
+                            </FlexboxLayout>
                     </ng-container>
                 </StackLayout>
             </ScrollView>
