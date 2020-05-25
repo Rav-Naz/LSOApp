@@ -48,7 +48,7 @@
                     </GridLayout>
                     <ActivityIndicator [busy]="true" *ngIf="!pokazDodatkowa && ladowanieDodatkowych"></ActivityIndicator>
                     <ng-container *ngIf="pokazDodatkowa && wszyscyAktualniMinistranci.length > 0">
-                        <FlexboxLayout rows="50" columns="50,*" [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
+                        <FlexboxLayout [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
                                 *ngFor="let item of wszyscyAktualniMinistranci; let i = index" width="100%">
                                 <FlexboxLayout class="box margin-l-r" width="40" height="40">
                                     <ns-checkbox-status *ngIf="moznaSprawdzac()" (checkStatus)="zmienStatusObecnosci($event, item.id_user,true)" [trzyStany]="false" [status]="aktualnyStatus(item)">

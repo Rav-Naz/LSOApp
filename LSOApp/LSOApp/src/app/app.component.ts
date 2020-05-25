@@ -16,12 +16,14 @@ export class AppComponent {
 
     ngOnInit() {
         this.uiService.setRootVCRef(this.vcRef);
+
         firebase.init({
             showNotifications: true,
             showNotificationsWhenInForeground: true,
 
 
             onMessageReceivedCallback: (message) => {
+            console.log(message)
               if(message.foreground)
               {
                 if(this.tabService.opiekun === true)
