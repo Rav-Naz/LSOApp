@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page, EventData, isAndroid } from 'tns-core-modules/ui/page/page';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { User } from '~/app/serwisy/user.model';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { Subscription } from 'rxjs';
+import { Subscription, from } from 'rxjs';
 import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { sortPolskich } from '~/app/shared/sortPolskich';
+import { Label } from 'tns-core-modules/ui/label';
 
 @Component({
     selector: 'ns-obecnosc',
@@ -141,6 +142,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                 this.wszyscyAktualniMinistranci = this.wszyscyAktualniMinistranci.filter(user2 => user.id_user !== user2.id_user)
             })
             this.parafiaService.obecnosciDoWydarzenia(this.aktywneWydarzenie.id, this.aktywnyDzien);
+            this.sortujListe(true)
             this.sortujListe(false)
             this.zmiana = false;
         });
@@ -442,6 +444,15 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             return false;
         }
         return true;
+    }
+
+    onLabelLoaded(args: EventData)
+    {
+        const lbl = args.object as Label;
+        if(isAndroid)
+        {
+            lbl.android.setGravity(17);
+        }
     }
 
     nic() {

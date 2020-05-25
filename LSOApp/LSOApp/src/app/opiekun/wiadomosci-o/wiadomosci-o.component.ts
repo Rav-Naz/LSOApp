@@ -153,7 +153,7 @@ export class WiadomosciOComponent implements OnInit {
         const swipeLimits = args.data.swipeLimits;
         const swipeView = args['object'];
         const leftItem = swipeView.getViewById<View>('delete');
-        swipeLimits.left = leftItem.getMeasuredWidth();
+        swipeLimits.left = this.wiadomosci[args.index].autor_id === 0 ? 0 : leftItem.getMeasuredWidth();
         swipeLimits.right = 0;
         swipeLimits.threshold = leftItem.getMeasuredWidth() / 2;
     }

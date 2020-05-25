@@ -1,9 +1,8 @@
 <FlexboxLayout class="back center wh100" (tap)="dismiss()">
     <GridLayout columns="*" rows="30,10,*,auto" width="90%">
         <FlexboxLayout class="flex center b-p-10" row="1" rowSpan="2">
-            <StackLayout>
                 <ScrollView (tap)="dismiss()">
-                    <StackLayout [formGroup]="form">   
+                    <StackLayout [formGroup]="form">
                         <FlexboxLayout row="0" class="kontener center" height="100%">
                             <GridLayout columns="auto,*" rows="10,10,auto">
                                 <FlexboxLayout class="input-field center b-p-10 backg-20" row="1" rowSpan="2" col="0" colSpan="2">
@@ -14,7 +13,7 @@
                                     <Label text="TELEFON" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-    
+
                             <Label text="Numer musi mieć długość 9 znaków" class="red lexend" *ngIf="!telefonValid"></Label>
                         </FlexboxLayout>
                         <FlexboxLayout row="1" class="kontener center" height="100%">
@@ -28,7 +27,7 @@
                                     <Label text="ULICA I NR DOMU" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-    
+
                             <Label text="Nazwa ulicy nie może być krótsza niż 3 i dłuższa niż 30 znaków" class="red lexend"
                                 *ngIf="!ulicaValid"></Label>
                         </FlexboxLayout>
@@ -42,7 +41,7 @@
                                     <Label text="KOD POCZTOWY" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-    
+
                             <Label text="Kod powinien być w formie xx-xxx" class="red lexend" *ngIf="!kodValid"></Label>
                         </FlexboxLayout>
                         <FlexboxLayout row="3" class="kontener center" height="100%">
@@ -55,13 +54,12 @@
                                     <Label text="MIEJSCOWOŚĆ" class="audiowide" marginLeft="3" marginRight="3"></Label>
                                 </FlexboxLayout>
                             </GridLayout>
-    
+
                             <Label text="Nazwa miejscowości nie może być krótsza niż 3 i dłuższa niż 20 znaków"
                                 class="red lexend" *ngIf="!miastoValid"></Label>
                         </FlexboxLayout>
                     </StackLayout>
                 </ScrollView>
-            </StackLayout>
         </FlexboxLayout>
 
         <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2">
