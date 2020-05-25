@@ -35,7 +35,7 @@ export class WiadomosciService {
         })
     }
 
-    async nowaWiadomosc(tresc: string, )//Wykorzystanie: wiadomosci-o
+    async nowaWiadomosc(tresc: string)//Wykorzystanie: wiadomosci-o
     {
         return new Promise<number>(resolve => {
             this.http.wyslijWidaomosc(tresc).then( res => {

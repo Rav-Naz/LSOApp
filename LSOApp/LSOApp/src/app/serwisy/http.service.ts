@@ -810,7 +810,7 @@ export class HttpService {
     //WYSYŁANIE WIADOMOŚCI
     async wyslijWidaomosc(tresc: string) {
         return new Promise<number>(resolve => {
-            this.http.post(this.serverUrl + '/new_message', { autor_id: this.id_parafii, odbiorca_id: this.id_parafii, tresc: encodeURI(tresc), linkobrazu: null, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/new_message', { autor_id: this.id_parafii, odbiorca_id: this.id_parafii, tresc: encodeURI(tresc), linkobrazu: null, smart: this.smart, jwt: this.JWT, id_user: this.id_user}, { headers: this.headers }).subscribe(res => {
                 if (res === "wyslano") {
                     resolve(1);
                 }
