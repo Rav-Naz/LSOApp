@@ -101,19 +101,19 @@
 {
     /* border-color:white;
     border-width: 3; */
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
-    border-color: transparent;
-    color: white;
+    background: hsl(0, 0%, 81%);
+    color: rgb(124, 124, 124);
     font-weight: 900;
     font-size: 20;
     border-radius: 10%;
     padding: 1;
 }
 
-.btn:disabled
+.active
 {
-    background: hsl(0, 0%, 81%);
-    color: rgb(124, 124, 124);
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    border-color: transparent;
+    color: white;
 }
 
 .kalendarz

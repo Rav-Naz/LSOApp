@@ -7,6 +7,8 @@ import { Page, EventData } from 'tns-core-modules/ui/page/page';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
 import { UiService } from '../serwisy/ui.service';
+import { isIOS} from "tns-core-modules/platform";
+import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 
 @Component({
     selector: 'ns-menu',
@@ -26,8 +28,10 @@ export class MenuComponent implements OnInit {
     userSub: Subscription;
     adminSub: Subscription;
     public miejsce: number = 0;
+    public ios: boolean;
 
     ngOnInit() {
+        this.ios = isIOS ? true : false;
         this.page.actionBarHidden = true;
         this.tabSelectedIndexSub = this.tabIndexService.tabSelectedIndex.subscribe( index => {
             this.selectedIndex = index;
@@ -62,6 +66,23 @@ export class MenuComponent implements OnInit {
     zmienStrone(strona: number)
     {
         this.selectedIndex = strona;
+    }
+
+    onSwipe(args: SwipeGestureEventData)
+    {
+        if(args.direction === 2 && (this.selectedIndex < (this.tabIndexService.opiekun ? 1 : this.user.stopien !== 11 ? 2 : 1)) && this.ios)
+        {
+            this.zmienStrone(this.selectedIndex + 1);
+        }
+        else if(args.direction === 1 && this.selectedIndex > (this.tabIndexService.opiekun ? this.tabIndexService.outlety[6] === 'ustawieniaO' ? 2 : 3 : 0) && this.ios)
+        {
+            this.zmienStrone(this.selectedIndex - 1)
+        }
+    }
+
+    get swipeEnabled()
+    {
+        return this.selectedIndex === 1 && this.tabIndexService.outlety[4] === 'ministranci' ? false : this.selectedIndex === 2 ? false : this.tabIndexService.outlety[6] === 'edytuj-msze' ? false : this.tabIndexService.outlety[6] === 'punktacja' ? false : true;
     }
 
     nic(){}

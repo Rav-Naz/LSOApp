@@ -2,17 +2,19 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Page, EventData, Color } from 'tns-core-modules/ui/page/page';
 import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
 import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
-import { Subscription } from 'rxjs';
+import { Subscription, from } from 'rxjs';
 import {getFile} from'tns-core-modules/http';
 import * as fileSystem from "tns-core-modules/file-system";
-import { isAndroid } from "tns-core-modules/platform";
+import { isAndroid, isIOS} from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
 import { UiService } from '~/app/serwisy/ui.service';
 import { ListViewEventData, PullToRefreshStyle, RadListView, LoadOnDemandListViewEventData } from 'nativescript-ui-listview';
 import { HttpService } from '~/app/serwisy/http.service';
 import { UserService } from '~/app/serwisy/user.service';
+import { TabindexService } from '~/app/serwisy/tabindex.service';
+import { fromUrl, ImageSource } from "tns-core-modules/image-source";
 
-declare var android
+declare var android, NSObject,interop,UIImage,NSError,UIImageWriteToSavedPhotosAlbum,PHPhotoLibrary, PHAuthorizationStatus:any
 
 @Component({
     selector: 'ns-wiadomosci-m',
@@ -26,12 +28,12 @@ export class WiadomosciMComponent implements OnInit {
     wiadomosciSub: Subscription;
 
     doladowanie: boolean = true;
-    limit: number = 20;
+    limit: number = 30;
     ostatniaWiadomosc: Wiadomosc;
 
     @ViewChild('radListView', { static: false }) radListView: ElementRef<RadListView>;
 
-    constructor(private page: Page, public ui: UiService, private wiadosciService: WiadomosciService, private http: HttpService, private userService: UserService) {}
+    constructor(private page: Page, public ui: UiService, private wiadosciService: WiadomosciService, private http: HttpService, private userService: UserService, private tabIndex: TabindexService) {}
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -133,14 +135,55 @@ export class WiadomosciMComponent implements OnInit {
         }
         else
         {
-            sciezka = fileSystem.path.join(fileSystem.knownFolders.ios.downloads().path, nazwaPliku);
-            getFile(url,sciezka).then((result) => {
-                setTimeout(() => {
-                    this.ui.showFeedback('succes',"Obraz pobrano do: " + result.path,3)
-                }, 200)
-            });
+            PHPhotoLibrary.requestAuthorization((result) => {
+                if(result === PHAuthorizationStatus.Authorized)
+                {
+                    fromUrl(url).then((imageSource: ImageSource) => {
+                        this.saveToAlbum(imageSource, "png", 1, () => {
+                            this.ui.showFeedback('succes',"Obraz pobrano do folderu Zdjęcia",3)
+                        })
+                    })
+                }
+                else
+                {
+                    setTimeout(() => {
+                        this.ui.showFeedback('error',"Bez Twojej zgody nie możemy nic zrobić :(",3)
+                    }, 200)
+                }
+            })
         }
 
     }
+
+    saveToAlbum(imageSource, format, quality, callBack) {
+        if (isIOS) {
+            var res = false;
+            if (!imageSource) {
+                return res;
+            }
+            var result = true;
+            var CompletionTarget = NSObject.extend({
+                "thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:": function(
+                    image, error, context) {
+                    if (error) {
+                        result = false;
+                    }
+                }
+            }, {
+                exposedMethods: {
+                    "thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:": {
+                        returns: interop.types.void,
+                        params: [UIImage, NSError, interop.Pointer]
+                    }
+                }
+            });
+            var completionTarget = CompletionTarget.new();
+            UIImageWriteToSavedPhotosAlbum(imageSource.ios, completionTarget,
+                "thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:",
+                null);
+                if (callBack) callBack();
+            return result;
+        }
+    };
 
 }

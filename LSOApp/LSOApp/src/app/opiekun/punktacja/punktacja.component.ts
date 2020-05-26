@@ -16,7 +16,7 @@ import { UiService } from '~/app/serwisy/ui.service';
 })
 export class PunktacjaComponent implements OnInit {
 
-    zmiana: boolean = false;
+    zapisywanie: boolean = false;
 
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
         private tabIndexService: TabindexService, private http: HttpService, private ui: UiService) {}
@@ -52,7 +52,7 @@ export class PunktacjaComponent implements OnInit {
 
         this.ui.zmienStan(4,true)
 
-        this.zmiana = false;
+        this.zapisywanie = true;
 
         this.http.aktualizacjaPunktow(this.pktZaObecnosc, this.pktZaNieobecnosc, this.pktZaDodatkowa).then(res => {
             let daneParafii: Parafia = JSON.parse(JSON.stringify(res))
@@ -69,20 +69,20 @@ export class PunktacjaComponent implements OnInit {
             {
                 this.ui.sesjaWygasla()
                 this.ui.zmienStan(4,false)
-                this.zmiana = true;
+                this.zapisywanie = false;
             }
             else
             {
                 this.ui.zmienStan(4,false)
                 this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
-                this.zmiana = true;
+                this.zapisywanie = true;
             }
         })
     }
 
 
     async anuluj() {
-        await this.czyKontynuowac(this.zmiana).then((kontynuowac) => {
+        await this.czyKontynuowac(this.czyZmienione).then((kontynuowac) => {
             if (kontynuowac) {
                 this.tabIndexService.nowyOutlet(6, "ustawieniaO");
                 this.router.back();
@@ -92,14 +92,14 @@ export class PunktacjaComponent implements OnInit {
 
     private czyKontynuowac(zmiana: boolean) {
         return new Promise<boolean>((resolve) => {
-            if (zmiana && ((this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc))) {
-                if (zmiana === true) {
+            if (this.czyZmienione) {
+                if (this.zapisywanie === false) {
                     this.ui.pokazModalWyboru("Zmienione dane o punktacji nie zostaną zapisane.\nCzy chcesz kontynuować?").then((result) => {
                         resolve(result);
                     })
                 }
                 else {
-                    resolve(false)
+                    resolve(true)
                 }
             }
             else {
@@ -108,7 +108,8 @@ export class PunktacjaComponent implements OnInit {
         })
     }
 
-    zmien() {
-        this.zmiana = true;
+    get czyZmienione()
+    {
+        return (this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc) || (this.pktZaDodatkowa !== this.poczDodatkowa)
     }
 }

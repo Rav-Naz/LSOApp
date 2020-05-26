@@ -33,8 +33,6 @@ export class ParafiaService {
 
     private _dyzury: Array<Dyzur> = [];
 
-    private _obecnosci: Array<Obecnosc> = [];
-
     private ministranci = new BehaviorSubject<Array<User>>(null);
     private dyzuryWydarzenia = new BehaviorSubject<Array<User>>(null);
     private dyzuryMinistranta = new BehaviorSubject<Array<Wydarzenie>>(null);
@@ -48,7 +46,6 @@ export class ParafiaService {
         this.aktualneWydarzenieId = 0;
         this.ministranciLista = [];
         this._dyzury = [];
-        this._obecnosci = [];
         this.ministranci.next([])
         this.dyzuryWydarzenia.next([])
         this.dyzuryMinistranta.next([])

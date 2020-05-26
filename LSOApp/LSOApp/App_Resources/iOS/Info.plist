@@ -49,5 +49,7 @@
 		<array>
 			<string>remote-notification</string>
 		</array>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Aby pobrać obraz, wyraź zgodę</string>
 	</dict>
 </plist>

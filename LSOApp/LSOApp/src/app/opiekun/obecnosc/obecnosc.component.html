@@ -59,7 +59,7 @@
                     </ng-container>
                 </StackLayout>
             </ScrollView>
-            <Button text="Zapisz" class="btn audiowide" *ngIf="!ui.ladowane[0] && opoznienie" (tap)="zapiszZmiany()" [isEnabled]="zmiana" [ngClass]="{disabled: zmiana}"></Button>
+            <Button text="Zapisz" class="btn audiowide" *ngIf="!ui.ladowane[0] && opoznienie" (tap)="zapiszZmiany()" [isEnabled]="zmiana" [ngClass]="{active: zmiana}"></Button>
 
             <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[0] || !opoznienie">
                 <ActivityIndicator [busy]="true"></ActivityIndicator>

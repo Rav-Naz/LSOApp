@@ -26,6 +26,7 @@ export class DyzuryComponent implements OnInit {
     powiadomieniaSub: Subscription;
     rowDzis = [0, 2, 4, 6, 8, 10, 12]
     rowPasy = [1, 3, 5, 7, 9, 11]
+    ladowanie: boolean = false;
     dni = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota']
 
     constructor(private page: Page, private userService: UserService, public ui: UiService, public http: HttpService)
@@ -74,8 +75,9 @@ export class DyzuryComponent implements OnInit {
 
     onSwipe(args: SwipeGestureEventData)
     {
-        if (args.direction === 8) {
+        if (args.direction === 8 && !this.ladowanie) {
             this.ui.zmienStan(0,true);
+            this.ladowanie = true;
             this.http.pobierzMinistranta(this.user.id_user).then(res => {
                 this.userService.zmienUsera(res);
             })
@@ -85,7 +87,7 @@ export class DyzuryComponent implements OnInit {
                     this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2)
                 }
                 setTimeout(() => {
-
+                    this.ladowanie = false;
                     this.ui.zmienStan(0,false);
                 },500)
             });

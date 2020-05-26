@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Page, View, EventData, Color } from 'tns-core-modules/ui/page/page';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Page, View, EventData, Color, isIOS } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -54,6 +54,7 @@ export class MinistranciComponent implements OnInit {
     }
 
     zmianaSortu() {
+        this.ui.zmienStan(1,true)
         this.sortujPoImieniu = !this.sortujPoImieniu;
         this.sortujListe();
     }
@@ -73,6 +74,11 @@ export class MinistranciComponent implements OnInit {
                 return 0;
             }
         });
+        setTimeout(() => {
+            
+            this.ui.zmienStan(1,false)
+
+        }, isIOS ? 1000 : 200)
     }
 
     kolor(index: number)
