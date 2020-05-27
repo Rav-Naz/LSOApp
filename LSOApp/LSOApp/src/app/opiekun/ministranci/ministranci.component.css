@@ -157,6 +157,7 @@ ListView
     padding: 1;
     font-size: 13;
     height: 30;
+    margin-left: 3;
 }
 
 .sort-btn:disabled

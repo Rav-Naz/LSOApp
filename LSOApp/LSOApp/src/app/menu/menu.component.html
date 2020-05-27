@@ -39,7 +39,7 @@
         <!-- Widok opiekuna -->
         <GridLayout columns="*" rows="*,auto" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
             <FlexboxLayout row="0" height="100%">
-                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="!ios && swipeEnable" (swipe)="onSwipe($event)">
+                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="!ios && swipeEnabled" (swipe)="onSwipe($event)">
 
                     <TabContentItem>
                         <page-router-outlet name="obecnosc"></page-router-outlet>
