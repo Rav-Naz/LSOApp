@@ -12,7 +12,7 @@
                     <Label [text]="this.pktZaObecnosc.toFixed(0)" class="lexend"></Label>
                 </FlexboxLayout>
                 <FlexboxLayout class="center" flexDirection="row" justifyContent="flex-end" row="0" col="2">
-                    <Slider minValue="0" maxValue="10" value="1" [(ngModel)]="pktZaObecnosc" width="100%"></Slider>
+                    <Slider minValue="0" maxValue="10" value="1" [(ngModel)]="pktZaObecnosc" width="100%" backgroundColor="red"></Slider>
                 </FlexboxLayout>
 
                 <FlexboxLayout row="1" col="0" colSpan="3" class="podkr">
@@ -24,7 +24,7 @@
                         <Label [text]="this.pktZaNieobecnosc.toFixed(0)" class="lexend"></Label>
                     </FlexboxLayout>
                 <FlexboxLayout class="center" flexDirection="row" justifyContent="flex-end" row="1" col="2">
-                    <Slider minValue="-10" maxValue="0" [(ngModel)]="pktZaNieobecnosc" width="100%"></Slider>
+                    <Slider minValue="-10" maxValue="0" [(ngModel)]="pktZaNieobecnosc" width="100%" backgroundColor="red"></Slider>
                 </FlexboxLayout>
 
                 <FlexboxLayout row="2" col="0" class="center" flexDirection="row">
@@ -34,7 +34,7 @@
                         <Label [text]="this.pktZaDodatkowa.toFixed(0)" class="lexend"></Label>
                     </FlexboxLayout>
                 <FlexboxLayout class="center" flexDirection="row" justifyContent="flex-end" row="2" col="2">
-                    <Slider minValue="0" maxValue="10" [(ngModel)]="pktZaDodatkowa" width="100%"></Slider>
+                    <Slider minValue="0" maxValue="10" [(ngModel)]="pktZaDodatkowa" width="100%" backgroundColor="red"></Slider>
                 </FlexboxLayout>
             </GridLayout>
         </FlexboxLayout>
