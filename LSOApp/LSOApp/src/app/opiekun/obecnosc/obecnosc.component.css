@@ -142,3 +142,9 @@
     font-size: 17;
     text-align: center;
 }
+
+.typ2 {
+    clip-path: circle(100% at 50% 50%);
+    height: 15;
+    width: 15;
+}

@@ -219,3 +219,17 @@ TextField{
     color: white;
 }
 
+.red-grad
+{
+    background: linear-gradient(to bottom right, #e71e25 35%,#a5151a 65%);
+}
+
+.blue-grad
+{
+    background: linear-gradient(to bottom right, #4beaff 35%,#0987fd 65%);
+}
+
+.yellow-grad
+{
+    background: linear-gradient(to bottom right, #fffb12 35%,#f5c905 65%);
+}

@@ -27,11 +27,15 @@
             <Label text="Brak dzisiejszych wydarzeń, aby je dodać przejdź do panelu ustawień" *ngIf="dzisiejszeWydarzenia.length === 0 && !ui.ladowane[0]" class="brak lexend"  width="90%"></Label>
             <ScrollView *ngIf="!ui.ladowane[0] && dzisiejszeWydarzenia.length > 0 && opoznienie" height="77%">
                 <StackLayout width="100%">
-                    <Label text="Brak obowiązkowych dyżurów, aby je dodać przejdź do panelu ministranta" *ngIf="ministranciDoWydarzenia.length === 0 && dzisiejszeWydarzenia.length !== 0 && !ui.ladowane[0]" class="brak lexend" width="90%"></Label>
-                        <StackLayout *ngIf="ministranciDoWydarzenia.length > 0" width="100%">
+                    <FlexboxLayout justifyContent="center">
+                        <Label [text]="aktywneWydarzenie.typ === 0 ? 'Msza Święta' : aktywneWydarzenie.typ === 1 ? 'Nabożeństwo': 'Zbiórka'" color="white" class="audiowide" textAlignment="center"></Label>
+                        <Label class="typ2" marginLeft="5" [ngClass]="{'red-grad': aktywneWydarzenie.typ === 0,'blue-grad': aktywneWydarzenie.typ === 1,'yellow-grad': aktywneWydarzenie.typ === 2}"></Label>
+                    </FlexboxLayout>
+                    <Label text="Brak obowiązkowych dyżurów, aby je dodać przejdź do panelu ministranta" *ngIf="ministranciDoWydarzenia.length === 0 && dzisiejszeWydarzenia.length !== 0 && !ui.ladowane[0] && aktywneWydarzenie.typ !== 1" class="brak lexend" width="90%"></Label>
+                        <StackLayout *ngIf="ministranciDoWydarzenia.length > 0 && aktywneWydarzenie.typ !== 1" width="100%">
                             <GridLayout height="auto" marginBottom="3">
                                 <Label backgroundColor="#C8C8C8" height="1" width="100%" marginTop="5"></Label>
-                                <Label text="SŁUŻBA OBOWIĄZKOWA" backgroundColor="black" fontSize="12" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
+                                <Label text="OBECNOŚĆ OBOWIĄZKOWA" backgroundColor="black" fontSize="12" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
                             </GridLayout>
                             <FlexboxLayout [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
                                 *ngFor="let item of ministranciDoWydarzenia; let i = index" width="100%">
@@ -42,12 +46,13 @@
                                 <Label [text]="item.nazwisko + ' ' + item.imie" class="imie lexend margin-l-r" height="100%" (loaded)="onLabelLoaded($event)"></Label>
                             </FlexboxLayout>
                         </StackLayout>
-                    <GridLayout height="auto" marginBottom="3" (tap)="zmienPokazDodatkowa()" *ngIf="wszyscyAktualniMinistranci.length > 0" >
+                    <GridLayout height="auto" marginBottom="3" (tap)="zmienPokazDodatkowa()" *ngIf="wszyscyAktualniMinistranci.length > 0 && aktywneWydarzenie.typ !== 2" >
                         <Label backgroundColor="#C8C8C8" height="1" width="100%" marginTop="5"></Label>
-                        <Label [text]="'SŁUŻBA DODATKOWA ' + (pokazDodatkowa ? '-' : '+')" fontSize="12" backgroundColor="black" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
+                        <Label [text]="'OBECNOŚĆ DODATKOWA ' + (pokazDodatkowa ? '-' : '+')" *ngIf="aktywneWydarzenie.typ === 0" fontSize="12" backgroundColor="black" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
+                        <Label text="OBECNOŚĆ DODATKOWA" *ngIf="aktywneWydarzenie.typ === 1" fontSize="12" backgroundColor="black" color="#C8C8C8" class="lexend" horizontalAlignment="center" padding="3"></Label>
                     </GridLayout>
                     <ActivityIndicator [busy]="true" *ngIf="!pokazDodatkowa && ladowanieDodatkowych"></ActivityIndicator>
-                    <ng-container *ngIf="pokazDodatkowa && wszyscyAktualniMinistranci.length > 0">
+                    <ng-container *ngIf="(pokazDodatkowa || aktywneWydarzenie.typ === 1)  && wszyscyAktualniMinistranci.length > 0 && aktywneWydarzenie.typ !== 2">
                         <FlexboxLayout [ngClass]="{szary: i%2 === 0}" class="margin-l-r"
                                 *ngFor="let item of wszyscyAktualniMinistranci; let i = index" width="100%">
                                 <FlexboxLayout class="box margin-l-r" width="40" height="40">

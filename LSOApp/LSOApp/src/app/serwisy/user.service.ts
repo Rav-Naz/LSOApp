@@ -10,7 +10,7 @@ import { Wydarzenie } from './wydarzenie.model';
 })
 export class UserService {
 
-    public wersja: string = "2.1.1"; //Wykorzystanie: ustawienia-m, ustawienia-o
+    public wersja: string = "2.2.0"; //Wykorzystanie: ustawienia-m, ustawienia-o
     private user: User
 
     constructor(private http: HttpService){}

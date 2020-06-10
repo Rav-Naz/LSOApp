@@ -10,6 +10,7 @@ import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
 import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
+import { lista } from '~/app/serwisy/stopien.model';
 
 @Component({
     selector: 'ns-ministrant-nowy',
@@ -112,8 +113,6 @@ export class MinistrantNowyComponent implements OnInit {
     }
 
     wybierzStopien() {
-
-        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Opiekun"]
 
         this.modal.showModal(WyborModalComponent, {
             context: lista,

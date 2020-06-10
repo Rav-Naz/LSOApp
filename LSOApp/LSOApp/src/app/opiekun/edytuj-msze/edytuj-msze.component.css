@@ -50,6 +50,12 @@
     padding: 0;
 }
 
+
+.wybrany:pressed
+{
+    background: linear-gradient(to bottom, #a5151a,#640b0e);
+}
+
 .nie
 {
     background: rgb(206, 206, 206);
@@ -79,7 +85,7 @@
     font-size: 22;
     width: 100%;
     text-align: center;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     height: 40;
     margin-top: 3;
 }
@@ -96,3 +102,9 @@
     border-radius: 5%;
 }
 
+.typ {
+    transform: translateX(30);
+    clip-path: circle(100% at 50% 50%);
+    height: 15;
+    width: 15;
+}

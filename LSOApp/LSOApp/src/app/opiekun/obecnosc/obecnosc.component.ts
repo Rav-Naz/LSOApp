@@ -32,7 +32,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     wszyscyMinistranci: Array<User> = [];
     wszyscyAktualniMinistranci: Array<User> = [];
     noweObecnosci: Array<Obecnosc>;
-    aktywneWydarzenie: Wydarzenie = { id: 0, id_parafii: 0,nazwa: "Msza Święta",typ: 0, cykl: 1,dzien_tygodnia: 0, godzina: "2018-11-15T21:27:00.000Z",data_dokladna: null};
+    aktywneWydarzenie: Wydarzenie = { id: 0, id_parafii: 0,nazwa: "Msza Święta",typ: 0, cykl: 1,dzien_tygodnia: 0, godzina: "2018-11-15T21:27:00.000Z",data_dokladna: null,grupa: null};
     aktywnyDzien: Date;
     najblizszeWydarzenie: Wydarzenie;
     ministranciDoWydarzenia: Array<User>
@@ -131,12 +131,16 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
             this.header(this.aktywnyDzien, this.aktywneWydarzenie); //Tworzenie nagłówka
             this.odliczenie = setTimeout(async () => {
-                this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id); //Pobieranie danych o dyżurach
+                this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id, this.aktywneWydarzenie.typ); //Pobieranie danych o dyżurach
             }, this.sprawdzane && this.zmiana ? 0 : 500)
         })
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
             lista !== [] && lista !== null ? this.ministranciDoWydarzenia = lista : this.ministranciDoWydarzenia = [];
+            if((this.aktywneWydarzenie.typ === 2 && this.aktywneWydarzenie.grupa !== -1) || this.aktywneWydarzenie.typ === 1)
+            {
+                this.ministranciDoWydarzenia = this.ministranciDoWydarzenia.filter(min => min.stopien === this.aktywneWydarzenie.grupa)
+            }
             this.wszyscyAktualniMinistranci = [...this.wszyscyMinistranci].filter(item => item.stopien !== 11);
             this.ministranciDoWydarzenia.forEach( user => {
                 this.wszyscyAktualniMinistranci = this.wszyscyAktualniMinistranci.filter(user2 => user.id_user !== user2.id_user)
@@ -167,7 +171,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                 this.ministranciDoWydarzenia.forEach(ministrant => {
                     this.noweObecnosci.push(this.parafiaService.nowaObecnosc(this.aktywneWydarzenie.id, ministrant.id_user, this.aktywnyDzien, 0, 0));
                 })
-                if(this.ministranciDoWydarzenia.length === 0)
+                if(this.ministranciDoWydarzenia.length === 0 || this.aktywneWydarzenie.typ === 1)
                 {
                     this.zmiana = false;
                 }
@@ -233,6 +237,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                 if(kontynuowac)
                 {
                     this.ui.zmienStan(0,true)
+
                     if((this.index + liczba)<0 || (this.index + liczba)>(this.dzisiejszeWydarzenia.length-1))
                     {
                         if((this.index + liczba)<0)
@@ -255,7 +260,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                         this.parafiaService.aktualneWydarzenieId = this.aktywneWydarzenie.id;
 
                         this.odliczenie = setTimeout(async () => {
-                            this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id).then(res => {
+                            this.parafiaService.dyzurDoWydarzenia(this.aktywneWydarzenie.id, this.aktywneWydarzenie.typ).then(res => {
                                 if(res === 404)
                                 {
                                     this.ui.sesjaWygasla()
@@ -406,6 +411,10 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
     zmienPokazDodatkowa()
     {
+        if(this.aktywneWydarzenie.typ === 1)
+        {
+            return
+        }
         if(!this.pokazDodatkowa)
         {
             this.ladowanieDodatkowych = true;

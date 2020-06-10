@@ -11,4 +11,5 @@ export class Wydarzenie {
     dzien_tygodnia: DzienTyg;
     godzina: string;
     data_dokladna?: string;
+    grupa: number;
 }

@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Page, EventData, View, Color } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Subscription } from 'rxjs';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import * as TimePicker from "nativescript-datetimepicker"
+import * as TimePicker from "nativescript-datetimepicker";
 import { Button } from "tns-core-modules/ui/button";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { ListViewEventData } from 'nativescript-ui-listview';
+import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+import { SzczegolyWydarzeniaComponent } from '~/app/shared/modale/szczegoly-wydarzenia/szczegoly-wydarzenia.component';
+import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 
 @Component({
     selector: 'ns-edytuj-msze',
@@ -20,7 +23,8 @@ import { ListViewEventData } from 'nativescript-ui-listview';
 export class EdytujMszeComponent implements OnInit {
 
     constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService,
-         private tabIndexService: TabindexService, public ui: UiService) {}
+         private tabIndexService: TabindexService, public ui: UiService, private modal: ModalDialogService,
+         private vcRef: ViewContainerRef) {}
 
     DzienTygodnia = [0, 1, 2, 3, 4, 5, 6]
     wybranyDzien: number;
@@ -44,66 +48,75 @@ export class EdytujMszeComponent implements OnInit {
             if (lista === null || lista === undefined) return
             if (lista.length === 0) return
                 lista.forEach(wydarzenie => {
-                    this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
-                    this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina })
+                    this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina, grupa: wydarzenie.grupa})
+                    this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina, grupa: wydarzenie.grupa})
                 })
                 this.sortuj()
         })
     }
 
-    async timePick(args: EventData, title: string, time?: Date)
-    {
-        return new Promise<Date>(resolve => {
-            TimePicker.DateTimePicker.pickTime({
-                context: (<Button>args.object)._context,
-                time: time? time : new Date(),
-                okButtonText: "Dodaj",
-                cancelButtonText: "Anuluj",
-                title: title,
-                locale: "en_GB",
-                is24Hours: true
-            }).then((res) => {
-                resolve(res)
-            })
-        })
-    }
-
     async dodaj(args: EventData) {
-        this.timePick(args,"Wybierz godzinę").then(res => {
-            let godzina = res
-            if (godzina !== null) {
-                if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === godzina.getHours() && new Date(wydarzenie.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
-                    this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: "Msza codzienna",typ: 0, cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(2018, 10, 15, godzina.getHours(), godzina.getMinutes()).toJSON() });
-                    this.zmiana = true;
-                    setTimeout(() => {
-                        this.sortuj()
-                    },50)
-                }
-                else {
+        let przed = [null,new Date(),null,false];
+        this.modal.showModal(SzczegolyWydarzeniaComponent,{
+            context: przed,
+            viewContainerRef:  this.vcRef,
+            fullscreen: false,
+            stretched: false,
+            animated:  false,
+            closeCallback: null,
+            dimAmount: 0.8 // Sets the alpha of the background dim,
+
+          } as ExtendedShowModalOptions).then((result) => {
+            if(result !== undefined)
+            {
+                if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === result[1].getHours() && new Date(wydarzenie.godzina).getMinutes() === result[1].getMinutes())[0] === undefined) {
+                        this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: result[0] === 0 ? "Msza codzienna" : result[0] === 1 ? "Nabożeństwo" : "Zbiórka",typ: result[0], cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(2018, 10, 15, result[1].getHours(), result[1].getMinutes()).toJSON(), grupa: result[2]});
+                        this.zmiana = true;
+                        setTimeout(() => {
+                            this.sortuj()
+                        },50)
+                    }
+                else{
                     this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3)
                 }
             }
-        })
+        });
     }
 
     async edytuj(args: EventData, wydarzenie: Wydarzenie, index: number)
     {
-        this.timePick(args,"Edytuj godzinę",new Date(wydarzenie.godzina)).then(res => {
-            let godzina = res
-            if(godzina !== null)
+        let przed = [wydarzenie.typ,new Date(wydarzenie.godzina),wydarzenie.grupa === undefined ? null : wydarzenie.grupa,true];
+        this.modal.showModal(SzczegolyWydarzeniaComponent,{
+            context: przed,
+            viewContainerRef:  this.vcRef,
+            fullscreen: false,
+            stretched: false,
+            animated:  false,
+            closeCallback: null,
+            dimAmount: 0.8 // Sets the alpha of the background dim,
+
+          } as ExtendedShowModalOptions).then((result) => {
+            if(result !== undefined)
             {
-                if (this.wydarzeniaDnia.filter(wydarzeniaaa => new Date(wydarzeniaaa.godzina).getHours() === godzina.getHours() && new Date(wydarzeniaaa.godzina).getMinutes() === godzina.getMinutes())[0] === undefined) {
-                    this.czyAktualizowane(wydarzenie)
-                    this.wydarzeniaDnia[index].godzina = godzina.toJSON()
-                    wydarzenie.godzina = godzina.toJSON()
-                    this.aktualizujWydarzeniaDnia.push(wydarzenie)
-                    this.zmiana = true
+                if (this.wydarzeniaDnia.filter(wydarzeniaaa => new Date(wydarzeniaaa.godzina).getHours() === result[1].getHours() && new Date(wydarzeniaaa.godzina).getMinutes() === result[1].getMinutes() && wydarzeniaaa.id !== this.wydarzeniaDnia[index].id)[0] === undefined) {
+                    if(przed.toString() !== result.toString())
+                    {
+                        this.czyAktualizowane(wydarzenie)
+                        this.wydarzeniaDnia[index].typ = result[0]
+                        wydarzenie.typ = result[0];
+                        this.wydarzeniaDnia[index].godzina = result[1].toJSON()
+                        wydarzenie.godzina = result[1].toJSON()
+                        this.wydarzeniaDnia[index].grupa = result[2]
+                        wydarzenie.grupa = result[2];
+                        this.aktualizujWydarzeniaDnia.push(wydarzenie)
+                        this.zmiana = true
+                    }
                 }
                 else {
                     this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3)
                 }
             }
-        })
+        });
     }
 
     private czyAktualizowane( wydarzenie: Wydarzenie)

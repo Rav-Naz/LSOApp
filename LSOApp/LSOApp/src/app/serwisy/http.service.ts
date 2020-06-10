@@ -576,13 +576,13 @@ export class HttpService {
     }
 
     //DODAWANIE WYDARZENIA
-    async dodajNoweWydarzenie(dzien_tygodnia: number, godzina: string) {
+    async dodajNoweWydarzenie(dzien_tygodnia: number, godzina: string, typ: number, grupa: number, nazwa: string) {
 
         let czas = new Date(godzina)
 
         return new Promise<number>(resolve => {
 
-            this.http.post(this.serverUrl + '/new_event', { id_parafii: this.id_parafii, dzien_tygodnia: dzien_tygodnia,
+            this.http.post(this.serverUrl + '/new_event', { id_parafii: this.id_parafii, dzien_tygodnia: dzien_tygodnia, typ: typ, grupa: grupa, nazwa: nazwa,
                  godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
@@ -628,11 +628,10 @@ export class HttpService {
     }
 
     //AKTUALIZACJA WYDARZENIA
-    async aktualizacjaWydarzenie(godzina: Date, id_wydarzenia: number) {
+    async aktualizacjaWydarzenie(godzina: Date, id_wydarzenia: number, typ: number, grupa: number, nazwa: string) {
         return new Promise<number>(resolve => {
             let czas = new Date(godzina)
-
-            this.http.post(this.serverUrl + '/edit_event', {godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()),
+            this.http.post(this.serverUrl + '/edit_event', {godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), typ: typ, grupa: grupa, nazwa: nazwa,
                  id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === "zakonczono") {
                     resolve(1);

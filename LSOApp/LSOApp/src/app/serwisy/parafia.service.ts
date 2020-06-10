@@ -137,17 +137,24 @@ export class ParafiaService {
         })
     }
 
-    dyzurDoWydarzenia(id_wydarzenia: number) { //Wykorzystanie: obecnosc
+    dyzurDoWydarzenia(id_wydarzenia: number, typ?: number) { //Wykorzystanie: obecnosc
         return new Promise<number>((resolve) => {
-            this.http.pobierzDyzuryDoWydarzenia(id_wydarzenia).then(res => {
-                if(res === null)
-                {
-                    resolve(404)
-                    return
-                }
-                this.dyzuryWydarzenia.next(res);
-                resolve(1)
-            })
+            if(typ !== undefined && typ !== null && typ === 0)
+            {
+                this.http.pobierzDyzuryDoWydarzenia(id_wydarzenia).then(res => {
+                    if(res === null)
+                    {
+                        resolve(404)
+                        return
+                    }
+                    this.dyzuryWydarzenia.next(res);
+                    resolve(1)
+                })
+            }
+            else
+            {
+                this.dyzuryWydarzenia.next(this.ministranciLista);
+            }
         })
     }
 

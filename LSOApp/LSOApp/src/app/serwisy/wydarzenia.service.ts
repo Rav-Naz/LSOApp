@@ -120,7 +120,7 @@ export class WydarzeniaService {
                     let i = 0;
                     edytowanaLista.forEach(async edit => {
                         i++
-                        this.http.aktualizacjaWydarzenie(new Date(edit.godzina), edit.id).then(res => {
+                        this.http.aktualizacjaWydarzenie(new Date(edit.godzina), edit.id, edit.typ, edit.grupa, edit.nazwa).then(res => {
                             if (res === 0 || res === 404) {
                                 resolve(404)
                             }
@@ -141,7 +141,7 @@ export class WydarzeniaService {
     private async dodajWydarzenie(wydarzenie: Wydarzenie) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
     {
         return new Promise<number>((resolve) => {
-            this.http.dodajNoweWydarzenie(wydarzenie.dzien_tygodnia, wydarzenie.godzina).then(res => {
+            this.http.dodajNoweWydarzenie(wydarzenie.dzien_tygodnia, wydarzenie.godzina, wydarzenie.typ, wydarzenie.grupa, wydarzenie.nazwa).then(res => {
                 resolve(res)
             })
 

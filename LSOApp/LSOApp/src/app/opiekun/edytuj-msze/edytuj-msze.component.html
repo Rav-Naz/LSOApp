@@ -25,7 +25,10 @@
                         <RadListView [items]="wydarzeniaDnia" separatorColor="grey" swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" *ngIf="!ui.ladowane[3]">
                             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
                             <ng-template tkListItemTemplate let-item="item" let-i="index">
-                                <Label [text]="item.godzina.toString() | godzina" borderRadius="7%" class="text lexend" (tap)="edytuj($event, item, i)" [backgroundColor]="kolor(i)"></Label>
+                                <FlexboxLayout (tap)="edytuj($event, item, i)" [backgroundColor]="kolor(i)" class="text" borderRadius="7%" justifyContent="center" >
+                                    <Label [text]="item.godzina.toString() | godzina" class="lexend"></Label>
+                                    <Label class="typ" [ngClass]="{'red-grad': item.typ === 0,'blue-grad': item.typ === 1,'yellow-grad': item.typ === 2}"></Label>
+                                </FlexboxLayout>
                             </ng-template>
                             <GridLayout *tkListItemSwipeTemplate columns="40, *" marginTop="3">
                                 <Button text="&#xe08e;" id="delete" col="0" (tap)="onLeftSwipeClick($event)" class="acion-cont b-p-10 icon"  width="40"></Button>
@@ -43,7 +46,7 @@
         </FlexboxLayout>
 
         <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2" width="75%">
-            <Label text="Edytuj Msze Święte" class="audiowide"></Label>
+            <Label text="Edytuj wydarzenia" class="audiowide"></Label>
         </FlexboxLayout>
 
         <GridLayout columns="*,*" rows="60" row="3">

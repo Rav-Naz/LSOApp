@@ -42,6 +42,7 @@ import { NadajHasloComponent } from './nadaj-haslo/nadaj-haslo.component';
 import { SesjaWygaslaComponent } from './shared/modale/sesja-wygasla/sesja-wygasla.component';
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { EnterPipe } from './pipes/uri.pipe';
+import { SzczegolyWydarzeniaComponent } from "./shared/modale/szczegoly-wydarzenia/szczegoly-wydarzenia.component";
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -99,12 +100,13 @@ import { EnterPipe } from './pipes/uri.pipe';
         NadajHasloComponent,
         SesjaWygaslaComponent,
         EnterPipe,
+        SzczegolyWydarzeniaComponent
     ],
     providers: [],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
-    entryComponents: [WyborModalComponent, PotwierdzenieModalComponent, LogowanieJakoComponent, SesjaWygaslaComponent]
+    entryComponents: [WyborModalComponent, PotwierdzenieModalComponent, LogowanieJakoComponent, SesjaWygaslaComponent, SzczegolyWydarzeniaComponent]
 })
 /*
 Pass your application module to the bootstrapModule function located in main.ts to start your app

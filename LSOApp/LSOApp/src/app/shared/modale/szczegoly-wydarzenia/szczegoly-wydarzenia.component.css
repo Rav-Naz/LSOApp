@@ -1,0 +1,41 @@
+.f
+{
+    width: 85%;
+    background-color: white;
+    border-radius: 10%;
+    padding: 7;
+}
+
+.text
+{
+    color: rgb(80, 80, 80);
+    font-size: 14;
+    margin: 2;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 7%;
+    justify-content: center;
+}
+
+.typ2 {
+    clip-path: circle(100% at 50% 50%);
+    height: 15;
+    width: 15;
+}
+
+.szary {
+    color: white;
+    background-color: rgb(80, 80, 80);
+}
+
+.godzina
+{
+    background-color: white;
+    color: black;
+    font-weight: 500;
+    padding: 1;
+    border-radius: 50%;
+    margin: 2;
+    font-size: 15;
+}
+

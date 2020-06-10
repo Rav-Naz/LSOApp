@@ -15,6 +15,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '~/app/serwisy/user.service';
 import { UiService } from '~/app/serwisy/ui.service';
+import { lista } from '~/app/serwisy/stopien.model'
 
 
 @Component({
@@ -153,7 +154,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
         })
     }
 
-    
+
     otworzDyzury() {
         this.ui.zmienStan(4,true)
         if (this.PROLista[6] === 'edytuj-msze' || this.PROLista[6] === 'punktacja') {
@@ -163,28 +164,28 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
         this.tabIndexService.nowyOutlet(4, 'ministrant-dyzury')
         this.router.navigate(['../ministrant-dyzury'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
         this.ui.zmienStan(4,false)
-        
+
     }
-    
+
     aktywujKonto() {
         this.ui.zmienStan(4,true)
         this.parafiaService.wyslanyEmail = {email: this.ministrant.email, aktywny: this.ministrant.aktywny, id_user: this.ministrant.id_user};
-        
+
         this.tabIndexService.nowyOutlet(4, 'aktywacja-konta')
         this.router.navigate(['../aktywacja-konta'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
         this.ui.zmienStan(4,false)
     }
-    
+
     zmienPunkty(punkty: number) {
         this.wpiszPunkty();
         this.zmiana = true;
         this.ministrant.punkty += punkty;
     }
-    
+
     dyzurHeader(dzien_tygodnia: number) {
         return this.DzienTyg[dzien_tygodnia] + ' ';
     }
-    
+
     stopien(stopien: number) {
         return Stopien[stopien];
     }
@@ -194,14 +195,12 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
         let data = new Date(value)
         return data.toString().slice(16,21);
     }
-    
+
     zmienStopien(ministrant: User) {
         this.displayActionDialog(ministrant)
     }
 
     displayActionDialog(ministrant: User) {
-
-        let lista = ["Kandydat", "Ministrant Ołtarza", "Choralista", "Ministrant Światła", "Ministrant Krzyża", "Ministrant Księgi", "Ministrant Kadzidła", "Ministrant Wody", "Lektor", "Ceremoniarz", "Szafarz", "Opiekun"]
 
         this.modal.showModal(WyborModalComponent, {
             context: lista,
