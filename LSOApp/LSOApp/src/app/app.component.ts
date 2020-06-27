@@ -53,13 +53,11 @@ export class AppComponent {
           })
             .then(() => {
                 firebase.getCurrentPushToken().then((res) => {
-                    console.log("BBBBB",res);
                     this.http.nadaj_wlasciwosci_urzadzenia(platform.isIOS ? "IOS" : platform.isAndroid ? "Android" : "Inny", res)
                 })
             })
             .catch(error => {
                 firebase.getCurrentPushToken().then((res) => {
-                console.log(" AAAAAAA ",res);
                 this.http.nadaj_wlasciwosci_urzadzenia(platform.isIOS ? "IOS" : platform.isAndroid ? "Android" : "Inny", res)
               })
             });

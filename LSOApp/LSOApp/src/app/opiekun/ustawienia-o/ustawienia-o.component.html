@@ -4,12 +4,14 @@
             <StackLayout class="flex2">
 
                 <Label [text]="'p. pw. ' + parafiaService.nazwaParafii" class="opis audiowide" horizontalAlignment="center" (tap)="nawigujDo('zmien-haslo-o')"></Label>
-                <GridLayout columns="auto,*" rows="40,40" width="90%">
+                <GridLayout columns="auto,*" rows="40,40,40" width="90%">
                     <Label text="Punkty" class="opis lexend" col="0"></Label>
                     <Button text="Zmień punktajcę" class="click audiowide" col="1"
                         (tap)="nawigujDo('punktacja')"></Button>
                     <Button text="Wyzeruj punkty" class="click audiowide" col="1" row="1"
                         (tap)="wyzerujPunkty()"></Button>
+                    <Button text="Generuj raport" class="click audiowide" col="1" row="2"
+                        (tap)="generujRaport()"></Button>
                 </GridLayout>
 
                 <GridLayout columns="auto,*" rows="40,40" class="element">

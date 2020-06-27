@@ -35,18 +35,23 @@ export class UiService {
         this.listaLadowania[index] = stan;
     }
 
-    showFeedback(typ: 'succes' | 'warning' | 'error', tresc: string, czas: number)
+    showFeedback(typ: 'succes' | 'warning' | 'error' | 'loading', tresc: string, czas: number)
     {
         this.feedback.show({
-            title: typ === 'succes'? 'Sukces!' : typ === 'warning'? 'Uwaga!' : 'Błąd!',
+            title: typ === 'succes'? 'Sukces!' : typ === 'warning'? 'Uwaga!' : typ === 'error' ? 'Błąd!' : 'Ładowanie...',
             message: tresc,
             titleFont: isIOS ? "Audiowide" : "Audiowide-Regular.ttf",
             messageFont: isIOS ? "Lexend Deca" : "LexendDeca-Regular.ttf",
             duration: czas*1000,
-            backgroundColor: typ === 'succes'?  new Color(255,49, 155, 49) : typ === 'warning'?  new Color(255, 255, 207, 51) :  new Color("#e71e25"),
-            type: typ === 'succes'? FeedbackType.Success : typ === 'warning'? FeedbackType.Warning : FeedbackType.Error,
+            backgroundColor: typ === 'succes'?  new Color(255,49, 155, 49) : typ === 'warning'?  new Color(255, 255, 207, 51) : typ === 'error' ?  new Color("#e71e25") : new Color('#4d9cf4'),
+            type: typ === 'succes'? FeedbackType.Success : typ === 'warning'? FeedbackType.Warning : typ === 'error'? FeedbackType.Error : null,
 
         });
+    }
+
+    hideFeedback()
+    {
+        this.feedback.hide()
     }
 
     pokazModalWyboru(context: string)

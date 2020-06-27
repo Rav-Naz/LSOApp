@@ -55,8 +55,8 @@ export class HttpService {
     }
     nadaj_wlasciwosci_urzadzenia(os: string, device_id: string)
     {
-        this.os = os
-        this.urzadzenie_id = device_id
+        this.os = os;
+        this.urzadzenie_id = device_id;
     }
 
     wyczysc()
@@ -74,29 +74,29 @@ export class HttpService {
             this.http.post(this.serverUrl + '/login',{ email: email, haslo: sha512.sha512.hmac('mSf', haslo), smart: this.smart, urzadzenie_id: this.urzadzenie_id, os: this.os } , { headers: this.headers }).subscribe(res => {
                 if(res === 'nieaktywne')
                 {
-                    resolve('nieaktywne')
+                    resolve('nieaktywne');
                 }
                 else if(res === 'brak')
                 {
-                    resolve('brak')
+                    resolve('brak');
                 }
                 else if(res === 'niepoprawne')
                 {
-                    resolve('niepoprawne')
+                    resolve('niepoprawne');
                 }
                 else if(res[0].hasOwnProperty('id_parafii'))
                 {
-                    this.JWT = res[1]
-                    this.nadajId_User(res[0].id_user)
-                    this.nadajId_Parafii(res[0].id_parafii)
-                    resolve(JSON.parse(JSON.stringify(res[0])))
+                    this.JWT = res[1];
+                    this.nadajId_User(res[0].id_user);
+                    this.nadajId_Parafii(res[0].id_parafii);
+                    resolve(JSON.parse(JSON.stringify(res[0])));
                 }
                 else
                 {
-                    resolve('blad')
+                    resolve('blad');
                 }
             }, err => {
-                resolve('blad')
+                resolve('blad');
             });
         });
     }
@@ -108,30 +108,30 @@ export class HttpService {
             this.http.post(this.serverUrl + '/activate', { email: email, kod_aktywacyjny: kod_aktywacyjny, haslo: sha512.sha512.hmac('mSf', haslo), smart: this.smart } , { headers: this.headers }).subscribe(res => {
                 if(res === 'nieistnieje')
                 {
-                    resolve('nieistnieje')
+                    resolve('nieistnieje');
                 }
                 else if(res === 'niepoprawny')
                 {
-                    resolve('niepoprawny')
+                    resolve('niepoprawny');
                 }
                 else if(res === 'niemakodu')
                 {
-                    resolve('niemakodu')
+                    resolve('niemakodu');
                 }
                 else if(res === 'wygaslo')
                 {
-                    resolve('wygaslo')
+                    resolve('wygaslo');
                 }
                 else if(res.hasOwnProperty('changedRows'))
                 {
-                    resolve(JSON.parse(JSON.stringify(res)))
+                    resolve(JSON.parse(JSON.stringify(res)));
                 }
                 else
                 {
-                    resolve('blad')
+                    resolve('blad');
                 }
             }, err => {
-                resolve('blad')
+                resolve('blad');
             }   );
         });
     }
@@ -152,7 +152,7 @@ export class HttpService {
                     }
                     else
                     {
-                        resolve(0)
+                        resolve(0);
                     }
                 }
                 else if (res === 'istnieje') {
@@ -165,7 +165,7 @@ export class HttpService {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -175,10 +175,10 @@ export class HttpService {
         return new Promise<number>(resolve => {
 
             this.http.post(this.serverUrl + '/remind', { email: email, smart: this.smart }, { headers: this.headers }).subscribe(res => {
-                let response = JSON.parse(JSON.stringify(res))
-                resolve(response.changedRows)
+                let response = JSON.parse(JSON.stringify(res));
+                resolve(response.changedRows);
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -191,14 +191,14 @@ export class HttpService {
             this.http.post(this.serverUrl + '/logout', {smart: this.smart, id_user: this.id_user, jwt: this.JWT} , { headers: this.headers }).subscribe(res => {
                 if(res === 'wylogowano')
                 {
-                    resolve(1)
+                    resolve(1);
                 }
                 else
                 {
-                    resolve(0)
+                    resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -208,9 +208,9 @@ export class HttpService {
         return new Promise<number>(resolve => {
 
             this.http.post(this.serverUrl + '/change_notifications', {smart: this.smart, id_user: this.id_user, powiadomienia: wartosc ? 1 : 0, jwt: this.JWT} , { headers: this.headers }).subscribe(res => {
-               resolve(1)
+               resolve(1);
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -226,20 +226,20 @@ export class HttpService {
                     resolve(1);
                 }
                 else if(res === "niepoprawne") {
-                    resolve(2)
+                    resolve(2);
                 }
                 else if(res === "nieistnieje") {
-                    resolve(3)
+                    resolve(3);
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -251,18 +251,18 @@ export class HttpService {
             this.http.post(this.serverUrl + '/parish',{ id_parafii: this.id_parafii,smart: this.smart, jwt: this.JWT } ,{ headers: this.headers }).subscribe(res => {
                 if(res.hasOwnProperty('id_parafii'))
                 {
-                    resolve(JSON.parse(JSON.stringify(res)))
+                    resolve(JSON.parse(JSON.stringify(res)));
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve('jwt')
+                    resolve('jwt');
                 }
                 else
                 {
-                    resolve('blad')
+                    resolve('blad');
                 }
             }, err => {
-                resolve('blad')
+                resolve('blad');
             });
         });
     }
@@ -277,13 +277,13 @@ export class HttpService {
                     }
                     else if(res === "You have not permission to get the data")
                     {
-                        resolve(404)
+                        resolve(404);
                     }
                     else {
                         resolve(0);
                     }
                 }, err => {
-                    resolve(0)
+                    resolve(0);
                 });
             });
         }
@@ -295,14 +295,14 @@ export class HttpService {
             this.http.post(this.serverUrl + '/ministranci', { id_parafii: this.id_parafii ,smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(null)
+                    resolve(null);
                 }
                 else
                 {
-                    resolve(JSON.parse(JSON.stringify(res)))
+                    resolve(JSON.parse(JSON.stringify(res)));
                 }
             }), err => {
-                resolve([])
+                resolve([]);
             };
         });
     }
@@ -317,7 +317,7 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else if (res.hasOwnProperty('code')) {
                     let code = JSON.parse(JSON.stringify(res));
@@ -329,7 +329,7 @@ export class HttpService {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -350,13 +350,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -371,13 +371,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -393,13 +393,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -411,11 +411,11 @@ export class HttpService {
             this.http.post(this.serverUrl + '/ministrant',{ id_user: id_user, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(JSON.parse(JSON.stringify([])))
+                    resolve(JSON.parse(JSON.stringify([])));
                 }
                 else
                 {
-                    resolve(JSON.parse(JSON.stringify(res)))
+                    resolve(JSON.parse(JSON.stringify(res)));
                 }
             });
         });
@@ -429,20 +429,20 @@ export class HttpService {
             this.http.post(this.serverUrl + '/user_ranking',{ id_user: this.id_user, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
-                    return
+                    resolve(404);
+                    return;
                 }
-                let mijesce = JSON.parse(JSON.stringify(res))
+                let mijesce = JSON.parse(JSON.stringify(res));
                 if(mijesce === null)
                 {
-                    resolve(0)
+                    resolve(0);
                 }
                 else
                 {
-                    resolve(mijesce)
+                    resolve(mijesce);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -458,13 +458,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -479,13 +479,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -504,13 +504,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -526,21 +526,21 @@ export class HttpService {
                 }
                 else if(res === 'jeden')
                 {
-                    resolve(2)
+                    resolve(2);
                 }
                 else if(res === 'niepoprawne')
                 {
-                    resolve(3)
+                    resolve(3);
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -552,10 +552,10 @@ export class HttpService {
             this.http.post(this.serverUrl + '/events',{ id_parafii: this.id_parafii, dzien: dzien,smart: this.smart , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(null)
-                    return
+                    resolve(null);
+                    return;
                 }
-                resolve(JSON.parse(JSON.stringify(res)))
+                resolve(JSON.parse(JSON.stringify(res)));
             });
         });
     }
@@ -567,10 +567,10 @@ export class HttpService {
             this.http.post(this.serverUrl + '/all_events',{ id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(JSON.parse(JSON.stringify(null)))
-                    return
+                    resolve(JSON.parse(JSON.stringify(null)));
+                    return;
                 }
-                resolve(JSON.parse(JSON.stringify(res)))
+                resolve(JSON.parse(JSON.stringify(res)));
             });
         });
     }
@@ -578,7 +578,7 @@ export class HttpService {
     //DODAWANIE WYDARZENIA
     async dodajNoweWydarzenie(dzien_tygodnia: number, godzina: string, typ: number, grupa: number, nazwa: string) {
 
-        let czas = new Date(godzina)
+        let czas = new Date(godzina);
 
         return new Promise<number>(resolve => {
 
@@ -595,13 +595,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -616,13 +616,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -630,7 +630,7 @@ export class HttpService {
     //AKTUALIZACJA WYDARZENIA
     async aktualizacjaWydarzenie(godzina: Date, id_wydarzenia: number, typ: number, grupa: number, nazwa: string) {
         return new Promise<number>(resolve => {
-            let czas = new Date(godzina)
+            let czas = new Date(godzina);
             this.http.post(this.serverUrl + '/edit_event', {godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), typ: typ, grupa: grupa, nazwa: nazwa,
                  id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === "zakonczono") {
@@ -638,13 +638,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -656,11 +656,11 @@ export class HttpService {
             this.http.post(this.serverUrl + '/user_duty',{ id_user: id_user, id_parafii: this.id_parafii , smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(JSON.parse(JSON.stringify(null)))
+                    resolve(JSON.parse(JSON.stringify(null)));
                 }
                 else
                 {
-                    resolve(JSON.parse(JSON.stringify(res)))
+                    resolve(JSON.parse(JSON.stringify(res)));
                 }
             });
         });
@@ -673,10 +673,10 @@ export class HttpService {
             this.http.post(this.serverUrl + '/event_duty',{ id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(JSON.parse(JSON.stringify(null)))
-                    return
+                    resolve(JSON.parse(JSON.stringify(null)));
+                    return;
                 }
-                resolve(JSON.parse(JSON.stringify(res)))
+                resolve(JSON.parse(JSON.stringify(res)));
             });
         });
     }
@@ -691,13 +691,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -712,13 +712,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -733,13 +733,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -747,11 +747,11 @@ export class HttpService {
     //POBIERANIE OBECNOSCI DO DANEGO WYDARZENIA
     async pobierzObecnosciDoWydarzenia(id_wydarzenia: number, data: Date) {
         return new Promise<Array<User>>(resolve => {
-            let date = data
-            date.setHours(2)
+            let date = data;
+            date.setHours(2);
 
             this.http.post(this.serverUrl + '/presence',{ id_wydarzenia: id_wydarzenia, data: date.toJSON(),id_parafii: this.id_parafii, smart: this.smart , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
-                resolve(JSON.parse(JSON.stringify(res)))
+                resolve(JSON.parse(JSON.stringify(res)));
             });
         });
     }
@@ -763,18 +763,18 @@ export class HttpService {
                  punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, id_user: obecnosc.id_user, typ: obecnosc.typ, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === 'brak')
                 {
-                    resolve(0)
+                    resolve(0);
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else
                 {
-                    resolve(1)
+                    resolve(1);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -785,9 +785,9 @@ export class HttpService {
 
             this.http.post(this.serverUrl + '/add_presence', { id_wydarzenia: obecnosc.id_wydarzenia, id_user: obecnosc.id_user,
                 data: obecnosc.data, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, typ: obecnosc.typ, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
-                resolve(1)
+                resolve(1);
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -799,9 +799,9 @@ export class HttpService {
             this.http.post(this.serverUrl + '/messages',{ id_parafii: this.id_parafii, do_opiekuna: do_opiekuna, smart: this.smart, limit: limit , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
-                    resolve(JSON.parse(JSON.stringify(null)))
+                    resolve(JSON.parse(JSON.stringify(null)));
                 }
-                resolve(JSON.parse(JSON.stringify(res)))
+                resolve(JSON.parse(JSON.stringify(res)));
             });
         });
     }
@@ -821,7 +821,7 @@ export class HttpService {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -836,13 +836,13 @@ export class HttpService {
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -853,17 +853,17 @@ export class HttpService {
 
             this.http.post(this.serverUrl + '/reset_points', {id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
-                    resolve(1)
+                    resolve(1);
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
@@ -875,19 +875,31 @@ export class HttpService {
             this.http.post(this.serverUrl + '/update_points', { punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     this.pobierzParafie().then(res => {
-                        resolve(res)
-                    })
+                        resolve(res);
+                    });
                 }
                 else if(res === "You have not permission to get the data")
                 {
-                    resolve(404)
+                    resolve(404);
                 }
                 else {
                     resolve(0);
                 }
             }, err => {
-                resolve(0)
+                resolve(0);
             });
         });
     }
+
+    //WYGENERUJ RAPORT
+    async generujRaport(type: number) {
+        return new Promise<string>(resolve => {
+            this.http.post(this.serverUrl + '/raport_pdf', {id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT, type: type}, { headers: this.headers }).subscribe(res => {
+                resolve(res.toString());
+            }, err => {
+                resolve('');
+            });
+        });
+    }
+
 }
