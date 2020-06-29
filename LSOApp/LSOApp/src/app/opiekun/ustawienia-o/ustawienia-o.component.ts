@@ -197,15 +197,14 @@ export class UstawieniaOComponent implements OnInit {
                                     let basePath = fileSystem.path.join(android.os.Environment.getExternalStoragePublicDirectory(
                                         android.os.Environment.DIRECTORY_DOWNLOADS).toString(),"Raporty LSOApp");
                                     var teraz = new Date()
-                                    let fileName = `${teraz.toISOString().slice(0,10)}-${teraz.toLocaleTimeString().slice(0,8)}.${wybor === 0 ? "pdf" : "txt"}`;
+                                    let fileName = `${teraz.toISOString().slice(0,10)}-${teraz.toLocaleTimeString().slice(0,8)}.${wybor === 0 ? "pdf" : "csv"}`;
                                     let tofile = fileSystem.Folder.fromPath(basePath).getFile(fileName);
                                     printedPath = basePath.split('/').slice(4).join("/") + "/"+ fileName;
                                     if(tofile)
                                     {
                                         switch (wybor) {
                                             case 0:
-                                                let data = android.util.Base64.decode(res, android.util.Base64.DEFAULT);
-                                                tofile.writeSync(data, err =>
+                                                tofile.writeSync(android.util.Base64.decode(res, android.util.Base64.DEFAULT), err =>
                                                     {
                                                         console.log("err :", err);
                                                     });
@@ -213,6 +212,7 @@ export class UstawieniaOComponent implements OnInit {
                                             break;
 
                                             case 1:
+                                                tofile.writeText(res).then(() => {resolve()})
                                                 break;
                                             }
                                     }
