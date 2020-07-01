@@ -42,10 +42,10 @@ export class WydarzeniaService {
         return this.wydarzeniaEdycja.asObservable();
     }
 
-    dzisiejszeWydarzenia(dzien: number) {//Wykorzystanie: wydarzeniaService (wydarzeniaWEdycji)
+    dzisiejszeWydarzenia(dzien: number, data_dokladna: string) {//Wykorzystanie: wydarzeniaService (wydarzeniaWEdycji)
         return new Promise<number>((resolve) => {
             this.aktywnyDzien = dzien;
-            this.http.pobierzWydarzeniaNaDanyDzien(dzien).then(res => {
+            this.http.pobierzWydarzeniaNaDanyDzien(dzien, data_dokladna === null ? null : data_dokladna.toString().slice(0,10)).then(res => {
                 if(res === null)
                 {
                     resolve(404)
@@ -141,7 +141,7 @@ export class WydarzeniaService {
     private async dodajWydarzenie(wydarzenie: Wydarzenie) //Wykorzystanie: wydarzeniaService(zapiszWydarzenia)
     {
         return new Promise<number>((resolve) => {
-            this.http.dodajNoweWydarzenie(wydarzenie.dzien_tygodnia, wydarzenie.godzina, wydarzenie.typ, wydarzenie.grupa, wydarzenie.nazwa).then(res => {
+            this.http.dodajNoweWydarzenie(wydarzenie.dzien_tygodnia, wydarzenie.godzina, wydarzenie.typ, wydarzenie.grupa, wydarzenie.nazwa, wydarzenie.data_dokladna).then(res => {
                 resolve(res)
             })
 
@@ -160,7 +160,7 @@ export class WydarzeniaService {
     wydarzeniaWEdycji(dzien_tygodnia: number) //Wykorzystanie: edytuj-msze, wydarzeniaService(zapiszWydarzenia)
     {
         return new Promise<number>((resolve) => {
-            this.http.pobierzWydarzeniaNaDanyDzien(dzien_tygodnia).then(res => {
+            this.http.pobierzWydarzeniaNaDanyDzien(dzien_tygodnia, null).then(res => {
                 if(res === null)
                 {
                     resolve(404)

@@ -546,10 +546,10 @@ export class HttpService {
     }
 
     //POBIERANIE WYDARZEŃ NA DANY DZIEŃ
-    async pobierzWydarzeniaNaDanyDzien(dzien: number) {
+    async pobierzWydarzeniaNaDanyDzien(dzien: number, data_dokladna: string) {
         return new Promise<Array<Wydarzenie>>(resolve => {
 
-            this.http.post(this.serverUrl + '/events',{ id_parafii: this.id_parafii, dzien: dzien,smart: this.smart , jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/events',{ id_parafii: this.id_parafii, dzien: dzien,smart: this.smart , jwt: this.JWT, data_dokladna: data_dokladna}, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
                     resolve(null);
@@ -576,14 +576,13 @@ export class HttpService {
     }
 
     //DODAWANIE WYDARZENIA
-    async dodajNoweWydarzenie(dzien_tygodnia: number, godzina: string, typ: number, grupa: number, nazwa: string) {
+    async dodajNoweWydarzenie(dzien_tygodnia: number, godzina: string, typ: number, grupa: number, nazwa: string, data_dokladna: string) {
 
         let czas = new Date(godzina);
 
         return new Promise<number>(resolve => {
-
             this.http.post(this.serverUrl + '/new_event', { id_parafii: this.id_parafii, dzien_tygodnia: dzien_tygodnia, typ: typ, grupa: grupa, nazwa: nazwa,
-                 godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                 godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), data_dokladna: data_dokladna , smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     resolve(1);
                 }
@@ -757,10 +756,13 @@ export class HttpService {
     }
 
     //AKTUALIZOWANIE ISTNIEJĄCEJ OBECNOŚCI
-    async updateObecnosci(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number) {
+    async updateObecnosci(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number, punkty_nabozenstwo: number,
+         punkty_dod_zbiorka: number, punkty_uj_zbiorka: number, typ_wydarzenia: number) {
         return new Promise<number>(resolve => {
             this.http.post(this.serverUrl + '/update_presence', { id_obecnosci: obecnosc.id, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba,
-                 punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, id_user: obecnosc.id_user, typ: obecnosc.typ, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, punkty_nabozenstwo: punkty_nabozenstwo, punkty_dod_zbiorka: punkty_dod_zbiorka,
+                punkty_uj_zbiorka: punkty_uj_zbiorka, id_user: obecnosc.id_user, typ_wydarzenia:typ_wydarzenia, typ: obecnosc.typ, id_parafii: this.id_parafii,
+                smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if(res === 'brak')
                 {
                     resolve(0);
@@ -780,11 +782,14 @@ export class HttpService {
     }
 
     //DODAWANIE NOWEJ OBECNOŚCI
-    async nowaObecnosc(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number) {
+    async nowaObecnosc(obecnosc: Obecnosc, punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number, punkty_nabozenstwo: number, punkty_dod_zbiorka: number, punkty_uj_zbiorka: number, typ_wydarzenia: number) {
         return new Promise<number>(resolve => {
 
             this.http.post(this.serverUrl + '/add_presence', { id_wydarzenia: obecnosc.id_wydarzenia, id_user: obecnosc.id_user,
-                data: obecnosc.data, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, typ: obecnosc.typ, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
+                data: obecnosc.data, status: obecnosc.status, punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba,
+                punkty_dodatkowe: punkty_dodatkowe, punkty_nabozenstwo: punkty_nabozenstwo, punkty_dod_zbiorka: punkty_dod_zbiorka,
+                punkty_uj_zbiorka: punkty_uj_zbiorka, typ: obecnosc.typ, typ_wydarzenia:typ_wydarzenia, id_parafii: this.id_parafii,
+                smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
                 resolve(1);
             }, err => {
                 resolve(0);
@@ -869,10 +874,9 @@ export class HttpService {
     }
 
     //AKTUALIZACJA PUNKTÓW
-    async aktualizacjaPunktow(punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number) {
+    async aktualizacjaPunktow(punkty_dod_sluzba: number, punkty_uj_sluzba: number, punkty_dodatkowe: number, punkty_nabozenstwo: number, punkty_dod_zbiorka: number, punkty_uj_zbiorka: number) {
         return new Promise<any>(resolve => {
-
-            this.http.post(this.serverUrl + '/update_points', { punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/update_points', { punkty_dod_sluzba: punkty_dod_sluzba, punkty_uj_sluzba: punkty_uj_sluzba, punkty_dodatkowe: punkty_dodatkowe, punkty_nabozenstwo: punkty_nabozenstwo, punkty_dod_zbiorka: punkty_dod_zbiorka, punkty_uj_zbiorka: punkty_uj_zbiorka, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res.hasOwnProperty('insertId')) {
                     this.pobierzParafie().then(res => {
                         resolve(res);
@@ -896,6 +900,17 @@ export class HttpService {
         return new Promise<string>(resolve => {
             this.http.post(this.serverUrl + '/raport_pdf', {id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT, type: type}, { headers: this.headers }).subscribe(res => {
                 resolve(res.toString());
+            }, err => {
+                resolve('');
+            });
+        });
+    }
+
+    //POBIERANIE SPECJALNYCH WYDARZEŃ
+    async pobierzSpecjalneWydarzenia() {
+        return new Promise<string>(resolve => {
+            this.http.post(this.serverUrl + '/special_events', {id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                resolve(JSON.stringify(res));
             }, err => {
                 resolve('');
             });

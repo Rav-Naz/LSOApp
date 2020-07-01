@@ -75,7 +75,7 @@ export class MinistranciComponent implements OnInit {
             }
         });
         setTimeout(() => {
-            
+
             this.ui.zmienStan(1,false)
 
         }, isIOS ? 1000 : 200)
@@ -147,7 +147,7 @@ export class MinistranciComponent implements OnInit {
                         this.ui.zmienStan(1,false)
                         return
                     }
-                    this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien)
+                    this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien, null)
                     setTimeout(() => {
                         this.ui.showFeedback('succes',"Usunięto ministranta " + ministrant.nazwisko + " " + ministrant.imie,3)
                     }, 400)

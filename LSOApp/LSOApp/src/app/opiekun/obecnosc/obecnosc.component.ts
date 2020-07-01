@@ -5,13 +5,14 @@ import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { User } from '~/app/serwisy/user.model';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { Subscription, from } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
 import { Obecnosc } from '~/app/serwisy/obecnosc.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { sortPolskich } from '~/app/shared/sortPolskich';
 import { Label } from 'tns-core-modules/ui/label';
+import { lista } from '~/app/serwisy/stopien.model';
 
 @Component({
     selector: 'ns-obecnosc',
@@ -32,7 +33,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     wszyscyMinistranci: Array<User> = [];
     wszyscyAktualniMinistranci: Array<User> = [];
     noweObecnosci: Array<Obecnosc>;
-    aktywneWydarzenie: Wydarzenie = { id: 0, id_parafii: 0,nazwa: "Msza Święta",typ: 0, cykl: 1,dzien_tygodnia: 0, godzina: "2018-11-15T21:27:00.000Z",data_dokladna: null,grupa: null};
+    aktywneWydarzenie: Wydarzenie = { id: 0, id_parafii: 0,nazwa: "Msza Święta",typ: 0,dzien_tygodnia: 0, godzina: "2018-11-15T21:27:00.000Z",data_dokladna: null,grupa: null};
     aktywnyDzien: Date;
     najblizszeWydarzenie: Wydarzenie;
     ministranciDoWydarzenia: Array<User>
@@ -44,6 +45,9 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     sprawdzane: boolean;
     pokazDodatkowa: boolean = false;
     ladowanieDodatkowych:boolean = false;
+    specjalne: string = null;
+    public lista = lista;
+
 
     opoznienie = false;
 
@@ -67,6 +71,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             this.PROLista = listaOutletow;
         })
 
+
         this.cofam = false;
 
         this.dzis = new Date();
@@ -76,6 +81,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
         this.page.actionBarHidden = true;
         this.aktywnyDzien = new Date();
+        this.aktywnyDzien.setHours(3)
 
         this.MinistranciSub = this.parafiaService.Ministranci.subscribe( lista => {
             this.wszyscyMinistranci = [];
@@ -84,7 +90,10 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
             }
         })
 
-        this.wydarzeniaService.dzisiejszeWydarzenia(this.aktywnyDzien.getDay())
+        this.parafiaService.pobierzSpecjalneWydarzenia().then(() => {
+            this.specjalne = this.parafiaService.przeszukajKalendarzSpecjalne(this.aktywnyDzien.toJSON().slice(0,10));
+            this.wydarzeniaService.dzisiejszeWydarzenia(this.specjalne !== null? 0 : this.aktywnyDzien.getDay(), this.aktywnyDzien.toJSON())
+        })
 
         this.WydarzeniaSub = this.wydarzeniaService.WydarzeniaObecnoscSub.subscribe(lista => {
             this.ui.zmienStan(0,true)
@@ -204,7 +213,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         if (wydarzenie) {
             let godzina = new Date(wydarzenie.godzina)
             godzina.setHours(godzina.getHours() + 1)
-            this.naglowek = godzina.toJSON().toString().slice(11, 16) + ', ' + DzienTyg[wydarzenie.dzien_tygodnia] + ' ';
+            this.naglowek = godzina.toJSON().toString().slice(11, 16) + ', ' + (this.specjalne ? "ŚWI" : DzienTyg[wydarzenie.dzien_tygodnia]) + ' ';
         }
         else {
             this.naglowek = DzienTyg[aktywnyDz.getDay()] + ' ';
@@ -250,6 +259,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
                         }
                         let dzien = new Date(this.aktywnyDzien.getFullYear(),this.aktywnyDzien.getMonth(), this.aktywnyDzien.getDate());
                         dzien.setDate(dzien.getDate() + liczba);
+                        dzien.setHours(3)
 
                         this.ladujDzien(dzien);
                     }
@@ -319,7 +329,7 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
     zapiszZmiany() {
         this.ui.zmienStan(0,true)
         this.ui.zmienStan(1,true)
-        this.parafiaService.zapiszObecnosci(this.noweObecnosci, this.sprawdzane).then(res => {
+        this.parafiaService.zapiszObecnosci(this.noweObecnosci, this.sprawdzane, this.aktywneWydarzenie.typ).then(res => {
             if(res === 404)
             {
                 this.ui.zmienStan(0,false)
@@ -380,8 +390,8 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         this.aktywnyDzien = dzien;
 
         this.ui.zmienStan(0,true)
-
-        await this.wydarzeniaService.dzisiejszeWydarzenia(this.aktywnyDzien.getDay()).then(res => {
+        this.specjalne = this.parafiaService.przeszukajKalendarzSpecjalne(this.aktywnyDzien.toJSON().slice(0,10));
+        await this.wydarzeniaService.dzisiejszeWydarzenia(this.specjalne !== null ? 0 : this.aktywnyDzien.getDay(), this.aktywnyDzien.toJSON()).then(res => {
             if(res === 404)
             {
                 this.header(this.aktywnyDzien)

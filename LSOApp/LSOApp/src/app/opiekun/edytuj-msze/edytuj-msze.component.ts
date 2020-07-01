@@ -6,7 +6,6 @@ import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Subscription } from 'rxjs';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import * as TimePicker from "nativescript-datetimepicker";
-import { Button } from "tns-core-modules/ui/button";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { ListViewEventData } from 'nativescript-ui-listview';
@@ -26,16 +25,16 @@ export class EdytujMszeComponent implements OnInit {
          private tabIndexService: TabindexService, public ui: UiService, private modal: ModalDialogService,
          private vcRef: ViewContainerRef) {}
 
-    DzienTygodnia = [0, 1, 2, 3, 4, 5, 6]
+    DzienTygodnia = [0, 1, 2, 3, 4, 5, 6];
     wybranyDzien: number;
     zmiana: boolean = false;
     wydarzeniaSub: Subscription;
     wydarzeniaDnia: Array<Wydarzenie>;
     stareWydarzeniaDnia: Array<Wydarzenie>;
-    aktualizujWydarzeniaDnia: Array<Wydarzenie>
+    aktualizujWydarzeniaDnia: Array<Wydarzenie>;
 
     ngOnInit() {
-        this.ui.zmienStan(3,true)
+        this.ui.zmienStan(3,true);
         this.page.actionBarHidden = true;
 
         this.wydarzeniaSub = this.wydarzeniaService.WydarzeniaEdycjaSub.subscribe((lista) => {
@@ -43,20 +42,20 @@ export class EdytujMszeComponent implements OnInit {
             this.stareWydarzeniaDnia = [];
             this.aktualizujWydarzeniaDnia = [];
 
-            this.ui.zmienStan(3,false)
+            this.ui.zmienStan(3,false);
 
-            if (lista === null || lista === undefined) return
-            if (lista.length === 0) return
+            if (lista === null || lista === undefined) return;
+            if (lista.length === 0) return;
                 lista.forEach(wydarzenie => {
-                    this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina, grupa: wydarzenie.grupa})
-                    this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, cykl: wydarzenie.cykl, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina, grupa: wydarzenie.grupa})
-                })
-                this.sortuj()
-        })
+                    this.wydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina, grupa: wydarzenie.grupa, data_dokladna: wydarzenie.data_dokladna});
+                    this.stareWydarzeniaDnia.push({ id: wydarzenie.id, id_parafii: wydarzenie.id_parafii, nazwa: wydarzenie.nazwa, typ: wydarzenie.typ, dzien_tygodnia: wydarzenie.dzien_tygodnia, godzina: wydarzenie.godzina, grupa: wydarzenie.grupa, data_dokladna: wydarzenie.data_dokladna});
+                });
+                this.sortuj();
+        });
     }
 
     async dodaj(args: EventData) {
-        let przed = [null,new Date(),null,false];
+        let przed = [null,new Date(),null,false,null,this.wybranyDzien];
         this.modal.showModal(SzczegolyWydarzeniaComponent,{
             context: przed,
             viewContainerRef:  this.vcRef,
@@ -70,14 +69,14 @@ export class EdytujMszeComponent implements OnInit {
             if(result !== undefined)
             {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === result[1].getHours() && new Date(wydarzenie.godzina).getMinutes() === result[1].getMinutes())[0] === undefined) {
-                        this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: result[0] === 0 ? "Msza codzienna" : result[0] === 1 ? "Nabożeństwo" : "Zbiórka",typ: result[0], cykl: 0, dzien_tygodnia:  this.wybranyDzien, godzina:  new Date(2018, 10, 15, result[1].getHours(), result[1].getMinutes()).toJSON(), grupa: result[2]});
+                        this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: result[0] === 0 ? "Msza Święta" : result[0] === 1 ? "Nabożeństwo" : "Zbiórka",typ: result[0], dzien_tygodnia: this.wybranyDzien, godzina:  new Date(2018, 10, 15, result[1].getHours(), result[1].getMinutes()).toJSON(), grupa: result[2], data_dokladna: result[3]});
                         this.zmiana = true;
                         setTimeout(() => {
-                            this.sortuj()
-                        },50)
+                            this.sortuj();
+                        },50);
                     }
                 else{
-                    this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3)
+                    this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3);
                 }
             }
         });
@@ -85,7 +84,7 @@ export class EdytujMszeComponent implements OnInit {
 
     async edytuj(args: EventData, wydarzenie: Wydarzenie, index: number)
     {
-        let przed = [wydarzenie.typ,new Date(wydarzenie.godzina),wydarzenie.grupa === undefined ? null : wydarzenie.grupa,true];
+        let przed = [wydarzenie.typ,new Date(wydarzenie.godzina),wydarzenie.grupa === undefined ? null : wydarzenie.grupa,true,wydarzenie.data_dokladna, this.wybranyDzien];
         this.modal.showModal(SzczegolyWydarzeniaComponent,{
             context: przed,
             viewContainerRef:  this.vcRef,
@@ -101,19 +100,21 @@ export class EdytujMszeComponent implements OnInit {
                 if (this.wydarzeniaDnia.filter(wydarzeniaaa => new Date(wydarzeniaaa.godzina).getHours() === result[1].getHours() && new Date(wydarzeniaaa.godzina).getMinutes() === result[1].getMinutes() && wydarzeniaaa.id !== this.wydarzeniaDnia[index].id)[0] === undefined) {
                     if(przed.toString() !== result.toString())
                     {
-                        this.czyAktualizowane(wydarzenie)
-                        this.wydarzeniaDnia[index].typ = result[0]
+                        this.czyAktualizowane(wydarzenie);
+                        this.wydarzeniaDnia[index].typ = result[0];
                         wydarzenie.typ = result[0];
-                        this.wydarzeniaDnia[index].godzina = result[1].toJSON()
-                        wydarzenie.godzina = result[1].toJSON()
-                        this.wydarzeniaDnia[index].grupa = result[2]
+                        this.wydarzeniaDnia[index].godzina = result[1].toJSON();
+                        wydarzenie.godzina = result[1].toJSON();
+                        this.wydarzeniaDnia[index].grupa = result[2];
                         wydarzenie.grupa = result[2];
-                        this.aktualizujWydarzeniaDnia.push(wydarzenie)
-                        this.zmiana = true
+                        this.wydarzeniaDnia[index].data_dokladna = result[3];
+                        wydarzenie.data_dokladna = result[3];
+                        this.aktualizujWydarzeniaDnia.push(wydarzenie);
+                        this.zmiana = true;
                     }
                 }
                 else {
-                    this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3)
+                    this.ui.showFeedback('warning',"Wydarzenie o takiej godzinie już istnieje",3);
                 }
             }
         });
@@ -121,11 +122,11 @@ export class EdytujMszeComponent implements OnInit {
 
     private czyAktualizowane( wydarzenie: Wydarzenie)
     {
-        let czyAktualizowane = this.aktualizujWydarzeniaDnia.filter(item => item.id === wydarzenie.id)[0]
+        let czyAktualizowane = this.aktualizujWydarzeniaDnia.filter(item => item.id === wydarzenie.id)[0];
         if(czyAktualizowane !== undefined)
         {
             let index = this.aktualizujWydarzeniaDnia.indexOf(czyAktualizowane);
-            this.aktualizujWydarzeniaDnia.splice(index, 1)
+            this.aktualizujWydarzeniaDnia.splice(index, 1);
         }
     }
 
@@ -147,7 +148,7 @@ export class EdytujMszeComponent implements OnInit {
     async usun(wydarzenie: Wydarzenie) {
         await this.czyKontynuowac(true, "Usunięcie wydarzenia spowoduje utratę przypisanych do niego dyżurów.\nCzy chcesz trwale usunąć wydarzenie z godziny " + new Date(wydarzenie.godzina).toString().slice(16, 21) + "?").then((kontynuowac) => {
             if (kontynuowac) {
-                this.czyAktualizowane(wydarzenie)
+                this.czyAktualizowane(wydarzenie);
                 let index = this.wydarzeniaDnia.indexOf(wydarzenie);
                 this.wydarzeniaDnia.splice(index, 1);
                 this.zmiana = true;
@@ -156,31 +157,31 @@ export class EdytujMszeComponent implements OnInit {
     }
 
     zapisz() {
-        this.zmiana = false
-        this.ui.zmienStan(3,true)
+        this.zmiana = false;
+        this.ui.zmienStan(3,true);
         this.wydarzeniaService.zapiszWydarzenia(this.stareWydarzeniaDnia, this.wydarzeniaDnia, this.aktualizujWydarzeniaDnia, this.wybranyDzien).then(res => {
             if (res === 1) {
-                this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien);
+                this.wydarzeniaService.dzisiejszeWydarzenia(this.wydarzeniaService.aktywnyDzien, null);
                 this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien).then(() => {
-                    this.ui.showFeedback('succes',"Zapisano wydarzenia",3)
-                })
+                    this.ui.showFeedback('succes',"Zapisano wydarzenia",3);
+                });
             }
             else if( res === 404)
             {
-                this.ui.sesjaWygasla()
+                this.ui.sesjaWygasla();
             }
             else {
                 this.zmiana = true;
-                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
+                this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3);
             }
-        })
+        });
     }
 
     private sortuj()
     {
         this.wydarzeniaDnia.sort((wyd1, wyd2) => {
-            let godzina1 = new Date(wyd1.godzina)
-            let godzina2 = new Date(wyd2.godzina)
+            let godzina1 = new Date(wyd1.godzina);
+            let godzina2 = new Date(wyd2.godzina);
             if ((godzina1 > godzina2)) { return 1; }
             if ((godzina1 < godzina2)) { return -1; }
             return 0;
@@ -202,12 +203,12 @@ export class EdytujMszeComponent implements OnInit {
             if (zmiana === true) {
                 this.ui.pokazModalWyboru(context).then((result) => {
                     resolve(result);
-                })
+                });
             }
             else {
-                resolve(true)
+                resolve(true);
             }
-        })
+        });
     }
 
     dzienTygodnia(dzien: number) {
@@ -216,7 +217,7 @@ export class EdytujMszeComponent implements OnInit {
 
     kolor(index: number)
     {
-        return index%2 === 0 ? new Color("#f0f0f0") :  new Color("white")
+        return index%2 === 0 ? new Color("#f0f0f0") :  new Color("white");
     }
 
     async zmienDzien(dzien: number) {
@@ -225,13 +226,13 @@ export class EdytujMszeComponent implements OnInit {
         }
         await this.czyKontynuowac(this.zmiana, "Zmienione wydarzenia nie zostaną zapisane.\nCzy chcesz kontynuować?").then((kontynuowac) => {
             if (kontynuowac) {
-                this.ui.zmienStan(3,true)
+                this.ui.zmienStan(3,true);
                 this.zmiana = false;
                 this.wybranyDzien = dzien;
                 this.wydarzeniaService.wydarzeniaWEdycji(this.wybranyDzien).then(res => {
                     if(res === 404)
                     {
-                        this.ui.sesjaWygasla()
+                        this.ui.sesjaWygasla();
                     }
                 });
             }

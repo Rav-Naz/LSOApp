@@ -39,3 +39,23 @@
     font-size: 15;
 }
 
+.check
+{
+    height: 25;
+    width: 25;
+    border-width: 1;
+    margin: 2;
+    border-color: rgb(160, 160, 160);
+    color: white;
+    font-size: 12;
+    text-decoration: none;
+    background: transparent;
+}
+
+.checked
+{
+    border-color: transparent;
+    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    color: white;
+}
+

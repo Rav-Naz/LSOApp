@@ -1,28 +1,37 @@
 <ModalStack height="100%">
-    <FlexboxLayout class="f center" flexDirection="column">
-        <Label text="Typ wydarzenia" class="stand audiowide" marginBottom="5"></Label>
-        <!-- Typ wydarzenia -->
-        <GridLayout [columns]="edycja ? '*' :'*,*'" [rows]="edycja ? '35' :'35,35'">
-            <FlexboxLayout class="text" col="0" row="0" (tap)="wybierz(0)" [ngClass]="{'szary': typ === 0}" *ngIf="!edycja || typ === 0">
-                <Label text="Msza Święta" class="lexend center" width="80%" height="100%" (loaded)="onLblLoaded($event)" marginBottom="2"></Label>
-                <Label class="typ2 red-grad"></Label>
+    <FlexboxLayout [height]="jednorazowe || typ === 2 ? '85%' : '60%'" class="f center">
+        <ScrollView class="wh100">
+            <FlexboxLayout class="center" flexDirection="column" width="95%">
+                <Label text="Typ wydarzenia" class="stand audiowide" marginBottom="5"></Label>
+                <!-- Typ wydarzenia -->
+                <GridLayout [columns]="edycja ? '*' :'*,*'" [rows]="edycja ? '35' :'35,35'">
+                    <FlexboxLayout class="text" col="0" row="0" (tap)="wybierz(0)" [ngClass]="{'szary': typ === 0}" *ngIf="!edycja || typ === 0">
+                        <Label text="Msza Święta" class="lexend center" width="80%" height="100%" (loaded)="onLblLoaded($event)" marginBottom="2"></Label>
+                        <Label class="typ2 red-grad"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout class="text" col="1" row="0" (tap)="wybierz(1)" [ngClass]="{'szary': typ === 1}" *ngIf="!edycja || typ === 1">
+                        <Label text="Nabożeństwo" class="lexend center" width="80%" height="100%" (loaded)="onLblLoaded($event)" marginBottom="2"></Label>
+                        <Label class="typ2 blue-grad"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout class="text" col="0" row="1" (tap)="wybierz(2)" [ngClass]="{'szary': typ === 2}" *ngIf="!edycja || typ === 2">
+                        <Label text="Zbiórka" class="lexend center" width="80%" height="100%" (loaded)="onLblLoaded($event)" marginBottom="2"></Label>
+                        <Label class="typ2 yellow-grad"></Label>
+                    </FlexboxLayout>
+                </GridLayout>
+                <!-- Godzina -->
+                <Label text="Godzina" class="stand audiowide" marginTop="5"></Label>
+                <TimePicker [time]="godzina" (timeChange)="onTimeChanged($event)" (loaded)="onPickerLoaded($event)" height="150" padding="0" margin="0"></TimePicker>
+                <!-- Jednorazowe -->
+                <FlexboxLayout flexDirection="row" justifyContent="space-between" alignItems="center" width="50%">
+                    <Label text="Jednorazowe" class="stand audiowide"></Label>
+                    <Button class="check b-p-10 icon" color="white" [text]="jednorazowe? '&#xe023;' : ''" [ngClass]="{checked: jednorazowe}" (tap)="zmienJednorazowe()" androidElevation="0"></Button>
+                </FlexboxLayout>
+                <ListPicker [items]="mozliwe_daty" width="75%" [selectedIndex]="dzien"  height="150" *ngIf="jednorazowe" (selectedIndexChange)="onDateChanged($event)" padding="0" margin="0"></ListPicker>
+                <!-- Grupa -->
+                <Label text="Grupa" class="stand audiowide" *ngIf="typ === 2" [marginTop]="jednorazowe ? '0' : '5'"></Label>
+                <ListPicker [items]="lista" [selectedIndex]="stopien" height="120" width="75%" *ngIf="typ === 2" (selectedIndexChange)="onSelectedIndexChanged($event)"></ListPicker>
+                <Button text="Zapisz" (tap)="zapisz()" col="1" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="typ !== null ? true : false" [ngClass]="{disabled: !(typ !== null ? true : false)}" height="35" width="30%"></Button>
             </FlexboxLayout>
-            <FlexboxLayout class="text" col="1" row="0" (tap)="wybierz(1)" [ngClass]="{'szary': typ === 1}" *ngIf="!edycja || typ === 1">
-                <Label text="Nabożeństwo" class="lexend center" width="80%" height="100%" (loaded)="onLblLoaded($event)" marginBottom="2"></Label>
-                <Label class="typ2 blue-grad"></Label>
-            </FlexboxLayout>
-            <FlexboxLayout class="text" col="0" row="1" (tap)="wybierz(2)" [ngClass]="{'szary': typ === 2}" *ngIf="!edycja || typ === 2">
-                <Label text="Zbiórka" class="lexend center" width="80%" height="100%" (loaded)="onLblLoaded($event)" marginBottom="2"></Label>
-                <Label class="typ2 yellow-grad"></Label>
-            </FlexboxLayout>
-        </GridLayout>
-        <!-- Godzina -->
-        <Label text="Godzina" class="stand audiowide" marginTop="5"></Label>
-        <TimePicker [time]="godzina" (timeChange)="onTimeChanged($event)" (loaded)="onPickerLoaded($event)" height="20%" padding="0" margin=0></TimePicker>
-        <!-- Grupa -->
-        <Label text="Grupa" class="stand audiowide" *ngIf="typ === 2"></Label>
-        <ListPicker [items]="lista" [selectedIndex]="stopien" height="18%" width="75%" *ngIf="typ === 2" (selectedIndexChange)="onSelectedIndexChanged($event)"></ListPicker>
-
-        <Button text="Zapisz" (tap)="zapisz()" col="1" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="typ !== null ? true : false" [ngClass]="{disabled: !(typ !== null ? true : false)}" height="35" width="30%"></Button>
+        </ScrollView>
     </FlexboxLayout>
 </ModalStack>

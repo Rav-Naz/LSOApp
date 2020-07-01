@@ -174,7 +174,7 @@ export class UstawieniaOComponent implements OnInit {
     generujRaport()
     {
         this.modal.showModal(WyborModalComponent, {
-            context: ["PDF","CSV"],
+            context: ["Plik PDF","Plik CSV"],
             viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,

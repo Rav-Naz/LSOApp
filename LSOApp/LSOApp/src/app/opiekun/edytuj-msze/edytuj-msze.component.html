@@ -25,7 +25,8 @@
                         <RadListView [items]="wydarzeniaDnia" separatorColor="grey" swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" *ngIf="!ui.ladowane[3]">
                             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
                             <ng-template tkListItemTemplate let-item="item" let-i="index">
-                                <FlexboxLayout (tap)="edytuj($event, item, i)" [backgroundColor]="kolor(i)" class="text" borderRadius="7%" justifyContent="center" >
+                                <FlexboxLayout (tap)="edytuj($event, item, i)" [backgroundColor]="kolor(i)" class="text" borderRadius="7%" justifyContent="center" alignItems="center">
+                                    <Label [text]="item.data_dokladna == null ? 'Cykliczne' : item.data_dokladna.toString().slice(0,10)" class="lexend cykl" ></Label>
                                     <Label [text]="item.godzina.toString() | godzina" class="lexend"></Label>
                                     <Label class="typ" [ngClass]="{'red-grad': item.typ === 0,'blue-grad': item.typ === 1,'yellow-grad': item.typ === 2}"></Label>
                                 </FlexboxLayout>

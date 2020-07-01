@@ -21,13 +21,19 @@ export class PunktacjaComponent implements OnInit {
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
         private tabIndexService: TabindexService, private http: HttpService, private ui: UiService) {}
 
-    pktZaObecnosc: number = 0;
-    pktZaNieobecnosc: number = 0;
+    pktZaObecnoscSluzba: number = 0;
+    pktZaNieobecnoscSluzba: number = 0;
     pktZaDodatkowa: number = 0;
+    pktZaObecnoscZbiorka: number = 0;
+    pktZaNieobecnoscZbiorka: number = 0;
+    pktZaNabozenstwo: number = 0;
 
-    poczObecnosc: number = 0;
-    poczNieobecnosc: number = 0;
+    poczObecnoscSluzba: number = 0;
+    poczNieobecnoscSluzba: number = 0;
     poczDodatkowa: number = 0;
+    poczObecnoscZbiorka: number = 0;
+    poczNieobecnoscZbiorka: number = 0;
+    poczNabozenstwo: number = 0;
 
     ngOnInit() {
         this.page.actionBarHidden = true;
@@ -38,13 +44,18 @@ export class PunktacjaComponent implements OnInit {
 
         let d = this.parafiaService.parafia.punkty_dodatkowe;
 
-        this.poczObecnosc = o.valueOf();
-        this.poczNieobecnosc = n.valueOf();
-        this.poczDodatkowa = d.valueOf();
+        let b = this.parafiaService.parafia.punkty_dod_zbiorka;
 
-        this.pktZaObecnosc = o.valueOf();
-        this.pktZaNieobecnosc = n.valueOf();
-        this.pktZaDodatkowa = d.valueOf();
+        let z = this.parafiaService.parafia.punkty_uj_zbiorka;
+
+        let c = this.parafiaService.parafia.punkty_nabozenstwo;
+
+        this.pktZaObecnoscSluzba = this.poczObecnoscSluzba = o ? o.valueOf() : 0;
+        this.pktZaNieobecnoscSluzba = this.poczNieobecnoscSluzba = n ? n.valueOf() : 0;
+        this.pktZaDodatkowa = this.poczDodatkowa = d ? d.valueOf() : 0;
+        this.pktZaObecnoscZbiorka = this.poczObecnoscZbiorka = b ? b.valueOf() : 0;
+        this.pktZaNieobecnoscZbiorka = this.poczNieobecnoscZbiorka = z ? z.valueOf() : 0;
+        this.pktZaNabozenstwo = this.poczNabozenstwo = c ? c.valueOf() : 0;
 
     }
 
@@ -54,7 +65,7 @@ export class PunktacjaComponent implements OnInit {
 
         this.zapisywanie = true;
 
-        this.http.aktualizacjaPunktow(this.pktZaObecnosc, this.pktZaNieobecnosc, this.pktZaDodatkowa).then(res => {
+        this.http.aktualizacjaPunktow(this.pktZaObecnoscSluzba, this.pktZaNieobecnoscSluzba, this.pktZaDodatkowa, this.pktZaNabozenstwo, this.pktZaObecnoscZbiorka, this.pktZaNieobecnoscZbiorka).then(res => {
             let daneParafii: Parafia = JSON.parse(JSON.stringify(res))
             if(daneParafii.id_parafii)
             {
@@ -110,6 +121,6 @@ export class PunktacjaComponent implements OnInit {
 
     get czyZmienione()
     {
-        return (this.pktZaNieobecnosc !== this.poczNieobecnosc) || (this.pktZaObecnosc !== this.poczObecnosc) || (this.pktZaDodatkowa !== this.poczDodatkowa)
+        return (this.pktZaNieobecnoscSluzba !== this.poczNieobecnoscSluzba) || (this.pktZaObecnoscSluzba !== this.poczObecnoscSluzba) || (this.pktZaDodatkowa !== this.poczDodatkowa) || (this.pktZaObecnoscZbiorka !== this.poczObecnoscZbiorka) || (this.pktZaNieobecnoscZbiorka !== this.poczNieobecnoscZbiorka) || (this.pktZaNabozenstwo !== this.poczNabozenstwo)
     }
 }

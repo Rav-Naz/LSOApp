@@ -100,7 +100,7 @@ export class MinistrantDyzuryComponent implements OnInit {
 
     wyborGodziny(dzien_tygodnia: number)
     {
-        let danegoDnia = this.wszystkieWydarzenia.filter(dzien => dzien.dzien_tygodnia === dzien_tygodnia);
+        let danegoDnia = this.wszystkieWydarzenia.filter(dzien => dzien.dzien_tygodnia === dzien_tygodnia && dzien.typ === 0);
         this.displayActionDialog(danegoDnia);
     }
 

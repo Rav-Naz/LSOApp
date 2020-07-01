@@ -15,17 +15,13 @@ export class ParafiaService {
 
     parafia: Parafia;
 
-    // punktyZaObecnosc: number = 1;
-    // punktyZaNieobecnosc: number = 0;
-
     wyslanyEmail;
     aktualnyMinistrantId: number; //Wykorzystanie: ministranci
     aktualneWydarzenieId: number; //Wykorzystanie: obecnosci
-    // indexDyzuru: number = 0;
-    // indexObecnosci: number = 0;
-    // indexMinistrantow: number = 0;
 
     zapisz: boolean = true;
+
+    kalendarzSpecjalne: Array<any>;
 
     constructor(private http: HttpService){}
 
@@ -121,6 +117,33 @@ export class ParafiaService {
                 }
             })
         })
+    }
+
+    async pobierzSpecjalneWydarzenia()
+    {
+        return new Promise<any>(resolve => {
+            this.http.pobierzSpecjalneWydarzenia().then(async res => {
+                if(res !== null)
+                {
+                    this.kalendarzSpecjalne = JSON.parse(res).map(val => {
+                        let date = new Date(val.data_dokladna);
+                        date.setHours(3)
+                        return {nazwa: val.nazwa, data_dokladna:date.toJSON().slice(0,10)}
+                    })
+                    resolve()
+                }
+                else
+                {
+                    resolve()
+                }
+            })
+        })
+    }
+
+    przeszukajKalendarzSpecjalne(dzien: string)
+    {
+        let szukane = this.kalendarzSpecjalne.filter(val => val.data_dokladna === dzien);
+        return szukane.length === 0 ? null : szukane[0].nazwa;
     }
 
     wyszukajDyzury(id_user: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
@@ -383,18 +406,20 @@ export class ParafiaService {
         return ob;
     }
 
-    async zapiszObecnosci(nowaLista: Array<Obecnosc>, czySprawdzanie: boolean) //Wykorzystanie: obecnosc
+    async zapiszObecnosci(nowaLista: Array<Obecnosc>, czySprawdzanie: boolean, typ_wydarzenia: number) //Wykorzystanie: obecnosc
     {
         return new Promise<number>((resolve) => {
 
                 nowaLista.forEach(element => {
                     if(element.id === 0)
                     {
-                        this.http.nowaObecnosc(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba, this.parafia.punkty_dodatkowe)
+                        this.http.nowaObecnosc(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba, this.parafia.punkty_dodatkowe,
+                            this.parafia.punkty_nabozenstwo,this.parafia.punkty_dod_zbiorka,this.parafia.punkty_uj_zbiorka, typ_wydarzenia)
                     }
                     else
                     {
-                        this.http.updateObecnosci(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba, this.parafia.punkty_dodatkowe)
+                        this.http.updateObecnosci(element,this.parafia.punkty_dod_sluzba,this.parafia.punkty_uj_sluzba, this.parafia.punkty_dodatkowe,
+                             this.parafia.punkty_nabozenstwo,this.parafia.punkty_dod_zbiorka,this.parafia.punkty_uj_zbiorka, typ_wydarzenia)
                     }
                 })
 

@@ -103,8 +103,16 @@
 }
 
 .typ {
-    transform: translateX(30);
+    transform: translateX(15);
     clip-path: circle(100% at 50% 50%);
     height: 15;
     width: 15;
+    margin-right: 14%;
+}
+
+.cykl {
+    font-size: 13;
+    color: rgb(39, 39, 39);
+    width: 35%;
+    text-align: center;
 }
