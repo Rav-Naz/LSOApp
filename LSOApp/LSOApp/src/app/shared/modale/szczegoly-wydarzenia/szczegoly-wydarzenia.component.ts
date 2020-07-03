@@ -40,7 +40,7 @@ export class SzczegolyWydarzeniaComponent implements OnInit {
     {
         this.typ = this.context[0];
         this.godzina = this.context[1];
-        this.stopien = this.context[2] !== undefined ? this.context[2] + 1 : null;
+        this.stopien = this.context[2] !== undefined ? (this.context[2] === 12 ? 12 : this.context[2] + 1): null;
         this.edycja = this.context[3];
         this.data_dokladna = this.context[4] !== null ? this.context[4] : null;
         this.jednorazowe = (this.data_dokladna !== null && this.data_dokladna !== undefined) ? true : false;
@@ -119,7 +119,7 @@ export class SzczegolyWydarzeniaComponent implements OnInit {
 
   zapisz()
   {
-    this.modal.closeCallback([this.typ,this.godzina,this.typ === 2 ? (this.stopien === null ? -1 : this.stopien - 1) : null,this.jednorazowe ? this.mozliwe_daty[this.dzien] : null]);
+    this.modal.closeCallback([this.typ,this.godzina,this.typ === 2 ? (this.stopien === null ? -1 :(this.stopien === 12 ? this.stopien : this.stopien - 1)) : null,this.jednorazowe ? this.mozliwe_daty[this.dzien] : null]);
   }
 
   zmienJednorazowe()

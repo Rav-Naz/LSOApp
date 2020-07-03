@@ -627,11 +627,11 @@ export class HttpService {
     }
 
     //AKTUALIZACJA WYDARZENIA
-    async aktualizacjaWydarzenie(godzina: Date, id_wydarzenia: number, typ: number, grupa: number, nazwa: string) {
+    async aktualizacjaWydarzenie(godzina: Date, id_wydarzenia: number, typ: number, grupa: number, nazwa: string, data_dokladna: string) {
         return new Promise<number>(resolve => {
             let czas = new Date(godzina);
             this.http.post(this.serverUrl + '/edit_event', {godzina: new Date(2018, 10, 15, czas.getHours()+1, czas.getMinutes()), typ: typ, grupa: grupa, nazwa: nazwa,
-                 id_wydarzenia: id_wydarzenia, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
+                 id_wydarzenia: id_wydarzenia, data_dokladna: data_dokladna , id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 if (res === "zakonczono") {
                     resolve(1);
                 }
@@ -649,10 +649,10 @@ export class HttpService {
     }
 
     //POBIERANIE DYŻURÓW DLA DANEGO MINISTRANTA
-    async pobierzDyzuryDlaMinistranta(id_user: number) {
+    async pobierzDyzuryDlaMinistranta(id_user: number, stopien: number) {
         return new Promise<Array<Wydarzenie>>(resolve => {
 
-            this.http.post(this.serverUrl + '/user_duty',{ id_user: id_user, id_parafii: this.id_parafii , smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/user_duty',{ id_user: id_user, stopien: stopien, id_parafii: this.id_parafii , smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
                 if(res === "You have not permission to get the data")
                 {
                     resolve(JSON.parse(JSON.stringify(null)));

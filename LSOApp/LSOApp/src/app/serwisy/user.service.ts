@@ -85,9 +85,9 @@ export class UserService {
     })
     }
 
-    async mojeDyzury(id_user: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
+    async mojeDyzury(id_user: number, stopien: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
         return new Promise<number>(resolve => {
-            this.http.pobierzDyzuryDlaMinistranta(id_user).then(res => {
+            this.http.pobierzDyzuryDlaMinistranta(id_user,stopien).then(res => {
                 if(res === null)
                 {
                     resolve(404)

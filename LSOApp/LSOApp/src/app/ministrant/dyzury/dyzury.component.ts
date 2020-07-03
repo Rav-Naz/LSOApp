@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page, EventData, isAndroid } from 'tns-core-modules/ui/page/page';
 import { UserService } from '~/app/serwisy/user.service';
 import { User } from '~/app/serwisy/user.model';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { UiService } from '~/app/serwisy/ui.service';
 import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 import { HttpService } from '~/app/serwisy/http.service';
+import { Label } from 'tns-core-modules/ui/label';
 
 @Component({
     selector: 'ns-dyzury',
@@ -20,21 +21,22 @@ export class DyzuryComponent implements OnInit {
     user: User;
     userSub: Subscription;
     dzis: number = 0;
-    stareDyzury: Array<Wydarzenie> = []; // zapisywane w pamięci urządzenia
+    teraz: Date;
     dyzury: Array<Wydarzenie> = [];
     dyzurySub: Subscription;
     powiadomieniaSub: Subscription;
-    rowDzis = [0, 2, 4, 6, 8, 10, 12]
-    rowPasy = [1, 3, 5, 7, 9, 11]
     ladowanie: boolean = false;
-    dni = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota']
+    dni = ['NIE','PON','WTO','ŚR','CZW','PIA','SOB'];
+    rzedy: Array<number> = [0,1,2,3,6,7,8];
+    wydarzeniaWgDni: Array<Array<Wydarzenie>> = [[],[],[],[],[],[],[]];
+    aktualneWydarzenie: Wydarzenie = null;
+    pozniejszeWydarzenia: Array<Wydarzenie> = [];
 
     constructor(private page: Page, private userService: UserService, public ui: UiService, public http: HttpService)
     {}
 
     ngOnInit() {
         this.ui.zmienStan(0,true);
-        this.dzis = this.rowDzis[new Date().getDay()];
         this.page.actionBarHidden = true;
 
         this.userSub = this.userService.UserSub.subscribe(user => {
@@ -43,20 +45,21 @@ export class DyzuryComponent implements OnInit {
 
         let secureStorage = new SecureStorage;
         secureStorage.clearAllOnFirstRun();
-        this.stareDyzury = [];
-
-        this.userService.mojeDyzury(this.user.id_user).then(res => {
+        this.userService.mojeDyzury(this.user.id_user, this.user.stopien).then(res => {
             if(res === 404)
             {
-                this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2)
+                this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2);
             }
             setTimeout(() => {
 
                 this.ui.zmienStan(0,false);
-            },500)
+            },500);
         });
 
         this.dyzurySub = this.userService.UserDyzurySub.subscribe(dyzury => {
+
+            this.teraz = new Date();
+            this.teraz.setHours(3);
 
             if (dyzury !== undefined && dyzury !== null) {
 
@@ -64,13 +67,45 @@ export class DyzuryComponent implements OnInit {
                     return;
                 }
 
-                this.dyzury = dyzury
+                this.dyzury = dyzury;
+
+                for (let index = 0; index < this.wydarzeniaWgDni.length; index++) {
+
+                    let przedzialPoczatek =  new Date();
+                    let przedzialKoniec = new Date();
+                    przedzialPoczatek.setFullYear(2018,10,15);
+                    przedzialKoniec.setFullYear(2018,10,15);
+                    przedzialPoczatek.setMinutes(przedzialPoczatek.getMinutes() - 45);
+                    przedzialKoniec.setMinutes(przedzialKoniec.getMinutes() + 45);
+
+                    let dzisiejsze = this.dyzury.filter(dyzur => dyzur.dzien_tygodnia === index);
+
+                    dzisiejsze.sort((wyd1, wyd2) => {
+                        if (wyd1.godzina > wyd2.godzina) { return 1; }
+                        if (wyd1.godzina < wyd2.godzina) { return -1; }
+                        return 0;
+                    });
+
+                    if(index === this.teraz.getDay())
+                    {
+                        let pozniejsze = dzisiejsze.filter(dyzur => new Date(dyzur.godzina) >= przedzialPoczatek);
+                        if(pozniejsze.length > 0)
+                        {
+                            dzisiejsze = dzisiejsze.slice(0,dzisiejsze.indexOf(pozniejsze[0]))
+                            this.aktualneWydarzenie = new Date(pozniejsze[0].godzina) <= przedzialKoniec ? pozniejsze.shift() : null
+                        }
+                        this.pozniejszeWydarzenia = pozniejsze.slice(0,3);
+                    }
+
+                    this.wydarzeniaWgDni[index] = dzisiejsze.slice(0,3);
+                }
             }
-        })
+        });
+
     }
 
-    GodzinaDyzuruNaDanyDzien(dzien: Wydarzenie) {
-        return new Date(dzien.godzina).toString().slice(16,21)
+    GodzinaDyzuruNaDanyDzien(godzina: string) {
+        return new Date(godzina).toString().slice(16,21);
     }
 
     onSwipe(args: SwipeGestureEventData)
@@ -80,17 +115,40 @@ export class DyzuryComponent implements OnInit {
             this.ladowanie = true;
             this.http.pobierzMinistranta(this.user.id_user).then(res => {
                 this.userService.zmienUsera(res);
-            })
-            this.userService.mojeDyzury(this.user.id_user).then(res => {
+            });
+            this.userService.mojeDyzury(this.user.id_user, this.user.stopien).then(res => {
                 if(res === 404)
                 {
-                    this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2)
+                    this.ui.showFeedback('warning','Twoja sesja wygasła. Zaloguj się ponownie aby móc kontynuować',2);
                 }
                 setTimeout(() => {
                     this.ladowanie = false;
                     this.ui.zmienStan(0,false);
-                },500)
+                },500);
             });
         }
+    }
+
+    ktoryRzad(index: number)
+    {
+        return (index+(10-this.teraz.getDay())%7)%7;
+    }
+
+    onLabelLoaded(args: EventData)
+    {
+        const lbl = args.object as Label;
+        if(isAndroid)
+        {
+            lbl.android.setGravity(17);
+        }
+    }
+    opacity(index: number)
+    {
+        return 3/(Math.pow(Math.abs(3-this.ktoryRzad(index)),2.75)+3);
+    }
+
+    wydarzeniaNaDanyDzien(dzien: number)
+    {
+        return this.wydarzeniaWgDni[dzien];
     }
 }

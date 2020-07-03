@@ -148,7 +148,7 @@ export class ParafiaService {
 
     wyszukajDyzury(id_user: number) { //Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
         return new Promise<number>(resolve => {
-            this.http.pobierzDyzuryDlaMinistranta(id_user).then(res => {
+            this.http.pobierzDyzuryDlaMinistranta(id_user, null).then(res => {
                 if(res === null)
                 {
                     resolve(404)
@@ -177,6 +177,7 @@ export class ParafiaService {
             else
             {
                 this.dyzuryWydarzenia.next(this.ministranciLista);
+                resolve(1)
             }
         })
     }
@@ -230,8 +231,8 @@ export class ParafiaService {
                     }
                     if(this.aktualneWydarzenieId !== null)
                     {
-                        this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(res => {
-                            resolve(res)
+                        this.dyzurDoWydarzenia(this.aktualneWydarzenieId, 0).then(res2 => {
+                            resolve(res2)
                         })
                     }
                 })
@@ -240,7 +241,6 @@ export class ParafiaService {
     }
 
     private usunDyzur(id_wydarzenia: number, id_user: number) { //Wykorzystanie: parafiaService(zapiszDyzury)
-
         return new Promise<number>((resolve) => {
             this.http.usunDyzur(id_user, id_wydarzenia).then(res => {
                 resolve(res)
@@ -279,7 +279,7 @@ export class ParafiaService {
                 }
                 if(this.aktualneWydarzenieId !== null)
                 {
-                    this.dyzurDoWydarzenia(this.aktualneWydarzenieId).then(ress => {
+                    this.dyzurDoWydarzenia(this.aktualneWydarzenieId, 0).then(ress => {
                         resolve(1)
                     })
                 }

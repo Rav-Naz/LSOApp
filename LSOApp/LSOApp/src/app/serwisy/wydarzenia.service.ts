@@ -120,7 +120,7 @@ export class WydarzeniaService {
                     let i = 0;
                     edytowanaLista.forEach(async edit => {
                         i++
-                        this.http.aktualizacjaWydarzenie(new Date(edit.godzina), edit.id, edit.typ, edit.grupa, edit.nazwa).then(res => {
+                        this.http.aktualizacjaWydarzenie(new Date(edit.godzina), edit.id, edit.typ, edit.grupa, edit.nazwa, edit.data_dokladna).then(res => {
                             if (res === 0 || res === 404) {
                                 resolve(404)
                             }

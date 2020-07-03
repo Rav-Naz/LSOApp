@@ -45,8 +45,7 @@
 
 .dzien
 {
-    letter-spacing: 0.1;
-    margin-right: 15;
+    letter-spacing: 0.2;
     text-align: right;
     width: 100%;
     color: white;
@@ -60,4 +59,24 @@
     color: white;
     font-size: 15;
     font-weight: 700;
+}
+
+.pas
+{
+    background: linear-gradient(180deg, rgba(255,255,255,0) 2%, rgba(80,80,80,0.5) 25%, rgba(220,220,220,1) 50%, rgba(80,80,80,0.5) 75%, rgba(255,255,255,0) 98%);
+    width: 3;
+    height: 100%;
+    margin-left: auto;
+}
+
+.trojkat
+{
+    clip-path: polygon(50% 50%, 0 25%, 0 75%);
+    background-color: rgba(220,220,220,1);
+}
+
+.typ {
+    clip-path: circle(100% at 50% 50%);
+    height: 15;
+    width: 15;
 }
