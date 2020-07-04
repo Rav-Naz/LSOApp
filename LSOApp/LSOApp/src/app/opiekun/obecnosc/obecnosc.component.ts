@@ -474,6 +474,37 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
         }
     }
 
+    get nazwaWydarzenia()
+    {
+        let nazwa = "";
+        if(this.specjalne !== null)
+        {
+            nazwa = this.specjalne
+        }
+        else
+        {
+            switch (this.aktywneWydarzenie.typ) {
+                case 0 || 1:
+                    nazwa = this.aktywneWydarzenie.nazwa
+                    break;
+                case 2:
+                    if(this.aktywneWydarzenie.grupa === -1)
+                    {
+                        nazwa = "Zbiórka / Wszyscy"
+                    }
+                    else
+                    {
+                        nazwa = "Zbiórka / " + lista[this.aktywneWydarzenie.grupa === 12 ? 11 : this.aktywneWydarzenie.grupa]
+                    }
+                    break;
+                default:
+                    nazwa = this.aktywneWydarzenie.nazwa
+                    break;
+            }
+        }
+        return nazwa
+    }
+
     nic() {
 
     }

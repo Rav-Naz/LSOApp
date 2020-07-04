@@ -28,7 +28,7 @@
             <ScrollView *ngIf="!ui.ladowane[0] && dzisiejszeWydarzenia.length > 0 && opoznienie" height="77%">
                 <StackLayout width="100%">
                     <FlexboxLayout justifyContent="center">
-                        <Label [text]="specjalne === null ? (aktywneWydarzenie.typ === 2 ? aktywneWydarzenie.nazwa + ' / '+ lista[aktywneWydarzenie.grupa] : aktywneWydarzenie.nazwa) : specjalne" color="white" class="audiowide" textAlignment="center"></Label>
+                        <Label [text]="nazwaWydarzenia" color="white" class="audiowide" textAlignment="center"></Label>
                         <Label class="typ2" marginLeft="5" [ngClass]="{'red-grad': aktywneWydarzenie.typ === 0,'blue-grad': aktywneWydarzenie.typ === 1,'yellow-grad': aktywneWydarzenie.typ === 2}"></Label>
                     </FlexboxLayout>
                     <Label text="Brak obowiązkowych dyżurów, aby je dodać przejdź do panelu ministranta" *ngIf="ministranciDoWydarzenia.length === 0 && dzisiejszeWydarzenia.length !== 0 && !ui.ladowane[0] && aktywneWydarzenie.typ !== 1" class="brak lexend" width="90%"></Label>

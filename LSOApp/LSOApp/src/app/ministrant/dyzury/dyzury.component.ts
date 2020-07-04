@@ -144,7 +144,7 @@ export class DyzuryComponent implements OnInit {
     }
     opacity(index: number)
     {
-        return 3/(Math.pow(Math.abs(3-this.ktoryRzad(index)),2.75)+3);
+        return 3/(Math.pow(Math.abs(3-this.ktoryRzad(index)),2.5)+3);
     }
 
     wydarzeniaNaDanyDzien(dzien: number)

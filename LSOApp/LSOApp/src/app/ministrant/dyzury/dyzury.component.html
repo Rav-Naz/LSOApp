@@ -1,11 +1,11 @@
 <FlexboxLayout class="back center wh100">
     <StackLayout class="wh100" (swipe)="onSwipe($event)">
         <FlexboxLayout class="center" marginBottom="5">
-            <Label [text]="'Cześć ' + user.imie + '!'" class="czesc lexend"></Label>
-            <Label [text]="ui.ladowane[0] ? 'Ładowanie dyżurów...' : 'Twoje dyżury:' " class="text lexend"></Label>
+            <Label [text]="'Cześć ' + user.imie + '!'" class="lexend" fontSize="20" color="white"></Label>
+            <Label [text]="ui.ladowane[0] ? 'Ładowanie dyżurów...' : 'Twoje dyżury:' " class="text lexend" color="#646464" fontSize="15"></Label>
         </FlexboxLayout>
         <FlexboxLayout class="wh100 center">
-            <GridLayout rows="3*,3*,3*,2*,30,2*,3*,3*,3*" columns="2*,25,5*" class="grid" *ngIf="!ui.ladowane[0]" width="95%">
+            <GridLayout rows="3*,3*,3*,2*,30,2*,3*,3*,3*" columns="2*,25,5*" margin="20" *ngIf="!ui.ladowane[0]" width="95%">
 
                 <FlexboxLayout row="0" col="1" rowSpan="9">
                     <Label class="pas"></Label>
@@ -13,9 +13,11 @@
 
                 <Label class="trojkat" row="4" col="1"></Label>
 
-                <Label *ngFor="let dzien of dni, let i = index" [text]="dzien" col="0" [row]="rzedy[ktoryRzad(i)]" [rowSpan]="ktoryRzad(i) === 3 ? '3' : '1'" class="dzien audiowide" (loaded)="onLabelLoaded($event)" [opacity]="opacity(i)"></Label>
+                <Label *ngFor="let dzien of dni, let i = index" [text]="dzien" col="0" [row]="rzedy[ktoryRzad(i)]"
+                [rowSpan]="ktoryRzad(i) === 3 ? '3' : '1'" class="dzien audiowide" (loaded)="onLabelLoaded($event)" [opacity]="opacity(i)"></Label>
 
-                <FlexboxLayout *ngFor="let row of rzedy, let i = index" justifyContent="center" flexDirection="column" [row]="rzedy[ktoryRzad(i)]" padding="3" col="2" width="65%" height="100%" [opacity]="opacity(i)">
+                <FlexboxLayout *ngFor="let row of rzedy, let i = index" justifyContent="center" flexDirection="column" [row]="rzedy[ktoryRzad(i)]"
+                 padding="3" col="2" width="65%" height="100%" [opacity]="opacity(i)">
                     <FlexboxLayout flexDirection="row" justifyContent="space-between" *ngFor="let wydarzenie of wydarzeniaNaDanyDzien(i)" color="white" class="lexend">
                         <Label class="typ" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
                         <Label [text]="wydarzenie.nazwa"></Label>
@@ -23,7 +25,8 @@
                     </FlexboxLayout>
                 </FlexboxLayout>
 
-                <FlexboxLayout flexDirection="row" justifyContent="space-between" color="white" class="lexend" *ngIf="aktualneWydarzenie !== null" padding="3" row="4" col="2" width="65%" height="100%">
+                <FlexboxLayout flexDirection="row" justifyContent="space-between" color="white" class="lexend" *ngIf="aktualneWydarzenie !== null"
+                padding="3" row="4" col="2" width="65%" height="100%">
                     <Label class="typ" [ngClass]="{'red-grad': aktualneWydarzenie.typ === 0,'blue-grad': aktualneWydarzenie.typ === 1,'yellow-grad': aktualneWydarzenie.typ === 2}"></Label>
                     <Label [text]="aktualneWydarzenie.nazwa" fontSize="15" fontWeight="bold"></Label>
                     <Label [text]="GodzinaDyzuruNaDanyDzien(aktualneWydarzenie.godzina)" fontSize="16" fontWeight="bold" class="lexend"></Label>
@@ -36,8 +39,6 @@
                         <Label [text]="GodzinaDyzuruNaDanyDzien(wydarzenie.godzina)" fontSize="15" class="lexend"></Label>
                     </FlexboxLayout>
                 </FlexboxLayout>
-                <!-- <Label *ngFor="let row of dyzury" [text]="GodzinaDyzuruNaDanyDzien(row)" [row]="row.dzien_tygodnia*2"
-                        class="godzina lexend wh100" col="2"></Label> -->
 
             </GridLayout>
             <ActivityIndicator [busy]="true" *ngIf="ui.ladowane[0]"></ActivityIndicator>
