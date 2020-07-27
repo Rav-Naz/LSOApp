@@ -19,7 +19,7 @@
                 <FlexboxLayout *ngFor="let row of rzedy, let i = index" justifyContent="center" flexDirection="column" [row]="rzedy[ktoryRzad(i)]"
                  padding="3" col="2" width="65%" height="100%" [opacity]="opacity(i)">
                     <FlexboxLayout flexDirection="row" justifyContent="space-between" *ngFor="let wydarzenie of wydarzeniaNaDanyDzien(i)" color="white" class="lexend">
-                        <Label class="typ" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
+                        <Label [text]="wydarzenie.status === 0 ? '&#xe08c;': wydarzenie.status === 1 ? '&#xe023;' : ''" class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
                         <Label [text]="wydarzenie.nazwa"></Label>
                         <Label [text]="GodzinaDyzuruNaDanyDzien(wydarzenie.godzina)" fontSize="15" class="lexend"></Label>
                     </FlexboxLayout>

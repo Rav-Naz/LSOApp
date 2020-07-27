@@ -10,4 +10,5 @@ export class Wydarzenie {
     godzina: string;
     data_dokladna?: string;
     grupa: number;
+    status?: number
 }
