@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Page, EventData, isAndroid } from 'tns-core-modules/ui/page/page';
+import { Page, EventData, isAndroid, LinearGradient, isIOS } from 'tns-core-modules/ui/page/page';
 import { UserService } from '~/app/serwisy/user.service';
 import { User } from '~/app/serwisy/user.model';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
@@ -134,14 +134,22 @@ export class DyzuryComponent implements OnInit {
         return (index+(10-this.teraz.getDay())%7)%7;
     }
 
-    onLabelLoaded(args: EventData)
+    onLabelLoaded(args: EventData, typ: number)
     {
         const lbl = args.object as Label;
+
         if(isAndroid)
         {
             lbl.android.setGravity(17);
         }
     }
+
+    get marginRight()
+    {
+        if(isAndroid) return 0;
+        return 30;
+    }
+
     opacity(index: number)
     {
         return 3/(Math.pow(Math.abs(3-this.ktoryRzad(index)),2.5)+3);
