@@ -173,102 +173,21 @@ export class UstawieniaOComponent implements OnInit {
 
     generujRaport()
     {
-        this.modal.showModal(WyborModalComponent, {
-            context: ["Plik PDF","Plik CSV"],
-            viewContainerRef: this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated: false,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-        } as ExtendedShowModalOptions).then((wybor) => {
-            if (wybor !== undefined) {
-
-                let printedPath = "";
-                new Promise((resolve, reject) => {
-                    this.ui.showFeedback('loading',"Trwa przygotowywanie raportu",10);
-                    this.http.generujRaport(wybor).then(res => {
-                        if(res !== '')
-                        {
-                            if(isAndroid)
-                            {
-                                permission.requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE).then(() => {
-                                    let basePath = fileSystem.path.join(android.os.Environment.getExternalStoragePublicDirectory(
-                                        android.os.Environment.DIRECTORY_DOWNLOADS).toString(),"Raporty LSOApp");
-                                    var teraz = new Date()
-                                    let fileName = `${teraz.toISOString().slice(0,10)}-${teraz.toLocaleTimeString().slice(0,8)}.${wybor === 0 ? "pdf" : "csv"}`;
-                                    let tofile = fileSystem.Folder.fromPath(basePath).getFile(fileName);
-                                    printedPath = basePath.split('/').slice(4).join("/") + "/"+ fileName;
-                                    if(tofile)
-                                    {
-                                        switch (wybor) {
-                                            case 0:
-                                                tofile.writeSync(android.util.Base64.decode(res, android.util.Base64.DEFAULT), err =>
-                                                    {
-                                                        console.log("err :", err);
-                                                    });
-                                                resolve()
-                                            break;
-
-                                            case 1:
-                                                tofile.writeText(res).then(() => {resolve()})
-                                                break;
-                                            }
-                                    }
-                                }).catch(() => {
-                                    setTimeout(() => {
-                                        this.ui.zmienStan(2, false)
-                                        this.ui.showFeedback('error',"Bez Twojej zgody nie możemy nic zrobić :(",3)
-                                    }, 200)
-                                })
-                            }
-                            else if(isIOS)
-                            {
-
-                            }
-                        }
-                        else
-                        {
-                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3);
-                        }
-                    });
-
-                    }).then(() => {
-                        this.ui.showFeedback("succes", `Raport został zapisany w: ${printedPath}`,6)
-                    })
-            }
-        });
-    }
-
-    saveToAlbum(imageSource, format, quality, callBack) {
-        if (isIOS) {
-            var res = false;
-            if (!imageSource) {
-                return res;
-            }
-            var result = true;
-            var CompletionTarget = NSObject.extend({
-                "thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:": function(
-                    image, error, context) {
-                    if (error) {
-                        result = false;
-                    }
+        new Promise((resolve, reject) => {
+            this.ui.showFeedback('loading',"Trwa przygotowywanie raportu",10);
+            this.http.generujRaport(this.userService.UserEmail).then(res => {
+                if(res === 'Wysłano')
+                {
+                    resolve()
                 }
-            }, {
-                exposedMethods: {
-                    "thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:": {
-                        returns: interop.types.void,
-                        params: [UIImage, NSError, interop.Pointer]
-                    }
+                else
+                {
+                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3);
                 }
             });
-            var completionTarget = CompletionTarget.new();
-            UIImageWriteToSavedPhotosAlbum(imageSource.ios, completionTarget,
-                "thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:",
-                null);
-                if (callBack) callBack();
-            return result;
-        }
-    };
+
+            }).then(() => {
+                this.ui.showFeedback("succes", `Raport został wysłany na Twój adres email`,6)
+            })
+    }
 }

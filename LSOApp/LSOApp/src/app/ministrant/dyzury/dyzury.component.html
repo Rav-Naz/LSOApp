@@ -20,7 +20,7 @@
                  padding="3" col="2" width="65%" height="100%" [opacity]="opacity(i)">
                     <FlexboxLayout flexDirection="row" justifyContent="space-between" *ngFor="let wydarzenie of wydarzeniaNaDanyDzien(i)" color="white" class="lexend">
                         <GridLayout class="typ">
-                            <Label class="icon" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
+                            <Label class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
                             <Label [text]="wydarzenie.status === 0 ? '&#xe08c;': wydarzenie.status === 1 ? '&#xe023;' : ''" class="icon" (loaded)="onLabelLoaded($event)"></Label>
                         </GridLayout>
                         <Label [text]="wydarzenie.nazwa" fontSize="15"></Label>
@@ -31,7 +31,7 @@
                 <FlexboxLayout flexDirection="row" justifyContent="space-between" color="white" class="lexend" *ngIf="aktualneWydarzenie !== null"
                 padding="3" row="4" col="2" width="65%" height="100%">
                 <GridLayout class="typ">
-                    <Label class="icon" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': aktualneWydarzenie.typ === 0,'blue-grad': aktualneWydarzenie.typ === 1,'yellow-grad': aktualneWydarzenie.typ === 2}"></Label>
+                    <Label class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': aktualneWydarzenie.typ === 0,'blue-grad': aktualneWydarzenie.typ === 1,'yellow-grad': aktualneWydarzenie.typ === 2}"></Label>
                     <Label [text]="aktualneWydarzenie.status === 0 ? '&#xe08c;': aktualneWydarzenie.status === 1 ? '&#xe023;' : ''" class="icon" (loaded)="onLabelLoaded($event)"></Label>
                 </GridLayout>
                     <Label [text]="aktualneWydarzenie.nazwa" fontSize="16" fontWeight="bold"></Label>
@@ -41,7 +41,7 @@
                 <FlexboxLayout flexDirection="column" class="wh100" row="5" padding="3" col="2" width="65%" height="100%">
                     <FlexboxLayout flexDirection="row" justifyContent="space-between" *ngFor="let wydarzenie of pozniejszeWydarzenia" color="white" class="lexend">
                         <GridLayout class="typ">
-                            <Label class="icon" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
+                            <Label class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
                             <Label [text]="wydarzenie.status === 0 ? '&#xe08c;': wydarzenie.status === 1 ? '&#xe023;' : ''" class="icon" (loaded)="onLabelLoaded($event)"></Label>
                         </GridLayout>
                         <Label [text]="wydarzenie.nazwa" fontSize="15"></Label>

@@ -5,7 +5,6 @@ import { User } from './user.model';
 import { Wydarzenie } from './wydarzenie.model';
 import { Obecnosc } from './obecnosc.model';
 import { Wiadomosc } from './wiadomosci.model';
-import { decode, toUnicode } from 'punycode';
 
 declare var process: any;
 
@@ -896,11 +895,12 @@ export class HttpService {
     }
 
     //WYGENERUJ RAPORT
-    async generujRaport(type: number) {
+    async generujRaport(email: string) {
         return new Promise<string>(resolve => {
-            this.http.post(this.serverUrl + '/raport_pdf', {id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT, type: type}, { headers: this.headers }).subscribe(res => {
+            this.http.post(this.serverUrl + '/raport_pdf', {id_parafii: this.id_parafii, email: email, smart: this.smart, jwt: this.JWT}, { headers: this.headers }).subscribe(res => {
                 resolve(res.toString());
             }, err => {
+                console.log(err)
                 resolve('');
             });
         });
