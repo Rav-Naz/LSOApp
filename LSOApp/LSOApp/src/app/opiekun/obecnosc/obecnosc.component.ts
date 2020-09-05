@@ -146,10 +146,11 @@ export class ObecnoscComponent implements OnInit, OnDestroy {
 
         this.DyzurySub = this.parafiaService.Dyzury.subscribe(lista => {
             lista !== [] && lista !== null ? this.ministranciDoWydarzenia = lista : this.ministranciDoWydarzenia = [];
-            if((this.aktywneWydarzenie.typ === 2 && this.aktywneWydarzenie.grupa !== -1) || this.aktywneWydarzenie.typ === 1)
-            {
-                this.ministranciDoWydarzenia = this.ministranciDoWydarzenia.filter(min => min.stopien === this.aktywneWydarzenie.grupa)
-            }
+            if ((this.aktywneWydarzenie.typ === 2 && this.aktywneWydarzenie.grupa !== -1) || this.aktywneWydarzenie.typ === 1) {
+                this.ministranciDoWydarzenia = this.ministranciDoWydarzenia.filter(min => min.stopien === this.aktywneWydarzenie.grupa);
+              } else if (this.aktywneWydarzenie.typ === 2 && this.aktywneWydarzenie.grupa === -1) {
+                this.ministranciDoWydarzenia = this.ministranciDoWydarzenia.filter(min => min.stopien !== 11);
+              }
             this.wszyscyAktualniMinistranci = [...this.wszyscyMinistranci].filter(item => item.stopien !== 11);
             this.ministranciDoWydarzenia.forEach( user => {
                 this.wszyscyAktualniMinistranci = this.wszyscyAktualniMinistranci.filter(user2 => user.id_user !== user2.id_user)

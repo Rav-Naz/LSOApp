@@ -1,61 +1,60 @@
 <FlexboxLayout class="back wh100 center" justifyContent="flex-start" (tap)="dismiss()">
-        <StackLayout width="95%">
+    <StackLayout width="95%">
 
-                <DockLayout>
+        <DockLayout>
 
-                    <FlexboxLayout class="flexEnd" *ngIf="!pisanieWiadomosci" dock="top">
-                        <Button text="Utwórz nową" (tap)="otworz()" class="btn b-p-10 audiowide" [isEnabled]="!ui.ladowane[2]"></Button>
+            <FlexboxLayout class="flexEnd" *ngIf="!pisanieWiadomosci" dock="top">
+                <Button text="Utwórz nową" (tap)="otworz()" class="btn b-p-10 audiowide" [isEnabled]="!ui.ladowane[2]"></Button>
+            </FlexboxLayout>
+
+            <GridLayout columns="auto,*" rows="150" class="grid" *ngIf="pisanieWiadomosci" dock="top">
+                <FlexboxLayout class="red black" col="0" row="0" colSpan="2"></FlexboxLayout>
+                <StackLayout class="center" margin="7" col="0" row="0">
+                    <Label text="00:00" class="godzina black lexend"></Label>
+                    <Label text="04/02/2000" class="data black lexend"></Label>
+                </StackLayout>
+                <FlexboxLayout class="wiadomosc b-p-10" marginLeft="7" col="1" row="0" rowSpan="2" flexDirection="column">
+                    <ScrollView height="80%">
+                        <TextView [(ngModel)]="tresc" hint="Wpisz treść wiadomosci" class="textview lexend" #textview></TextView>
+                    </ScrollView>
+                    <FlexboxLayout class="flexEnd" height="60">
+                        <Button [text]="tresc.length >= 1? 'Wyślij' : 'Zamknij'" (tap)="wyslij()" class="btn b-p-10 audiowide"></Button>
                     </FlexboxLayout>
-
-                    <GridLayout columns="auto,*" rows="150" class="grid" *ngIf="pisanieWiadomosci" dock="top">
-                        <FlexboxLayout class="red black" col="0" row="0" colSpan="2"></FlexboxLayout>
-                        <StackLayout class="center" margin="7" col="0" row="0">
-                            <Label text="00:00" class="godzina black lexend"></Label>
-                            <Label text="04/02/2000" class="data black lexend"></Label>
-                        </StackLayout>
-                        <FlexboxLayout class="wiadomosc b-p-10" marginLeft="7" col="1" row="0" rowSpan="2" flexDirection="column">
-                            <ScrollView height="80%">
-                                <TextView [(ngModel)]="tresc" hint="Wpisz treść wiadomosci" class="textview lexend" #textview></TextView>
-                            </ScrollView>
-                            <FlexboxLayout class="flexEnd" height="60">
-                                <Button [text]="tresc.length >= 1? 'Wyślij' : 'Zamknij'" (tap)="wyslij()" class="btn b-p-10 audiowide"></Button>
-                            </FlexboxLayout>
-                        </FlexboxLayout>
-                    </GridLayout>
-
-                </DockLayout>
-
-                    <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0 || ui.ladowane[2]"></Label>
-                    <GridLayout *ngIf="!ui.ladowane[2]" >
-                        <RadListView [items]="wiadomosci" separatorColor="black" swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" [pullToRefresh]="!ui.ladowane[2]"
-                        (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)" loadOnDemandMode="Auto"
-                        (loadMoreDataRequested)="onLoadMoreItemsRequested($event)" #radListView>
-                            <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
-                            <ng-template tkListItemTemplate let-item="item">
-                                <GridLayout columns="auto,*" rows="45,*" class="grid" backgroundColor="black">
-                                    <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>
-                                    <StackLayout class="center" margin="7" marginLeft="15" col="0" row="0">
-                                        <Label [text]="item.data.toString() | godzina" class="godzina lexend"></Label>
-                                        <Label [text]="dataFormat(item)" class="data lexend"></Label>
-                                    </StackLayout>
-                                    <FlexboxLayout class="item b-p-10 center" col="1" row="0" rowSpan="2" backgroundColor="white">
-                                        <Label [text]="item.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
-                                        <Label [text]="item.tresc | uri" class="tresc lexend" #label></Label>
-                                        <Image [src]="item.linkobrazu" class="obraz lexend" *ngIf="item.linkobrazu" height="270"></Image>
-                                        <Button text="Pobierz obraz" class="btn audiowide b-p-10" (tap)="pobierzObraz(item.linkobrazu)" *ngIf="item.linkobrazu"></Button>
-                                    </FlexboxLayout>
-                                </GridLayout>
-                            </ng-template>
-                            <GridLayout *tkListItemSwipeTemplate columns="40, *">
-                                <Button text="&#xe08e;" width="40" id="delete" col="0" (tap)="onLeftSwipeClick($event)" class="icon acion-cont b-p-10"></Button>
-                           </GridLayout>
-                        </ListViewLinearLayout>
-                        </RadListView>
-                    </GridLayout>
-
-                <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[2]">
-                        <ActivityIndicator [busy]="true"></ActivityIndicator>
                 </FlexboxLayout>
+            </GridLayout>
 
-        </StackLayout>
+        </DockLayout>
+
+        <Label text="Brak wiadomości" class="brak lexend" *ngIf="wiadomosci.length === 0 || ui.ladowane[2]"></Label>
+        <GridLayout *ngIf="!ui.ladowane[2]">
+            <RadListView [items]="wiadomosci" separatorColor="black" swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" [pullToRefresh]="!ui.ladowane[2]" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)"
+                loadOnDemandMode="Auto" (loadMoreDataRequested)="onLoadMoreItemsRequested($event)" #radListView>
+                <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
+                    <ng-template tkListItemTemplate let-item="item">
+                        <GridLayout columns="auto,*" rows="45,*" class="grid" backgroundColor="black" (longPress)="usunWiadomosc(item)">
+                            <FlexboxLayout class="red b-p-10" col="0" row="0" colSpan="2"></FlexboxLayout>
+                            <StackLayout class="center" margin="7" marginLeft="15" col="0" row="0">
+                                <Label [text]="item.data.toString() | godzina" class="godzina lexend"></Label>
+                                <Label [text]="dataFormat(item)" class="data lexend"></Label>
+                            </StackLayout>
+                            <FlexboxLayout class="item b-p-10 center" col="1" row="0" rowSpan="2" backgroundColor="white">
+                                <Label [text]="item.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
+                                <Label [text]="item.tresc | uri" class="tresc lexend" #label></Label>
+                                <Image [src]="item.linkobrazu" class="obraz lexend" *ngIf="item.linkobrazu" height="270"></Image>
+                                <Button text="Pobierz obraz" class="btn audiowide b-p-10" (tap)="pobierzObraz(item.linkobrazu)" *ngIf="item.linkobrazu"></Button>
+                            </FlexboxLayout>
+                        </GridLayout>
+                    </ng-template>
+                    <GridLayout *tkListItemSwipeTemplate columns="40, *">
+                        <Button text="&#xe08e;" width="40" id="delete" col="0" (tap)="onLeftSwipeClick($event)" class="icon acion-cont b-p-10"></Button>
+                    </GridLayout>
+                </ListViewLinearLayout>
+            </RadListView>
+        </GridLayout>
+
+        <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[2]">
+            <ActivityIndicator [busy]="true"></ActivityIndicator>
+        </FlexboxLayout>
+
+    </StackLayout>
 </FlexboxLayout>

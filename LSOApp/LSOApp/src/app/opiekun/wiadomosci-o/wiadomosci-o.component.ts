@@ -267,10 +267,10 @@ export class WiadomosciOComponent implements OnInit {
             });
 
         }
-        else {
-            this.ui.zmienStan(2, false)
-            this.ui.showFeedback('error',"Nie możesz usunąć wiadomości od ADMINISTRATORA",3)
-        }
+        // else {
+        //     this.ui.zmienStan(2, false)
+        //     this.ui.showFeedback('error',"Nie możesz usunąć wiadomości od ADMINISTRATORA",3)
+        // }
     }
 
     dismiss()

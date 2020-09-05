@@ -39,22 +39,22 @@ module.exports = env => {
         // The 'appPath' and 'appResourcesPath' values are fetched from
         // the nsconfig.json configuration file.
         appPath = "src",
-        appResourcesPath = "App_Resources",
+            appResourcesPath = "App_Resources",
 
-        // You can provide the following flags when running 'tns run android|ios'
-        aot, // --env.aot
-        snapshot, // --env.snapshot,
-        production, // --env.production
-        uglify, // --env.uglify
-        report, // --env.report
-        sourceMap, // --env.sourceMap
-        hiddenSourceMap, // --env.hiddenSourceMap
-        hmr, // --env.hmr,
-        unitTesting, // --env.unitTesting
-        verbose, // --env.verbose
-        snapshotInDocker, // --env.snapshotInDocker
-        skipSnapshotTools, // --env.skipSnapshotTools
-        compileSnapshot // --env.compileSnapshot
+            // You can provide the following flags when running 'tns run android|ios'
+            aot, // --env.aot
+            snapshot, // --env.snapshot,
+            production, // --env.production
+            uglify, // --env.uglify
+            report, // --env.report
+            sourceMap, // --env.sourceMap
+            hiddenSourceMap, // --env.hiddenSourceMap
+            hmr, // --env.hmr,
+            unitTesting, // --env.unitTesting
+            verbose, // --env.verbose
+            snapshotInDocker, // --env.snapshotInDocker
+            skipSnapshotTools, // --env.skipSnapshotTools
+            compileSnapshot // --env.compileSnapshot
     } = env;
 
     const useLibs = compileSnapshot;
@@ -223,8 +223,7 @@ module.exports = env => {
             ],
         },
         module: {
-            rules: [
-                {
+            rules: [{
                     include: join(appFullPath, entryPath),
                     use: [
                         // Require all Android app components
@@ -301,8 +300,8 @@ module.exports = env => {
                     'serverURL': JSON.stringify(env && env.serverURL ? env.serverURL : ""),
                     'smart': JSON.stringify(env && env.smart ? env.smart : ""),
                 }
- 
             }),
+
             // Remove all files from the out dir.
             new CleanWebpackPlugin(itemsToClean, { verbose: !!verbose }),
             // Copy assets to out dir. Add your own globs as needed.

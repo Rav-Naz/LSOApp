@@ -13,29 +13,26 @@
 
                 <Label class="trojkat" row="4" col="1"></Label>
 
-                <Label *ngFor="let dzien of dni, let i = index" [text]="dzien" col="0" [row]="rzedy[ktoryRzad(i)]"
-                [rowSpan]="ktoryRzad(i) === 3 ? '3' : '1'" class="dzien audiowide" (loaded)="onLabelLoaded($event)" [opacity]="opacity(i)" [marginRight]="marginRight"></Label>
+                <Label *ngFor="let dzien of dni, let i = index" [text]="dzien" col="0" [row]="rzedy[ktoryRzad(i)]" [rowSpan]="ktoryRzad(i) === 3 ? '3' : '1'" class="dzien audiowide" (loaded)="onLabelLoaded($event)" [opacity]="opacity(i)" [marginRight]="marginRight"></Label>
 
-                <FlexboxLayout *ngFor="let row of rzedy, let i = index" justifyContent="center" flexDirection="column" [row]="rzedy[ktoryRzad(i)]"
-                 padding="3" col="2" width="65%" height="100%" [opacity]="opacity(i)">
+                <FlexboxLayout *ngFor="let row of rzedy, let i = index" justifyContent="center" flexDirection="column" [row]="rzedy[ktoryRzad(i)]" padding="3" col="2" width="65%" height="100%" [opacity]="opacity(i)">
                     <FlexboxLayout flexDirection="row" justifyContent="space-between" *ngFor="let wydarzenie of wydarzeniaNaDanyDzien(i)" color="white" class="lexend">
                         <GridLayout class="typ">
                             <Label class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
                             <Label [text]="wydarzenie.status === 0 ? '&#xe08c;': wydarzenie.status === 1 ? '&#xe023;' : ''" class="icon" (loaded)="onLabelLoaded($event)"></Label>
                         </GridLayout>
-                        <Label [text]="wydarzenie.nazwa" fontSize="15"></Label>
-                        <Label [text]="GodzinaDyzuruNaDanyDzien(wydarzenie.godzina)" fontSize="15" class="lexend"></Label>
+                        <Label [text]="wydarzenie.nazwa" fontSize="13"></Label>
+                        <Label [text]="GodzinaDyzuruNaDanyDzien(wydarzenie.godzina)" fontSize="13" class="lexend"></Label>
                     </FlexboxLayout>
                 </FlexboxLayout>
 
-                <FlexboxLayout flexDirection="row" justifyContent="space-between" color="white" class="lexend" *ngIf="aktualneWydarzenie !== null"
-                padding="3" row="4" col="2" width="65%" height="100%">
-                <GridLayout class="typ">
-                    <Label class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': aktualneWydarzenie.typ === 0,'blue-grad': aktualneWydarzenie.typ === 1,'yellow-grad': aktualneWydarzenie.typ === 2}"></Label>
-                    <Label [text]="aktualneWydarzenie.status === 0 ? '&#xe08c;': aktualneWydarzenie.status === 1 ? '&#xe023;' : ''" class="icon" (loaded)="onLabelLoaded($event)"></Label>
-                </GridLayout>
-                    <Label [text]="aktualneWydarzenie.nazwa" fontSize="16" fontWeight="bold"></Label>
-                    <Label [text]="GodzinaDyzuruNaDanyDzien(aktualneWydarzenie.godzina)" fontSize="16" fontWeight="bold" class="lexend"></Label>
+                <FlexboxLayout flexDirection="row" justifyContent="space-between" color="white" class="lexend" *ngIf="aktualneWydarzenie !== null" padding="3" row="4" col="2" width="65%" height="100%">
+                    <GridLayout class="typ">
+                        <Label class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': aktualneWydarzenie.typ === 0,'blue-grad': aktualneWydarzenie.typ === 1,'yellow-grad': aktualneWydarzenie.typ === 2}"></Label>
+                        <Label [text]="aktualneWydarzenie.status === 0 ? '&#xe08c;': aktualneWydarzenie.status === 1 ? '&#xe023;' : ''" class="icon" (loaded)="onLabelLoaded($event)"></Label>
+                    </GridLayout>
+                    <Label [text]="aktualneWydarzenie.nazwa" fontSize="15" fontWeight="bold"></Label>
+                    <Label [text]="GodzinaDyzuruNaDanyDzien(aktualneWydarzenie.godzina)" fontSize="15" fontWeight="bold" class="lexend"></Label>
                 </FlexboxLayout>
 
                 <FlexboxLayout flexDirection="column" class="wh100" row="5" padding="3" col="2" width="65%" height="100%">
@@ -44,8 +41,8 @@
                             <Label class="icon typ" (loaded)="onLabelLoaded($event)" [ngClass]="{'red-grad': wydarzenie.typ === 0,'blue-grad': wydarzenie.typ === 1,'yellow-grad': wydarzenie.typ === 2}"></Label>
                             <Label [text]="wydarzenie.status === 0 ? '&#xe08c;': wydarzenie.status === 1 ? '&#xe023;' : ''" class="icon" (loaded)="onLabelLoaded($event)"></Label>
                         </GridLayout>
-                        <Label [text]="wydarzenie.nazwa" fontSize="15"></Label>
-                        <Label [text]="GodzinaDyzuruNaDanyDzien(wydarzenie.godzina)" fontSize="15" class="lexend"></Label>
+                        <Label [text]="wydarzenie.nazwa" fontSize="13"></Label>
+                        <Label [text]="GodzinaDyzuruNaDanyDzien(wydarzenie.godzina)" fontSize="13" class="lexend"></Label>
                     </FlexboxLayout>
                 </FlexboxLayout>
 

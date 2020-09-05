@@ -142,6 +142,7 @@ export class ParafiaService {
 
     przeszukajKalendarzSpecjalne(dzien: string)
     {
+        if(this.kalendarzSpecjalne === undefined || this.kalendarzSpecjalne === null) { return null}
         let szukane = this.kalendarzSpecjalne.filter(val => val.data_dokladna === dzien);
         return szukane.length === 0 ? null : szukane[0].nazwa;
     }

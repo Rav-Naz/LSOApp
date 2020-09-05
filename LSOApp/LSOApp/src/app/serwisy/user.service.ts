@@ -20,6 +20,7 @@ export class UserService {
     private userDyzurySub = new BehaviorSubject<Array<Wydarzenie>>(null);
     private userSub = new BehaviorSubject<User>(null);
     private powiadomieniaODyzurach = new BehaviorSubject<boolean>(null);
+    private userSpecjalneDyzurySub = new BehaviorSubject<boolean>(null);
 
     wyczysc()
     {
@@ -98,6 +99,19 @@ export class UserService {
             })
         })
     }
+
+    async mojeSpecjalneWydarzenie(id_user: number, stopien: number, data_dokladna: string) { // Wykorzystanie: ministrant-dyzury, ministranci-szczegoly
+        return new Promise<any[]>(resolve => {
+
+          this.http.pobierzSpecjalneDyzuryDlaMinistranta(id_user, stopien, data_dokladna).then(res => {
+            if (res === null) {
+              resolve([]);
+              return;
+            }
+            resolve(res);
+          });
+        });
+      }
 
     async miejsceWRankignu()
     {   return new Promise<number>((resolve) => {

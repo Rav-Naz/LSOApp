@@ -13,16 +13,8 @@ import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { SecureStorage } from 'nativescript-secure-storage';
 import { UiService } from '~/app/serwisy/ui.service';
-import { isAndroid, isIOS} from "tns-core-modules/platform";
-import * as fileSystem from "tns-core-modules/file-system";
 import { ModalDialogService } from 'nativescript-angular/common';
-import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
-import * as permission from 'nativescript-permissions'
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 
-declare var NSData,NSObject,interop,UIImage,NSError,UIImageWriteToSavedPhotosAlbum:any
-
-declare var android
 
 @Component({
     selector: 'ns-ustawienia-o',
@@ -173,21 +165,25 @@ export class UstawieniaOComponent implements OnInit {
 
     generujRaport()
     {
-        new Promise((resolve, reject) => {
-            this.ui.showFeedback('loading',"Trwa przygotowywanie raportu",10);
-            this.http.generujRaport(this.userService.UserEmail).then(res => {
-                if(res === 'Wysłano')
-                {
-                    resolve()
-                }
-                else
-                {
-                    this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3);
-                }
-            });
+        this.ui.pokazModalWyboru('Raport zostanie wysłany na twój adres email.\nCzy chcesz kontynuować?').then(wybor => {
+            if(wybor) {
+                new Promise((resolve, reject) => {
+                    this.ui.showFeedback('loading',"Trwa przygotowywanie raportu",10);
+                    this.http.generujRaport(this.userService.UserEmail).then(res => {
+                        if(res === 'Wysłano')
+                        {
+                            resolve()
+                        }
+                        else
+                        {
+                            this.ui.showFeedback('error',"Wystąpił nieoczekiwany błąd",3);
+                        }
+                    });
 
-            }).then(() => {
-                this.ui.showFeedback("succes", `Raport został wysłany na Twój adres email`,6)
-            })
+                    }).then(() => {
+                        this.ui.showFeedback("succes", `Raport został wysłany na Twój adres email`,6)
+                    })
+            }
+        })
     }
 }

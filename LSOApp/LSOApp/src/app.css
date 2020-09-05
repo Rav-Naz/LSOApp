@@ -10,97 +10,81 @@ of writing your own CSS rules. For a full list of class names in the theme
 refer to http://docs.nativescript.org/ui/theme.
 */
 
-
-ActivityIndicator
-{
+ActivityIndicator {
     color: #e71e25;
 }
 
-ActionBar
-{
+ActionBar {
     color: white;
     background-color: black;
 }
 
-.action-bar-title
-{
+.action-bar-title {
     text-align: center;
     font-size: 20;
     font-weight: 200;
     width: 100%;
 }
 
-Dialog{
-
-
+Dialog {
     destructive: red;
     okButtonText: red;
     background-color: red;
-    color:red;
-    font-size:24;
-    }
-
-Button{
-    color:red;
+    color: red;
+    font-size: 24;
 }
 
-.audiowide
-{
-    font-family: 'Audiowide','Audiowide-Regular', cursive;
+Button {
+    color: red;
 }
 
-.lexend
-{
-    font-family: 'Lexend Deca','LexendDeca-Regular', sans-serif;
+.audiowide {
+    font-family: 'Audiowide', 'Audiowide-Regular', cursive;
 }
 
-.icon
-{
+.lexend {
+    font-family: 'Lexend Deca', 'LexendDeca-Regular', sans-serif;
+}
+
+.icon {
     font-family: 'iconmonstr-iconic-font';
 }
 
-TextField{
+TextField {
     border-bottom-width: 1;
     border-bottom-color: transparent;
 }
 
-.wh100
-{
+.wh100 {
     width: 100%;
     height: 100%;
 }
 
-.center
-{
+.center {
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.b-p-10
-{
+.b-p-10 {
     border-radius: 10%;
     padding: 1;
 }
 
-.back
-{
+.back {
     background-color: black;
 }
 
-.backg-20
-{
+.backg-20 {
     background-color: rgb(20, 20, 20);
 }
 
-.flex
-{
+.flex {
     background-color: white;
     border-radius: 20%;
 }
 
-.input-field
-{
+.input-field {
     justify-self: right;
     height: 50;
     width: 95%;
@@ -108,24 +92,21 @@ TextField{
     border-color: rgb(20, 20, 20);
 }
 
-.text-field
-{
+.text-field {
     color: white;
     width: 90%;
     placeholder-color: rgb(124, 124, 124);
     font-size: 15;
 }
 
-.etykieta
-{
+.etykieta {
     color: white;
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    background: linear-gradient(to bottom, #e71e25, #a5151a);
     border-radius: 5%;
     font-size: 12;
 }
 
-.anuluj
-{
+.anuluj {
     background-color: rgba(0, 0, 0, 0);
     color: white;
     border-color: white;
@@ -133,53 +114,47 @@ TextField{
     margin: 10;
     font-size: 17;
     text-wrap: true;
+    text-transform: uppercase;
 }
 
-.anuluj:pressed
-{
+.anuluj:pressed {
     background-color: rgb(39, 39, 39);
 }
 
-.zapisz
-{
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
+.zapisz {
+    background: linear-gradient(to bottom, #e71e25, #a5151a);
     border-color: transparent;
 }
 
-.zapisz:disabled
-{
+.zapisz:disabled {
     background: rgb(206, 206, 206);
     color: rgb(124, 124, 124);
-    border-color:  rgb(206, 206, 206);
+    border-color: rgb(206, 206, 206);
 }
 
-.disabled
-{
+.disabled {
     background: rgb(206, 206, 206);
     color: rgb(124, 124, 124);
-    border-color:  rgb(206, 206, 206);
+    border-color: rgb(206, 206, 206);
 }
 
-.zapisz:pressed
-{
-    background: linear-gradient(to bottom, #a5151a,#640b0e);
+.zapisz:pressed {
+    background: linear-gradient(to bottom, #a5151a, #640b0e);
     border-color: transparent;
 }
 
-.nowy
-{
+.nowy {
     width: 60%;
     height: 8%;
-    margin:5;
+    margin: 5;
     color: white;
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    background: linear-gradient(to bottom, #e71e25, #a5151a);
     border-color: transparent;
     border-width: 1;
     font-size: 17;
 }
 
-.red
-{
+.red {
     margin-right: 5;
     margin-left: 5;
     color: #e71e25;
@@ -189,48 +164,39 @@ TextField{
     text-align: left;
 }
 
-.kontener
-{
+.kontener {
     margin-top: 5;
     margin-bottom: 5;
     width: 95%;
 }
 
-.stand
-{
+.stand {
     text-align: center;
     color: black;
     text-wrap: true;
     font-size: 15;
 }
 
-.fade
-{
-    background-color: rgb(0,0,0,0.7);
+.fade {
+    background-color: rgb(0, 0, 0, 0.7);
 }
 
-.szary
-{
+.szary {
     color: rgb(124, 124, 124);
 }
 
-.bialy
-{
+.bialy {
     color: white;
 }
 
-.red-grad
-{
-    background: linear-gradient(to bottom right, #e71e25 35%,#a5151a 65%);
-    
+.red-grad {
+    background: linear-gradient(to bottom right, #e71e25 35%, #a5151a 65%);
 }
 
-.blue-grad
-{
-    background: linear-gradient(to bottom right, #4beaff 35%,#0987fd 65%);
+.blue-grad {
+    background: linear-gradient(to bottom right, #4beaff 35%, #0987fd 65%);
 }
 
-.yellow-grad
-{
-    background: linear-gradient(to bottom right, #fffb12 35%,#f5c905 65%);
+.yellow-grad {
+    background: linear-gradient(to bottom right, #fffb12 35%, #f5c905 65%);
 }

@@ -7,7 +7,7 @@
                 <Span [text]="sortujPoImieniu? 'Alfabetycznie ':'Ranking '" class="czarny audiowide"></Span>
             </FormattedString>
         </Button>
-        <Button class="cont dodaj b-p-10" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]" marginLeft="4" >
+        <Button class="cont dodaj b-p-10" (tap)="nowyMinistrant()" [isEnabled]="!ui.ladowane[1]" marginLeft="4">
             <FormattedString class="format">
                 <Span text="&#xe072;" class="icon plus" fontSize="16"></Span>
             </FormattedString>
@@ -18,34 +18,32 @@
 
         <Label text="Brak ministrantów na liście" class="brak lexend" *ngIf="ministranci.length === 0 && !ui.ladowane[1]"></Label>
 
-        <RadListView [items]="ministranci" *ngIf="!ui.ladowane[1]" separatorColor="black" swipeActions="true"
-         (itemSwipeProgressStarted)="onSwipeCellStarted($event)" [pullToRefresh]="!ui.ladowane[1]"
-        (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" (loaded)="onLoaded($event)">
+        <RadListView [items]="ministranci" *ngIf="!ui.ladowane[1]" separatorColor="black" swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" [pullToRefresh]="!ui.ladowane[1]" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
+            (loaded)="onLoaded($event)">
             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical">
-            <ng-template let-item="item" let-i="index" tkListItemTemplate >
-                <GridLayout rows="50" columns="*,auto" class="b-p-10 "  [backgroundColor]="kolor(i)"
-                    (tap)="szczegolyMinistranta(item.id_user, i)">
+                <ng-template let-item="item" let-i="index" tkListItemTemplate>
+                    <GridLayout rows="50" columns="*,auto" class="b-p-10 " [backgroundColor]="kolor(i)" (tap)="szczegolyMinistranta(item.id_user, i)" (longPress)="usunMinistranta(item, i)">
 
-                    <FlexboxLayout col="0" class="center" alignItems="flex-start">
-                        <Label [text]="(sortujPoImieniu? i+1+'. ' : (item.ranking === null ? '--. ' : item.ranking + '. ')) + item.nazwisko + ' ' + item.imie" [ngClass]="{'imie-admin': item.admin === 1}" class="imie lexend" marginLeft="5"></Label>
-                    </FlexboxLayout>
+                        <FlexboxLayout col="0" class="center" alignItems="flex-start">
+                            <Label [text]="(sortujPoImieniu? i+1+'. ' : (item.ranking === null ? '--. ' : item.ranking + '. ')) + item.nazwisko + ' ' + item.imie" [ngClass]="{'imie-admin': item.admin === 1}" class="imie lexend" marginLeft="5"></Label>
+                        </FlexboxLayout>
 
-                    <Button class="strzalka" (tap)="szczegolyMinistranta(item.id_user, i)" androidElevation="0" justifyContent="flex-end" col="1" [backgroundColor]="kolor(i)">
+                        <Button class="strzalka" (tap)="szczegolyMinistranta(item.id_user, i)" androidElevation="0" justifyContent="flex-end" col="1" [backgroundColor]="kolor(i)">
                         <FormattedString>
                             <Span [text]="item.punkty + ' pkt.'" class="lexend"></Span>
                             <Span text=" &#xe001;" fontSize="11" class="icon"></Span>
                         </FormattedString>
                     </Button>
+                    </GridLayout>
+                </ng-template>
+                <GridLayout *tkListItemSwipeTemplate columns="40, *" rows="*">
+                    <Button id="delete" col="0" (tap)="onLeftSwipeClick($event)" text="&#xe08e;" class="icon acion-cont b-p-10"></Button>
                 </GridLayout>
-            </ng-template>
-            <GridLayout *tkListItemSwipeTemplate columns="40, *" rows="*">
-                <Button id="delete" col="0" (tap)="onLeftSwipeClick($event)" text="&#xe08e;" class="icon acion-cont b-p-10"></Button>
-           </GridLayout>
-        </ListViewLinearLayout>
+            </ListViewLinearLayout>
         </RadListView>
 
         <FlexboxLayout class="wh100 center" *ngIf="ui.ladowane[1]">
-                <ActivityIndicator [busy]="true"></ActivityIndicator>
+            <ActivityIndicator [busy]="true"></ActivityIndicator>
         </FlexboxLayout>
 
     </GridLayout>

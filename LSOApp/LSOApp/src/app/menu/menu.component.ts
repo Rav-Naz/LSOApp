@@ -68,22 +68,5 @@ export class MenuComponent implements OnInit {
         this.selectedIndex = strona;
     }
 
-    onSwipe(args: SwipeGestureEventData)
-    {
-        if(args.direction === 2 && (this.selectedIndex < (this.tabIndexService.opiekun ? 1 : this.user.stopien !== 11 ? 2 : 1)) && this.ios)
-        {
-            this.zmienStrone(this.selectedIndex + 1);
-        }
-        else if(args.direction === 1 && this.selectedIndex > (this.tabIndexService.opiekun ? this.tabIndexService.outlety[6] === 'ustawieniaO' ? 2 : 3 : 0) && this.ios)
-        {
-            this.zmienStrone(this.selectedIndex - 1)
-        }
-    }
-
-    get swipeEnabled()
-    {
-        return this.selectedIndex === 1 && this.tabIndexService.outlety[4] === 'ministranci' ? false : this.selectedIndex === 2 ? false : this.tabIndexService.outlety[6] === 'edytuj-msze' ? false : this.tabIndexService.outlety[6] === 'punktacja' ? false : true;
-    }
-
     nic(){}
 }

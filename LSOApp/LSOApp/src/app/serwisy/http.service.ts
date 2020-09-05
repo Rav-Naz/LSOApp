@@ -664,6 +664,22 @@ export class HttpService {
         });
     }
 
+
+  // POBIERANIE SPECJALNYCH DYŻURÓW DLA DANEGO MINISTRANTA
+  async pobierzSpecjalneDyzuryDlaMinistranta(id_user: number, stopien: number, data_dokladna: string) {
+    return new Promise<Array<Wydarzenie>>(resolve => {
+
+      this.http.post(this.serverUrl + '/user_special_duty', { id_user, stopien, data_dokladna, id_parafii: this.id_parafii, smart: this.smart, jwt: this.JWT }, { headers: this.headers }).subscribe(res => {
+        if (res === 'You have not permission to get the data') {
+          resolve(JSON.parse(JSON.stringify(null)));
+        }
+        else {
+          resolve(JSON.parse(JSON.stringify(res)));
+        }
+      });
+    });
+  }
+
     //POBIERANIE DYŻURÓW DO DANEGO WYDARZENIA
     async pobierzDyzuryDoWydarzenia(id_wydarzenia: number) {
         return new Promise<Array<User>>(resolve => {
