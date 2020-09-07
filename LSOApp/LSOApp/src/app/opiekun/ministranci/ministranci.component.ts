@@ -28,6 +28,8 @@ export class MinistranciComponent implements OnInit {
 
     ladowanie: boolean = true;
 
+    usuanie: boolean = false;
+
     constructor(private page: Page, private parafiaService: ParafiaService, private router: RouterExtensions, private tabIndexService: TabindexService, private wydarzeniaService: WydarzeniaService,
          private active: ActivatedRoute, private userService: UserService, public ui: UiService) {}
 
@@ -118,6 +120,7 @@ export class MinistranciComponent implements OnInit {
     }
 
     szczegolyMinistranta(id: number, index: number) {
+        if(this.usuanie) {return;}
         this.tabIndexService.nowyOutlet(4, 'ministrant-szczegoly');
         this.parafiaService.aktualnyMinistrantId = id;
         this.router.navigate(['../ministrant-szczegoly'], {relativeTo: this.active, transition: { name: 'slideLeft' }});
@@ -130,11 +133,16 @@ export class MinistranciComponent implements OnInit {
 
     async usunMinistranta(ministrant: User, index: number) {
 
+        if(this.usuanie) { return; }
+
+        
         if(ministrant.id_user === this.userService.UserID)
         {
             this.ui.showFeedback('error',"Nie możesz usunąć swojego konta z poziomu widoku opiekuna",3)
             return
         }
+
+        this.usuanie = true;
 
         await this.ui.pokazModalWyboru("Czy na pewno chcesz usunąć\n" + ministrant.nazwisko + " " + ministrant.imie + "\nz listy ministrantów?").then((kontynuowac) => {
             if(kontynuowac)
@@ -153,6 +161,7 @@ export class MinistranciComponent implements OnInit {
                     }, 400)
                 });
             }
+            this.usuanie = false;
         });
     }
 }

@@ -32,6 +32,7 @@ export class EdytujMszeComponent implements OnInit {
     wydarzeniaDnia: Array<Wydarzenie>;
     stareWydarzeniaDnia: Array<Wydarzenie>;
     aktualizujWydarzeniaDnia: Array<Wydarzenie>;
+    usuanie: boolean = false;
 
     ngOnInit() {
         this.ui.zmienStan(3,true);
@@ -84,6 +85,7 @@ export class EdytujMszeComponent implements OnInit {
 
     async edytuj(args: EventData, wydarzenie: Wydarzenie, index: number)
     {
+        if(this.usuanie) { return; }
         let przed = [wydarzenie.typ,new Date(wydarzenie.godzina),wydarzenie.grupa === undefined ? null : wydarzenie.grupa,true,wydarzenie.data_dokladna, this.wybranyDzien];
         this.modal.showModal(SzczegolyWydarzeniaComponent,{
             context: przed,
@@ -146,6 +148,8 @@ export class EdytujMszeComponent implements OnInit {
     }
 
     async usun(wydarzenie: Wydarzenie) {
+        if(this.usuanie) { return; }
+        this.usuanie = true;
         await this.czyKontynuowac(true, "Usunięcie wydarzenia spowoduje utratę przypisanych do niego dyżurów.\nCzy chcesz trwale usunąć wydarzenie z godziny " + new Date(wydarzenie.godzina).toString().slice(16, 21) + "?").then((kontynuowac) => {
             if (kontynuowac) {
                 this.czyAktualizowane(wydarzenie);
@@ -153,6 +157,7 @@ export class EdytujMszeComponent implements OnInit {
                 this.wydarzeniaDnia.splice(index, 1);
                 this.zmiana = true;
             }
+            this.usuanie = false;
         });
     }
 
