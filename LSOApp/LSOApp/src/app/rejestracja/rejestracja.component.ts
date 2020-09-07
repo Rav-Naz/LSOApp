@@ -93,6 +93,10 @@ export class RejestracjaComponent implements OnInit {
         this.formP.get('emailP').statusChanges.subscribe(status => {
             this.emailPValid = status === 'VALID';
         });
+
+        this.ui.pokazModalWyboru('Konto parafii może założyć tylko upoważniona osoba w parafii.\nCzy chcesz kontynuować?').then(wybor => {
+            if(!wybor) { this.powrot() }
+        })
     }
 
     displayActionDialog(akcja: 'stopien' | 'diecezja' | 'rodzaj') {
