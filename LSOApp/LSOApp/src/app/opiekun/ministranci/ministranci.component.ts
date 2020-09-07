@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Page, View, EventData, Color, isIOS } from 'tns-core-modules/ui/page/page';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { User } from '~/app/serwisy/user.model';
@@ -47,7 +47,7 @@ export class MinistranciComponent implements OnInit {
                     lista.forEach(ministrant => {
                         this.ministranci.push({id_user: ministrant.id_user, id_diecezji: ministrant.id_diecezji, id_parafii: ministrant.id_parafii, punkty: ministrant.punkty, stopien: ministrant.stopien, imie: ministrant.imie, nazwisko: ministrant.nazwisko, ulica: ministrant.ulica, kod_pocztowy: ministrant.kod_pocztowy, miasto: ministrant.miasto, email: ministrant.email, telefon: ministrant.telefon, aktywny: ministrant.aktywny, admin: ministrant.admin, ranking: ministrant.ranking})
                     })
-                    this.ministranci = this.ministranci.filter(item => item.stopien !== 11)
+                    this.ministranci = this.ministranci
                     this.sortujListe();
                     this.ui.zmienStan(1,false)
                 }
@@ -135,7 +135,7 @@ export class MinistranciComponent implements OnInit {
 
         if(this.usuanie) { return; }
 
-        
+
         if(ministrant.id_user === this.userService.UserID)
         {
             this.ui.showFeedback('error',"Nie możesz usunąć swojego konta z poziomu widoku opiekuna",3)

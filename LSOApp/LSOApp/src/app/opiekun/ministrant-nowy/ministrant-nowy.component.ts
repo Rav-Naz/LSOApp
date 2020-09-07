@@ -21,7 +21,10 @@ import { lista } from '~/app/serwisy/stopien.model';
 export class MinistrantNowyComponent implements OnInit {
 
     constructor(private page: Page, private router: RouterExtensions, private parafiaService: ParafiaService,
-         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {}
+         private tabIndexService: TabindexService, private modal: ModalDialogService, private vcRef: ViewContainerRef, private ui: UiService) {
+            this.ranks.push('Opiekun');
+            this.ranks[11] = 'Ksiądz';
+         }
 
     form: FormGroup;
 
@@ -30,6 +33,8 @@ export class MinistrantNowyComponent implements OnInit {
     stopienValid: boolean = true;
     emailValid: boolean = true;
     zapisywanie: boolean = false;
+
+    ranks = lista;
 
     _imie: string;
     _nazwisko: string;
@@ -43,6 +48,7 @@ export class MinistrantNowyComponent implements OnInit {
     @ViewChild('email', { static: false }) emailRef: ElementRef<TextField>;
 
     ngOnInit() {
+
         this.page.actionBarHidden = true;
 
         this.form = new FormGroup({
@@ -115,7 +121,7 @@ export class MinistrantNowyComponent implements OnInit {
     wybierzStopien() {
 
         this.modal.showModal(WyborModalComponent, {
-            context: lista,
+            context: this.ranks,
             viewContainerRef: this.vcRef,
             fullscreen: false,
             stretched: false,
@@ -126,8 +132,8 @@ export class MinistrantNowyComponent implements OnInit {
         } as ExtendedShowModalOptions).then((wybor) => {
 
             if (wybor !== undefined) {
-                this.stopienNazwa = lista[wybor];
-                this._stopien = (wybor === 11? 12 : wybor);
+                this.stopienNazwa = this.ranks[wybor];
+                this._stopien = wybor;
                 this.stopienValid = true;
             }
             else {

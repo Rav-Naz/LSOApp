@@ -42,6 +42,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
     PROSub: Subscription;
     PROLista: Array<string> = [];
     DzienTyg = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+    poczatkowyStopien: Stopien = 11;
 
     @ViewChild('punkty', { static: false }) punkty: ElementRef<TextField>;
     @ViewChild('imie', { static: false }) imieRef: ElementRef<TextField>;
@@ -74,7 +75,8 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
         this.podgladMinistranta = this.parafiaService.PodgladMinistranta.subscribe(min => {
             if(min !== undefined && min !== null)
             {
-                this.ministrant = min
+                this.ministrant = min;
+                this.poczatkowyStopien = this.ministrant.stopien;
                 this.checked = this.ministrant.admin;
                 setTimeout(() => {
                     this.imieRef.nativeElement.text = this.ministrant.imie
@@ -156,6 +158,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
 
 
     otworzDyzury() {
+        if(this.poczatkowyStopien === 11) {return;}
         this.ui.zmienStan(4,true)
         if (this.PROLista[6] === 'edytuj-msze' || this.PROLista[6] === 'punktacja') {
             this.ui.showFeedback('warning',this.PROLista[6] === 'edytuj-msze'? 'Aby skorzystać z tego widoku musisz zamknąć panel Edytuj Msze Święte' : 'Aby skorzystać z tego widoku musisz zamknąć panel Punktacja',3)
