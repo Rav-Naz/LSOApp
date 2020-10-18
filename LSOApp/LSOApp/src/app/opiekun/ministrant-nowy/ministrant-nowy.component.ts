@@ -7,8 +7,6 @@ import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { Stopien } from '~/app/serwisy/stopien.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
 import { lista } from '~/app/serwisy/stopien.model';
 
@@ -120,16 +118,7 @@ export class MinistrantNowyComponent implements OnInit {
 
     wybierzStopien() {
 
-        this.modal.showModal(WyborModalComponent, {
-            context: this.ranks,
-            viewContainerRef: this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated: false,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-        } as ExtendedShowModalOptions).then((wybor) => {
+       this.ui.pokazModalListy(this.ranks).then((wybor) => {
 
             if (wybor !== undefined) {
                 this.stopienNazwa = this.ranks[wybor];

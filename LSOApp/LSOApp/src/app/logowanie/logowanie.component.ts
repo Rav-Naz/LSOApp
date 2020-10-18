@@ -8,7 +8,6 @@ import { Page } from 'tns-core-modules/ui/page/page';
 import { SecureStorage } from 'nativescript-secure-storage';
 import { LogowanieJakoComponent } from '../shared/modale/logowanie-jako/logowanie-jako.component';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { HttpService } from '../serwisy/http.service';
 import { UserService } from '../serwisy/user.service';
 import { User } from '../serwisy/user.model';
@@ -27,6 +26,7 @@ export class LogowanieComponent implements OnInit {
 
     @ViewChild('email', { static: false }) emailRef: ElementRef<TextField>;
     @ViewChild('haslo', { static: false }) hasloRef: ElementRef<TextField>;
+    @ViewChild('logowaniejako', { static: false }) loginAs: LogowanieJakoComponent;
 
     _email: string = null;
     _haslo: string = null;
@@ -111,16 +111,7 @@ export class LogowanieComponent implements OnInit {
                 this.userService.zmienUsera(user);
 
                 if (user.admin === 1) {
-                    this.modal.showModal(LogowanieJakoComponent, {
-                        context: null,
-                        viewContainerRef: this.vcRef,
-                        fullscreen: false,
-                        stretched: false,
-                        animated: true,
-                        closeCallback: null,
-                        dimAmount: 0 // Sets the alpha of the background dim,
-
-                    } as ExtendedShowModalOptions).then((result) => {
+                   this.loginAs.awaitToDecision().then((result) => {
 
                         if (result !== undefined) {
                             this.ladowanie = true;

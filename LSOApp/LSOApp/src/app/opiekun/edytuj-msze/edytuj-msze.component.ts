@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Page, EventData, View, Color } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { Subscription } from 'rxjs';
 import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import * as TimePicker from "nativescript-datetimepicker";
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { UiService } from '~/app/serwisy/ui.service';
 import { ListViewEventData } from 'nativescript-ui-listview';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { SzczegolyWydarzeniaComponent } from '~/app/shared/modale/szczegoly-wydarzenia/szczegoly-wydarzenia.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 
 @Component({
     selector: 'ns-edytuj-msze',
@@ -24,6 +22,8 @@ export class EdytujMszeComponent implements OnInit {
     constructor(private page: Page, private router: RouterExtensions, private wydarzeniaService: WydarzeniaService,
          private tabIndexService: TabindexService, public ui: UiService, private modal: ModalDialogService,
          private vcRef: ViewContainerRef) {}
+
+    @ViewChild('szczegoly', {static: false}) szczegoly: SzczegolyWydarzeniaComponent;
 
     DzienTygodnia = [0, 1, 2, 3, 4, 5, 6];
     wybranyDzien: number;
@@ -57,16 +57,7 @@ export class EdytujMszeComponent implements OnInit {
 
     async dodaj(args: EventData) {
         let przed = [null,new Date(),null,false,null,this.wybranyDzien];
-        this.modal.showModal(SzczegolyWydarzeniaComponent,{
-            context: przed,
-            viewContainerRef:  this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated:  false,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-          } as ExtendedShowModalOptions).then((result) => {
+        this.szczegoly.awaitToDecision(przed).then((result) => {
             if(result !== undefined)
             {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === result[1].getHours() && new Date(wydarzenie.godzina).getMinutes() === result[1].getMinutes())[0] === undefined) {
@@ -87,16 +78,7 @@ export class EdytujMszeComponent implements OnInit {
     {
         if(this.usuanie) { return; }
         let przed = [wydarzenie.typ,new Date(wydarzenie.godzina),wydarzenie.grupa === undefined ? null : wydarzenie.grupa,true,wydarzenie.data_dokladna, this.wybranyDzien];
-        this.modal.showModal(SzczegolyWydarzeniaComponent,{
-            context: przed,
-            viewContainerRef:  this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated:  false,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-          } as ExtendedShowModalOptions).then((result) => {
+        this.szczegoly.awaitToDecision(przed).then((result) => {
             if(result !== undefined)
             {
                 if (this.wydarzeniaDnia.filter(wydarzeniaaa => new Date(wydarzeniaaa.godzina).getHours() === result[1].getHours() && new Date(wydarzeniaaa.godzina).getMinutes() === result[1].getMinutes() && wydarzeniaaa.id !== this.wydarzeniaDnia[index].id)[0] === undefined) {
@@ -113,6 +95,9 @@ export class EdytujMszeComponent implements OnInit {
                         wydarzenie.data_dokladna = result[3];
                         this.aktualizujWydarzeniaDnia.push(wydarzenie);
                         this.zmiana = true;
+                        setTimeout(() => {
+                            this.sortuj();
+                        },50);
                     }
                 }
                 else {

@@ -1,22 +1,23 @@
-import { Component, OnInit} from '@angular/core';
-import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
+import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { lista } from '~/app/serwisy/stopien.model';
 import { EventData } from "tns-core-modules/data/observable";
 import { ListPicker } from "tns-core-modules/ui/list-picker";
 import { TimePicker } from 'tns-core-modules/ui/time-picker/time-picker';
-import {isAndroid, isIOS} from "tns-core-modules/platform";
+import { isAndroid, isIOS } from "tns-core-modules/platform";
 import { Label } from 'tns-core-modules/ui/label/label';
+import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
+import { popupOpen, popupClose } from '../../animations/popup';
 
 declare var java, NSLocale;
 @Component({
-  selector: 'ns-szczegoly-wydarzenia',
-  templateUrl: './szczegoly-wydarzenia.component.html',
-  styleUrls: ['./szczegoly-wydarzenia.component.css'],
-  moduleId: module.id,
+    selector: 'ns-szczegoly-wydarzenia',
+    templateUrl: './szczegoly-wydarzenia.component.html',
+    styleUrls: ['./szczegoly-wydarzenia.component.css'],
+    moduleId: module.id,
 })
-export class SzczegolyWydarzeniaComponent implements OnInit {
+export class SzczegolyWydarzeniaComponent{
 
-  constructor(private modal: ModalDialogParams) { }
+    constructor() { }
 
     typ: number = null;
     godzina: Date = null;
@@ -32,99 +33,119 @@ export class SzczegolyWydarzeniaComponent implements OnInit {
 
     context = Array<any>();
 
-  ngOnInit() {
-    this.lista = this.lista.concat(lista);
-    this.context = this.modal.context;
+    public visible = false;
+    public isUserInteractionEnabled = false;
 
-    if(this.context.length >= 3)
-    {
-        this.typ = this.context[0];
-        this.godzina = this.context[1];
-        this.stopien = this.context[2] !== undefined ? (this.context[2] === 12 ? 12 : this.context[2] + 1): null;
-        this.edycja = this.context[3];
-        this.data_dokladna = this.context[4] !== null ? this.context[4] : null;
-        this.jednorazowe = (this.data_dokladna !== null && this.data_dokladna !== undefined) ? true : false;
-        this.dzien_tygodnia = this.context[5];
+    @Output() decision = new EventEmitter<any>();
+    @ViewChild('window', { static: false }) modal: ElementRef<FlexboxLayout>;
+
+    async awaitToDecision(context: any) {
+        let duration = 300;
+        let element = undefined;
+        this.lista = this.lista.concat(lista);
+        this.context = context;
+
+        if (this.context.length >= 3) {
+            this.typ = this.context[0];
+            this.godzina = this.context[1];
+            this.stopien = this.context[2] !== undefined ? (this.context[2] === 12 ? 12 : this.context[2] + 1) : null;
+            this.edycja = this.context[3];
+            this.data_dokladna = this.context[4] !== null ? this.context[4] : null;
+            this.jednorazowe = (this.data_dokladna !== null && this.data_dokladna !== undefined) ? true : false;
+            this.dzien_tygodnia = this.context[5];
+        }
+
+
+        this.teraz = new Date();
+        this.teraz.setDate(this.teraz.getDate() + (7 + this.dzien_tygodnia - this.teraz.getDay()) % 7)
+        this.mozliwe_daty.push(this.teraz.toJSON().slice(0, 10))
+        for (let index = 0; index < 9; index++) {
+            this.teraz.setDate(this.teraz.getDate() + 7)
+            this.mozliwe_daty.push(this.teraz.toJSON().slice(0, 10))
+        }
+        if (this.jednorazowe) {
+            let index = this.mozliwe_daty.indexOf(this.data_dokladna)
+            this.dzien = index > 0 ? index : 0;
+        }
+
+        this.isUserInteractionEnabled = true;
+        this.visible = true;
+
+        element = this.modal.nativeElement;
+        popupOpen(element, duration);
+
+        return new Promise<any>((resolve) => {
+            this.decision.subscribe(event => {
+                popupClose(element, duration).then(() => {
+                    resolve(event);
+                    this.visible = false;
+                })
+            });
+        });
     }
 
-
-    this.teraz = new Date();
-    this.teraz.setDate(this.teraz.getDate() + (7+this.dzien_tygodnia-this.teraz.getDay())%7)
-    this.mozliwe_daty.push(this.teraz.toJSON().slice(0,10))
-    for (let index = 0; index < 9; index++) {
-        this.teraz.setDate(this.teraz.getDate() + 7)
-        this.mozliwe_daty.push(this.teraz.toJSON().slice(0,10))
-    }
-    if(this.jednorazowe)
-    {
-        let index = this.mozliwe_daty.indexOf(this.data_dokladna)
-        this.dzien = index > 0 ? index : 0;
+    decide(value: any) {
+        if (!this.isUserInteractionEnabled) { return; }
+        this.isUserInteractionEnabled = false;
+        this.decision.emit(value);
     }
 
-}
-
-  wybierz(id: number)
-  {
-    if(this.edycja)
-    {
-        return;
+    wybierz(id: number) {
+        this.isUserInteractionEnabled = false;
+        setTimeout(() => {
+            this.isUserInteractionEnabled = true;
+        },100)
+        if (this.edycja) {
+            return;
+        }
+        this.typ = id;
     }
-    this.typ = id;
-  }
 
-  onSelectedIndexChanged(event: EventData)
-  {
-    const picker = <ListPicker>event.object;
-    this.stopien = picker.selectedIndex;
-  }
-
-  onTimeChanged(args: EventData)
-  {
-    const tp = args.object as TimePicker;
-
-    this.godzina = tp.time;
-    this.godzina.setFullYear(2018,10,15);
-  }
-
-  get godzinaString()
-  {
-    return this.godzina ? new Date(this.godzina).toString().slice(16,21) : "--:--";
-  }
-
-  onPickerLoaded(args:EventData) {
-    const timePicker: TimePicker = <TimePicker> args.object;
-
-    if (isAndroid) {
-        timePicker.android.setIs24HourView(java.lang.Boolean.TRUE);
-    } else if (isIOS) {
-        const local = NSLocale.alloc().initWithLocaleIdentifier("PL");
-        timePicker.ios.locale = local;
+    onSelectedIndexChanged(event: EventData) {
+        const picker = <ListPicker>event.object;
+        this.stopien = picker.selectedIndex;
     }
-  }
 
-  onDateChanged(event: EventData)
-  {
-    const picker = <ListPicker>event.object;
-    this.dzien = picker.selectedIndex;
-  }
+    onTimeChanged(args: EventData) {
+        const tp = args.object as TimePicker;
 
-  onLblLoaded(args:EventData)
-  {
-    if(isAndroid)
-    {
-        const lbl = args.object as Label;
-        lbl.android.setGravity(17);
+        this.godzina = tp.time;
+        this.godzina.setFullYear(2018, 10, 15);
     }
-  }
 
-  zapisz()
-  {
-    this.modal.closeCallback([this.typ,this.godzina,this.typ === 2 ? (this.stopien === null ? -1 :(this.stopien === 12 ? this.stopien : this.stopien - 1)) : null,this.jednorazowe ? this.mozliwe_daty[this.dzien] : null]);
-  }
+    get godzinaString() {
+        return this.godzina ? new Date(this.godzina).toString().slice(16, 21) : "--:--";
+    }
 
-  zmienJednorazowe()
-  {
-      this.jednorazowe = !this.jednorazowe;
-  }
+    onPickerLoaded(args: EventData) {
+        const timePicker: TimePicker = <TimePicker>args.object;
+
+        if (isAndroid) {
+            timePicker.android.setIs24HourView(java.lang.Boolean.TRUE);
+        } else if (isIOS) {
+            const local = NSLocale.alloc().initWithLocaleIdentifier("PL");
+            timePicker.ios.locale = local;
+        }
+    }
+
+    onDateChanged(event: EventData) {
+        const picker = <ListPicker>event.object;
+        this.dzien = picker.selectedIndex;
+    }
+
+    onLblLoaded(args: EventData) {
+        if (isAndroid) {
+            const lbl = args.object as Label;
+            lbl.android.setGravity(17);
+        }
+    }
+
+    zapisz() {
+        this.decide([this.typ, this.godzina, this.typ === 2 ? (this.stopien === null ? -1 : (this.stopien === 12 ? this.stopien : this.stopien - 1)) : null, this.jednorazowe ? this.mozliwe_daty[this.dzien] : null]);
+    }
+
+    zmienJednorazowe() {
+        this.jednorazowe = !this.jednorazowe;
+    }
 
 }

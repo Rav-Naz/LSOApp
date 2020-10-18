@@ -1,18 +1,21 @@
-import { Component, ViewContainerRef } from "@angular/core";
+import { WyborModalComponent } from './shared/modale/wybor-modal/wybor-modal.component';
+import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
+import { Component, ViewContainerRef, ViewChild, OnInit, AfterViewInit } from "@angular/core";
 import { UiService } from "./serwisy/ui.service";
 const firebase = require('nativescript-plugin-firebase');
 import * as platform from 'tns-core-modules/platform'
 import { HttpService } from "./serwisy/http.service";
 import { TabindexService } from "./serwisy/tabindex.service";
-import { WiadomosciService } from "./serwisy/wiadomosci.service";
 
 @Component({
     selector: "ns-app",
     moduleId: module.id,
     templateUrl: "./app.component.html"
 })
-export class AppComponent {
-    constructor(private vcRef: ViewContainerRef, private uiService: UiService, private http: HttpService, private tabService: TabindexService, private wiadosciService: WiadomosciService) {}
+export class AppComponent implements OnInit, AfterViewInit {
+    constructor(private vcRef: ViewContainerRef, private uiService: UiService, private http: HttpService, private tabService: TabindexService) {}
+    @ViewChild('confirm', {static: false}) confirm: PotwierdzenieModalComponent;
+    @ViewChild('choose', {static: false}) choose: WyborModalComponent;
 
     ngOnInit() {
         this.uiService.setRootVCRef(this.vcRef);
@@ -23,7 +26,6 @@ export class AppComponent {
 
 
             onMessageReceivedCallback: (message) => {
-            console.log(message)
               if(message.foreground)
               {
                 if(this.tabService.opiekun === true)
@@ -62,4 +64,9 @@ export class AppComponent {
               })
             });
     }
+
+    ngAfterViewInit(): void {
+        this.uiService.setConfirmComponent(this.confirm);
+        this.uiService.setChooseComponent(this.choose);
+      }
 }

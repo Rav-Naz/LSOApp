@@ -1,25 +1,19 @@
-<ModalStack height="100%">
-    <FlexboxLayout class="f center">
-            <StackLayout>
-                <Label text="Zaloguj jako" horizontalAlignment="center" class="lexend label"></Label>
-                <GridLayout columns="*,*" rows="auto">
-                    <!-- <FlexboxLayout flexDirection="column" col="0" row="0" class="btn"> -->
-                        <Button (tap)="wybierz(0)" col="0" row="0" class="btn audiowide">
-                            <FormattedString margin="5"> 
-                                <Span text="&#xe092;&#xA;" class="icon tranp" fontSize="50"></Span>
-                                <Span text="Moje konto" class="audiowide tranp"></Span>
-                            </FormattedString>
-                        </Button>
-                    <!-- </FlexboxLayout> -->
-                    <!-- <FlexboxLayout flexDirection="column" col="1" row="0" class="btn"> -->
-                        <Button (tap)="wybierz(1)" col="1" row="0" class="btn audiowide">
-                            <FormattedString>
-                                <Span text="&#xe0fc;&#xA;" class="icon tranp" fontSize="50"></Span>
-                                <Span text="Konto opiekuna" class="audiowide tranp"></Span>
-                            </FormattedString>
-                        </Button>
-                    <!-- </FlexboxLayout> -->
-                </GridLayout>
-            </StackLayout>
-    </FlexboxLayout>
-</ModalStack>
+<FlexboxLayout class="center wh100" [style.visibility]="visible ? 'visible' : 'hidden'" (tap)="decide($event,undefined)">
+    <StackLayout class="f" #window>
+        <Label text="Zaloguj jako" horizontalAlignment="center" class="lexend label"></Label>
+        <GridLayout columns="*,*" rows="auto">
+            <!-- <FlexboxLayout flexDirection="column" col="0" row="0" class="btn"> -->
+            <FlexboxLayout (tap)="decide($event,0)" col="0" row="0" class="btn center audiowide">
+                <Label text="&#xe092;" class="icon tranp" fontSize="50"></Label>
+                <Label text="Moje konto" class="audiowide tranp"></Label>
+            </FlexboxLayout>
+            <!-- </FlexboxLayout> -->
+            <!-- <FlexboxLayout flexDirection="column" col="1" row="0" class="btn"> -->
+            <FlexboxLayout (tap)="decide($event,1)" col="1" row="0" class="btn center audiowide">
+                <Label text="&#xe0fc;" class="icon tranp" fontSize="50"></Label>
+                <Label text="Konto opiekuna" class="audiowide tranp"></Label>
+            </FlexboxLayout>
+            <!-- </FlexboxLayout> -->
+        </GridLayout>
+    </StackLayout>
+</FlexboxLayout>

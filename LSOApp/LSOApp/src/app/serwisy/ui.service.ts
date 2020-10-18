@@ -1,9 +1,8 @@
+import { WyborModalComponent } from './../shared/modale/wybor-modal/wybor-modal.component';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { Feedback, FeedbackType } from "nativescript-feedback";
 import { isIOS, Color } from 'tns-core-modules/ui/page/page';
-import { SesjaWygaslaComponent } from '../shared/modale/sesja-wygasla/sesja-wygasla.component';
 import { ModalDialogService } from 'nativescript-angular/common';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 
 @Injectable({
@@ -18,6 +17,9 @@ export class UiService {
     private feedback: Feedback;
 
     private _rootVCRef: ViewContainerRef;
+
+    private potwierdznieModal: PotwierdzenieModalComponent;
+    private wyborModal: WyborModalComponent;
 
     private listaLadowania = [
         true, // dyzury
@@ -57,16 +59,16 @@ export class UiService {
     pokazModalWyboru(context: string)
     {
         return new Promise<boolean>((resolve) => {
-                this.modal.showModal(PotwierdzenieModalComponent, {
-                    context: context,
-                    viewContainerRef: this._rootVCRef,
-                    fullscreen: false,
-                    stretched: false,
-                    animated: false,
-                    closeCallback: null,
-                    dimAmount: 0.8, // Sets the alpha of the background dim,
+                this.potwierdznieModal.awaitToDecision(context).then((wybor) => {
+                    resolve(wybor);
+                })
+            })
+    }
 
-                } as ExtendedShowModalOptions).then((wybor) => {
+    pokazModalListy(lista: Array<string>)
+    {
+        return new Promise<number>((resolve) => {
+                this.wyborModal.awaitToDecision(lista).then((wybor) => {
                     resolve(wybor);
                 })
             })
@@ -74,22 +76,24 @@ export class UiService {
 
     sesjaWygasla()
     {
-        this.modal.showModal(SesjaWygaslaComponent, {
-            context: null,
-            viewContainerRef: this._rootVCRef,
-            fullscreen: false,
-            stretched: false,
-            animated: true,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-        } as ExtendedShowModalOptions).then((result) => {})
+        this.showFeedback('error',"Twoja sesja wygasła. Zaloguj się ponownie", 5);
     }
 
     get ladowane()
     {
        return this.listaLadowania
     }
+
+    setConfirmComponent(component: PotwierdzenieModalComponent)
+    {
+        this.potwierdznieModal = component;
+    }
+
+    setChooseComponent(component: WyborModalComponent)
+    {
+        this.wyborModal = component;
+    }
+
 
     setRootVCRef(vcRef: ViewContainerRef)
     {

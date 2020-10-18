@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { Page } from 'tns-core-modules/ui/page/page';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 
 @Component({
   selector: 'ns-info',

@@ -1,13 +1,15 @@
-.f
-{
-    width: 85%;
+.f {
+    width: 90%;
     background-color: white;
     border-radius: 10%;
     padding: 7;
 }
 
-.text
-{
+.shadow {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.text {
     color: rgb(80, 80, 80);
     font-size: 14;
     margin: 2;
@@ -28,8 +30,7 @@
     background-color: rgb(80, 80, 80);
 }
 
-.godzina
-{
+.godzina {
     background-color: white;
     color: black;
     font-weight: 500;
@@ -39,8 +40,7 @@
     font-size: 15;
 }
 
-.check
-{
+.check {
     height: 25;
     width: 25;
     border-width: 1;
@@ -52,10 +52,8 @@
     background: transparent;
 }
 
-.checked
-{
+.checked {
     border-color: transparent;
-    background: linear-gradient(to bottom, #e71e25,#a5151a);
+    background: linear-gradient(to bottom, #e71e25, #a5151a);
     color: white;
 }
-

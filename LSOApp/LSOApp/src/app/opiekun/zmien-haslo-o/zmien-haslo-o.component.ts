@@ -7,8 +7,6 @@ import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ParafiaService } from '~/app/serwisy/parafia.service';
 import { Parafia } from '~/app/serwisy/parafia.model';
 import { ModalDialogService } from 'nativescript-angular/common';
-import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -127,16 +125,7 @@ export class ZmienHasloOComponent implements OnInit, AfterViewInit {
             wybory = this.rodzaje
         }
 
-        this.modal.showModal(WyborModalComponent, {
-            context: wybory,
-            viewContainerRef: this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated: false,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-        } as ExtendedShowModalOptions).then((result) => {
+        this.ui.pokazModalListy(wybory).then((result) => {
 
             if (akcja === 'diecezja') {
                 if (result !== undefined) {

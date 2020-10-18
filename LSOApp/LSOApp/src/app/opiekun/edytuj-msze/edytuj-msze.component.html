@@ -1,6 +1,6 @@
 <FlexboxLayout class="back center wh100">
-    <GridLayout columns="*" rows="30,10,*,auto" width="90%">
-        <FlexboxLayout class="flex wh100 center" row="1" rowSpan="2">
+    <GridLayout columns="10,*,10" rows="30,10,*,auto" width="100%">
+        <FlexboxLayout class="flex wh100 center" col="1" row="1" rowSpan="2">
             <GridLayout rows="*,*,*,*,*,*,*" columns="*,55" width="90%" marginTop="15" marginBottom="5">
 
                 <FlexboxLayout class="flex2 center backg-20" *ngFor="let dzien of DzienTygodnia, let i = index" col="1" [row]="i" [ngClass]="{wybrany: wybranyDzien === dzien}">
@@ -46,13 +46,17 @@
 
         </FlexboxLayout>
 
-        <FlexboxLayout class="nowy center b-p-10" row="0" rowSpan="2" width="75%">
+        <FlexboxLayout class="nowy center b-p-10" col="1" row="0" rowSpan="2" width="75%">
             <Label text="Edytuj wydarzenia" class="audiowide"></Label>
         </FlexboxLayout>
 
-        <GridLayout columns="*,*" rows="60" row="3">
+        <GridLayout columns="*,*" rows="60" row="3" col="1">
             <Button [text]="zmiana?'Anuluj':'Zamknij'" col="0" (tap)="anuluj()" class="anuluj b-p-10 audiowide"></Button>
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="zmiana" [ngClass]="{disabled: !zmiana}"></Button>
         </GridLayout>
+
+        <FlexboxLayout row="0" col="0" rowSpan="4" colSpan="3">
+            <ns-szczegoly-wydarzenia #szczegoly></ns-szczegoly-wydarzenia>
+        </FlexboxLayout>
     </GridLayout>
 </FlexboxLayout>

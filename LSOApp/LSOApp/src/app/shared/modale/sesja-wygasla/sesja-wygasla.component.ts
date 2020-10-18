@@ -13,7 +13,7 @@ import { UiService } from '~/app/serwisy/ui.service';
 })
 export class SesjaWygaslaComponent implements OnInit {
 
-  constructor(private modal: ModalDialogParams,private http: HttpService,private ui: UiService) { }
+  constructor(private http: HttpService,private ui: UiService) { }
 
   form: FormGroup;
 
@@ -63,10 +63,6 @@ export class SesjaWygaslaComponent implements OnInit {
         else if (res === 'blad') {
             this.ladowanie = false;
             this.ui.showFeedback('error',"Sprawdź swoje połączenie z internetem i spróbuj ponownie ",3)
-            this.modal.closeCallback()
-        }
-        else {
-            this.modal.closeCallback()
         }
     })
   }

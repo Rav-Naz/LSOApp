@@ -8,8 +8,6 @@ import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
 import { Stopien } from '~/app/serwisy/stopien.model';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -205,16 +203,7 @@ export class MinistrantSzczegolyComponent implements OnInit, AfterViewInit {
 
     displayActionDialog(ministrant: User) {
 
-        this.modal.showModal(WyborModalComponent, {
-            context: lista,
-            viewContainerRef: this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated: false,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-        } as ExtendedShowModalOptions).then((result) => {
+        this.ui.pokazModalListy(lista).then((result) => {
             if (result !== undefined) {
                 ministrant.stopien = (result === 11? 12 : result);
                 this.zmiana = true;

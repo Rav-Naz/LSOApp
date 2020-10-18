@@ -7,8 +7,6 @@ import { Switch } from 'tns-core-modules/ui/switch/switch';
 import { ScrollView } from 'tns-core-modules/ui/scroll-view'
 import { Page } from 'tns-core-modules/ui/page/page';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { WyborModalComponent } from '../shared/modale/wybor-modal/wybor-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { HttpService } from '../serwisy/http.service';
 import { UiService } from '../serwisy/ui.service';
 
@@ -115,17 +113,7 @@ export class RejestracjaComponent implements OnInit {
             wybory = ['Diecezjalni', 'Albertyni', 'Augustianie', 'Barnabici', 'Bazylianie', 'Benedyktyni', 'Bernardyni', 'Bonifratrzy', 'Bracia Gabrieliści', 'Bracia Pocieszyciele', 'Bracia Serca Jezusowego', 'Bracia Szkolni', 'Chrystusowcy', 'Cystersi', 'Doloryści', 'Dominikanie', 'Duchacze', 'Filipini', 'Franciszkanie OFM', 'Franciszkanie Konwentualni OFMConv', 'Guanellianie', 'Jezuici', 'Józefici', 'Kameduli', 'Kamilianie', 'Kanonicy Regularni', 'Kapucyni OFMCap', 'Kapucyni Tercjarze', 'Karmelici', 'Karmelici Bosi', 'Klaretyni', 'Kombonianie', 'Mali Bracia Jezusa', 'Marianie', 'Marianiści', 'Michalici', 'Misjonarze', 'Misjonarze Krwi Chrystusa', 'Misjonarze Matki Bożej Pocieszenia', 'Misjonarze Montfortanie', 'Misjonarze Oblaci Maryi Niepokalanej', 'Misjonarze Świętej Rodziny', 'Misjonarze z Mariannhill', 'Ojcowie Biali', 'Orioniści', 'Pallotyni', 'Pasjoniści', 'Paulini', 'Pauliści', 'Pijarzy', 'Redemptoryści', 'Rogacjoniści', 'Saletyni', 'Salezjanie', 'Salwatorianie', 'Sercanie', 'Sercanie Biali', 'Stowarzyszenie Misji Afrykańskich', 'Synowie Maryi', 'Trynitarze', 'Werbiści', 'Zmartwychwstańcy']
         }
 
-        this.modal.showModal(WyborModalComponent, {
-            context: wybory,
-            viewContainerRef: this.vcRef,
-            fullscreen: false,
-            stretched: false,
-            animated: false,
-            closeCallback: null,
-            dimAmount: 0.8 // Sets the alpha of the background dim,
-
-        } as ExtendedShowModalOptions).then((result) => {
-
+        this.ui.pokazModalListy(wybory).then((result) => {
             if (akcja === 'diecezja') {
                 if (result !== undefined) {
                     this._diecezja = wybory[result];

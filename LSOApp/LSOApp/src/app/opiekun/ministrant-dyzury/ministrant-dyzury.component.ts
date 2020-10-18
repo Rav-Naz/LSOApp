@@ -8,8 +8,6 @@ import { Subscription } from 'rxjs';
 import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
 import { TabindexService } from '~/app/serwisy/tabindex.service';
 import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { WyborModalComponent } from '~/app/shared/modale/wybor-modal/wybor-modal.component';
-import { ExtendedShowModalOptions } from 'nativescript-windowed-modal';
 import { UiService } from '~/app/serwisy/ui.service';
 
 @Component({
@@ -144,16 +142,7 @@ export class MinistrantDyzuryComponent implements OnInit {
                 wybor.push(new Date(wydarzenie.godzina).toString().slice(16,21));
             })
 
-            this.modal.showModal(WyborModalComponent,{
-                context: wybor,
-                viewContainerRef:  this.vcRef,
-                fullscreen: false,
-                stretched: false,
-                animated:  false,
-                closeCallback: null,
-                dimAmount: 0.8 // Sets the alpha of the background dim,
-
-              } as ExtendedShowModalOptions).then((result) => {
+           this.ui.pokazModalListy(wybor).then((result) => {
                 if(result !== undefined)
                 {
                     let ktoreWydarzenie = opcje[result];
