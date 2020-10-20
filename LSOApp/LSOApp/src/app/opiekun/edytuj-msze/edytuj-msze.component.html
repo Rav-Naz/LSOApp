@@ -55,7 +55,7 @@
             <Button text="Zapisz" col="1" (tap)="zapisz()" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="zmiana" [ngClass]="{disabled: !zmiana}"></Button>
         </GridLayout>
 
-        <FlexboxLayout row="0" col="0" rowSpan="4" colSpan="3">
+        <FlexboxLayout row="0" col="0" rowSpan="4" colSpan="3" [style.visibility]="modalidoczny ? 'visible' : 'hidden'">
             <ns-szczegoly-wydarzenia #szczegoly></ns-szczegoly-wydarzenia>
         </FlexboxLayout>
     </GridLayout>

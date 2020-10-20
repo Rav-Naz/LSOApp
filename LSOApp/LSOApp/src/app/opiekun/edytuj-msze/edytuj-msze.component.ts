@@ -33,6 +33,7 @@ export class EdytujMszeComponent implements OnInit {
     stareWydarzeniaDnia: Array<Wydarzenie>;
     aktualizujWydarzeniaDnia: Array<Wydarzenie>;
     usuanie: boolean = false;
+    modalidoczny: boolean = false;
 
     ngOnInit() {
         this.ui.zmienStan(3,true);
@@ -57,11 +58,14 @@ export class EdytujMszeComponent implements OnInit {
 
     async dodaj(args: EventData) {
         let przed = [null,new Date(),null,false,null,this.wybranyDzien];
+        this.modalidoczny = true;
         this.szczegoly.awaitToDecision(przed).then((result) => {
+            this.modalidoczny = false;
+            console.log(result)
             if(result !== undefined)
             {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === result[1].getHours() && new Date(wydarzenie.godzina).getMinutes() === result[1].getMinutes())[0] === undefined) {
-                        this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: result[0] === 0 ? "Msza Święta" : result[0] === 1 ? "Nabożeństwo" : "Zbiórka",typ: result[0], dzien_tygodnia: this.wybranyDzien, godzina:  new Date(2018, 10, 15, result[1].getHours(), result[1].getMinutes()).toJSON(), grupa: result[2], data_dokladna: result[3]});
+                        this.wydarzeniaDnia.push({ id: 0, id_parafii: 2, nazwa: result[0] === 0 ? "Msza Święta" : result[0] === 1 ? "Nabożeństwo" : "Zbiórka",typ: result[0], dzien_tygodnia: this.wybranyDzien, godzina:  new Date(2018, 10, 15, result[1].getHours(), result[1].getMinutes()).toJSON(), grupa: result[2], data_dokladna: result[4]});
                         this.zmiana = true;
                         setTimeout(() => {
                             this.sortuj();
@@ -78,7 +82,9 @@ export class EdytujMszeComponent implements OnInit {
     {
         if(this.usuanie) { return; }
         let przed = [wydarzenie.typ,new Date(wydarzenie.godzina),wydarzenie.grupa === undefined ? null : wydarzenie.grupa,true,wydarzenie.data_dokladna, this.wybranyDzien];
+        this.modalidoczny = true;
         this.szczegoly.awaitToDecision(przed).then((result) => {
+            this.modalidoczny = false;
             if(result !== undefined)
             {
                 if (this.wydarzeniaDnia.filter(wydarzeniaaa => new Date(wydarzeniaaa.godzina).getHours() === result[1].getHours() && new Date(wydarzeniaaa.godzina).getMinutes() === result[1].getMinutes() && wydarzeniaaa.id !== this.wydarzeniaDnia[index].id)[0] === undefined) {
@@ -91,8 +97,8 @@ export class EdytujMszeComponent implements OnInit {
                         wydarzenie.godzina = result[1].toJSON();
                         this.wydarzeniaDnia[index].grupa = result[2];
                         wydarzenie.grupa = result[2];
-                        this.wydarzeniaDnia[index].data_dokladna = result[3];
-                        wydarzenie.data_dokladna = result[3];
+                        this.wydarzeniaDnia[index].data_dokladna = result[4];
+                        wydarzenie.data_dokladna = result[4];
                         this.aktualizujWydarzeniaDnia.push(wydarzenie);
                         this.zmiana = true;
                         setTimeout(() => {

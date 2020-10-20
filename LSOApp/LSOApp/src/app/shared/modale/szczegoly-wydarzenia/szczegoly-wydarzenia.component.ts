@@ -3,7 +3,7 @@ import { lista } from '~/app/serwisy/stopien.model';
 import { EventData } from "tns-core-modules/data/observable";
 import { ListPicker } from "tns-core-modules/ui/list-picker";
 import { TimePicker } from 'tns-core-modules/ui/time-picker/time-picker';
-import { isAndroid, isIOS } from "tns-core-modules/platform";
+import { device, isAndroid, isIOS } from "tns-core-modules/platform";
 import { Label } from 'tns-core-modules/ui/label/label';
 import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
 import { popupOpen, popupClose } from '../../animations/popup';
@@ -55,7 +55,6 @@ export class SzczegolyWydarzeniaComponent{
             this.dzien_tygodnia = this.context[5];
         }
 
-
         this.teraz = new Date();
         this.teraz.setDate(this.teraz.getDate() + (7 + this.dzien_tygodnia - this.teraz.getDay()) % 7)
         this.mozliwe_daty.push(this.teraz.toJSON().slice(0, 10))
@@ -72,14 +71,14 @@ export class SzczegolyWydarzeniaComponent{
         this.visible = true;
 
         element = this.modal.nativeElement;
-        popupOpen(element, duration);
+        // popupOpen(element, duration);
 
         return new Promise<any>((resolve) => {
             this.decision.subscribe(event => {
-                popupClose(element, duration).then(() => {
+                // popupClose(element, duration).then(() => {
                     resolve(event);
                     this.visible = false;
-                })
+                // })
             });
         });
     }
@@ -141,11 +140,19 @@ export class SzczegolyWydarzeniaComponent{
     }
 
     zapisz() {
-        this.decide([this.typ, this.godzina, this.typ === 2 ? (this.stopien === null ? -1 : (this.stopien === 12 ? this.stopien : this.stopien - 1)) : null, this.jednorazowe ? this.mozliwe_daty[this.dzien] : null]);
+        this.decide([this.typ, this.godzina, this.typ === 2 ? (this.stopien === null ? -1 : (this.stopien === 12 ? this.stopien : this.stopien - 1)) : null, this.edycja ,this.jednorazowe ? this.mozliwe_daty[this.dzien] : null, this.dzien_tygodnia]);
     }
 
     zmienJednorazowe() {
         this.jednorazowe = !this.jednorazowe;
+    }
+
+    get isAndroid() {
+        return isAndroid;
+    }
+
+    get isIOS14() {
+        return isIOS && parseFloat(device.osVersion) >= 14;
     }
 
 }

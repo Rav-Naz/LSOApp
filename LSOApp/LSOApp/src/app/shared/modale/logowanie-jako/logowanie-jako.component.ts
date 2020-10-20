@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { EventData } from 'tns-core-modules/ui/page';
+import { EventData, isAndroid } from 'tns-core-modules/ui/page';
 import { Label } from 'tns-core-modules/ui/label';
 import { Color } from 'tns-core-modules/color';
 import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout';
@@ -39,7 +39,7 @@ export class LogowanieJakoComponent {
 
     decide(event: EventData, value: number) {
         if (!this.isUserInteractionEnabled) { return; }
-        if (value === 0 || value === 1) {
+        if (value === 0 || value === 1 && isAndroid) {
             const lbl = event.object as Label;
             let oldColor = lbl.backgroundColor;
             lbl.backgroundColor = new Color("rgb(40, 40, 40)");
@@ -49,6 +49,10 @@ export class LogowanieJakoComponent {
         }
         this.isUserInteractionEnabled = false;
         this.decision.emit(value);
+    }
+
+    get isAndroid() {
+        return isAndroid;
     }
 
 

@@ -57,3 +57,10 @@
     background: linear-gradient(to bottom, #e71e25, #a5151a);
     color: white;
 }
+
+.back {
+    background-color: transparent;
+    color: transparent;
+    height: 100%;
+    width: 100%;
+}

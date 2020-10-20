@@ -112,7 +112,6 @@ export class LogowanieComponent implements OnInit {
 
                 if (user.admin === 1) {
                    this.loginAs.awaitToDecision().then((result) => {
-
                         if (result !== undefined) {
                             this.ladowanie = true;
                             if (result === 1) {

@@ -42,7 +42,7 @@ export class PotwierdzenieModalComponent {
 
     decide(event: EventData,value: boolean) {
         if (!this.isUserInteractionEnabled) { return; }
-        if (value === false) {
+        if (value === false && isAndroid) {
             const lbl = event.object as Label;
             let oldColor = "linear-gradient(to bottom, #e71e25, #a5151a)";
             lbl.background = "linear-gradient(to bottom, #a5151a, #640b0e)"
@@ -50,7 +50,7 @@ export class PotwierdzenieModalComponent {
                 lbl.background = oldColor;
             }, 100)
         }
-        else if(value === true)
+        else if(value === true && isAndroid)
         {
             const lbl = event.object as Label;
             let oldColor = lbl.backgroundColor;
@@ -72,5 +72,8 @@ export class PotwierdzenieModalComponent {
         }
     }
 
+    get isAndroid() {
+        return isAndroid;
+    }
 
 }

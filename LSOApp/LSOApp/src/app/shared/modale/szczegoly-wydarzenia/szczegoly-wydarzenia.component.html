@@ -1,4 +1,5 @@
-<FlexboxLayout class="wh100 center shadow" [style.visibility]="visible ? 'visible' : 'hidden'" (tap)="decide(undefined)">
+<GridLayout class="wh100 center shadow" [style.visibility]="visible ? 'visible' : 'hidden'">
+    <Button class="back" (tap)="decide(undefined)"></Button>
     <FlexboxLayout [height]="jednorazowe || typ === 2 ? '85%' : '70%'" class="f center" #window>
         <ScrollView class="wh100" *ngIf="visible">
             <FlexboxLayout class="center" flexDirection="column" width="95%">
@@ -20,7 +21,7 @@
                 </GridLayout>
                 <!-- Godzina -->
                 <Label text="Godzina" class="stand audiowide" marginTop="5"></Label>
-                <TimePicker [time]="godzina" (timeChange)="onTimeChanged($event)" (loaded)="onPickerLoaded($event)" height="150" padding="0" margin="0"></TimePicker>
+                <TimePicker [time]="godzina" (timeChange)="onTimeChanged($event)" (loaded)="onPickerLoaded($event)" [height]="isIOS14 ? 'auto' : '150'" [width]="isIOS14 ? '70' : '50%'" padding="0" margin="0"></TimePicker>
                 <!-- Jednorazowe -->
                 <FlexboxLayout flexDirection="row" justifyContent="space-between" alignItems="center" width="50%">
                     <Label text="Jednorazowe" class="stand audiowide"></Label>
@@ -30,8 +31,13 @@
                 <!-- Grupa -->
                 <Label text="Grupa" class="stand audiowide" *ngIf="typ === 2" [marginTop]="jednorazowe ? '0' : '5'"></Label>
                 <ListPicker [items]="lista" [selectedIndex]="stopien" height="120" width="75%" *ngIf="typ === 2" (selectedIndexChange)="onSelectedIndexChanged($event)"></ListPicker>
-                <Label text="Zapisz" (tap)="zapisz()" (loaded)="onLblLoaded($event)" textAlignment="center" col="1" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="typ !== null ? true : false" [ngClass]="{disabled: !(typ !== null ? true : false)}" height="35" width="30%"></Label>
+                <ng-container *ngIf="isAndroid">
+                    <Label text="Zapisz" (tap)="zapisz()" (loaded)="onLblLoaded($event)" textAlignment="center" col="1" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="typ !== null ? true : false" [ngClass]="{disabled: !(typ !== null ? true : false)}" height="35" width="30%"></Label>
+                </ng-container>
+                <ng-container *ngIf="!isAndroid">
+                    <Button text="Zapisz" (tap)="zapisz()" textAlignment="center" col="1" class="anuluj b-p-10 zapisz audiowide" [isEnabled]="typ !== null ? true : false" [ngClass]="{disabled: !(typ !== null ? true : false)}" height="35" width="30%"></Button>
+                </ng-container>
             </FlexboxLayout>
         </ScrollView>
     </FlexboxLayout>
-</FlexboxLayout>
+</GridLayout>
