@@ -108,8 +108,9 @@ export class SzczegolyWydarzeniaComponent{
         });
     }
 
-    decide(value: any) {
+    decide(value: any, isButton?: boolean) {
         if (!this.isUserInteractionEnabled) { return; }
+        if( isButton === false && !isAndroid) { return; }
         this.isUserInteractionEnabled = false;
         this.decision.emit(value);
     }

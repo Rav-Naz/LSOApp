@@ -61,7 +61,6 @@ export class EdytujMszeComponent implements OnInit {
         this.modalidoczny = true;
         this.szczegoly.awaitToDecision(przed).then((result) => {
             this.modalidoczny = false;
-            console.log(result)
             if(result !== undefined)
             {
                 if (this.wydarzeniaDnia.filter(wydarzenie => new Date(wydarzenie.godzina).getHours() === result[1].getHours() && new Date(wydarzenie.godzina).getMinutes() === result[1].getMinutes())[0] === undefined) {

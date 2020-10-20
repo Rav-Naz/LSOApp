@@ -41,7 +41,7 @@
                                 <Label [text]="item.autor_id === 0 ?  'ADMINISTRATOR' : 'OPIEKUN'" class="autor lexend"></Label>
                                 <Label [text]="item.tresc | uri" class="tresc lexend" #label></Label>
                                 <Image [src]="item.linkobrazu" class="obraz lexend" *ngIf="item.linkobrazu" height="270"></Image>
-                                <Button text="Pobierz obraz" class="btn audiowide b-p-10" (tap)="pobierzObraz(item.linkobrazu)" *ngIf="item.linkobrazu"></Button>
+                                <!-- <Button text="Pobierz obraz" class="btn audiowide b-p-10" (tap)="pobierzObraz(item.linkobrazu)" *ngIf="item.linkobrazu"></Button> -->
                             </FlexboxLayout>
                         </GridLayout>
                     </ng-template>
