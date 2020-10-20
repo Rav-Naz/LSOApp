@@ -6,7 +6,8 @@ import { TimePicker } from 'tns-core-modules/ui/time-picker/time-picker';
 import { device, isAndroid, isIOS } from "tns-core-modules/platform";
 import { Label } from 'tns-core-modules/ui/label/label';
 import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
-import { popupOpen, popupClose } from '../../animations/popup';
+import { AnimationCurve } from "tns-core-modules/ui/enums";
+import { popupClose, popupOpen } from '../../animations/popup';
 
 declare var java, NSLocale;
 @Component({
@@ -71,14 +72,38 @@ export class SzczegolyWydarzeniaComponent{
         this.visible = true;
 
         element = this.modal.nativeElement;
-        // popupOpen(element, duration);
+        if(isAndroid) {
+            popupOpen(element, duration)
+        }
+        else {
+            element.opacity = 0;
+            element.animate({
+                opacity: 1,
+                curve: AnimationCurve.easeInOut,
+                duration: duration
+            })
+        }
 
         return new Promise<any>((resolve) => {
             this.decision.subscribe(event => {
-                // popupClose(element, duration).then(() => {
-                    resolve(event);
-                    this.visible = false;
-                // })
+                if(isAndroid) {
+                    popupClose(element,duration).then(() => {
+                        resolve(event);
+                        this.visible = false;
+                    })
+                }
+                else
+                {
+                    element.animate(
+                        {
+                            opacity: 0,
+                            curve: AnimationCurve.easeInOut,
+                            duration: duration
+                        }).then(() => {
+                            resolve(event);
+                            this.visible = false;
+                        })
+                }
             });
         });
     }
