@@ -1,5 +1,4 @@
-<ng-container>
-    <GridLayout class="wh100 center shadow" [style.visibility]="visible ? 'visible' : 'hidden'" (tap)="decide(undefined,false)">
+<GridLayout class="wh100 center shadow" [style.visibility]="visible ? 'visible' : 'hidden'" (tap)="decide(undefined,false)">
         <ng-container *ngIf="!isAndroid">
             <Button class="back" (tap)="decide(undefined,true)"></Button>
         </ng-container>
