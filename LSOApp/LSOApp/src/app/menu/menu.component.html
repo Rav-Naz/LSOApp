@@ -16,28 +16,47 @@
         <!-- Widok ministranta -->
         <GridLayout columns="*" rows="*,auto" *ngIf="!this.tabIndexService.opiekun" flexDirection="column">
             <FlexboxLayout col="0" height="100%">
-                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="false">
-                    <TabContentItem *ngIf="this.user.stopien !== 11">
+                <!-- <TabView [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="false">
+                    <TabViewItem title="dyzury" *ngIf="this.user.stopien !== 11">
                         <page-router-outlet name="dyzury"></page-router-outlet>
-                    </TabContentItem>
-                    <TabContentItem *ngIf="true">
+                    </TabViewItem>
+                    <TabViewItem title="wiadomosciM" *ngIf="true">
                         <page-router-outlet name="wiadomosciM"></page-router-outlet>
-                    </TabContentItem>
-                    <TabContentItem *ngIf="true">
+                    </TabViewItem>
+                    <TabViewItem title="ustawieniaM" *ngIf="true">
                         <page-router-outlet name="ustawieniaM"></page-router-outlet>
-                    </TabContentItem>
-                </Tabs>
+                    </TabViewItem>
+                </TabView> -->
+                <TabView [selectedIndex]="selectedIndex" class="icon" (selectedIndexChange)="onSelectedIndexchanged($event)" tabBackgroundColor="black" tabTextColor="grey" androidTabsPosition="bottom" selectedTabTextColor="white" tabTextFontSize="20" androidSelectedTabHighlightColor="#e71e25">
+                    <ng-container *ngIf="this.user.stopien !== 11">
+                        <StackLayout *tabItem="{title: '&#xe01b;'}">
+                            <page-router-outlet name="dyzury"></page-router-outlet>
+                        </StackLayout>
+                    </ng-container>
+
+                    <ng-container *ngIf="true">
+                        <StackLayout *tabItem="{title: '&#xe032;'}">
+                            <page-router-outlet name="wiadomosciM"></page-router-outlet>
+                        </StackLayout>
+                    </ng-container>
+
+                    <ng-container *ngIf="true">
+                        <StackLayout *tabItem="{title: '&#xe0e3;'}">
+                            <page-router-outlet name="ustawieniaM"></page-router-outlet>
+                        </StackLayout>
+                    </ng-container>
+                </TabView>
             </FlexboxLayout>
-            <GridLayout [columns]="this.user.stopien !== 11 ? '*,*,*' : '*,*'" rows="50" row="1" backgroundColor="black">
+            <!-- <GridLayout [columns]="this.user.stopien !== 11 ? '*,*,*' : '*,*'" rows="50" row="1" backgroundColor="black">
                 <Button col="0" text="&#xe01b;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 0}" (tap)="zmienStrone(0)" *ngIf="this.user.stopien !== 11"></Button>
                 <Button [col]="this.user.stopien !== 11 ? 1 : 0" text="&#xe032;" class="icon strip-item" [ngClass]="{'strip-item-active': this.user.stopien !== 11 ? selectedIndex === 1 : selectedIndex === 0 }" (tap)="this.user.stopien !== 11 ? zmienStrone(1) : zmienStrone(0)"></Button>
                 <Button [col]="this.user.stopien !== 11 ? 2 : 1" text="&#xe0e3;" class="icon strip-item" [ngClass]="{'strip-item-active': this.user.stopien !== 11 ? selectedIndex === 2 : selectedIndex === 1 }" (tap)="this.user.stopien !== 11 ? zmienStrone(2) : zmienStrone(1)"></Button>
-            </GridLayout>
+            </GridLayout> -->
         </GridLayout>
         <!-- Widok opiekuna -->
         <GridLayout columns="*" rows="*,auto" *ngIf="this.tabIndexService.opiekun" flexDirection="column">
             <FlexboxLayout row="0" height="100%">
-                <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="false">
+                <!-- <Tabs [selectedIndex]="selectedIndex" (selectedIndexChanged)="zmianaIndexu($event)" [swipeEnabled]="false">
 
                     <TabContentItem>
                         <page-router-outlet name="obecnosc"></page-router-outlet>
@@ -51,15 +70,29 @@
                     <TabContentItem>
                         <page-router-outlet name="ustawieniaO"></page-router-outlet>
                     </TabContentItem>
-                </Tabs>
+                </Tabs> -->
+                <TabView [selectedIndex]="selectedIndex" class="icon" (selectedIndexChange)="onSelectedIndexchanged($event)" tabBackgroundColor="black" tabTextColor="grey" androidTabsPosition="bottom" selectedTabTextColor="white" tabTextFontSize="20" androidSelectedTabHighlightColor="#e71e25">
+                    <StackLayout *tabItem="{title: '&#xe0e7;'}">
+                        <page-router-outlet name="obecnosc"></page-router-outlet>
+                    </StackLayout>
+                    <StackLayout *tabItem="{title: '&#xe092;'}">
+                        <page-router-outlet name="ministranci"></page-router-outlet>
+                    </StackLayout>
+                    <StackLayout *tabItem="{title: '&#xe032;'}">
+                        <page-router-outlet name="wiadomosciO"></page-router-outlet>
+                    </StackLayout>
+                    <StackLayout *tabItem="{title: '&#xe0e3;'}">
+                        <page-router-outlet name="ustawieniaO"></page-router-outlet>
+                    </StackLayout>
+                </TabView>
             </FlexboxLayout>
 
-            <GridLayout columns="*,*,*,*" rows="50" row="1" backgroundColor="black">
+            <!-- <GridLayout columns="*,*,*,*" rows="50" row="1" backgroundColor="black">
                 <Button col="0" text="&#xe0e7;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 0}" (tap)="zmienStrone(0)"></Button>
                 <Button col="1" text="&#xe092;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 1}" (tap)="zmienStrone(1)"></Button>
                 <Button col="2" text="&#xe032;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 2}" (tap)="zmienStrone(2)"></Button>
                 <Button col="3" text="&#xe0e3;" class="icon strip-item" [ngClass]="{'strip-item-active': selectedIndex === 3}" (tap)="zmienStrone(3)"></Button>
-            </GridLayout>
+            </GridLayout> -->
 
         </GridLayout>
 
