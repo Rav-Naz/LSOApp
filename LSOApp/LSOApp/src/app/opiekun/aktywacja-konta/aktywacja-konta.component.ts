@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { Page} from 'tns-core-modules/ui/page/page';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { HttpService } from '~/app/serwisy/http.service';
-import { UiService } from '~/app/serwisy/ui.service';
-import { ModalDialogService } from 'nativescript-angular/directives/dialogs';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+// import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page} from 'tns-core-modules/ui/page/page';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { HttpService } from '../../../app/serwisy/http.service';
+import { UiService } from '../../../app/serwisy/ui.service';
+// import { ModalDialogService } from 'nativescript-angular/directives/dialogs';
+import { TextField, Page } from '@nativescript/core';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-aktywacja-konta',

@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { RouterExtensions } from 'nativescript-angular/router';
-import * as utils from "tns-core-modules/utils/utils";
-import * as email from "nativescript-email";
-import { UserService } from '~/app/serwisy/user.service';
+// import { Page } from 'tns-core-modules/ui/page/page';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+// import { RouterExtensions } from 'nativescript-angular/router';
+// import * as utils from "tns-core-modules/utils/utils";
+// import * as email from "nativescript-email";
+import * as email from "@nativescript/email";
+import { UserService } from '../../../app/serwisy/user.service';
 import { Subscription } from 'rxjs';
-import { SecureStorage } from "nativescript-secure-storage";
+import { SecureStorage } from '@nativescript/secure-storage';
 import { ActivatedRoute } from '@angular/router';
-import { UiService } from '~/app/serwisy/ui.service';
-import { HttpService } from '~/app/serwisy/http.service';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { HttpService } from '../../../app/serwisy/http.service';
+import { Page } from '@nativescript/core';
+import { openUrl } from '@nativescript/core/utils';
+import { RouterExtensions } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-ustawienia-m',
@@ -48,7 +52,7 @@ export class UstawieniaMComponent implements OnInit {
 
     otworzLink(link: string)
     {
-        utils.openUrl(link);
+        openUrl(link);
     }
 
     wyloguj()

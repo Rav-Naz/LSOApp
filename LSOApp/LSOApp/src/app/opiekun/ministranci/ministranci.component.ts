@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Page, View, EventData, Color, isIOS } from 'tns-core-modules/ui/page/page';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { User } from '~/app/serwisy/user.model';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page, View, EventData, Color, isIOS } from 'tns-core-modules/ui/page/page';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { User } from '../../../app/serwisy/user.model';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { Subscription } from 'rxjs';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { WydarzeniaService } from '../../../app/serwisy/wydarzenia.service';
 import { ActivatedRoute } from '@angular/router';
-import { sortPolskich } from '~/app/shared/sortPolskich';
-import { UserService } from '~/app/serwisy/user.service';
-import { UiService } from '~/app/serwisy/ui.service';
+import { sortPolskich } from '../../../app/shared/sortPolskich';
+import { UserService } from '../../../app/serwisy/user.service';
+import { UiService } from '../../../app/serwisy/ui.service';
 import { ListViewEventData, RadListView, PullToRefreshStyle } from 'nativescript-ui-listview';
+import { Page, isIOS, Color, View, EventData } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-ministranci',

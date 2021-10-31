@@ -27,7 +27,7 @@ export class WiadomosciService {
 
     async pobierzWiadomosci(do_opiekuna: number, limit: number)//Wykorzystanie: wiadomosci-m, wiadomosci-o
     {
-        return new Promise<Array<Wiadomosc>>(resolve => {
+        return new Promise<void>(resolve => {
             this.http.pobierzWidaomosci(do_opiekuna, limit).then(res => {
                 this.wiadomosci.next(res);
                 resolve()

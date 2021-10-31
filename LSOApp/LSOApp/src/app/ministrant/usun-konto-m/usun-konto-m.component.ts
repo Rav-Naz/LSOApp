@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page } from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { SecureStorage } from "nativescript-secure-storage";
-import { UserService } from '~/app/serwisy/user.service';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { UiService } from '~/app/serwisy/ui.service';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { SecureStorage } from '@nativescript/secure-storage';
+import { UserService } from '../../../app/serwisy/user.service';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { Page, TextField } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-usun-konto-m',

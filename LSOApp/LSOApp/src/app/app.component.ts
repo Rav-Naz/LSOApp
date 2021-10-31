@@ -1,9 +1,10 @@
 import { WyborModalComponent } from './shared/modale/wybor-modal/wybor-modal.component';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
+import { PotwierdzenieModalComponent } from '../app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
 import { Component, ViewContainerRef, ViewChild, OnInit, AfterViewInit } from "@angular/core";
+import { firebase } from '@nativescript/firebase';
 import { UiService } from "./serwisy/ui.service";
-const firebase = require('nativescript-plugin-firebase');
-import * as platform from 'tns-core-modules/platform'
+// const firebase = require('nativescript-plugin-firebase');
+import * as platform from '@nativescript/core/platform';
 import { HttpService } from "./serwisy/http.service";
 import { TabindexService } from "./serwisy/tabindex.service";
 

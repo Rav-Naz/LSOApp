@@ -1,19 +1,23 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
-import * as utils from "tns-core-modules/utils/utils";
-import * as email from "nativescript-email";
-import { UserService } from '~/app/serwisy/user.service';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
+// import { Page } from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
+// import * as utils from "tns-core-modules/utils/utils";
+import * as email from "@nativescript/email";
+import { UserService } from '../../../app/serwisy/user.service';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { HttpService } from '~/app/serwisy/http.service';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { SecureStorage } from 'nativescript-secure-storage';
-import { UiService } from '~/app/serwisy/ui.service';
-import { ModalDialogService } from 'nativescript-angular/common';
+import { HttpService } from '../../../app/serwisy/http.service';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { WiadomosciService } from '../../../app/serwisy/wiadomosci.service';
+import { WydarzeniaService } from '../../../app/serwisy/wydarzenia.service';
+// import { SecureStorage } from 'nativescript-secure-storage';
+import { SecureStorage } from '@nativescript/secure-storage';
+import { UiService } from '../../../app/serwisy/ui.service';
+// import { ModalDialogService } from 'nativescript-angular/common';
+import { Page } from '@nativescript/core';
+import { openUrl } from '@nativescript/core/utils';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 
 @Component({
@@ -56,7 +60,7 @@ export class UstawieniaOComponent implements OnInit {
     }
 
     otworzLink(link: string) {
-        utils.openUrl(link);
+        openUrl(link);
     }
 
     wyloguj() {
@@ -167,7 +171,7 @@ export class UstawieniaOComponent implements OnInit {
     {
         this.ui.pokazModalWyboru('Raport zostanie wysłany na twój adres email.\nCzy chcesz kontynuować?').then(wybor => {
             if(wybor) {
-                new Promise((resolve, reject) => {
+                new Promise<void>((resolve, reject) => {
                     this.ui.showFeedback('loading',"Trwa przygotowywanie raportu",10);
                     this.http.generujRaport(this.userService.UserEmail).then(res => {
                         if(res === 'Wysłano')

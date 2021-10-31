@@ -1,18 +1,19 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Page, EventData, isAndroid } from 'tns-core-modules/ui/page/page';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
-import { User } from '~/app/serwisy/user.model';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
+// import { Page, EventData, isAndroid } from 'tns-core-modules/ui/page/page';
+import { WydarzeniaService } from '../../../app/serwisy/wydarzenia.service';
+import { Wydarzenie } from '../../../app/serwisy/wydarzenie.model';
+import { DzienTyg } from '../../../app/serwisy/dzien_tygodnia.model';
+import { User } from '../../../app/serwisy/user.model';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
 import { Subscription } from 'rxjs';
 import { RadCalendarComponent } from "nativescript-ui-calendar/angular";
-import { Obecnosc } from '~/app/serwisy/obecnosc.model';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { UiService } from '~/app/serwisy/ui.service';
-import { sortPolskich } from '~/app/shared/sortPolskich';
-import { Label } from 'tns-core-modules/ui/label';
-import { lista } from '~/app/serwisy/stopien.model';
+import { Obecnosc } from '../../../app/serwisy/obecnosc.model';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { sortPolskich } from '../../../app/shared/sortPolskich';
+// import { Label } from 'tns-core-modules/ui/label';
+import { lista } from '../../../app/serwisy/stopien.model';
+import { Page, EventData, Label, isAndroid } from '@nativescript/core';
 
 @Component({
     selector: 'ns-obecnosc',

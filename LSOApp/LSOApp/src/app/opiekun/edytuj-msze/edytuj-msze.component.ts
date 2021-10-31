@@ -1,15 +1,17 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { Page, EventData, View, Color } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { DzienTyg } from '~/app/serwisy/dzien_tygodnia.model';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
+// import { Page, EventData, View, Color } from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
+import { DzienTyg } from '../../../app/serwisy/dzien_tygodnia.model';
+import { WydarzeniaService } from '../../../app/serwisy/wydarzenia.service';
 import { Subscription } from 'rxjs';
-import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { UiService } from '~/app/serwisy/ui.service';
+import { Wydarzenie } from '../../../app/serwisy/wydarzenie.model';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { UiService } from '../../../app/serwisy/ui.service';
 import { ListViewEventData } from 'nativescript-ui-listview';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { SzczegolyWydarzeniaComponent } from '~/app/shared/modale/szczegoly-wydarzenia/szczegoly-wydarzenia.component';
+// import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+import { SzczegolyWydarzeniaComponent } from '../../../app/shared/modale/szczegoly-wydarzenia/szczegoly-wydarzenia.component';
+import { Page, EventData, View, Color } from '@nativescript/core';
+import { ModalDialogService, RouterExtensions } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-edytuj-msze',

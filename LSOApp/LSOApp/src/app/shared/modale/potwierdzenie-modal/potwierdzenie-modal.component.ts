@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { EventData, isAndroid, Color } from 'tns-core-modules/ui/page';
-import { Label } from 'tns-core-modules/ui/label';
-import { GridLayout } from 'tns-core-modules/ui/layouts/grid-layout';
+// import { EventData, isAndroid, Color } from 'tns-core-modules/ui/page';
+// import { Label } from 'tns-core-modules/ui/label';
+// import { GridLayout } from 'tns-core-modules/ui/layouts/grid-layout';
 import { popupOpen, popupClose } from '../../animations/popup';
+import { GridLayout, EventData, isAndroid, Label, Color } from '@nativescript/core';
 
 @Component({
     selector: 'ns-potwierdzenie-modal',

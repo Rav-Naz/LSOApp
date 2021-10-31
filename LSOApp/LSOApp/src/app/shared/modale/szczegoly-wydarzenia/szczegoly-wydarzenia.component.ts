@@ -1,13 +1,15 @@
 import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { lista } from '~/app/serwisy/stopien.model';
-import { EventData } from "tns-core-modules/data/observable";
-import { ListPicker } from "tns-core-modules/ui/list-picker";
-import { TimePicker } from 'tns-core-modules/ui/time-picker/time-picker';
-import { device, isAndroid, isIOS } from "tns-core-modules/platform";
-import { Label } from 'tns-core-modules/ui/label/label';
-import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
-import { AnimationCurve } from "tns-core-modules/ui/enums";
+import { lista } from '../../../../../src/app/serwisy/stopien.model';
+// import { EventData } from "tns-core-modules/data/observable";
+// import { ListPicker } from "tns-core-modules/ui/list-picker";
+// import { TimePicker } from 'tns-core-modules/ui/time-picker/time-picker';
+// import { device, isAndroid, isIOS } from "tns-core-modules/platform";
+// import { Label } from 'tns-core-modules/ui/label/label';
+// import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
+// import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { popupClose, popupOpen } from '../../animations/popup';
+import { FlexboxLayout, isAndroid, AnimationCurve, EventData, ListPicker, TimePicker, isIOS, Label } from '@nativescript/core';
+import { device } from '@nativescript/core/platform';
 
 declare var java, NSLocale;
 @Component({

@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { UserService } from '~/app/serwisy/user.service';
-import { User } from '~/app/serwisy/user.model';
+// import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page } from 'tns-core-modules/ui/page/page';
+import { UserService } from '../../../app/serwisy/user.service';
+import { User } from '../../../app/serwisy/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { Subscription } from 'rxjs';
-import { UiService } from '~/app/serwisy/ui.service';
-import { Button } from 'tns-core-modules/ui/button/button';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { Page, TextField, Button } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
+// import { Button } from 'tns-core-modules/ui/button/button';
 
 @Component({
   selector: 'ns-dane-profilowe',

@@ -1,16 +1,19 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Page, View, EventData, Color } from 'tns-core-modules/ui/page/page';
-import { Wiadomosc } from '~/app/serwisy/wiadomosci.model';
+// import { Page, View, EventData, Color } from 'tns-core-modules/ui/page/page';
+import { Wiadomosc } from '../../../app/serwisy/wiadomosci.model';
 import { Subscription } from 'rxjs';
-import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { getFile } from 'tns-core-modules/http';
-import * as fileSystem from "tns-core-modules/file-system";
-import { isAndroid, isIOS} from "tns-core-modules/platform";
+import { WiadomosciService } from '../../../app/serwisy/wiadomosci.service';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+// import { getFile } from 'tns-core-modules/http';
+// import * as fileSystem from "tns-core-modules/file-system";
+// import { isAndroid, isIOS} from "tns-core-modules/platform";
 import * as permission from 'nativescript-permissions'
-import { UiService } from '~/app/serwisy/ui.service';
+import { UiService } from '../../../app/serwisy/ui.service';
 import { ListViewEventData, PullToRefreshStyle, RadListView, LoadOnDemandListViewEventData} from 'nativescript-ui-listview';
-import { fromUrl, ImageSource } from "tns-core-modules/image-source";
+import { TextField, Page, EventData, Color, View, isAndroid, ImageSource, isIOS, path } from '@nativescript/core';
+import { getFile } from '@nativescript/core/http';
+import { fromUrl } from '@nativescript/core/image-source';
+// import { fromUrl, ImageSource } from "tns-core-modules/image-source";
 
 declare var android, NSObject,interop,UIImage,NSError,UIImageWriteToSavedPhotosAlbum,PHPhotoLibrary, PHAuthorizationStatus:any
 
@@ -176,7 +179,7 @@ export class WiadomosciOComponent implements OnInit {
 
         if (isAndroid) {
             permission.requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE).then(() => {
-                sciezka = fileSystem.path.join(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), nazwaPliku)
+                sciezka = path.join(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), nazwaPliku)
                 getFile(url, sciezka).then((result) => {
                     setTimeout(() => {
                         this.ui.showFeedback('succes', "Obraz pobrano do: " + result.path,3)

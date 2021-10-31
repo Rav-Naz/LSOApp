@@ -1,11 +1,13 @@
 import { Component, OnInit} from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { HttpService } from '~/app/serwisy/http.service';
-import { Parafia } from '~/app/serwisy/parafia.model';
-import { UiService } from '~/app/serwisy/ui.service';
+// import { Page } from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { HttpService } from '../../../app/serwisy/http.service';
+import { Parafia } from '../../../app/serwisy/parafia.model';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { Page } from '@nativescript/core/ui/page';
+import { RouterExtensions } from '@nativescript/angular';
 
 
 @Component({

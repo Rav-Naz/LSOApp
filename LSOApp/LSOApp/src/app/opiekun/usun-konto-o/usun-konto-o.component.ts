@@ -1,16 +1,18 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Page} from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page} from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { HttpService } from '~/app/serwisy/http.service';
-import { UserService } from '~/app/serwisy/user.service';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { WiadomosciService } from '~/app/serwisy/wiadomosci.service';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { UiService } from '~/app/serwisy/ui.service';
-import { SecureStorage } from 'nativescript-secure-storage';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { HttpService } from '../../../app/serwisy/http.service';
+import { UserService } from '../../../app/serwisy/user.service';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { WiadomosciService } from '../../../app/serwisy/wiadomosci.service';
+import { WydarzeniaService } from '../../../app/serwisy/wydarzenia.service';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { SecureStorage } from '@nativescript/secure-storage';
+import { Page, TextField } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 
 @Component({
     selector: 'ns-usun-konto-o',

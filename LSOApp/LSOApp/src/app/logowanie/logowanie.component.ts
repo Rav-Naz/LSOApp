@@ -1,18 +1,20 @@
 import { Component, ElementRef, ViewChild, OnInit, ViewContainerRef } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+// import { RouterExtensions } from 'nativescript-angular/router';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TabindexService } from '../serwisy/tabindex.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { SecureStorage } from 'nativescript-secure-storage';
+// import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
+// import { Page } from 'tns-core-modules/ui/page/page';
+import { SecureStorage } from '@nativescript/secure-storage';
 import { LogowanieJakoComponent } from '../shared/modale/logowanie-jako/logowanie-jako.component';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+// import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { HttpService } from '../serwisy/http.service';
 import { UserService } from '../serwisy/user.service';
 import { User } from '../serwisy/user.model';
 import { ParafiaService } from '../serwisy/parafia.service';
 import { UiService } from '../serwisy/ui.service';
+import { TextField, Page, SwipeGestureEventData } from '@nativescript/core';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-logowanie',

@@ -1,15 +1,17 @@
 import { ParafiaService } from './../../serwisy/parafia.service';
 import { Component, OnInit } from '@angular/core';
-import { Page, EventData, isAndroid, LinearGradient, isIOS } from 'tns-core-modules/ui/page/page';
-import { UserService } from '~/app/serwisy/user.service';
-import { User } from '~/app/serwisy/user.model';
-import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import { SecureStorage } from "nativescript-secure-storage";
+// import { Page, EventData, isAndroid, LinearGradient, isIOS } from 'tns-core-modules/ui/page/page';
+import { UserService } from '../../../app/serwisy/user.service';
+import { User } from '../../../app/serwisy/user.model';
+import { Wydarzenie } from '../../../app/serwisy/wydarzenie.model';
+import { SecureStorage } from '@nativescript/secure-storage';
 import { Subscription } from 'rxjs';
-import { UiService } from '~/app/serwisy/ui.service';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { HttpService } from '~/app/serwisy/http.service';
-import { Label } from 'tns-core-modules/ui/label';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { Page, SwipeGestureEventData, EventData, Label, isAndroid } from '@nativescript/core';
+import { HttpService } from '../../../app/serwisy/http.service';
+// import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
+// import { HttpService } from '../../../app/serwisy/http.service';
+// import { Label } from 'tns-core-modules/ui/label';
 
 @Component({
     selector: 'ns-dyzury',

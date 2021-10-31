@@ -1,10 +1,10 @@
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-import { NativeScriptCommonModule } from "nativescript-angular/common";
-import { NativeScriptFormsModule } from "nativescript-angular/forms"
+// import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+// import { NativeScriptModule } from "nativescript-angular/nativescript.module";
+// import { NativeScriptCommonModule } from "nativescript-angular/common";
+// import { NativeScriptFormsModule } from "nativescript-angular/forms"
 import {NativeScriptUICalendarModule} from "nativescript-ui-calendar/angular";
-import { NativeScriptDateTimePickerModule } from "nativescript-datetimepicker/angular";
-import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
+// import { NativeScriptDateTimePickerModule } from "nativescript-datetimepicker/angular";
+// import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -43,6 +43,8 @@ import { SesjaWygaslaComponent } from './shared/modale/sesja-wygasla/sesja-wygas
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { EnterPipe } from './pipes/uri.pipe';
 import { SzczegolyWydarzeniaComponent } from "./shared/modale/szczegoly-wydarzenia/szczegoly-wydarzenia.component";
+import { NativeScriptModule, NativeScriptFormsModule, NativeScriptCommonModule, NativeScriptHttpClientModule } from "@nativescript/angular";
+import { NO_ERRORS_SCHEMA, NgModule } from "@angular/core";
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -60,7 +62,7 @@ import { SzczegolyWydarzeniaComponent } from "./shared/modale/szczegoly-wydarzen
         AppRoutingModule,
         NativeScriptFormsModule,
         NativeScriptCommonModule,
-        NativeScriptDateTimePickerModule,
+        // NativeScriptDateTimePickerModule,
         ReactiveFormsModule,
         SharedModule,
         NativeScriptUICalendarModule,

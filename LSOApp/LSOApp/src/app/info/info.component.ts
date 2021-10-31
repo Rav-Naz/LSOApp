@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { TabindexService } from '../serwisy/tabindex.service';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
+// import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({
   selector: 'ns-info',

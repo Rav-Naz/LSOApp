@@ -1,19 +1,21 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Page} from 'tns-core-modules/ui/page/page';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { User } from '~/app/serwisy/user.model';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page} from 'tns-core-modules/ui/page/page';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { User } from '../../../app/serwisy/user.model';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { Subscription } from 'rxjs';
-import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import { Stopien } from '~/app/serwisy/stopien.model';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { Wydarzenie } from '../../../app/serwisy/wydarzenie.model';
+import { Stopien } from '../../../app/serwisy/stopien.model';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+// import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '~/app/serwisy/user.service';
-import { UiService } from '~/app/serwisy/ui.service';
-import { lista } from '~/app/serwisy/stopien.model'
+import { UserService } from '../../../app/serwisy/user.service';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { lista } from '../../../app/serwisy/stopien.model'
+import { Page, TextField } from '@nativescript/core';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 
 @Component({

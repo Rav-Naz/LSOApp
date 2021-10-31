@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { NativeScriptRouterModule } from "nativescript-angular/router";
+// import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { Routes } from "@angular/router";
 
 import { LogowanieComponent } from "./logowanie/logowanie.component";
@@ -26,6 +26,7 @@ import { UsunKontoOComponent } from "./opiekun/usun-konto-o/usun-konto-o.compone
 import { ZmienHasloOComponent } from "./opiekun/zmien-haslo-o/zmien-haslo-o.component";
 import { AktywacjaKontaComponent } from "./opiekun/aktywacja-konta/aktywacja-konta.component";
 import { NadajHasloComponent } from "./nadaj-haslo/nadaj-haslo.component";
+import { NativeScriptRouterModule } from "@nativescript/angular";
 
 const routes: Routes = [
     { path: '', redirectTo: "/logowanie", pathMatch: "full" },

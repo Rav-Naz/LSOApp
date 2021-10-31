@@ -121,7 +121,7 @@ export class ParafiaService {
 
     async pobierzSpecjalneWydarzenia()
     {
-        return new Promise<any>(resolve => {
+        return new Promise<void>(resolve => {
             this.http.pobierzSpecjalneWydarzenia().then(async res => {
                 if(res !== null)
                 {

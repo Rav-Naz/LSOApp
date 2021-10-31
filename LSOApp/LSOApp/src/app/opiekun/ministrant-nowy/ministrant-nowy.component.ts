@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page } from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { Stopien } from '~/app/serwisy/stopien.model';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { UiService } from '~/app/serwisy/ui.service';
-import { lista } from '~/app/serwisy/stopien.model';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { Stopien } from '../../../app/serwisy/stopien.model';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+// import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { lista } from '../../../app/serwisy/stopien.model';
+import { Page, TextField } from '@nativescript/core';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-ministrant-nowy',

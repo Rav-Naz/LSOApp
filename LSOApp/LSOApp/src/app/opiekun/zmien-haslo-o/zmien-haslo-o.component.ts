@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ViewContainerRef } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page } from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
-import { Parafia } from '~/app/serwisy/parafia.model';
-import { ModalDialogService } from 'nativescript-angular/common';
-import { UiService } from '~/app/serwisy/ui.service';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
+import { Parafia } from '../../../app/serwisy/parafia.model';
+// import { ModalDialogService } from 'nativescript-angular/common';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { Page, TextField } from '@nativescript/core';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 @Component({
   selector: 'ns-zmien-haslo-o',

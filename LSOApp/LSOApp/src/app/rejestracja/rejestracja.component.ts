@@ -1,14 +1,17 @@
 import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
-import * as utils from "tns-core-modules/utils/utils";
-import { TextField } from 'tns-core-modules/ui/text-field';
+// import * as utils from "tns-core-modules/utils/utils";
+// import { TextField } from 'tns-core-modules/ui/text-field';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { Switch } from 'tns-core-modules/ui/switch/switch';
-import { ScrollView } from 'tns-core-modules/ui/scroll-view'
-import { Page } from 'tns-core-modules/ui/page/page';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+// import { RouterExtensions } from 'nativescript-angular/router';
+// import { Switch } from 'tns-core-modules/ui/switch/switch';
+// import { ScrollView } from 'tns-core-modules/ui/scroll-view'
+// import { Page } from 'tns-core-modules/ui/page/page';
+// import { ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { HttpService } from '../serwisy/http.service';
 import { UiService } from '../serwisy/ui.service';
+import { ScrollView, TextField, Switch, Page } from '@nativescript/core';
+import { openUrl } from '@nativescript/core/utils';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 
 @Component({
@@ -159,7 +162,7 @@ export class RejestracjaComponent implements OnInit {
     }
 
     regulamin() {
-        utils.openUrl("https://lsoapp.pl/polityka-prywatnosci/")
+        openUrl("https://lsoapp.pl/polityka-prywatnosci/")
     }
     zarejestrujP() {
 

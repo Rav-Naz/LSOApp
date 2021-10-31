@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { Page } from 'tns-core-modules/ui/page/page';
+// import { TextField } from 'n';
+// import { RouterExtensions } from 'nativescript-angular/router';
+// import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
+// import { Page } from 'tns-core-modules/ui/page/page';
 import { HttpService } from '../serwisy/http.service';
 import { UiService } from '../serwisy/ui.service';
+import { TextField, Page, SwipeGestureEventData } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
 
 
 @Component({

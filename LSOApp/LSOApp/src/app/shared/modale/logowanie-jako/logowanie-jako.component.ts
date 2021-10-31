@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { EventData, isAndroid } from 'tns-core-modules/ui/page';
-import { Label } from 'tns-core-modules/ui/label';
-import { Color } from 'tns-core-modules/color';
-import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout';
+// import { EventData, isAndroid } from 'tns-core-modules/ui/page';
+// import { Label } from 'tns-core-modules/ui/label';
+// import { Color } from 'tns-core-modules/color';
+// import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout';
 import { popupOpen, popupClose } from '../../animations/popup';
+import { StackLayout, EventData, isAndroid, Label, Color } from '@nativescript/core';
 
 @Component({
     selector: 'ns-logowanie-jako',

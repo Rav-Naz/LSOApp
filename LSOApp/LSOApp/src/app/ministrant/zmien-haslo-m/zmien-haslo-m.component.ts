@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Page} from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { Page} from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { UserService } from '~/app/serwisy/user.service';
-import { UiService } from '~/app/serwisy/ui.service';
-import { SecureStorage } from 'nativescript-secure-storage';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+import { UserService } from '../../../app/serwisy/user.service';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { SecureStorage } from '@nativescript/secure-storage';
+import { Page, TextField } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
 
 
 @Component({
@@ -43,7 +45,7 @@ export class ZmienHasloMComponent implements OnInit {
 
         this.form = new FormGroup({
             stare: new FormControl(null, { updateOn: 'change', validators: [Validators.required] }),
-            nowe: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^~?_]{6,15})')]}),
+            nowe: new FormControl(null, { updateOn: 'change', validators: [Validators.required, Validators.pattern('([A-ZĘÓĄŚŁŻŹĆŃa-zęóąśłżźćń0-9+*@#$&^../../..?_]{6,15})')]}),
             powtorz: new FormControl(null, { updateOn: 'change', validators: [Validators.required]})
         })
 

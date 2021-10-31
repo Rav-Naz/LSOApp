@@ -1,8 +1,9 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptCommonModule } from "nativescript-angular/common";
+// import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { CheckboxStatusComponent } from "./checkbox-status.component";
 import { CheckboxComponent } from "../checkbox/checkbox.component";
 import { CheckboxZwyklyComponent } from "../checkbox-zwykly/checkbox-zwykly.component";
+import { NativeScriptCommonModule } from "@nativescript/angular";
 
 @NgModule({
     declarations: [CheckboxStatusComponent, CheckboxComponent, CheckboxZwyklyComponent],

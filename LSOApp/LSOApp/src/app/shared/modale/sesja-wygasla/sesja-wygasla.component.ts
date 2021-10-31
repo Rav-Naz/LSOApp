@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ModalDialogParams } from 'nativescript-angular/common';
+// import { ModalDialogParams } from 'nativescript-angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
-import { HttpService } from '~/app/serwisy/http.service';
-import { UiService } from '~/app/serwisy/ui.service';
+// import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { HttpService } from '../../../../app/serwisy/http.service';
+import { UiService } from '../../../../app/serwisy/ui.service';
+import { TextField } from '@nativescript/core';
 
 @Component({
   selector: 'ns-sesja-wygasla',

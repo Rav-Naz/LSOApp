@@ -1,9 +1,11 @@
 import { WyborModalComponent } from './../shared/modale/wybor-modal/wybor-modal.component';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { Feedback, FeedbackType } from "nativescript-feedback";
-import { isIOS, Color } from 'tns-core-modules/ui/page/page';
-import { ModalDialogService } from 'nativescript-angular/common';
-import { PotwierdzenieModalComponent } from '~/app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
+// import { isIOS, Color } from 'tns-core-modules/ui/page/page';
+// import { ModalDialogService } from 'nativescript-angular/common';
+import { PotwierdzenieModalComponent } from '../../app/shared/modale/potwierdzenie-modal/potwierdzenie-modal.component';
+import { isIOS, Color } from '@nativescript/core';
+import { ModalDialogService } from '@nativescript/angular';
 
 @Injectable({
   providedIn: 'root'

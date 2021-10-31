@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { Wydarzenie } from '~/app/serwisy/wydarzenie.model';
-import { User } from '~/app/serwisy/user.model';
-import { ParafiaService } from '~/app/serwisy/parafia.service';
+// import { Page } from 'tns-core-modules/ui/page/page';
+// import { RouterExtensions } from 'nativescript-angular/router';
+import { Wydarzenie } from '../../../app/serwisy/wydarzenie.model';
+import { User } from '../../../app/serwisy/user.model';
+import { ParafiaService } from '../../../app/serwisy/parafia.service';
 import { Subscription } from 'rxjs';
-import { WydarzeniaService } from '~/app/serwisy/wydarzenia.service';
-import { TabindexService } from '~/app/serwisy/tabindex.service';
-import { ModalDialogService } from 'nativescript-angular/modal-dialog';
-import { UiService } from '~/app/serwisy/ui.service';
+import { WydarzeniaService } from '../../../app/serwisy/wydarzenia.service';
+import { TabindexService } from '../../../app/serwisy/tabindex.service';
+// import { ModalDialogService } from 'nativescript-angular/modal-dialog';
+import { UiService } from '../../../app/serwisy/ui.service';
+import { Page } from '@nativescript/core';
+import { RouterExtensions, ModalDialogService } from '@nativescript/angular';
 
 @Component({
     selector: 'ns-ministrant-dyzury',

@@ -6,7 +6,7 @@ import { Wydarzenie } from './wydarzenie.model';
 import { Obecnosc } from './obecnosc.model';
 import { Wiadomosc } from './wiadomosci.model';
 
-declare var process: any;
+// declare var process: any;
 
 @Injectable({
     providedIn: 'root'
@@ -28,8 +28,8 @@ export class HttpService {
     private smart: string = null;
 
     constructor(private http: HttpClient) {
-        this.serverUrl = this.getEnvironmentVars('serverURL');
-        this.smart = this.getEnvironmentVars('smart');
+        this.serverUrl = "https://baza.lsoapp.smarthost.pl/2.2.0";
+        this.smart = "4ad5a86f50b778a2050c51335e97d234";
     }
 
     private id_parafii: number = null;

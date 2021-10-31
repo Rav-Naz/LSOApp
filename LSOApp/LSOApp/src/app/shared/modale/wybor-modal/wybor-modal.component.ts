@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { EventData, isAndroid } from 'tns-core-modules/ui/page';
-import { Label } from 'tns-core-modules/ui/label';
-import { Color } from 'tns-core-modules/color';
-import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
+// import { EventData, isAndroid } from 'tns-core-modules/ui/page';
+// import { Label } from 'tns-core-modules/ui/label';
+// import { Color } from 'tns-core-modules/color';
+// import { FlexboxLayout } from 'tns-core-modules/ui/layouts/flexbox-layout';
 import { popupOpen, popupClose } from '../../animations/popup';
-import { AnimationCurve } from "tns-core-modules/ui/enums";
+import { FlexboxLayout, AnimationCurve, Label, Color, EventData, isAndroid } from '@nativescript/core';
+// import { AnimationCurve } from "tns-core-modules/ui/enums";
 
 @Component({
     selector: 'ns-wybor-modal',

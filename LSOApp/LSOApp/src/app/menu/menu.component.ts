@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../serwisy/user.service';
 import { User } from '../serwisy/user.model';
-import { RouterExtensions } from 'nativescript-angular/router';
+// import { RouterExtensions } from 'nativescript-angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Page, EventData } from 'tns-core-modules/ui/page/page';
+// import { Page, EventData } from 'tns-core-modules/ui/page/page';
 import { TabindexService } from '../serwisy/tabindex.service';
 import { Subscription } from 'rxjs';
 import { UiService } from '../serwisy/ui.service';
-import { isIOS} from "tns-core-modules/platform";
-import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
+import { Page, isIOS, EventData } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
+// import { isIOS} from "tns-core-modules/platform";
+// import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 
 @Component({
     selector: 'ns-menu',

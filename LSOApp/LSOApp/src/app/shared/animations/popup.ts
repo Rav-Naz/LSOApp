@@ -1,4 +1,6 @@
-import { AnimationCurve } from "tns-core-modules/ui/enums";
+// import { AnimationCurve } from "tns-core-modules/ui/enums";
+
+import { AnimationCurve } from "@nativescript/core";
 
 export function popupOpen(element: any, duration: number){
     return new Promise<void>((resolve => {
