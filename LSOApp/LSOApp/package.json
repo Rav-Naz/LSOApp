@@ -19,7 +19,7 @@
         "@nativescript/firebase": "~11.0.0",
         "@nativescript/secure-storage": "^3.0.0",
         "nativescript-pulltorefresh": "~1.1.0",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "js-sha512": "^0.8.0",
         "nativescript-feedback": "^2.0.0",
         "nativescript-iqkeyboardmanager": "^1.5.1",
