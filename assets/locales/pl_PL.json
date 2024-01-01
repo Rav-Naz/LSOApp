@@ -1,0 +1,83 @@
+{
+    "shared": {
+        "components": {
+            "input": {
+                "close": "Zamknij",
+                "clear": "Wyczyść",
+                "no_element": "Brak elementów na liście",
+                "valid_e-mail": "Nieprawidłowy adres e-mail",
+                "valid_date": "Data nie jest poprawna",
+                "not_null": "Pole nie może być puste",
+                "same_string": "Podane wartości nie są tożsame",
+                "max_length": "Maksymalna ilość znaków wynosi",
+                "min_length": "Minimalna ilość znaków wynosi",
+                "in_list": "Wpis znajduje się już na liście",
+                "regex": "Wartość jest podana w niepoprawnym formacie",
+                "phone_valid": "Nieprawidłowy numer telefonu",
+                "greater": "Podana liczba jest większa od",
+                "lower": "Podana liczba jest mniejsza od",
+                "search": "Wyszukaj element",
+                "past_date": "Data musi przypadać w przyszłości",
+                "after_date": "Data nie może być wcześniejsza niż $$$"
+            }
+        },
+        "api": {
+            "error": {
+                "message": "Wystąpił błąd",
+                "unexpected": "Niezidentyfikowany błąd",
+                "statuses": {
+                    "47": "Wykonano zbyt wiele nieudanych prób logowania. Twoje konto zostało zablokowane na $$$ sekund.",
+                    "400": "Nieprawidłowe zapytanie - żądanie nie może być obsłużone przez serwer z powodu nieprawidłowości postrzeganej jako błąd użytkownika",
+                    "401": "Nieautoryzowany dostęp",
+                    "402": "Nie można wykonać operacji z powodu przekroczenia limitu licencji. Skontaktuj się z administratorem lub wsparciem technicznym, aby rozwiązać ten problem.",
+                    "403": "Nie masz wystarczających uprawnień aby wykonać tę czynność",
+                    "404": "Nie znaleziono zasobu",
+                    "405": "Niedozwolona metoda - metoda zawarta w żądaniu nie jest dozwolona dla wskazanego zasobu",
+                    "406": "Niedozwolone - zażądany zasób nie jest w stanie zwrócić odpowiedzi mogącej być obsłużonej przez klienta według informacji podanych w zapytaniu",
+                    "407": "Wymagane uwierzytelnienie do serwera pośredniczącego",
+                    "408": "Koniec czasu oczekiwania na żądanie - klient nie przesłał zapytania do serwera w określonym czasie",
+                    "409": "Konflikt - żądanie nie może być zrealizowane, ponieważ występuje konflikt z obecnym statusem zasobu",
+                    "410": "Zniknął (usunięto) - zażądany zasób nie jest dłużej dostępny",
+                    "411": "Wymagana długość - serwer odmawia zrealizowania zapytania ze względu na brak nagłówka Content-Length w zapytaniu",
+                    "412": "Warunek wstępny nie może być spełniony - serwer nie może spełnić przynajmniej jednego z warunków zawartych w zapytaniu",
+                    "413": "Encja zapytania zbyt długa - całkowita długość zapytania jest zbyt długa dla serwera",
+                    "414": "Adres URI zapytania zbyt długi - długość zażądanego URI jest większa niż maksymalna oczekiwana przez serwer",
+                    "415": "Nieznany sposób żądania - serwer odmawia przyjęcia zapytania, ponieważ jego składnia jest niezrozumiała dla serwera",
+                    "416": "Zakres bajtowy podany w zapytaniu nie do obsłużenia - klient podał w zapytaniu zakres, który nie może być zastosowany do wskazanego zasobu",
+                    "417": "Oczekiwana wartość nie do zwrócenia - oczekiwanie podane w nagłówku Expect żądania nie może być spełnione przez serwer",
+                    "418": "Jestem CZAJNIKIEM",
+                    "421": "Zapytanie zostało skierowane do serwera, który nie powinien go otrzymać",
+                    "422": "Formularz zawiera błędy",
+                    "423": "Próba uzyskania dostępu do zasobu, który jest aktualnie zablokowany",
+                    "424": "Brak powodzenia żądania, ponieważ jest ono zależne od innego żądania, które również nie powiodło się",
+                    "425": "Serwer nie chce ryzykować przetwarzania żądania, które może zostać powtórzone ze względu na ryzyko ataku typu Replay",
+                    "426": "Serwer odmawia wykonania żądania używając aktualnego protokołu. Wymagany protokół dla klienta przekazany jest w nagłówku Upgrade",
+                    "428": "Brak nagłówka wstępnego, który jest wymagany przez serwer",
+                    "429": "Użytkownik wysłał za wiele żądań w danym czasie",
+                    "431": "Serwer odmawia wykonania żądania ze względu na zbyt duże pole lub pola nagłówka",
+                    "451": "Zawartość niedostępna z powodów prawnych - strona lub zasób zostały zablokowane z powodów naruszenia prawa",
+                    "500": "Wewnętrzny błąd serwera - serwer napotkał niespodziewane trudności, które uniemożliwiły zrealizowanie żądania",
+                    "501": "Nie zaimplementowano - serwer nie dysponuje funkcjonalnością wymaganą w zapytaniu",
+                    "502": "Błąd bramy - serwer - spełniający rolę bramy lub pośrednika - otrzymał niepoprawną odpowiedź od serwera nadrzędnego",
+                    "503": "Usługa niedostępna - serwer nie jest w stanie w danej chwili zrealizować zapytania klienta ze względu na przeciążenie",
+                    "504": "Przekroczony czas bramy - serwer - spełniający rolę bramy lub pośrednika - nie otrzymał w ustalonym czasie odpowiedzi od wskazanego serwera",
+                    "505": "Nieobsługiwana wersja HTTP - serwer nie obsługuje bądź odmawia obsługi wskazanej przez klienta wersji HTTP",
+                    "506": "Wariant również negocjuje",
+                    "507": "Serwer nie jest w stanie zapisać danych związanych z wykonaniem zapytani",
+                    "508": "Serwer wykrył nieskończoną pętlę w trakcie przetwarzania zapytania",
+                    "509": "Serwer jest tymczasowo niedostępny, ponieważ właściciel strony przekroczył limit transferu danych",
+                    "510": "Brak rozszerzenia HTTP koniecznego do obsługi danego zapytania",
+                    "511": "Wymagane uwierzytelnienie przed otrzymaniem dostępu do sieci"
+                },
+                "cancel": "Żądanie zostało przerwane",
+                "timeout": "Przekroczono limit czasu połączenia",
+                "response": "Wystąpił problem z połączeniem z serwerem",
+                "receiveTimeout": "Przekroczono limit czasu odpowiedzi",
+                "sendTimeout": "Przekroczono limit czasu wysyłania"
+            }
+        }
+    },
+    "views": {
+        "main": "Przycisk został naciśnięty tyle razy:"
+    }
+}

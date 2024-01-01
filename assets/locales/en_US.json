@@ -1,0 +1,86 @@
+{
+    "shared": {
+        "components": {
+            "input": {
+                "close": "Close",
+                "clear": "Clear",
+                "no_element": "No elements on the list",
+                "valid_e-mail": "Incorrect e-mail address",
+                "valid_date": "The date is incorrect",
+                "not_null": "The field must not be blank",
+                "same_string": "The values provided differ",
+                "max_length": "The maximum number of characters is",
+                "min_length": "The minimum number of characters is",
+                "in_list": "The value is already on the list",
+                "regex": "The value is in an incorrrect format",
+                "phone_valid": "Incorrect phone number",
+                "greater": "The number given is greater than",
+                "lower": "The number given is lower than",
+                "search": "Search for an element",
+                "past_date": "Date must be in the future",
+                "after_date": "Date must be later than $$$"
+            }
+        },
+        "api": {
+            "error": {
+                "message": "An error has occurred",
+                "unexpected": "Unidentified error",
+                "statuses": {
+                    "47": "Too many unsuccessful login attempts. Your account has been blocked for $$$ seconds.",
+                    "400": "Invalid request - it cannot be served due to a user error",
+                    "401": "Unauthorized access",
+                    "402": "The operation cannot be performed because the license limit has been exceeded. Please contact your administrator or technical support to resolve this issue.",
+                    "403": "No permission is granted to perform this action",
+                    "404": "Resource not found",
+                    "405": "Not allowed method - the method contained in the request is not allowed for the indicated resource.",
+                    "406": "Not allowed - the requested resource isn't able to return a response which can be served by the client according to the information provided in the request.",
+                    "407": "Proxy authentication required",
+                    "408": "The timeout for the request has expired - the client didn't send the request to the server within the specified time",
+                    "409": "Conflict - the request cannot be fulfilled due to a conflict with the current state of the resource",
+                    "410": "Disappeared/deleted - the requested resource is no longer available",
+                    "411": "Length required - the server refuses to complete the request because the content-length header is missing from the request",
+                    "412": "Prerequisite cannot be met - the server cannot meet at least one of the conditions in the request",
+                    "413": "Request entity too long - the request is to long for the server to process",
+                    "414": "Request URI too long - the requested URI is longer than the server is willing to interpret",
+                    "415": "Unknown request method - the server refuses to accept the request because it cannot be understood due to malformed syntax",
+                    "416": "The byte range specified in the request not supported by the server - the client specified a range that cannot be applied to the indicated resource",
+                    "417": "Expected value cannot be returned - the expectation specified in the request's Expect header field could not be met by the server.",
+                    "418": "I'm a teapot",
+                    "421": "The request was directed to a server that should not have received it",
+                    "422": "The form contains errors",
+                    "423": "An attempt to access the resource that is currently blocked",
+                    "424": "Request failure -it is dependent on another request, which also failed",
+                    "425": "The server does not want to risk processing a request that might be replayed due to the risk of replay attack",
+                    "426": "The server refuses the request using the current protocol. The required protocol for the client is provided in the Upgrade header",
+                    "428": "No pre-header required by the server",
+                    "429": "The user has sent too many requests in a given time",
+                    "431": "The server refuses the request due to too large field or header size",
+                    "451": "Non accessible content due to legal reasons - the site or resource has been blocked due to breach of law",
+                    "500": "Internal server error - the server encountered an unexpected condition that prevented it from fulfilling the request. ",
+                    "501": "Not implemented - the server does not support the functionality required to fulfill the request.",
+                    "502": "Gateway error - the server - acting as a gateway or intermediary - received an incorrect response from the host server.",
+                    "503": "Service unavailable - the server is currently unable to process the client's request due to overload",
+                    "504": "Gateway timeout - the server - acting as a gateway or intermediary - did not receive a response from the designated server within the set time period",
+                    "505": "Unsupported HTTP version - the server doesn't support or refuses to support the HTTP version indicated by the client",
+                    "506": "The variant also negotiates",
+                    "507": "The server isn't able to save the data associated with the request execution",
+                    "508": "The server detected an infinite loop while processing the request",
+                    "509": "The server is temporarily unavailable because the site owner has exceeded a data transfer limit",
+                    "510": "No HTTP extension is required to support the request",
+                    "511": "Authentication is required before receiving network access"
+                },
+                "cancel": "The request was aborted",
+                "timeout": "Connection time limit exceeded",
+                "response": "There was a problem connecting to the server",
+                "receiveTimeout": "Response time limit exceeded",
+                "sendTimeout": "Sending time limit exceeded",
+                "403_cant_remove": "You cannot remove this element",
+                "403_cant_remove_used": "The element cannot be deleted as it depends on other elements",
+                "403_cant_edit": "You cannot edit this element"
+            }
+        }
+    },
+    "views": {
+        "main": "You have pushed the button this many times:"
+    }
+}
